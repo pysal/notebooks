@@ -69,7 +69,7 @@ For Anaconda:
    Then `<Shift-Enter>`
  
 Your screen should look something like:
-![Anaconda setup](esda/figures/anaconda.png)
+![Anaconda setup](esda/figures/ana_check.png)
 
 
 For Enthought Canopy:
