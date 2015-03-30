@@ -1,4 +1,4 @@
-# Spatial Data Analysis with PySAL -- Sergio Rey
+# Spatial Data Analysis with PySAL --Sergio Rey
 
 
 ## Bio
@@ -100,7 +100,7 @@ For Anaconda:
    Then `<Shift-Enter>`
  
 Your screen should look something like:
-![Anaconda setup](esda/figures/anaconda.png)
+![Anaconda setup](esda/figures/install0.png)
 
 
 For Enthought Canopy:
