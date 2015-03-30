@@ -60,7 +60,7 @@ There are a number of ways to install PySAL and these dependencies. For the work
 
 #### PySAL via Anaconda Python Distribution
 
-1. Install [Anaconda Python Distribution Version 1.8.0][Anaconda]
+1. Install [Anaconda Python Distribution for Python 2.7][Anaconda]
 2. Open a terminal (Mac or Linux) or Powershell (Windows)
 2. `pip install -U pysal`
 3. `pip install -U folium`
