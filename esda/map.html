@@ -43,11 +43,10 @@
    <script>
 
       queue()
-          .defer(d3.json, 'data.json')
           .defer(d3.json, 'data/south.json')
           .await(makeMap)
 
-      function makeMap(error, data_1,gjson_1) {
+      function makeMap(error, gjson_1) {
 
           
 
@@ -62,10 +61,6 @@
               };
           };
 
-          
-          var color = d3.scale.threshold()
-              .domain([0, 1])
-              .range(['#FFFFCC', '#C7E9B4', '#7FCDBB']);
           
 
           var map = L.map('map').setView([33.755, -87.39], 5);
@@ -86,11 +81,11 @@
           
           function style_1(feature) {
     return {
-        fillColor: color(matchKey(feature.properties.FIPS, data_1)),
+        fillColor: 'blue',
         weight: 1,
-        opacity: 0.2,
+        opacity: 1,
         color: 'black',
-        fillOpacity: 0.7
+        fillOpacity: 0.6
     };
 }
           
@@ -99,50 +94,6 @@
           gJson_layer_1 = L.geoJson(gjson_1, {style: style_1}).addTo(map)
           
 
-          
-              var legend = L.control({position: 'topright'});
-
-    legend.onAdd = function (map) {var div = L.DomUtil.create('div', 'legend'); return div};
-
-    legend.addTo(map);
-
-    var x = d3.scale.linear()
-    .domain([0, 1])
-    .range([0, 400]);
-
-    var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("top")
-        .tickSize(1)
-        .tickValues([0, 1]);
-
-    var svg = d3.select(".legend.leaflet-control").append("svg")
-        .attr("id", 'legend')
-        .attr("width", 450)
-        .attr("height", 40);
-
-    var g = svg.append("g")
-        .attr("class", "key")
-        .attr("transform", "translate(25,16)");
-
-    g.selectAll("rect")
-        .data(color.range().map(function(d, i) {
-          return {
-            x0: i ? x(color.domain()[i - 1]) : x.range()[0],
-            x1: i < color.domain().length ? x(color.domain()[i]) : x.range()[1],
-            z: d
-          };
-        }))
-      .enter().append("rect")
-        .attr("height", 10)
-        .attr("x", function(d) { return d.x0; })
-        .attr("width", function(d) { return d.x1 - d.x0; })
-        .style("fill", function(d) { return d.z; });
-
-    g.call(xAxis).append("text")
-        .attr("class", "caption")
-        .attr("y", 21)
-        .text('Homicide Rate HR80 - Cold Spots (0.01)');
           
 
       };

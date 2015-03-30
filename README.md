@@ -122,7 +122,7 @@ For Enthought Canopy:
  
 
 Your screen should look something like:
-![Enthought setup](esda/figures/enthought.png)
+![Enthought setup](esda/figures/canopy0.png)
 
 
 #### Issues
