@@ -1,6 +1,6 @@
 ## Workshops and Tutorials 
 
-* [AUERS 2015](https://github.com/sjsrey/aerus2015)
+* [AUERS 2015][https://github.com/sjsrey/aerus2015]
 * NARSC 2014
 * 
 
