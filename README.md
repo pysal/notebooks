@@ -1,3 +1,7 @@
+### Examples
+
+Below are illustrative use cases for PySAL. You may also be interested in the [tutorials and short courses on PySAL][courses.md].
+
 [![Join the chat at https://gitter.im/pysal/pysal](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/pysal/pysal?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 +
 
@@ -26,7 +30,7 @@
 
 
 #### Python Scientific Computing Stack (SciPy)
-* [Stack](http://nbviewer.ipython.org/urls/raw.github.com/pysal/notebooks/master/intro_scicomp_python.ipynb) to viewer): brief introduction to the main libraries for scientific computing in Python (`ipython`, `numpy`, `scipy`, `pandas`, `matplotlib`).
+* [Stack](http://nbviewer.ipython.org/urls/raw.github.com/pysal/notebooks/master/intro_scicomp_python.ipynb): brief introduction to the main libraries for scientific computing in Python (`ipython`, `numpy`, `scipy`, `pandas`, `matplotlib`).
 
 
 [jupyter]: https://jupyter.org
