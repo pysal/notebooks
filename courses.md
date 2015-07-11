@@ -1,7 +1,7 @@
-## Workshops and Tutorials 
+## Workshops and Courses
 
 * [AUERS 2015](https://github.com/sjsrey/aerus2015)
-* NARSC 2014
+* [MASGIS 2015](https://github.com/pysal/notebooks/tree/masgis_2015)
 * [NARSC 2013](https://github.com/sjsrey/narsc2013_pysal_workshop)
 
 
