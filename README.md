@@ -1,6 +1,5 @@
-# PySAL: Python Spatial Analysis Library (Notebooks) 
-
-This repository hosts several [Jupyter][jupyter] Notebooks that illustrate PySAL functionality.
+[![Join the chat at https://gitter.im/pysal/pysal](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/pysal/pysal?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
++
 
 #### Reading Geospatial Data
 * [Shapefiles](http://nbviewer.ipython.org/urls/raw.github.com/pysal/notebooks/master/PySAL_io.ipynb): read and write shapefiles, dbf files.
