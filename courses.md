@@ -1,7 +1,7 @@
 ## Courses, Workshops, and Tutorials
 
 * [NARSC 2015](http://www.narsc.org/newsite/wp-content/uploads/2012/04/PySAL-tutorial.pdf)
-* [AUERS 2015](https://github.com/sjsrey/aerus2015)
+* [AUERS 2015](https://github.com/pysal/notebooks/tree/aerus2015)
 * [Tour of PySAL 2015](https://www.youtube.com/watch?v=vXnEH5pFxtY)
 * [FOSS4G 2015](https://2015.foss4g-na.org/session/hands-introduction-spatial-data-analysis-python)
 * [MASGIS 2015](https://github.com/pysal/notebooks/tree/masgis_2015)
