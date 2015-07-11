@@ -6,6 +6,7 @@
 * [FOSS4G 2015](https://2015.foss4g-na.org/session/hands-introduction-spatial-data-analysis-python)
 * [MASGIS 2015](https://github.com/pysal/notebooks/tree/masgis_2015)
 * [FOSS4G 2014](https://github.com/sjsrey/foss4g14)
+* [GIScience 2014](https://github.com/pysal/notebooks/tree/giscience14)
 * [NARSC 2013](https://github.com/sjsrey/narsc2013_pysal_workshop)
 
 
