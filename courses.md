@@ -14,7 +14,9 @@
 
 * [SciPy 2015](https://www.youtube.com/watch?v=rfQ0LIaOgQs)
 * [CyberGIS 2013](https://www.youtube.com/watch?v=piB7zTADzcE)
+* [ESRI UC 2012](http://video.esri.com/watch/1925/integrating-open_dash_source-statistical-packages-with-arcgis)
 * [SciPy 2012](https://www.youtube.com/watch?v=FN1nH4Fkd_Y)
+* [PyCon 2012 US](http://pyvideo.org/video/676/python-for-data-lovers-explore-it-analyze-it-m)
 * [SciPy 2009](https://archive.org/details/scipy09_day2_10-Serge_Rey)
 
 
