@@ -10,6 +10,7 @@ Below are illustrative use cases for PySAL. You may also be interested in the [t
 
 #### Visualizing Geospatial Data
 
+* [PySAL + cartopy](http://nbviewer.ipython.org/gist/darribas/9a0d3b6177b7ca6be007/london_boroughs.ipynb)
 * [PySAL viz](http://nbviewer.ipython.org/github/pysal/pysal/blob/master/pysal/contrib/viz/mapping_guide.ipynb?create=1)
 * [PySAL + folium](https://gist.github.com/sjsrey/6802208)
 * [Choropleth Mappping](https://github.com/sjsrey/aerus2015/blob/master/esda/03_choropleth_mapping.ipynb)
