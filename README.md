@@ -1,20 +1,5 @@
-# Notebooks for PySAL
+Welcome to using python for GIS! this is a collection of a few notebooks on using Python (specifically, PySAL) for spatial analysis. 
 
-This repository hosts several IPython Notebooks that have been used in workshops and
-other educational contexts to teach scientific Python and, in particular,
-`PySAL`. Here is the relation of all of them:
-
-* `intro_scicomp_python.ipynb`
-  ([link](http://nbviewer.ipython.org/urls/raw.github.com/pysal/notebooks/master/intro_scicomp_python.ipynb)
-  to viewer): brief introduction to the main libraries for
-  scientific computing in Python (`ipython`, `numpy`, `scipy`, `pandas`, `matplotlib`).
-* `PySAL_io.ipynb` ([link](http://nbviewer.ipython.org/urls/raw.github.com/pysal/notebooks/master/PySAL_io.ipynb)): read and write shapefiles, dbf files and other
-  formats.
-* `PySAL_weights.ipynb`
-  ([link](http://nbviewer.ipython.org/urls/raw.github.com/pysal/notebooks/master/PySAL_weights.ipynb)): understand, create and manipulate spatial
-  weights objects.
-* `PySAL_esda.ipynb` ([link](http://nbviewer.ipython.org/urls/raw.github.com/pysal/notebooks/master/PySAL_esda.ipynb)): overview of Exploratory Spatial Data Analysis
-  (ESDA) techniques.
-* `PySAL_modules.ipynb` ([link](http://nbviewer.ipython.org/urls/raw.github.com/pysal/notebooks/master/PySAL_modules.ipynb)): short overview of functionality and APIs
-  of more specific modules.
-
+- [pysal](https://github.com/pysal/notebooks/blob/masgis-2015/notebooks/PySAL.ipynb): a **brief** introduction to using `pysal` for spatial analysis.
+- [shapely](https://github.com/pysal/notebooks/blob/masgis-2015/notebooks/Shapely.ipynb): using `pysal` and `shapely` for GIS operations
+- [folium mapping](https://github.com/pysal/notebooks/blob/masgis-2015/notebooks/folium-mapping.ipynb): making web-ready maps in `folium` with `pysal`
