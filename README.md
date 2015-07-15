@@ -20,6 +20,7 @@ Viz interfaces:
 Viz task views:
 
 * [Choropleth Mappping](https://github.com/sjsrey/aerus2015/blob/master/esda/03_choropleth_mapping.ipynb)
+* [LISA Cluster Maps](http://nbviewer.ipython.org/urls/gist.githubusercontent.com/darribas/657e0568df7a63362762/raw/pysal_lisa_maps.ipynb)
 
 
 #### Spatial Weights
