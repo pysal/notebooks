@@ -10,11 +10,17 @@ Below are illustrative use cases for PySAL. You may also be interested in the [t
 
 #### Visualizing Geospatial Data
 
+Viz interfaces:
+
+* [PySAL viz](http://nbviewer.ipython.org/github/pysal/pysal/blob/master/pysal/contrib/viz/mapping_guide.ipynb?create=1)
 * [PySAL + cartopy](http://nbviewer.ipython.org/gist/darribas/9a0d3b6177b7ca6be007/london_boroughs.ipynb)
 * [PySAL + geopandas](https://github.com/geopandas/geopandas/blob/master/examples/choropleths.ipynb)
-* [PySAL viz](http://nbviewer.ipython.org/github/pysal/pysal/blob/master/pysal/contrib/viz/mapping_guide.ipynb?create=1)
 * [PySAL + folium](https://gist.github.com/sjsrey/6802208)
+
+Viz task views:
+
 * [Choropleth Mappping](https://github.com/sjsrey/aerus2015/blob/master/esda/03_choropleth_mapping.ipynb)
+* [LISA Cluster Maps](http://nbviewer.ipython.org/urls/gist.githubusercontent.com/darribas/657e0568df7a63362762/raw/pysal_lisa_maps.ipynb)
 
 
 #### Spatial Weights
