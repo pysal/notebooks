@@ -3,7 +3,7 @@
 Below are illustrative use cases for PySAL. You may also be interested in the [tutorials and short courses on PySAL](https://github.com/pysal/notebooks/blob/master/courses.md).
 
 [![Join the chat at https://gitter.im/pysal/pysal](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/pysal/pysal?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-+
+
 
 #### Reading Geospatial Data
 * [Shapefiles](http://nbviewer.ipython.org/urls/raw.github.com/pysal/notebooks/master/PySAL_io.ipynb): read and write shapefiles, dbf files.
