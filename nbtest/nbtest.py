@@ -98,11 +98,17 @@ class TestExecute(PreprocessorTestsBase):
         """Runs a series of test notebooks and compares them to their actual output"""
         current_dir = os.path.dirname(__file__)
         input_files = glob.glob(os.path.join(current_dir, '../notebooks', '*.ipynb'))
+        failures = []
         for filename in input_files:
-            opts = dict(allow_errors=True)
-            res = self.build_resources()
-            res['metadata']['path'] = os.path.dirname(filename)
-            input_nb, output_nb = self.run_notebook(filename, opts, res)
-            self.assert_notebooks_equal(input_nb, output_nb)
-
+            try:
+                opts = dict(allow_errors=True)
+                res = self.build_resources()
+                res['metadata']['path'] = os.path.dirname(filename)
+                input_nb, output_nb = self.run_notebook(filename, opts, res)
+                self.assert_notebooks_equal(input_nb, output_nb)
+            except AssertionError:
+                failures.append(filename)
+        if len(failures) > 0:
+            fail_list = "\n".join(failures)
+            raise Exception('\n\nThe following notebook comparisons failed:\n\n{}\n\n'.format(fail_list))
 
