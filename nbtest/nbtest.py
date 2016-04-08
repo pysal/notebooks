@@ -1,5 +1,8 @@
 """
-Module with tests for the execute preprocessor.
+Adapted from the Jupyter `nbconvert` preprocessor by the PySAL Development
+Team
+
+https://github.com/jupyter/nbconvert/blob/master/nbconvert/preprocessors/tests/test_execute.py
 """
 
 # Copyright (c) IPython Development Team.
@@ -46,7 +49,6 @@ class TestExecute(PreprocessorTestsBase):
             
         return output
 
-
     def assert_notebooks_equal(self, expected, actual):
         expected_cells = expected['cells']
         actual_cells = actual['cells']
@@ -63,7 +65,6 @@ class TestExecute(PreprocessorTestsBase):
             actual_execution_count = actual_cell.get('execution_count', None)
             self.assertEqual(expected_execution_count, actual_execution_count)
 
-
     def build_preprocessor(self, opts):
         """Make an instance of a preprocessor"""
         preprocessor = ExecutePreprocessor()
@@ -72,7 +73,6 @@ class TestExecute(PreprocessorTestsBase):
         for opt in opts:
             setattr(preprocessor, opt, opts[opt])
         return preprocessor
-
 
     def run_notebook(self, filename, opts, resources):
         """Loads and runs a notebook, returning both the version prior to 
@@ -98,14 +98,17 @@ class TestExecute(PreprocessorTestsBase):
         """Runs a series of test notebooks and compares them to their actual output"""
         current_dir = os.path.dirname(__file__)
         input_files = glob.glob(os.path.join(current_dir, '../notebooks', '*.ipynb'))
+        failures = []
         for filename in input_files:
-            opts = dict(allow_errors=True)
-            res = self.build_resources()
-            res['metadata']['path'] = os.path.dirname(filename)
-            input_nb, output_nb = self.run_notebook(filename, opts, res)
-            self.assert_notebooks_equal(input_nb, output_nb)
-
-if __name__ == '__main__':
-
-    TestExecute()
+            try:
+                opts = dict(allow_errors=True)
+                res = self.build_resources()
+                res['metadata']['path'] = os.path.dirname(filename)
+                input_nb, output_nb = self.run_notebook(filename, opts, res)
+                self.assert_notebooks_equal(input_nb, output_nb)
+            except AssertionError:
+                failures.append(filename)
+        if len(failures) > 0:
+            fail_list = "\n".join(failures)
+            raise Exception('\n\nThe following notebook comparisons failed:\n\n{}\n\n'.format(fail_list))
 
