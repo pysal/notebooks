@@ -25,6 +25,4 @@ For example, if I'd like to add a new notebook to the Spatial Dynamics section, 
      <p> DESCRIPTION OF YOUR NOTEBOOK HERE. </p>
    	</div>
 	
-		</div> 
-  </div>
-  </div>
+		</div></div></div>
