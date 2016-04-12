@@ -26,3 +26,8 @@ For example, if I'd like to add a new notebook to the Spatial Dynamics section, 
    	</div>
 	
 		</div></div></div>
+
+
+
+Additional notebooks and tutorials to add:
+<li> https://github.com/sjsrey/pysal_narsc_2015 </li>
