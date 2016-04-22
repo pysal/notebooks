@@ -1,50 +1,33 @@
-### Examples
+# PysalNBGallery
 
-Below are illustrative use cases for PySAL. You may also be interested in the [tutorials and short courses on PySAL](https://github.com/pysal/notebooks/blob/master/courses.md).
+Update gallery with the following steps:
+<li> Save a screenshot of the notebook in the images folder </li>
+<li> Add the image, link, and description to the appropriate category in index.html </li>
 
-[![Join the chat at https://gitter.im/pysal/pysal](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/pysal/pysal?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+For example, if I'd like to add a new notebook to the Spatial Dynamics section, insert here:
 
+    <div class='container-fluid'>
+    <div class="jumbotron">
+      <div class='row'></div>
+      
+      <h2  align="left">Space-Time Analysis</h2> <br>
+      <div class='row'>
 
-#### Reading Geospatial Data
-* [Shapefiles](http://nbviewer.ipython.org/github/pysal/notebooks/blob/master/notebooks/PySAL_io.ipynb): read and write shapefiles, dbf files.
+    <div class='col-md-6'>
+     <a href="https://github.com/sjsrey/aerus2015/blob/master/esda/12_spatial_dynamics.ipynb">
+     <img src="images/dynamics.png"style="height:300px;"> </a><br><br>
+     <p> Spatial Dynamics. </p>
+   	</div>
 
-#### Visualizing Geospatial Data
-
-Viz interfaces:
-
-* [PySAL viz](http://nbviewer.ipython.org/github/pysal/pysal/blob/master/pysal/contrib/viz/mapping_guide.ipynb?create=1)
-* [PySAL + cartopy](http://nbviewer.ipython.org/gist/darribas/9a0d3b6177b7ca6be007/london_boroughs.ipynb)
-* [PySAL + geopandas](https://github.com/geopandas/geopandas/blob/master/examples/choropleths.ipynb)
-* [PySAL + folium](https://gist.github.com/sjsrey/6802208)
-
-Viz task views:
-
-* [Choropleth Mappping](https://github.com/sjsrey/aerus2015/blob/master/esda/03_choropleth_mapping.ipynb)
-* [LISA Cluster Maps](http://nbviewer.ipython.org/urls/gist.githubusercontent.com/darribas/657e0568df7a63362762/raw/pysal_lisa_maps.ipynb)
-
-
-#### Spatial Weights
-
-* [Spatial Weights](https://github.com/pysal/notebooks/blob/master/notebooks/PySAL_weights.ipynb): understand, create and manipulate spatial weights objects.
-
-#### Global Spatial Autocorrelation Analysis
-
-* [Global Autococorrelation](https://github.com/pysal/notebooks/blob/master/notebooks/PySAL_esda.ipynb): overview of Exploratory Spatial Data Analysis (ESDA) techniques.
-
-#### Local Spatial Autocorrelation Analysis
-
-* [Local Autocorrelation](https://github.com/sjsrey/aerus2015/blob/master/esda/10_local_south.ipynb)
-
-
-#### Space-Time Analysis
-
-* [Spatial Dynamics](https://github.com/sjsrey/aerus2015/blob/master/esda/12_spatial_dynamics.ipynb)
+   	<div class='col-md-6'>
+     <a href="LINK TO YOUR NOTEBOOK HERE">
+     <img src="images/LINK TO IMAGE HERE"style="height:300px;"> </a><br><br>
+     <p> DESCRIPTION OF YOUR NOTEBOOK HERE. </p>
+   	</div>
+	
+		</div></div></div>
 
 
 
-
-#### Python Scientific Computing Stack (SciPy)
-* [Stack](https://github.com/pysal/notebooks/blob/master/notebooks/intro_scicomp_python.ipynb): brief introduction to the main libraries for scientific computing in Python (`ipython`, `numpy`, `scipy`, `pandas`, `matplotlib`).
-
-
-[jupyter]: https://jupyter.org
+Additional notebooks and tutorials to add:
+<li> https://github.com/sjsrey/pysal_narsc_2015 </li>
