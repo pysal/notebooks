@@ -1,5 +1,6 @@
 ## Courses, Workshops, and Tutorials
-
+* [SciPy 2016](https://www.youtube.com/watch?v=TY4QWnnd4jY)
+* [UCGIS 2016](https://github.com/sjsrey/ucgis_workshop_2016)
 * [NARSC 2015](http://www.narsc.org/newsite/wp-content/uploads/2012/04/PySAL-tutorial.pdf)
 * [AUERS 2015](https://github.com/pysal/notebooks/tree/aerus2015)
 * [Tour of PySAL 2015](https://www.youtube.com/watch?v=vXnEH5pFxtY)
