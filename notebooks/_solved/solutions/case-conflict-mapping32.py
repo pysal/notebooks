@@ -1,1 +1,0 @@
-result = data_utm.geometry.apply(lambda site: closest_protected_area(site, protected_areas_utm))

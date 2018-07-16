@@ -1,1 +1,0 @@
-protected_areas.plot()

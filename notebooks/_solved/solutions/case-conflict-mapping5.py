@@ -1,1 +1,0 @@
-len(data_visits)

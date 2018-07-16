@@ -1,91 +1,115 @@
-# Scipy 2018 Tutorial - Introduction to Geospatial Data Analysis with Python 
-
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/geopandas/scipy2018-geospatial-data/master)
+# Spatial Data Science with PyData
 
 ### Instructors
 
 - [Levi John Wolf](https://ljwolf.org) - [University of Bristol](http://www.bristol.ac.uk/geography/levi-j-wolf/overview.html)
 - Sergio Rey - [Center for Geospatial Sciences, University of California, Riverside](http://spatial.ucr.edu/peopleRey.html)
+
+### In collaboration with
+
 - [Dani Arribas-Bel](http://darribas.org/) -  University of Liverpool
-- [Joris Van den Bossche](https://jorisvandenbossche.github.io/) - Université Paris-Saclay Center for Data Science 
+- [Wei Kang](http://spatial.ucr.edu/peopleKang.html)
+- [Marynia Kolak](https://marynia.me)
+- [Joris Van den Bossche](https://jorisvandenbossche.github.io/) - Ghent University 
 
-This tutorial is an introduction to geospatial data analysis in Python, with a focus on tabular vector data. It first focuses on introducing the participants to the different libraries to work with geospatial data and will cover munging geo-data and exploring relations over space. This includes importing data in different formats (e.g. shapefile, GeoJSON), visualizing, combining and tidying them up for analysis, and will use libraries such as `pandas`, `geopandas`, `shapely`, `PySAL`, or `rasterio`. The second part will build upon this and focus on more more advanced geographic data science and statistical methods to gain insight from the data. No previous experience with those geospatial python libraries is needed, but basic familiarity with geospatial data and concepts (shapefiles, vector vs raster data) and pandas will be helpful.
+This repository contains the materials and instructions for the Spatial Data Science with PyData workshop at [Geopython 2018](http://2018.geopython.net/#w0).
 
-## Outline of the Workshop
+## Outline of Workshop
 
-- 7:50 - 8:20: **Installation & setup**
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/ljwolf/geopython/master)
 
-  If you cannot complete the installation instructions ahead of time, please come slightly early so we can work on ensuring everyone can get the required packages installed and so that you can run the workshop material & exercises
+- 13:30 - 14:25: **Representing spatial relationships for Data Science** Here, we will discuss various methods for representing spatial relationships; differences in representations; how to build/construct these in Python using PySAL and scipy; how to use them for basic statistics & exploratory analysis. 
+- 10 Minute Break
+- 14:35 - 15:30: **Using spatial information to build better models**: Here, we will use these spatial relationships to analyze data & fit better models or models in situations where we do not assume that sites exist in an isometric plane with no interrelationships.
 
-- 8:20 - 9:00: **Working with spatial data**
+## Obtaining Workshop Materials
 
-  <!-- synthesize `01,04,05` -->
+The preferred method for attending the workshop is to get a local installation of the software packages running on your own computer. 
+This makes it simple for you to take what you've learned and apply it in your own work. 
+As a secondary alternative, we suggest you consider the directions provided by [@darribas](https://twitter.com/darribas) about [the Geographic Data Science software stack, made available on docker.](https://github.com/darribas/gds_env).
 
-- 9:00-10:00: **Spatial Relationships & Joins**
+If you are familiar with GitHub, you should clone or fork this GitHub repository to a specific directory. Cloning can be done by:
 
-  <!-- synthesize `02,03`, plus a very small bit of `99` -->
-
-- 10:00 - 10:10: **Break**
-
-- 10:10 - 11:00: **Exploratory spatial data analysis**
-
-  <!-- notebook `03,08` for profiles of clusters -->
-
-- 11:00 - 12:00: **Leveraging space in modeling**
-
-  <!-- notebook `07`, basic feature engineering, kernel regression, & endog regression -->
-
-## Installation notes
-
-Following this tutorial will require recent installations of:
-
-- Python >= 3.5 (it will probably work on python 2.7 as well, but I didn't test it specifically)
-- pandas
-- geopandas >= 0.3.0
-- matplotlib
-- rtree
-- PySAL
-- scikit-learn
-- mgwr
-- cartopy
-- geoplot
-- [Jupyter Notebook](http://jupyter.org)
-
-If you do not yet have these packages installed, we recommend to use the [conda](http://conda.pydata.org/docs/intro.html) package manager to install all the requirements 
-(you can install [miniconda](http://conda.pydata.org/miniconda.html) or install the (larger) Anaconda
-distribution, found at https://www.anaconda.com/download/).
-
-Once this is installed, the following command will install all required packages in your Python environment:
-
-```
-conda env create -f environment.yml
+```bash
+git clone https://github.com/ljwolf/geopython.git
 ```
 
-But of course, using another distribution (e.g. Enthought Canopy) or ``pip`` is fine as well (a requirements file is provided as well), as long as you have the above packages installed.
+If you are not using git, you can grab the workshop materials as a zip file by pointing your browser to (https://github.com/ljwolf/geopython) and clicking on the green *Clone or download* button in the upper right.
 
+![download](figs/download.png)
 
-## Downloading the tutorial materials
+Extract the downloaded zip file to a working directory.
 
-**NOTE:** *We may update the materials up until the workshop. So, please make sure that, if you download the materials, you refresh the downloaded material close to the workshop.*
+## New to Command Line
 
-If you have git installed, you can get the tutorial materials by cloning this repo:
+Are you not sure how to access a working directory or command line? For this workshop, we recommend starting with two points:
 
-    git clone https://github.com/geopandas/scipy2018-geospatial-data
+1. find your Terminal,
+2. Learn to Change Your Working Directory.
 
-Otherwise, you can download the repository as a .zip file by heading over
-to the GitHub repository (https://github.com/geopandas/scipy2018-geospatial-data) in
-your browser and click the green "Download" button in the upper right:
+For those who have MacOS operating systems, you can find Terminal in your Utilities. For those using other operating systems, search for multiple options online, depending on your taste. 
+Once in your terminal, type ```ls```. This will list all of the contents in your current directory. You will likely see your Data, Documents, Desktop, Download, and many other folders and files. 
 
-![](img/download-button.png)
+To change working directories, you will type ```cd``` plus the name of the directory you'd like to change to. If you are diving into a subdirectory, or child of the directory you were just in, then that name on its own is sufficient. For example, to access the "Downloads" directory, you type ```cd Downloads```.
 
+If you just downloaded the zip file into Downloads, first make sure you have unzipped the folder. Once unzipped, assuming it is still in the Downloads directory, type ```cd geopython``` to access. Then ```ls``` to list the contents. You have successfully navigated to your working directory to the workshop, and are ready for installations!
 
-## Test the tutorial environment
+## Installation
 
-To make sure everything was installed correctly, open a terminal, and change its directory (`cd`) so that your working directory is the tutorial materials you downloaded in the step above. Then enter the following:
+We will be using a number of Python packages for geospatial analysis. 
 
-```sh
-python check_environment.py
+**Please make sure to do these setup steps before attending the conference!**
+
+### Setting up the environment
+
+An easy way to install all of these packages is to use a Python distribution such as [Anaconda](https://www.anaconda.com/download/#macos). In this workshop we will be using **Python 3.6** so please download that version of Anaconda. 
+
+- [Installing on Windows](https://docs.anaconda.com/anaconda/install/windows)
+- [Installing on Mac](https://docs.anaconda.com/anaconda/install/mac-os)
+
+![anaconda](figs/anaconda.png)
+
+Once you have downloaded Anaconda, start a terminal and navigate to the directory of the downloaded/ cloned materials. If you just learned to navigate to your working directory in the tutorial above, you are ready for the next step, which sets up the environment for the workshop, grabbing all the required packages: 
+
+```bash
+conda-env create -f gds_stack.yml
 ```
 
-Make sure that this scripts prints "All good. Enjoy the tutorial!"
+This will build a conda environment that sandboxes the installation of the required packages for this workshop so we don't break anything in your computer's system Python (if it has one).
 
+This may take up to 10-15 minutes to complete depending on the speed of your network connection.
+
+Once this completes, you can activate the workshop environment with:
+
+* on Mac, Linux, or Windows for conda 4.4+
+```bash
+conda activate gds
+```
+* on Mac, Linux for conda <4.4
+```bash
+source activate gds
+```
+* on Windows for conda <4.4
+```bash
+activate gds
+```
+
+
+###
+Next, you will want to test your installation with:
+```bash
+ jupyter-nbconvert --execute --ExecutePreprocessor.timeout=120 check_py_stack.ipynb
+```
+
+You should see something like:
+```bash
+[NbConvertApp] Converting notebook check_py_stack.ipynb to html
+[NbConvertApp] Executing notebook with kernel: python3
+[NbConvertApp] Writing 393375 bytes to check_py_stack.html
+```
+
+Open check_workshop.html in a browser, and scroll all the way down, you should see something like:
+
+![htmlout](figs/htmlout.png)
+
+If you do see the above, you are ready for the workshop.

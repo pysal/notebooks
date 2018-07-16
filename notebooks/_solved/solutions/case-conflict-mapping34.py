@@ -1,1 +1,0 @@
-len(data_within_protected)
