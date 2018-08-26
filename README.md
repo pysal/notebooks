@@ -46,9 +46,12 @@ Viz task views:
 
 #### Network-based Spatial Optimization
 * *Facility Location*
+
 Demostrating fundamental network-based optimal facility location modeling: Integrating [spaghetti](https://github.com/pysal/spaghetti/) and [Cbc](https://projects.coin-or.org/Cbc)/[ortools](https://github.com/google/or-tools).
-    * [notebook in repo](https://github.com/pysal/spaghetti/blob/master/notebooks/Facility_Location.ipynb)
-    * [notebook in nbviewer](http://nbviewer.jupyter.org/gist/jGaboardi/a671d31a796e06d9df669d018d5b66ba)
+* [notebook in repo](https://github.com/pysal/spaghetti/blob/master/notebooks/Facility_Location.ipynb)
+* [notebook in nbviewer](http://nbviewer.jupyter.org/gist/jGaboardi/a671d31a796e06d9df669d018d5b66ba)
+
+
 
 
 [jupyter]: https://jupyter.org
