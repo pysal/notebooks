@@ -41,10 +41,14 @@ Viz task views:
 * [Spatial Dynamics](https://github.com/sjsrey/aerus2015/blob/master/esda/12_spatial_dynamics.ipynb)
 
 
-
-
 #### Python Scientific Computing Stack (SciPy)
 * [Stack](https://github.com/pysal/notebooks/blob/master/notebooks/intro_scicomp_python.ipynb): brief introduction to the main libraries for scientific computing in Python (`ipython`, `numpy`, `scipy`, `pandas`, `matplotlib`).
+
+#### Network-based Spatial Optimization
+* *Facility Location*
+Demostrating fundamental network-based optimal facility location modeling: Integrating [spaghetti](https://github.com/pysal/spaghetti/) and [Cbc](https://projects.coin-or.org/Cbc)/[ortools](https://github.com/google/or-tools).
+* [notebook in repo](https://github.com/pysal/spaghetti/blob/master/notebooks/Facility_Location.ipynb)
+* [notebook in nbviewer](http://nbviewer.jupyter.org/gist/jGaboardi/a671d31a796e06d9df669d018d5b66ba)
 
 
 [jupyter]: https://jupyter.org
