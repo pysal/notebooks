@@ -1,0 +1,10 @@
+name: pysal-notebooks
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - geopandas
+  - matplotlib
+  - pip:
+    - pysal==2.0rc
+
