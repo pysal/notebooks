@@ -1,0 +1,157 @@
+# This file contains the order and numbering for all sections in the book.
+# _includes/sidebar.html renders this as a sidebar.
+#
+# Each entry has the following schema:
+#
+# title: Title of chapter or section
+# url: URL of section. Use absolute URLs to link between pages
+# class: (optional) a CSS class to add to this link
+# sections: Contains chapter's sections
+# not_numbered: true if the section shouldn't have a number in the sidebar
+#   (e.g. Introduction or appendices)
+# divider: true if this entry should just be rendered as a horizontal divider
+#   in the sidebar. All other values are ignored.
+
+# Baseline
+
+- title: Home
+  url: /intro
+  not_numbered: true
+
+
+
+# Built Automatically #
+
+- divider: true
+- header: Dynamics
+
+- title: giddy
+  url: /dynamics/giddy/intro
+  not_numbered: true
+  sections:
+  - title: directional
+    url: /dynamics/giddy/directional
+  - title: Markov_Based_Methods
+    url: /dynamics/giddy/Markov_Based_Methods
+  - title: Mobility_measures
+    url: /dynamics/giddy/Mobility_measures
+  - title: Rank_based_Methods
+    url: /dynamics/giddy/Rank_based_Methods
+  - title: Rank_Markov
+    url: /dynamics/giddy/Rank_Markov
+  
+- divider: true
+- header: Explore
+
+- title: esda
+  url: /explore/esda/intro
+  not_numbered: true
+  sections:
+  - title: Spatial_Autocorrelation_for_Areal_Unit_Data
+    url: /explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data
+  
+- title: pointpats
+  url: /explore/pointpats/intro
+  not_numbered: true
+  sections:
+  - title: centrography
+    url: /explore/pointpats/centrography
+  - title: distance_statistics
+    url: /explore/pointpats/distance_statistics
+  - title: marks
+    url: /explore/pointpats/marks
+  - title: Minimum_bounding_circle
+    url: /explore/pointpats/Minimum_bounding_circle
+  - title: pointpattern
+    url: /explore/pointpats/pointpattern
+  - title: process
+    url: /explore/pointpats/process
+  - title: Quadrat_statistics
+    url: /explore/pointpats/Quadrat_statistics
+  - title: window
+    url: /explore/pointpats/window
+  
+- divider: true
+- header: Model
+
+- title: spglm
+  url: /model/spglm/intro
+  not_numbered: true
+  sections:
+  - title: Binomial_GLM
+    url: /model/spglm/Binomial_GLM
+  - title: Gaussian_GLM
+    url: /model/spglm/Gaussian_GLM
+  - title: Poisson_GLM
+    url: /model/spglm/Poisson_GLM
+  
+- title: spint
+  url: /model/spint/intro
+  not_numbered: true
+  sections:
+  - title: 4d_distance
+    url: /model/spint/4d_distance
+  - title: autograd_test
+    url: /model/spint/autograd_test
+  - title: dispersion_test
+    url: /model/spint/dispersion_test
+  - title: Example_NYCBikes_AllFeatures
+    url: /model/spint/Example_NYCBikes_AllFeatures
+  - title: local_SI
+    url: /model/spint/local_SI
+  - title: netW
+    url: /model/spint/netW
+  - title: New_DistanceBand
+    url: /model/spint/New_DistanceBand
+  - title: NYC_Bike_Example
+    url: /model/spint/NYC_Bike_Example
+  - title: ODW_example
+    url: /model/spint/ODW_example
+  - title: OD_weights
+    url: /model/spint/OD_weights
+  - title: sparse_categorical
+    url: /model/spint/sparse_categorical
+  - title: sparse_categorical_bottleneck
+    url: /model/spint/sparse_categorical_bottleneck
+  - title: sparse_categorical_speed
+    url: /model/spint/sparse_categorical_speed
+  - title: sparse_grav
+    url: /model/spint/sparse_grav
+  - title: sparse_scipy_optim
+    url: /model/spint/sparse_scipy_optim
+  - title: sparse_vs_dense_grav
+    url: /model/spint/sparse_vs_dense_grav
+  - title: test_grav
+    url: /model/spint/test_grav
+  - title: validate_gravity
+    url: /model/spint/validate_gravity
+  
+- divider: true
+- header: Viz
+
+- title: mapclassify
+  url: /viz/mapclassify/intro
+  not_numbered: true
+  sections:
+  - title: maximum_breaks
+    url: /viz/mapclassify/maximum_breaks
+  - title: south
+    url: /viz/mapclassify/south
+  
+- title: splot
+  url: /viz/splot/intro
+  not_numbered: true
+  sections:
+  - title: esda_morans_viz
+    url: /viz/splot/esda_morans_viz
+  - title: esda_moran_matrix_viz
+    url: /viz/splot/esda_moran_matrix_viz
+  - title: giddy_space_time
+    url: /viz/splot/giddy_space_time
+  - title: libpysal_non_planar_joins_viz
+    url: /viz/splot/libpysal_non_planar_joins_viz
+  - title: mapping_vba
+    url: /viz/splot/mapping_vba
+  - title: moran_bv_test
+    url: /viz/splot/moran_bv_test
+  
