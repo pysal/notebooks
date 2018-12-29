@@ -4,7 +4,7 @@ import os
 
 PKGS_YML = 'packages.yml'
 NBS_FOLDER = '../notebooks'
-BOOK_FOLDER = '../book'
+BOOK_FOLDER = '../docs'
 TEMPLATE_FOLDER = './jupyter-book-master'
 
 def pull_src_notebooks(pkgs=PKGS_YML, tgt_folder=NBS_FOLDER,
