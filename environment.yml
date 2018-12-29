@@ -6,5 +6,5 @@ dependencies:
   - geopandas
   - matplotlib
   - pip:
-    - pysal==2.0rc
+    - pysal==2.0rc2
 
