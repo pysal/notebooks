@@ -1,11 +1,12 @@
 import time
 import yaml
 import os
+import argparse
 
-PKGS_YML = 'packages.yml'
-NBS_FOLDER = '../notebooks'
-BOOK_FOLDER = '../docs'
-TEMPLATE_FOLDER = './jupyter-book-master'
+PKGS_YML = './lib/packages.yml'
+NBS_FOLDER = './notebooks'
+BOOK_FOLDER = './docs'
+TEMPLATE_FOLDER = './lib/jupyter-book-master'
 
 def pull_src_notebooks(pkgs=PKGS_YML, tgt_folder=NBS_FOLDER,
                        tmp='./tmp'):
@@ -139,6 +140,17 @@ def build_entry(title=None, url=None, clas=None, sections=None, not_numbered=Fal
 
 if __name__ == '__main__':
 
-    #pull_src_notebooks()
-    toc = setup_book()
-    #print(toc)
+    parser = argparse.ArgumentParser(description="Pull notebooks/build book")
+    parser.add_argument('--pull', 
+                        help='Download notebooks from federated packages',
+                        action="store_true")
+    parser.add_argument('--build', 
+                        help='Build book',
+                        action="store_true")
+    args = parser.parse_args()
+
+    if args.pull:
+        pull_src_notebooks()
+    if args.build:
+        toc = setup_book()
+
