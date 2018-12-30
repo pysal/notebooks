@@ -30,8 +30,8 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 # Jupyter Book settings
 
 # Textbook settings
-content_folder_name       : "content"  # The folder where your raw content (notebooks/markdown files) are located
-textbook_logo             : content/images/logo/logo.png  # A logo to be displayed at the top of your textbook sidebar
+content_folder_name       : "docs/content"  # The folder where your raw content (notebooks/markdown files) are located
+textbook_logo             : docs/content/images/logo/logo.png  # A logo to be displayed at the top of your textbook sidebar
 hide_cell_text            : "# HIDDEN"  # When building the textbook, any cells with this text inside will be hidden in the output markdown
 hide_code_text            : "# NO CODE"  # When building the textbook, any cells with this text inside will have *only* their output shown (no code)
 css_url                   : "/assets/css" # Path to static CSS files
@@ -44,7 +44,7 @@ hub_name                 : "JupyterHub"  # The name of your JupyterHub (used for
 hub_type                 : "binder"  # ['binder', 'jupyterhub']  Whether to build interact links for a BinderHub or a JupyterHub
 textbook_repo_base       : "https://github.com/"  # The site on which the textbook repository is hosted
 textbook_repo_org        : "darribas"  # The username or organization that owns this repository
-textbook_repo_name       : "notebooks/docs"  # The name of the repository on the web
+textbook_repo_name       : "notebooks"  # The name of the repository on the web
 textbook_repo_branch     : "master"  # The branch on which your textbook is hosted.
 use_jupyterlab           : false  # If 'true', interact links will use JupyterLab as the interface
 interact_text            : "Interact"  # The text that interact buttons will contain.
