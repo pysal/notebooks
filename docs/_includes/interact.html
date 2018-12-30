@@ -1,10 +1,10 @@
 <!-- INTERACT LINKS -->
 {% if page.interact_link %}
     {% if site.use_jupyterlab %}
-      {% assign binder_interact_prefix="urlpath=lab/tree/" %}
+      {% assign binder_interact_prefix="urlpath=lab/tree/docs%2F" %}
       {% assign hub_app="lab" %}
     {% else %}
-      {% assign binder_interact_prefix="filepath=" %}
+      {% assign binder_interact_prefix="filepath=docs%2F" %}
       {% assign hub_app="notebook" %}
     {% endif %}
     {% if site.hub_type == "binder" %}
