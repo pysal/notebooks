@@ -13,7 +13,7 @@ you want to build the book locally, you will need the following:
 
 * Unix OS: the builder relies on a few shell commands
 * `git`
-* Python libraries listed in [`build-requirements.txt`](https://github.com/darribas/notebooks/blob/master/lib/jupyter-book-master/build-requirements.txt)
+* Python libraries listed in [`build-requirements.txt`](lib/jupyter-book-master/build-requirements.txt)
 
 ## Build process
 
