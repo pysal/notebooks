@@ -11,7 +11,8 @@ federation. The result is available at:
 If you want to access the built book, simply head over to the URL above. If
 you want to build the book locally, you will need the following:
 
-* Unix OS: the builder relies on a few shell commands
+* Unix OS: the builder relies on a few shell commands (`rm`, `mkdir`, `cp`, `mv`, `cd`)
+* `pandoc` (for `.rst` to `.md` conversion)
 * `git`
 * Python libraries listed in [`build-requirements.txt`](lib/jupyter-book-master/build-requirements.txt)
 
