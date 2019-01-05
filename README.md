@@ -1,50 +1,40 @@
-### Examples
+# PySAL Notebooks Project
 
-Below are illustrative use cases for PySAL. You may also be interested in the [tutorials and short courses on PySAL](https://github.com/pysal/notebooks/blob/master/courses.md).
+This project uses [`jupyter-book`](https://github.com/choldgraf/jupyter-book)
+to build a book with all the notebooks of the packages in the PySAL
+federation. The result is available at:
 
-[![Join the chat at https://gitter.im/pysal/pysal](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/pysal/pysal?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+> [http://darribas.org/notebooks](http://darribas.org/notebooks)
 
+## Dependencies
 
-#### Reading Geospatial Data
-* [Shapefiles](http://nbviewer.ipython.org/github/pysal/notebooks/blob/master/notebooks/PySAL_io.ipynb): read and write shapefiles, dbf files.
+If you want to access the built book, simply head over to the URL above. If
+you want to build the book locally, you will need the following:
 
-#### Visualizing Geospatial Data
+* Unix OS: the builder relies on a few shell commands (`rm`, `mkdir`, `cp`, `mv`, `cd`)
+* `pandoc` (for `.rst` to `.md` conversion)
+* `git`
+* Python libraries listed in [`build-requirements.txt`](lib/jupyter-book-master/build-requirements.txt)
 
-Viz interfaces:
+## Build process
 
-* [PySAL viz](http://nbviewer.ipython.org/github/pysal/pysal/blob/master/pysal/contrib/viz/mapping_guide.ipynb?create=1)
-* [PySAL + cartopy](http://nbviewer.ipython.org/gist/darribas/9a0d3b6177b7ca6be007/london_boroughs.ipynb)
-* [PySAL + geopandas](https://github.com/geopandas/geopandas/blob/master/examples/choropleths.ipynb)
-* [PySAL + folium](https://gist.github.com/sjsrey/6802208)
+The current build process involves two main steps:
 
-Viz task views:
+1. Pull repositories to extract the files used to build the book. This can be
+   done by running the following command from the root folder:
 
-* [Choropleth Mappping](https://github.com/sjsrey/aerus2015/blob/master/esda/03_choropleth_mapping.ipynb)
-* [LISA Cluster Maps](http://nbviewer.ipython.org/urls/gist.githubusercontent.com/darribas/657e0568df7a63362762/raw/pysal_lisa_maps.ipynb)
+   `> python lib/build.py --pull`
 
+   This will generate a `notebooks` folder that contains all the files
+   required to build the book.
+1. Build the book from the downloaded notebooks. This can be  done by running
+   the following command from the root folder:
 
-#### Spatial Weights
+   `> python lib/build.py --build`
 
-* [Spatial Weights](https://github.com/pysal/notebooks/blob/master/notebooks/PySAL_weights.ipynb): understand, create and manipulate spatial weights objects.
-
-#### Global Spatial Autocorrelation Analysis
-
-* [Global Autococorrelation](https://github.com/pysal/notebooks/blob/master/notebooks/PySAL_esda.ipynb): overview of Exploratory Spatial Data Analysis (ESDA) techniques.
-
-#### Local Spatial Autocorrelation Analysis
-
-* [Local Autocorrelation](https://github.com/sjsrey/aerus2015/blob/master/esda/10_local_south.ipynb)
-
-
-#### Space-Time Analysis
-
-* [Spatial Dynamics](https://github.com/sjsrey/aerus2015/blob/master/esda/12_spatial_dynamics.ipynb)
+   This will create/update the `docs` folder in the root folder so it contains
+   everything needed for the hosting server to serve the book. Commit the
+   changes and the updated book will be available online shortly.
 
 
 
-
-#### Python Scientific Computing Stack (SciPy)
-* [Stack](https://github.com/pysal/notebooks/blob/master/notebooks/intro_scicomp_python.ipynb): brief introduction to the main libraries for scientific computing in Python (`ipython`, `numpy`, `scipy`, `pandas`, `matplotlib`).
-
-
-[jupyter]: https://jupyter.org
