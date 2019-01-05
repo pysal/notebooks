@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/model/spint/sparse_categorical.ipynb
 title: 'sparse_categorical'
 prev_page:
-  url: /model/spint/OD_weights
-  title: 'OD_weights'
+  url: /model/spint/netW
+  title: 'netW'
 next_page:
-  url: /model/spint/sparse_categorical_bottleneck
-  title: 'sparse_categorical_bottleneck'
+  url: /model/spint/test_grav
+  title: 'test_grav'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

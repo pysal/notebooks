@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/model/spint/test_grav.ipynb
 title: 'test_grav'
 prev_page:
-  url: /model/spint/sparse_vs_dense_grav
-  title: 'sparse_vs_dense_grav'
+  url: /model/spint/sparse_categorical
+  title: 'sparse_categorical'
 next_page:
-  url: /model/spint/validate_gravity
-  title: 'validate_gravity'
+  url: /model/spint/sparse_grav
+  title: 'sparse_grav'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

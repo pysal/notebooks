@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/viz/splot/giddy_space_time.ipynb
 title: 'giddy_space_time'
 prev_page:
-  url: /viz/splot/esda_moran_matrix_viz
-  title: 'esda_moran_matrix_viz'
+  url: /viz/splot/esda_morans_viz
+  title: 'esda_morans_viz'
 next_page:
-  url: /viz/splot/libpysal_non_planar_joins_viz
-  title: 'libpysal_non_planar_joins_viz'
+  url: /viz/splot/mapping_vba
+  title: 'mapping_vba'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

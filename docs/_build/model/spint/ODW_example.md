@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/model/spint/ODW_example.ipynb
 title: 'ODW_example'
 prev_page:
-  url: /model/spint/NYC_Bike_Example
-  title: 'NYC_Bike_Example'
+  url: /model/spint/sparse_categorical_speed
+  title: 'sparse_categorical_speed'
 next_page:
-  url: /model/spint/OD_weights
-  title: 'OD_weights'
+  url: /model/spint/autograd_test
+  title: 'autograd_test'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

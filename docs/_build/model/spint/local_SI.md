@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/model/spint/local_SI.ipynb
 title: 'local_SI'
 prev_page:
-  url: /model/spint/Example_NYCBikes_AllFeatures
-  title: 'Example_NYCBikes_AllFeatures'
+  url: /model/spint/sparse_scipy_optim
+  title: 'sparse_scipy_optim'
 next_page:
-  url: /model/spint/netW
-  title: 'netW'
+  url: /model/spint/validate_gravity
+  title: 'validate_gravity'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

@@ -4,8 +4,8 @@ redirect_from:
 interact_link: content/explore/pointpats/Quadrat_statistics.ipynb
 title: 'Quadrat_statistics'
 prev_page:
-  url: /explore/pointpats/process
-  title: 'process'
+  url: /explore/pointpats/Minimum_bounding_circle
+  title: 'Minimum_bounding_circle'
 next_page:
   url: /explore/pointpats/window
   title: 'window'

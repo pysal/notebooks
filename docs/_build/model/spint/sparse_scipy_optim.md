@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/model/spint/sparse_scipy_optim.ipynb
 title: 'sparse_scipy_optim'
 prev_page:
-  url: /model/spint/sparse_grav
-  title: 'sparse_grav'
+  url: /model/spint/New_DistanceBand
+  title: 'New_DistanceBand'
 next_page:
-  url: /model/spint/sparse_vs_dense_grav
-  title: 'sparse_vs_dense_grav'
+  url: /model/spint/local_SI
+  title: 'local_SI'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

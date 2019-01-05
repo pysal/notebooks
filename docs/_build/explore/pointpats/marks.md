@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/explore/pointpats/marks.ipynb
 title: 'marks'
 prev_page:
-  url: /explore/pointpats/distance_statistics
-  title: 'distance_statistics'
+  url: /explore/pointpats/window
+  title: 'window'
 next_page:
-  url: /explore/pointpats/Minimum_bounding_circle
-  title: 'Minimum_bounding_circle'
+  url: /explore/pointpats/pointpattern
+  title: 'pointpattern'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

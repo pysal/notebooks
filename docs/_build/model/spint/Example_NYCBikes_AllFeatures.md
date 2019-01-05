@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/model/spint/Example_NYCBikes_AllFeatures.ipynb
 title: 'Example_NYCBikes_AllFeatures'
 prev_page:
-  url: /model/spint/dispersion_test
-  title: 'dispersion_test'
+  url: /model/spint/sparse_vs_dense_grav
+  title: 'sparse_vs_dense_grav'
 next_page:
-  url: /model/spint/local_SI
-  title: 'local_SI'
+  url: /model/spint/New_DistanceBand
+  title: 'New_DistanceBand'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

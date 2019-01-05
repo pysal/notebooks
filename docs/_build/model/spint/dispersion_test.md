@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/model/spint/dispersion_test.ipynb
 title: 'dispersion_test'
 prev_page:
-  url: /model/spint/autograd_test
-  title: 'autograd_test'
+  url: /model/spint/validate_gravity
+  title: 'validate_gravity'
 next_page:
-  url: /model/spint/Example_NYCBikes_AllFeatures
-  title: 'Example_NYCBikes_AllFeatures'
+  url: /model/spint/glm_speed
+  title: 'glm_speed'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

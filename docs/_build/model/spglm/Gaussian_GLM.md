@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/model/spglm/Gaussian_GLM.ipynb
 title: 'Gaussian_GLM'
 prev_page:
-  url: /model/spglm/Binomial_GLM
-  title: 'Binomial_GLM'
-next_page:
   url: /model/spglm/Poisson_GLM
   title: 'Poisson_GLM'
+next_page:
+  url: /model/spglm/Binomial_GLM
+  title: 'Binomial_GLM'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

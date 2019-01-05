@@ -3,8 +3,8 @@ redirect_from:
   - "/explore/esda/intro"
 title: 'esda'
 prev_page:
-  url: /dynamics/giddy/Rank_Markov
-  title: 'Rank_Markov'
+  url: /dynamics/giddy/Markov_Based_Methods
+  title: 'Markov_Based_Methods'
 next_page:
   url: /explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data
   title: 'Spatial_Autocorrelation_for_Areal_Unit_Data'

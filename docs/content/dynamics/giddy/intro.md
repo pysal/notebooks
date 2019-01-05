@@ -13,6 +13,8 @@ mobility in addition to space-time LISA and spatial markov methods.
 
 [![image](https://api.travis-ci.org/pysal/giddy.svg)](https://travis-ci.org/pysal/giddy)
 
+[![image](https://coveralls.io/repos/github/pysal/giddy/badge.svg?branch=master)](https://coveralls.io/github/pysal/giddy?branch=master)
+
 [![image](https://badges.gitter.im/pysal/giddy.svg)](https://gitter.im/pysal/giddy)
 
 [![Documentation Status](https://readthedocs.org/projects/giddy/badge/?version=latest)](https://giddy.readthedocs.io/en/latest/?badge=latest)

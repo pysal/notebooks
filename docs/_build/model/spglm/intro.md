@@ -3,11 +3,11 @@ redirect_from:
   - "/model/spglm/intro"
 title: 'spglm'
 prev_page:
-  url: /explore/pointpats/window
-  title: 'window'
+  url: /model/spint/4d_distance
+  title: '4d_distance'
 next_page:
-  url: /model/spglm/Binomial_GLM
-  title: 'Binomial_GLM'
+  url: /model/spglm/Poisson_GLM
+  title: 'Poisson_GLM'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 **G**eneralized **L**inear **M**odeling

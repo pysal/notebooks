@@ -4,8 +4,8 @@ redirect_from:
 interact_link: content/explore/pointpats/pointpattern.ipynb
 title: 'pointpattern'
 prev_page:
-  url: /explore/pointpats/Minimum_bounding_circle
-  title: 'Minimum_bounding_circle'
+  url: /explore/pointpats/marks
+  title: 'marks'
 next_page:
   url: /explore/pointpats/process
   title: 'process'

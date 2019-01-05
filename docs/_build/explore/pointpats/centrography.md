@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/explore/pointpats/centrography.ipynb
 title: 'centrography'
 prev_page:
-  url: /explore/pointpats/intro
-  title: 'pointpats'
-next_page:
   url: /explore/pointpats/distance_statistics
   title: 'distance_statistics'
+next_page:
+  url: /explore/pointpats/Minimum_bounding_circle
+  title: 'Minimum_bounding_circle'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

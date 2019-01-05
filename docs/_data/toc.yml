@@ -29,16 +29,16 @@
   url: /dynamics/giddy/intro
   not_numbered: true
   sections:
-  - title: directional
-    url: /dynamics/giddy/directional
-  - title: Markov_Based_Methods
-    url: /dynamics/giddy/Markov_Based_Methods
-  - title: Mobility_measures
-    url: /dynamics/giddy/Mobility_measures
   - title: Rank_based_Methods
     url: /dynamics/giddy/Rank_based_Methods
+  - title: directional
+    url: /dynamics/giddy/directional
   - title: Rank_Markov
     url: /dynamics/giddy/Rank_Markov
+  - title: Mobility_measures
+    url: /dynamics/giddy/Mobility_measures
+  - title: Markov_Based_Methods
+    url: /dynamics/giddy/Markov_Based_Methods
   
 - divider: true
 - header: Explore
@@ -54,77 +54,35 @@
   url: /explore/pointpats/intro
   not_numbered: true
   sections:
-  - title: centrography
-    url: /explore/pointpats/centrography
   - title: distance_statistics
     url: /explore/pointpats/distance_statistics
-  - title: marks
-    url: /explore/pointpats/marks
+  - title: centrography
+    url: /explore/pointpats/centrography
   - title: Minimum_bounding_circle
     url: /explore/pointpats/Minimum_bounding_circle
-  - title: pointpattern
-    url: /explore/pointpats/pointpattern
-  - title: process
-    url: /explore/pointpats/process
   - title: Quadrat_statistics
     url: /explore/pointpats/Quadrat_statistics
   - title: window
     url: /explore/pointpats/window
+  - title: marks
+    url: /explore/pointpats/marks
+  - title: pointpattern
+    url: /explore/pointpats/pointpattern
+  - title: process
+    url: /explore/pointpats/process
   
-- divider: true
-- header: Model
-
-- title: spglm
-  url: /model/spglm/intro
+- title: spaghetti
+  url: /explore/spaghetti/intro
   not_numbered: true
   sections:
-  - title: Binomial_GLM
-    url: /model/spglm/Binomial_GLM
-  - title: Gaussian_GLM
-    url: /model/spglm/Gaussian_GLM
-  - title: Poisson_GLM
-    url: /model/spglm/Poisson_GLM
-  
-- title: spint
-  url: /model/spint/intro
-  not_numbered: true
-  sections:
-  - title: 4d_distance
-    url: /model/spint/4d_distance
-  - title: autograd_test
-    url: /model/spint/autograd_test
-  - title: dispersion_test
-    url: /model/spint/dispersion_test
-  - title: Example_NYCBikes_AllFeatures
-    url: /model/spint/Example_NYCBikes_AllFeatures
-  - title: local_SI
-    url: /model/spint/local_SI
-  - title: netW
-    url: /model/spint/netW
-  - title: New_DistanceBand
-    url: /model/spint/New_DistanceBand
-  - title: NYC_Bike_Example
-    url: /model/spint/NYC_Bike_Example
-  - title: ODW_example
-    url: /model/spint/ODW_example
-  - title: OD_weights
-    url: /model/spint/OD_weights
-  - title: sparse_categorical
-    url: /model/spint/sparse_categorical
-  - title: sparse_categorical_bottleneck
-    url: /model/spint/sparse_categorical_bottleneck
-  - title: sparse_categorical_speed
-    url: /model/spint/sparse_categorical_speed
-  - title: sparse_grav
-    url: /model/spint/sparse_grav
-  - title: sparse_scipy_optim
-    url: /model/spint/sparse_scipy_optim
-  - title: sparse_vs_dense_grav
-    url: /model/spint/sparse_vs_dense_grav
-  - title: test_grav
-    url: /model/spint/test_grav
-  - title: validate_gravity
-    url: /model/spint/validate_gravity
+  - title: Spaghetti_Pointpatterns_Empirical
+    url: /explore/spaghetti/Spaghetti_Pointpatterns_Empirical
+  - title: Facility_Location
+    url: /explore/spaghetti/Facility_Location
+  - title: Snapping_Demonstration
+    url: /explore/spaghetti/Snapping_Demonstration
+  - title: Network_Usage
+    url: /explore/spaghetti/Network_Usage
   
 - divider: true
 - header: Viz
@@ -133,25 +91,91 @@
   url: /viz/mapclassify/intro
   not_numbered: true
   sections:
-  - title: maximum_breaks
-    url: /viz/mapclassify/maximum_breaks
   - title: south
     url: /viz/mapclassify/south
+  - title: maximum_breaks
+    url: /viz/mapclassify/maximum_breaks
   
 - title: splot
   url: /viz/splot/intro
   not_numbered: true
   sections:
-  - title: esda_morans_viz
-    url: /viz/splot/esda_morans_viz
-  - title: esda_moran_matrix_viz
-    url: /viz/splot/esda_moran_matrix_viz
-  - title: giddy_space_time
-    url: /viz/splot/giddy_space_time
-  - title: libpysal_non_planar_joins_viz
-    url: /viz/splot/libpysal_non_planar_joins_viz
-  - title: mapping_vba
-    url: /viz/splot/mapping_vba
   - title: moran_bv_test
     url: /viz/splot/moran_bv_test
+  - title: esda_moran_matrix_viz
+    url: /viz/splot/esda_moran_matrix_viz
+  - title: libpysal_non_planar_joins_viz
+    url: /viz/splot/libpysal_non_planar_joins_viz
+  - title: esda_morans_viz
+    url: /viz/splot/esda_morans_viz
+  - title: giddy_space_time
+    url: /viz/splot/giddy_space_time
+  - title: mapping_vba
+    url: /viz/splot/mapping_vba
+  
+- divider: true
+- header: Model
+
+- title: spvcm
+  url: /model/spvcm/intro
+  not_numbered: true
+  sections:
+  - title: spatially-varying-coefficients
+    url: /model/spvcm/spatially-varying-coefficients
+  - title: using_the_sampler
+    url: /model/spvcm/using_the_sampler
+  
+- title: spint
+  url: /model/spint/intro
+  not_numbered: true
+  sections:
+  - title: sparse_vs_dense_grav
+    url: /model/spint/sparse_vs_dense_grav
+  - title: Example_NYCBikes_AllFeatures
+    url: /model/spint/Example_NYCBikes_AllFeatures
+  - title: New_DistanceBand
+    url: /model/spint/New_DistanceBand
+  - title: sparse_scipy_optim
+    url: /model/spint/sparse_scipy_optim
+  - title: local_SI
+    url: /model/spint/local_SI
+  - title: validate_gravity
+    url: /model/spint/validate_gravity
+  - title: dispersion_test
+    url: /model/spint/dispersion_test
+  - title: glm_speed
+    url: /model/spint/glm_speed
+  - title: netW
+    url: /model/spint/netW
+  - title: sparse_categorical
+    url: /model/spint/sparse_categorical
+  - title: test_grav
+    url: /model/spint/test_grav
+  - title: sparse_grav
+    url: /model/spint/sparse_grav
+  - title: sparse_categorical_bottleneck
+    url: /model/spint/sparse_categorical_bottleneck
+  - title: OD_weights
+    url: /model/spint/OD_weights
+  - title: sparse_categorical_speed
+    url: /model/spint/sparse_categorical_speed
+  - title: ODW_example
+    url: /model/spint/ODW_example
+  - title: autograd_test
+    url: /model/spint/autograd_test
+  - title: NYC_Bike_Example
+    url: /model/spint/NYC_Bike_Example
+  - title: 4d_distance
+    url: /model/spint/4d_distance
+  
+- title: spglm
+  url: /model/spglm/intro
+  not_numbered: true
+  sections:
+  - title: Poisson_GLM
+    url: /model/spglm/Poisson_GLM
+  - title: Gaussian_GLM
+    url: /model/spglm/Gaussian_GLM
+  - title: Binomial_GLM
+    url: /model/spglm/Binomial_GLM
   

@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/viz/splot/moran_bv_test.ipynb
 title: 'moran_bv_test'
 prev_page:
-  url: /viz/splot/mapping_vba
-  title: 'mapping_vba'
+  url: /viz/splot/intro
+  title: 'splot'
 next_page:
-  url: 
-  title: ''
+  url: /viz/splot/esda_moran_matrix_viz
+  title: 'esda_moran_matrix_viz'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

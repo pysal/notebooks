@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/viz/splot/mapping_vba.ipynb
 title: 'mapping_vba'
 prev_page:
-  url: /viz/splot/libpysal_non_planar_joins_viz
-  title: 'libpysal_non_planar_joins_viz'
+  url: /viz/splot/giddy_space_time
+  title: 'giddy_space_time'
 next_page:
-  url: /viz/splot/moran_bv_test
-  title: 'moran_bv_test'
+  url: /model/spvcm/intro
+  title: 'spvcm'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

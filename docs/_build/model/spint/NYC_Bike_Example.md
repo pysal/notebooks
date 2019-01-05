@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/model/spint/NYC_Bike_Example.ipynb
 title: 'NYC_Bike_Example'
 prev_page:
-  url: /model/spint/New_DistanceBand
-  title: 'New_DistanceBand'
+  url: /model/spint/autograd_test
+  title: 'autograd_test'
 next_page:
-  url: /model/spint/ODW_example
-  title: 'ODW_example'
+  url: /model/spint/4d_distance
+  title: '4d_distance'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

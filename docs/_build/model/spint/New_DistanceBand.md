@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/model/spint/New_DistanceBand.ipynb
 title: 'New_DistanceBand'
 prev_page:
-  url: /model/spint/netW
-  title: 'netW'
+  url: /model/spint/Example_NYCBikes_AllFeatures
+  title: 'Example_NYCBikes_AllFeatures'
 next_page:
-  url: /model/spint/NYC_Bike_Example
-  title: 'NYC_Bike_Example'
+  url: /model/spint/sparse_scipy_optim
+  title: 'sparse_scipy_optim'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

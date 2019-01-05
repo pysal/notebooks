@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/model/spint/validate_gravity.ipynb
 title: 'validate_gravity'
 prev_page:
-  url: /model/spint/test_grav
-  title: 'test_grav'
+  url: /model/spint/local_SI
+  title: 'local_SI'
 next_page:
-  url: /viz/mapclassify/intro
-  title: 'mapclassify'
+  url: /model/spint/dispersion_test
+  title: 'dispersion_test'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

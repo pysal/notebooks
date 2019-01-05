@@ -3,11 +3,11 @@ redirect_from:
   - "/viz/mapclassify/intro"
 title: 'mapclassify'
 prev_page:
-  url: /model/spint/validate_gravity
-  title: 'validate_gravity'
+  url: /explore/spaghetti/Network_Usage
+  title: 'Network_Usage'
 next_page:
-  url: /viz/mapclassify/maximum_breaks
-  title: 'maximum_breaks'
+  url: /viz/mapclassify/south
+  title: 'south'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 ---

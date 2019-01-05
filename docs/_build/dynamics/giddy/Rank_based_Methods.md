@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/dynamics/giddy/Rank_based_Methods.ipynb
 title: 'Rank_based_Methods'
 prev_page:
-  url: /dynamics/giddy/Mobility_measures
-  title: 'Mobility_measures'
+  url: /dynamics/giddy/intro
+  title: 'giddy'
 next_page:
-  url: /dynamics/giddy/Rank_Markov
-  title: 'Rank_Markov'
+  url: /dynamics/giddy/directional
+  title: 'directional'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

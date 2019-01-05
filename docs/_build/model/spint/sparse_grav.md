@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/model/spint/sparse_grav.ipynb
 title: 'sparse_grav'
 prev_page:
-  url: /model/spint/sparse_categorical_speed
-  title: 'sparse_categorical_speed'
+  url: /model/spint/test_grav
+  title: 'test_grav'
 next_page:
-  url: /model/spint/sparse_scipy_optim
-  title: 'sparse_scipy_optim'
+  url: /model/spint/sparse_categorical_bottleneck
+  title: 'sparse_categorical_bottleneck'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/explore/pointpats/distance_statistics.ipynb
 title: 'distance_statistics'
 prev_page:
+  url: /explore/pointpats/intro
+  title: 'pointpats'
+next_page:
   url: /explore/pointpats/centrography
   title: 'centrography'
-next_page:
-  url: /explore/pointpats/marks
-  title: 'marks'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

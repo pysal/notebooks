@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/dynamics/giddy/directional.ipynb
 title: 'directional'
 prev_page:
-  url: /dynamics/giddy/intro
-  title: 'giddy'
+  url: /dynamics/giddy/Rank_based_Methods
+  title: 'Rank_based_Methods'
 next_page:
-  url: /dynamics/giddy/Markov_Based_Methods
-  title: 'Markov_Based_Methods'
+  url: /dynamics/giddy/Rank_Markov
+  title: 'Rank_Markov'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
@@ -226,7 +226,7 @@ r4.plot()
 {:.output_data_text}
 ```
 (<Figure size 432x288 with 1 Axes>,
- <matplotlib.axes._subplots.PolarAxesSubplot at 0x1a2223b550>)
+ <matplotlib.axes._subplots.PolarAxesSubplot at 0x1a2a7efb00>)
 ```
 
 
@@ -249,7 +249,7 @@ r4.plot(Y[:,0]) # condition on starting relative income
 {:.output_data_text}
 ```
 (<Figure size 432x288 with 2 Axes>,
- <matplotlib.axes._subplots.PolarAxesSubplot at 0x1a224e0278>)
+ <matplotlib.axes._subplots.PolarAxesSubplot at 0x1a2aa8ccc0>)
 ```
 
 
@@ -272,7 +272,7 @@ r4.plot(attribute=r4.lag[:,0]) # condition on the spatial lag of starting relati
 {:.output_data_text}
 ```
 (<Figure size 432x288 with 2 Axes>,
- <matplotlib.axes._subplots.PolarAxesSubplot at 0x1a2253acf8>)
+ <matplotlib.axes._subplots.PolarAxesSubplot at 0x1a2ac076d8>)
 ```
 
 
@@ -295,7 +295,7 @@ r4.plot_vectors() # lisa vectors
 {:.output_data_text}
 ```
 (<Figure size 432x288 with 1 Axes>,
- <matplotlib.axes._subplots.AxesSubplot at 0x1a22617ef0>)
+ <matplotlib.axes._subplots.AxesSubplot at 0x1a29fafb38>)
 ```
 
 
@@ -318,7 +318,7 @@ r4.plot_vectors(arrows=False)
 {:.output_data_text}
 ```
 (<Figure size 432x288 with 1 Axes>,
- <matplotlib.axes._subplots.AxesSubplot at 0x1a2289b940>)
+ <matplotlib.axes._subplots.AxesSubplot at 0x1a2ae61f28>)
 ```
 
 

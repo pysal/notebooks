@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/model/spint/sparse_vs_dense_grav.ipynb
 title: 'sparse_vs_dense_grav'
 prev_page:
-  url: /model/spint/sparse_scipy_optim
-  title: 'sparse_scipy_optim'
+  url: /model/spint/intro
+  title: 'spint'
 next_page:
-  url: /model/spint/test_grav
-  title: 'test_grav'
+  url: /model/spint/Example_NYCBikes_AllFeatures
+  title: 'Example_NYCBikes_AllFeatures'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

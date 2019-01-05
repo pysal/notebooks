@@ -3,11 +3,11 @@ redirect_from:
   - "/viz/splot/intro"
 title: 'splot'
 prev_page:
-  url: /viz/mapclassify/south
-  title: 'south'
+  url: /viz/mapclassify/maximum_breaks
+  title: 'maximum_breaks'
 next_page:
-  url: /viz/splot/esda_morans_viz
-  title: 'esda_morans_viz'
+  url: /viz/splot/moran_bv_test
+  title: 'moran_bv_test'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 [![Build Status](https://travis-ci.org/pysal/splot.svg?branch=master)](https://travis-ci.org/pysal/splot)

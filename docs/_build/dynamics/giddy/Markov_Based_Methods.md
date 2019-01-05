@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/dynamics/giddy/Markov_Based_Methods.ipynb
 title: 'Markov_Based_Methods'
 prev_page:
-  url: /dynamics/giddy/directional
-  title: 'directional'
-next_page:
   url: /dynamics/giddy/Mobility_measures
   title: 'Mobility_measures'
+next_page:
+  url: /explore/esda/intro
+  title: 'esda'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

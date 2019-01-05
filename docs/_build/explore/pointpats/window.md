@@ -7,8 +7,8 @@ prev_page:
   url: /explore/pointpats/Quadrat_statistics
   title: 'Quadrat_statistics'
 next_page:
-  url: /model/spglm/intro
-  title: 'spglm'
+  url: /explore/pointpats/marks
+  title: 'marks'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

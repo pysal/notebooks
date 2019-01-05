@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/viz/mapclassify/south.ipynb
 title: 'south'
 prev_page:
+  url: /viz/mapclassify/intro
+  title: 'mapclassify'
+next_page:
   url: /viz/mapclassify/maximum_breaks
   title: 'maximum_breaks'
-next_page:
-  url: /viz/splot/intro
-  title: 'splot'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

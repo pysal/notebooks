@@ -6,8 +6,8 @@ prev_page:
   url: /explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data
   title: 'Spatial_Autocorrelation_for_Areal_Unit_Data'
 next_page:
-  url: /explore/pointpats/centrography
-  title: 'centrography'
+  url: /explore/pointpats/distance_statistics
+  title: 'distance_statistics'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 ---

@@ -7,8 +7,8 @@ prev_page:
   url: /explore/pointpats/pointpattern
   title: 'pointpattern'
 next_page:
-  url: /explore/pointpats/Quadrat_statistics
-  title: 'Quadrat_statistics'
+  url: /explore/spaghetti/intro
+  title: 'spaghetti'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/model/spint/netW.ipynb
 title: 'netW'
 prev_page:
-  url: /model/spint/local_SI
-  title: 'local_SI'
+  url: /model/spint/glm_speed
+  title: 'glm_speed'
 next_page:
-  url: /model/spint/New_DistanceBand
-  title: 'New_DistanceBand'
+  url: /model/spint/sparse_categorical
+  title: 'sparse_categorical'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

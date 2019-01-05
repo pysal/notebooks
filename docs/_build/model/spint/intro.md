@@ -3,11 +3,11 @@ redirect_from:
   - "/model/spint/intro"
 title: 'spint'
 prev_page:
-  url: /model/spglm/Poisson_GLM
-  title: 'Poisson_GLM'
+  url: /model/spvcm/using_the_sampler
+  title: 'using_the_sampler'
 next_page:
-  url: /model/spint/4d_distance
-  title: '4d_distance'
+  url: /model/spint/sparse_vs_dense_grav
+  title: 'sparse_vs_dense_grav'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 Spatial Interaction Modeling Package

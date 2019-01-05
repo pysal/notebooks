@@ -6,8 +6,8 @@ prev_page:
   url: /intro
   title: 'Home'
 next_page:
-  url: /dynamics/giddy/directional
-  title: 'directional'
+  url: /dynamics/giddy/Rank_based_Methods
+  title: 'Rank_based_Methods'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 ---
@@ -24,6 +24,8 @@ decomposition of mobility association and local measures of exchange
 mobility in addition to space-time LISA and spatial markov methods.
 
 [![image](https://api.travis-ci.org/pysal/giddy.svg)](https://travis-ci.org/pysal/giddy)
+
+[![image](https://coveralls.io/repos/github/pysal/giddy/badge.svg?branch=master)](https://coveralls.io/github/pysal/giddy?branch=master)
 
 [![image](https://badges.gitter.im/pysal/giddy.svg)](https://gitter.im/pysal/giddy)
 

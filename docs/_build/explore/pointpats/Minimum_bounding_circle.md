@@ -4,11 +4,11 @@ redirect_from:
 interact_link: content/explore/pointpats/Minimum_bounding_circle.ipynb
 title: 'Minimum_bounding_circle'
 prev_page:
-  url: /explore/pointpats/marks
-  title: 'marks'
+  url: /explore/pointpats/centrography
+  title: 'centrography'
 next_page:
-  url: /explore/pointpats/pointpattern
-  title: 'pointpattern'
+  url: /explore/pointpats/Quadrat_statistics
+  title: 'Quadrat_statistics'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
