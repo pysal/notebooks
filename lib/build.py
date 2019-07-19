@@ -5,6 +5,7 @@ import argparse
 
 NBS_FOLDER = './notebooks'
 BOOK_FOLDER = './docs'
+BASE_TOC = './lib/base_toc.yml'
 TEMPLATE_FOLDER = './lib/jupyter-book-master'
 
 def pr(cmd):
@@ -45,23 +46,28 @@ def pull_notebooks(tgt_folder=NBS_FOLDER,
     print(f"\nNew notebooks collected in {round(t1-t0)} seconds")
     return None
 
-def setup_book(bk_folder=BOOK_FOLDER, nbs_folder=NBS_FOLDER, template_folder=TEMPLATE_FOLDER):
+def setup_book(bk_folder=BOOK_FOLDER, nbs_folder=NBS_FOLDER):
     '''
     Create a new directory, move required files from template, move notebooks
     in
     '''
-    os.system(f'rm -rf {bk_folder}')
-    os.system(f'cp -r {template_folder} {bk_folder}')
-    os.system(f'cp -r {nbs_folder}/* {bk_folder}/content/')
-    toc = build_toc(f'{TEMPLATE_FOLDER}/_data/toc.yml')
+    # Clean slate
+    pr(f'rm -rf {bk_folder}')
+    # Create book
+    pr((f'jupyter-book create {bk_folder} '\
+        f'--content-folder {nbs_folder} '\
+        f'--verbose yes'))
+    # Build TOC + write into book
+    toc = build_toc(BASE_TOC)
     fo = open(f'{bk_folder}/_data/toc.yml', 'w')
     fo.write(toc)
     fo.close()
-    os.system(f'cd {bk_folder} && make book')
+    pr(f'jupyter-book build {bk_folder}')
     return toc
 
 def build_toc(base_toc, nbs_folder=NBS_FOLDER):
     '''
+    Auto-generate TOC for notebooks folder
     '''
     fo = open(base_toc, 'r')
     toc = fo.read()
