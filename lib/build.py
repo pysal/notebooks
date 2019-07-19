@@ -3,75 +3,46 @@ import yaml
 import os
 import argparse
 
-PKGS_YML = './lib/packages.yml'
 NBS_FOLDER = './notebooks'
 BOOK_FOLDER = './docs'
 TEMPLATE_FOLDER = './lib/jupyter-book-master'
 
-def pull_src_notebooks(pkgs=PKGS_YML, tgt_folder=NBS_FOLDER,
-                       tmp='./tmp'):
+def pr(cmd):
+    print(cmd)
+    os.system(cmd)
+    return None
+
+def pull_notebooks(tgt_folder=NBS_FOLDER,
+                   tmp='./tmp'):
     '''
-    Download Master branch from each package, extract notebooks and move to
+    Download Master branch from meta package, extract notebooks and move to
     target folder
     ...
 
     Arguments
     ---------
-    pkgs        : str
-                  Path to YAML file
     tgt_folder  : str
                   Path to target folder to put renamed notebooks
+    tmp         : str
+                  [Optional. Default='./tmp'] Location of temporary folder
 
     Returns
     -------
     None
     '''
-    with open(pkgs) as package_file:
-        packages = yaml.load(package_file)
-
-    os.system(f'rm -rf {tmp} && mkdir {tmp}')
-    os.system(f'rm -rf {tgt_folder} && mkdir {tgt_folder}')
-
     t0 = time.time()
-    for package in packages:
-        subpackages = packages[package].split()
-        for subpackage in subpackages:
-            cmd = (f'git clone https://github.com/pysal/{subpackage}.git '\
-                   f'{tmp}/dls/{subpackage}')
-            os.system(cmd)
-            nbf_exists = True
-            try:
-                os.listdir(f'{tmp}/dls/{subpackage}/notebooks')
-            except:
-                nbf_exists = False
-                print((f"\nWARNING: {package}/{subpackage} does NOT"\
-                        " contain a notebook folder\n"))
-            if nbf_exists:
-                # Collect individual notebooks (if needed, they can be
-                # filtered here easily)
-                nbs = [i for i in os.listdir(f'{tmp}/dls/{subpackage}/notebooks') \
-                       if i[-6:]=='.ipynb']
-                if len(nbs) > 0:
-                    os.system(f'mkdir -p {tgt_folder}/{package}/{subpackage}/')
-                    # Process README as intro in the book
-                    os.system((f'cp {tmp}/dls/{subpackage}/README.md '\
-                               f'{tgt_folder}/{package}/{subpackage}/intro.md'))
-                    ## If .rst
-                    os.system((f'pandoc -s {tmp}/dls/{subpackage}/README.rst '\
-                               f'-o {tgt_folder}/{package}/{subpackage}/intro.md'))
-                    # Copy individual notebooks
-                    for i in range(len(nbs)):
-                        src_nb = nbs[i].replace(' ', '\ ')
-                        cmd = (f'mv {tmp}/dls/{subpackage}/notebooks/{src_nb} '\
-                               f'{tgt_folder}/{package}/{subpackage}/'\
-                               f'{src_nb.replace(" ", "_")}')
-                        os.system(cmd)
-                else:
-                    print((f"\nWARNING: {package}/{subpackage} does NOT"\
-                            " contain notebooks\n"))
-    os.system(f'rm -rf {tmp}')
+    # Clean start
+    pr(f'rm -rf {tmp} && mkdir {tmp}')
+    pr(f'rm -rf {tgt_folder} && mkdir {tgt_folder}')
+    # Grab latest meta package
+    cmd = (f'git clone https://github.com/pysal/pysal.git '\
+           f'{tmp}/dls/')
+    pr(cmd)
+    # Copy notebooks to tgt_folder
+    cmd = f'mv {tmp}/dls/notebooks/* {tgt_folder}/'
+    pr(cmd)
     t1 = time.time()
-    print(f"\n\t{t1-t0} seconds to collect notebooks")
+    print(f"\nNew notebooks collected in {round(t1-t0)} seconds")
     return None
 
 def setup_book(bk_folder=BOOK_FOLDER, nbs_folder=NBS_FOLDER, template_folder=TEMPLATE_FOLDER):
