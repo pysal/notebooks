@@ -1,3 +1,5 @@
 .DS_Store
 book/*
 notebooks/*
+.ipynb_checkpoints/*
+lib/__pycache__/*
