@@ -4,7 +4,7 @@ This project uses [`jupyter-book`](https://github.com/choldgraf/jupyter-book)
 to build a book with all the notebooks of the packages in the PySAL
 federation. The result is available at:
 
-> [http://darribas.org/notebooks](http://darribas.org/notebooks)
+> [http://pysal.org/notebooks](http://pysal.org/notebooks)
 
 ## Dependencies
 
