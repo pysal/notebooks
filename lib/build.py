@@ -9,6 +9,7 @@ NBS_FOLDER = './notebooks'
 BOOK_FOLDER = './docs'
 TEMPLATE_FOLDER = './lib/template_data'
 
+
 def pr(cmd):
     print(cmd)
     #os.system(cmd)
@@ -19,14 +20,15 @@ def pr(cmd):
         print('\n')
     return None
 
+
 def wr(content, path):
     fo = open(path, 'w')
     fo.write(content)
     fo.close()
     return None
 
-def pull_notebooks(tgt_folder=NBS_FOLDER,
-                   tmp='./tmp'):
+
+def pull_notebooks(tgt_folder=NBS_FOLDER, tmp='./tmp'):
     '''
     Download Master branch from meta package, extract notebooks and move to
     target folder
@@ -71,6 +73,7 @@ def pull_notebooks(tgt_folder=NBS_FOLDER,
     print(f"\nNew notebooks collected in {round(t1-t0)} seconds")
     return None
 
+
 def test_notebooks(nbs_folder=NBS_FOLDER, execute=True):
     '''
     Execute notebooks in `nbs_folder`
@@ -94,12 +97,14 @@ def test_notebooks(nbs_folder=NBS_FOLDER, execute=True):
         pr(cmd)
     return None
 
+
 def test_convert(nbs_folder=NBS_FOLDER):
     all_ipynbs = list(Path(nbs_folder).rglob("*.ipynb"))
     for nb in all_ipynbs:
         nb = str(nb)
         pr(f"jupyter nbconvert --to markdown --stdout {nb}")
     return None
+
 
 def setup_book(bk_folder=BOOK_FOLDER, nbs_folder=NBS_FOLDER):
     '''
@@ -135,10 +140,12 @@ def setup_book(bk_folder=BOOK_FOLDER, nbs_folder=NBS_FOLDER):
     # Config, logo, favicon
     pr(f'cp {TEMPLATE_FOLDER}/_config.yml {bk_folder}/_config.yml')
     pr(f'cp {TEMPLATE_FOLDER}/logo.png {bk_folder}/assets/images/logo.png')
-    pr(f'cp {TEMPLATE_FOLDER}/pysal_favicon.ico {bk_folder}/assets/images/pysal_favicon.ico')
+    pr(f'cp {TEMPLATE_FOLDER}/pysal_favicon.ico {bk_folder}/assets/images/pysal_favicon.ico'
+       )
     # Build book
     pr(f'jupyter-book build {bk_folder}')
     return None
+
 
 def build_toc(base_toc, nbs_folder=NBS_FOLDER):
     '''
@@ -163,16 +170,25 @@ def build_toc(base_toc, nbs_folder=NBS_FOLDER):
                    if i[-6:]=='.ipynb']
             sections = ''
             for nb in nbs:
-                sections += build_entry(nb.replace('.ipynb', ''), 
-                                        f'/{folder}/{pkg}/{nb.replace(".ipynb", "")}')
+                sections += build_entry(
+                    nb.replace('.ipynb', ''),
+                    f'/{folder}/{pkg}/{nb.replace(".ipynb", "")}')
             sections = sections.replace('\n\n', '\n').replace('\n', '\n  ')
             # Build PKG entry
-            toc += build_entry(pkg, f'/{folder}/{pkg}/intro',
-                    sections=sections, not_numbered=True)
+            toc += build_entry(pkg,
+                               f'/{folder}/{pkg}/intro',
+                               sections=sections,
+                               not_numbered=True)
     return toc
 
-def build_entry(title=None, url=None, clas=None, sections=None, not_numbered=False,
-        divider=False, header=None):
+
+def build_entry(title=None,
+                url=None,
+                clas=None,
+                sections=None,
+                not_numbered=False,
+                divider=False,
+                header=None):
     '''
     Build entry in toc file
     '''
@@ -193,6 +209,7 @@ def build_entry(title=None, url=None, clas=None, sections=None, not_numbered=Fal
         entry += f'- header: {header}\n'
     return entry
 
+
 def parse_toc_intro(toc, base_path):
     lines = toc.split('\n')
     intros = {}
@@ -204,6 +221,7 @@ def parse_toc_intro(toc, base_path):
             intros[pkg] = f"{base_path}/{dom}/{pkg}/intro.md"
     return intros
 
+
 def write_pkg_intro(pkg, path):
     url = f"https://raw.githubusercontent.com/pysal/{pkg}/master/README.md"
     print(f"\tGetting {url} into\n\t\t{path}")
@@ -214,16 +232,13 @@ def write_pkg_intro(pkg, path):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description="Pull notebooks/build book")
-    parser.add_argument('--pull', 
+    parser.add_argument('--pull',
                         help='Download notebooks from federated packages',
                         action="store_true")
-    parser.add_argument('--build', 
-                        help='Build book',
-                        action="store_true")
+    parser.add_argument('--build', help='Build book', action="store_true")
     args = parser.parse_args()
 
     if args.pull:
-        pull_src_notebooks()
+        pull_notebooks()
     if args.build:
         toc = setup_book()
-
