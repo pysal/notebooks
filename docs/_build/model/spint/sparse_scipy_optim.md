@@ -2,6 +2,8 @@
 redirect_from:
   - "/model/spint/sparse-scipy-optim"
 interact_link: content/model/spint/sparse_scipy_optim.ipynb
+kernel_name: python2
+has_widgets: false
 title: 'sparse_scipy_optim'
 prev_page:
   url: /model/spint/New_DistanceBand
@@ -13,34 +15,46 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import pandas as pd
 import scipy.optimize as sc
 import scipy.sparse as sp
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 data = np.random.poisson(100, (10000,1))
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 data = sp.csr_matrix(data)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def poiss_loglike(x, data, a):
     print x
@@ -49,9 +63,12 @@ def poiss_loglike(x, data, a):
 
 params = sc.fmin(poiss_loglike, 0, args=(data ,1))
 print params
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [ 0.]
@@ -135,5 +152,8 @@ Optimization terminated successfully.
          Iterations: 38
          Function evaluations: 76
 [ 99.767625]
-
 ```
+</div>
+</div>
+</div>
+

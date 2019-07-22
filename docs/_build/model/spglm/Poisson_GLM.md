@@ -2,6 +2,8 @@
 redirect_from:
   - "/model/spglm/poisson-glm"
 interact_link: content/model/spglm/Poisson_GLM.ipynb
+kernel_name: python3
+has_widgets: false
 title: 'Poisson_GLM'
 prev_page:
   url: /model/spglm/intro
@@ -13,19 +15,23 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-from spglm.glm import GLM
-from spglm.family import Poisson
-import libpysal.api as ps
+from pysal.model.spglm.glm import GLM
+from pysal.model.spglm.family import Poisson
+import pysal.lib.api as ps
 import numpy as np
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Load sample dataset - columbus dataset 
 db = ps.open(ps.get_path('columbus.dbf'),'r')
@@ -41,12 +47,16 @@ X = []
 X.append(db.by_col("INC"))
 X.append(db.by_col("CRIME"))
 X = np.array(X).T
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Estimate Poisson GLM
 
@@ -55,65 +65,93 @@ model = GLM(y, X, family=Poisson()) #Set family to Poisson family object for Poi
 
 #Then use the fit method to estimate coefficients and compute diagnostics
 results = model.fit()
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Estimated prameters, intercept is always the first column on the left
 print(results.params)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [ 3.92159085  0.01183491 -0.01371397]
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Parameter standard errors
 print(results.bse)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [0.13049161 0.00511599 0.00193769]
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Parameter t-values
 print(results.tvalues)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [30.0524361   2.31331634 -7.07748998]
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Model AIC
 print(results.aic)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 500.8518417993879
-
 ```
+</div>
+</div>
+</div>
+

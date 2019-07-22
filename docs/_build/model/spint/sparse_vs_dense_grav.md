@@ -2,6 +2,8 @@
 redirect_from:
   - "/model/spint/sparse-vs-dense-grav"
 interact_link: content/model/spint/sparse_vs_dense_grav.ipynb
+kernel_name: python2
+has_widgets: false
 title: 'sparse_vs_dense_grav'
 prev_page:
   url: /model/spint/intro
@@ -13,8 +15,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import numpy as np
 import pandas as pd
@@ -40,18 +42,24 @@ def timeit(method):
         return result, elapsed
 
     return timed
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Populating the interactive namespace from numpy and matplotlib
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 @timeit
 def gravity(f ,o, d, o_vars, d_vars, dij, cost='exp', framework='glm'):
@@ -75,12 +83,16 @@ def doubly(f ,o, d, o_vars, d_vars, dij, cost='exp', framework='glm'):
 
 
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def sim_data(n):
     o = np.tile(np.arange(n),n)
@@ -101,12 +113,16 @@ def sim_data(n):
 
 
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def loop(func, start, stop, step, framework='glm'):
     results = []
@@ -120,12 +136,16 @@ def loop(func, start, stop, step, framework='glm'):
 
 
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #copy results over from notebook in sparse branch
 sp_grav = np.array([0.009379863739013672,
@@ -207,20 +227,27 @@ sp_doub = np.array([0.01020193099975586,
  0.6679189205169678,
  0.7664568424224854,
  0.8878300189971924])
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 grav = loop(gravity, 25, 500, 25)
 prod = loop(production, 25, 500, 25)
 att = loop(attraction, 25, 500, 25)
 doub = loop(doubly, 25, 500, 25)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [  4.00003765e-01  -5.00082127e-05]
@@ -299,30 +326,39 @@ doub = loop(doubly, 25, 500, 25)
 [  7.95999344e+00  -5.00053746e-05]
 [  8.69617289e+00  -5.00056379e-05]
 [  8.54361439e+00  -4.99613448e-05]
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 x = np.arange(25, 500, 25)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 plt.plot(x, grav, x, sp_grav)
 plt.legend(('dense', 'sparse'))
 plt.title('Sparse vs Dense GLM Unconstrained Gravity Model')
 plt.xlabel('Sample Size')
 plt.ylabel('Seconds')
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -331,24 +367,34 @@ plt.ylabel('Seconds')
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spint/sparse_vs_dense_grav_7_1.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 plt.plot(x, prod, x, sp_prod)
 plt.legend(('dense', 'sparse'))
 plt.title('Sparse vs Dense GLM Production-Constrained Gravity Model')
 plt.xlabel('Sample Size')
 plt.ylabel('Seconds')
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -357,24 +403,34 @@ plt.ylabel('Seconds')
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spint/sparse_vs_dense_grav_8_1.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 plt.plot(x, att, x, sp_att)
 plt.legend(('dense', 'sparse'))
 plt.title('Sparse vs Dense GLM Attraction-Constrained Gravity Model')
 plt.xlabel('Sample Size')
 plt.ylabel('Seconds')
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -383,24 +439,34 @@ plt.ylabel('Seconds')
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spint/sparse_vs_dense_grav_9_1.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 plt.plot(x, doub, x, sp_doub)
 plt.legend(('dense', 'sparse'))
 plt.title('Sparse vs Dense GLM Doubly-Constrained Gravity Model')
 plt.xlabel('Sample Size')
 plt.ylabel('Seconds')
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -409,7 +475,15 @@ plt.ylabel('Seconds')
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spint/sparse_vs_dense_grav_10_1.png)
+
+</div>
+</div>
+</div>
 

@@ -1,7 +1,7 @@
 ---
-redirect_from:
-  - "/explore/pointpats/process"
 interact_link: content/explore/pointpats/process.ipynb
+kernel_name: python3
+has_widgets: false
 title: 'process'
 prev_page:
   url: /explore/pointpats/pointpattern
@@ -11,6 +11,7 @@ next_page:
   title: 'spaghetti'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+
 
 # Point Processes
 
@@ -30,15 +31,21 @@ A python file named "process.py" contains several point process classes with whi
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-from pointpats import PoissonPointProcess, PoissonClusterPointProcess, Window, poly_from_bbox, PointPattern
-import libpysal as ps
-from libpysal.cg import shapely_ext
+from pysal.explore.pointpats import PoissonPointProcess, PoissonClusterPointProcess, Window, poly_from_bbox, PointPattern
+import pysal.lib as ps
+from pysal.lib.cg import shapely_ext
 %matplotlib inline
 import numpy as np
 #import matplotlib.pyplot as plt
+
 ```
+</div>
+
+</div>
+
 
 
 ## Random Patterns
@@ -56,42 +63,59 @@ There are two types of CSR:
     * The number of events occurring within a finite region $A$ is a random variable $\dot{N}$ following a Poisson distribution with mean $\lambda|A|$, with $|A|$ denoting area of $A$ and $\lambda$ denoting the intensity of the point pattern.
     * Given the total number of events $\dot{N}$ occurring within an area $A$, the locations of the $\dot{N}$ events represent an independent random sample of $\dot{N}$ locations where each location is equally likely to be chosen as an event.
 
+
+
 ### Simulating CSR
 We are going to generate several point patterns (200 events) from CSR within Virginia state boundary.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 # open the virginia polygon shapefile
 va = ps.io.open(ps.examples.get_path("virginia.shp"))
 polys = [shp for shp in va]
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 # Create the exterior polygons for VA from the union of the county shapes
 state = shapely_ext.cascaded_union(polys)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 # create window from virginia state boundary
 window = Window(state.parts)
+
 ```
+</div>
+
+</div>
+
 
 
 #### 1. Generate a point series from N-conditioned CSR
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 # simulate a csr process in the same window (200 points, 1 realization)
 # by specifying "asPP" false, we can generate a point series
@@ -99,10 +123,12 @@ window = Window(state.parts)
 np.random.seed(5)
 samples = PoissonPointProcess(window, 200, 1, conditioning=False, asPP=False)
 samples
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -111,16 +137,22 @@ samples
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 samples.realizations[0] # simulated event points
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -328,18 +360,24 @@ array([[-76.3326571 ,  36.57893856],
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 # build a point pattern from the simulated point series
 pp_csr = PointPattern(samples.realizations[0])
 pp_csr
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -348,28 +386,42 @@ pp_csr
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_csr.plot(window=True, hull=True, title='Random Point Pattern')
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/process_11_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_csr.n
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -378,12 +430,18 @@ pp_csr.n
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 #### 2. Generate a point series from $\lambda$-conditioned CSR
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 # simulate a csr process in the same window (200 points, 1 realization)
 # by specifying "asPP" false, we can generate a point series
@@ -391,10 +449,12 @@ pp_csr.n
 np.random.seed(5)
 samples = PoissonPointProcess(window, 200, 1, conditioning=True, asPP=False)
 samples
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -403,16 +463,22 @@ samples
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 samples.realizations[0] # simulated points
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -608,18 +674,24 @@ array([[-79.55664806,  38.25720619],
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 # build a point pattern from the simulated point series
 pp_csr = PointPattern(samples.realizations[0])
 pp_csr
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -628,28 +700,42 @@ pp_csr
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_csr.plot(window=True, hull=True, title='Random Point Pattern')
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/process_17_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_csr.n
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -658,14 +744,22 @@ pp_csr.n
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 The simulated point pattern has $194$ events rather than the Possion mean $200$.
+
+
 
 #### 3. Generate a point pattern from N-conditioned CSR
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 # simulate a csr process in the same window (200 points, 1 realization)
 # by specifying "asPP" True, we can generate a point pattern
@@ -673,10 +767,12 @@ The simulated point pattern has $194$ events rather than the Possion mean $200$.
 np.random.seed(5)
 samples = PoissonPointProcess(window, 200, 1, conditioning=False, asPP=True)
 samples
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -685,17 +781,23 @@ samples
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_csr = samples.realizations[0] # simulated point pattern
 pp_csr
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -704,28 +806,42 @@ pp_csr
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_csr.plot(window=True, hull=True, title='Random Point Pattern')
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/process_23_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_csr.n
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -734,12 +850,18 @@ pp_csr.n
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 #### 4. Generate a point pattern of size 200 from a $\lambda$-conditioned CSR
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 # simulate a csr process in the same window (200 points, 1 realization)
 # by specifying "asPP" True, we can generate a point pattern
@@ -747,10 +869,12 @@ pp_csr.n
 np.random.seed(5)
 samples = PoissonPointProcess(window, 200, 1, conditioning=True, asPP=True)
 samples
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -759,17 +883,23 @@ samples
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_csr = samples.realizations[0] # simulated point pattern
 pp_csr
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -778,34 +908,53 @@ pp_csr
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_csr.plot(window=True, hull=True, title='Random Point Pattern')
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/process_28_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_csr.n
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
 188
 ```
+
+
+</div>
+</div>
+</div>
 
 
 
@@ -818,19 +967,24 @@ Clustered Patterns are more grouped than random patterns. Visually, we can obser
 
 We are going to focus on simulating correlated point process in this notebook. One example of correlated point process is Poisson cluster process. Two stages are involved in simulating a Poisson cluster process. First, parent events are simulted from a $\lambda$-conditioned or $N$-conditioned CSR. Second, $n$ offspring events for each parent event are simulated within a circle of radius $r$ centered on the parent. Offspring events are independently and identically distributed.
 
+
+
 #### 1. Simulate a Poisson cluster process of size 200 with 10 parents and 20 children within 0.5 units of each parent (parent events:  $N$-conditioned CSR)
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 np.random.seed(5)
 csamples = PoissonClusterPointProcess(window, 200, 10, 0.5, 1, asPP=True, conditioning=False)
 csamples
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -839,16 +993,22 @@ csamples
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 csamples.parameters #number of total events for each realization 
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -857,16 +1017,22 @@ csamples.parameters #number of total events for each realization
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 csamples.num_parents #number of parent events for each realization 
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -875,16 +1041,22 @@ csamples.num_parents #number of parent events for each realization
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 csamples.children # number of children events centered on each parent event
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -893,17 +1065,23 @@ csamples.children # number of children events centered on each parent event
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_pcp = csamples.realizations[0]
 pp_pcp
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -912,35 +1090,53 @@ pp_pcp
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_pcp.plot(window=True, hull=True, title='Clustered Point Pattern') #plot the first realization
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/process_37_0.png)
+
+</div>
+</div>
+</div>
+
 
 
 It is obvious that there are several clusters in the above point pattern.
+
+
 
 #### 2. Simulate a Poisson cluster process of size 200 with 10 parents and 20 children within 0.5 units of each parent (parent events:  $\lambda$-conditioned CSR)
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import numpy as np
 np.random.seed(10)
 csamples = PoissonClusterPointProcess(window, 200, 10, 0.5, 1, asPP=True, conditioning=True)
 csamples
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -949,16 +1145,22 @@ csamples
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 csamples.parameters #number of events for the realization might not be equal to 200
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -967,16 +1169,22 @@ csamples.parameters #number of events for the realization might not be equal to 
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 csamples.num_parents #number of parent events for the realization, not equal to 10
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -985,16 +1193,22 @@ csamples.num_parents #number of parent events for the realization, not equal to 
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 csamples.children # number of children events centered on each parent event
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1003,33 +1217,55 @@ csamples.children # number of children events centered on each parent event
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_pcp = csamples.realizations[0]
 pp_pcp.plot(window=True, hull=True, title='Clustered Point Pattern')
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/process_44_0.png)
+
+</div>
+</div>
+</div>
+
 
 
 #### 3. Simulate a Poisson cluster process of size 200 with 5 parents and 40 children within 0.5 units of each parent (parent events:  $N$-conditioned CSR)
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 np.random.seed(10)
 csamples = PoissonClusterPointProcess(window, 200, 5, 0.5, 1, asPP=True)
 pp_pcp = csamples.realizations[0]
 pp_pcp.plot(window=True, hull=True, title='Clustered Point Pattern')
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/process_46_0.png)
+
+</div>
+</div>
+</div>
 

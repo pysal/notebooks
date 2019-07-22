@@ -23,24 +23,6 @@
 # Built Automatically #
 
 - divider: true
-- header: Dynamics
-
-- title: giddy
-  url: /dynamics/giddy/intro
-  not_numbered: true
-  sections:
-  - title: Rank_based_Methods
-    url: /dynamics/giddy/Rank_based_Methods
-  - title: directional
-    url: /dynamics/giddy/directional
-  - title: Rank_Markov
-    url: /dynamics/giddy/Rank_Markov
-  - title: Mobility_measures
-    url: /dynamics/giddy/Mobility_measures
-  - title: Markov_Based_Methods
-    url: /dynamics/giddy/Markov_Based_Methods
-  
-- divider: true
 - header: Explore
 
 - title: esda
@@ -49,6 +31,21 @@
   sections:
   - title: Spatial_Autocorrelation_for_Areal_Unit_Data
     url: /explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data
+  
+- title: giddy
+  url: /explore/giddy/intro
+  not_numbered: true
+  sections:
+  - title: Rank_based_Methods
+    url: /explore/giddy/Rank_based_Methods
+  - title: directional
+    url: /explore/giddy/directional
+  - title: Rank_Markov
+    url: /explore/giddy/Rank_Markov
+  - title: Mobility_measures
+    url: /explore/giddy/Mobility_measures
+  - title: Markov_Based_Methods
+    url: /explore/giddy/Markov_Based_Methods
   
 - title: pointpats
   url: /explore/pointpats/intro
@@ -84,6 +81,28 @@
   - title: Network_Usage
     url: /explore/spaghetti/Network_Usage
   
+- title: segregation
+  url: /explore/segregation/intro
+  not_numbered: true
+  sections:
+  - title: profile_wrappers_example
+    url: /explore/segregation/profile_wrappers_example
+  - title: decomposition_wrapper_example
+    url: /explore/segregation/decomposition_wrapper_example
+  - title: inference_wrappers_example
+    url: /explore/segregation/inference_wrappers_example
+  - title: nonspatial_examples
+    url: /explore/segregation/nonspatial_examples
+  - title: spatial_examples
+    url: /explore/segregation/spatial_examples
+  
+- title: inequality
+  url: /explore/inequality/intro
+  not_numbered: true
+  sections:
+  - title: gini
+    url: /explore/inequality/gini
+  
 - divider: true
 - header: Viz
 
@@ -91,6 +110,10 @@
   url: /viz/mapclassify/intro
   not_numbered: true
   sections:
+  - title: plot
+    url: /viz/mapclassify/plot
+  - title: deprecate
+    url: /viz/mapclassify/deprecate
   - title: south
     url: /viz/mapclassify/south
   - title: maximum_breaks
@@ -100,8 +123,6 @@
   url: /viz/splot/intro
   not_numbered: true
   sections:
-  - title: moran_bv_test
-    url: /viz/splot/moran_bv_test
   - title: esda_moran_matrix_viz
     url: /viz/splot/esda_moran_matrix_viz
   - title: libpysal_non_planar_joins_viz
@@ -143,8 +164,6 @@
     url: /model/spint/validate_gravity
   - title: dispersion_test
     url: /model/spint/dispersion_test
-  - title: glm_speed
-    url: /model/spint/glm_speed
   - title: netW
     url: /model/spint/netW
   - title: sparse_categorical
@@ -178,4 +197,31 @@
     url: /model/spglm/Gaussian_GLM
   - title: Binomial_GLM
     url: /model/spglm/Binomial_GLM
+  
+- title: mgwr
+  url: /model/mgwr/intro
+  not_numbered: true
+  sections:
+  - title: GWR_Georgia_example
+    url: /model/mgwr/GWR_Georgia_example
+  - title: GWR_prediction_example
+    url: /model/mgwr/GWR_prediction_example
+  - title: GWR_MGWR_example
+    url: /model/mgwr/GWR_MGWR_example
+  - title: MGWR_Georgia_example
+    url: /model/mgwr/MGWR_Georgia_example
+  
+- divider: true
+- header: Lib
+
+- title: libpysal
+  url: /lib/libpysal/intro
+  not_numbered: true
+  sections:
+  - title: io
+    url: /lib/libpysal/io
+  - title: weights
+    url: /lib/libpysal/weights
+  - title: voronoi
+    url: /lib/libpysal/voronoi
   

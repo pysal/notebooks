@@ -2,6 +2,8 @@
 redirect_from:
   - "/model/spint/new-distanceband"
 interact_link: content/model/spint/New_DistanceBand.ipynb
+kernel_name: Python [Root]
+has_widgets: false
 title: 'New_DistanceBand'
 prev_page:
   url: /model/spint/Example_NYCBikes_AllFeatures
@@ -13,8 +15,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import numpy as np
 from scipy.spatial import distance
@@ -26,12 +28,16 @@ from pysal.weights import WSP, WSP2W
 from scipy.spatial import distance_matrix
 import scipy.sparse as sp
 from pysal.common import KDTree
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 class DistanceBand(W):
     """
@@ -135,12 +141,16 @@ class DistanceBand(W):
             zeros = dist > threshold
             dist[zeros] = 0
         return sp.csr_matrix(dist)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 x = np.random.randint(0, 1000, 1000)
 y = np.random.randint(0, 1000, 1000)
@@ -149,38 +159,50 @@ z = np.random.randint(0, 1000, 1000)
 
 data = zip(x.ravel(), y.ravel(), w.ravel(), z.ravel())
 tree = KDTree(data)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #print np.allclose(Distance.DistanceBand(tree, threshold=500, alpha=-1.5, binary=True).full()[0], DistanceBand(tree, threshold=500, alpha=-1.5, binary=True).full()[0])
 #print np.allclose(Distance.DistanceBand(tree, threshold=500, alpha=-1.5, binary=False).full()[0], DistanceBand(tree, threshold=500, alpha=-1.5, binary=False).full()[0])
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %time Distance.DistanceBand(tree, threshold=500, alpha=-1.5, binary=True)
 %time DistanceBand(tree, threshold=500, alpha=-1.5, binary=True, build_sp=True)
 
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 CPU times: user 1.42 s, sys: 17.9 ms, total: 1.44 s
 Wall time: 1.44 s
 CPU times: user 366 ms, sys: 11.3 ms, total: 377 ms
 Wall time: 376 ms
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -189,26 +211,34 @@ Wall time: 376 ms
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %time Distance.DistanceBand(tree, threshold=500, alpha=-1.5, binary=True)
 %time DistanceBand(tree, threshold=500, alpha=-1.5, binary=True, build_sp=False)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 CPU times: user 1.37 s, sys: 21.7 ms, total: 1.39 s
 Wall time: 1.4 s
 CPU times: user 69.9 ms, sys: 4.84 ms, total: 74.7 ms
 Wall time: 74.7 ms
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -217,26 +247,34 @@ Wall time: 74.7 ms
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %time Distance.DistanceBand(tree, threshold=500, alpha=-1.5, binary=False)
 %time DistanceBand(tree, threshold=500, alpha=-1.5, binary=False, build_sp=True)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 CPU times: user 1.28 s, sys: 44 ms, total: 1.32 s
 Wall time: 1.3 s
 CPU times: user 199 ms, sys: 10.9 ms, total: 210 ms
 Wall time: 210 ms
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -245,26 +283,34 @@ Wall time: 210 ms
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %time Distance.DistanceBand(tree, threshold=500, alpha=-1.5, binary=False)
 %time DistanceBand(tree, threshold=500, alpha=-1.5, binary=False, build_sp=False)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 CPU times: user 1.5 s, sys: 46.3 ms, total: 1.54 s
 Wall time: 1.53 s
 CPU times: user 67.1 ms, sys: 5.1 ms, total: 72.2 ms
 Wall time: 72.2 ms
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -272,4 +318,8 @@ Wall time: 72.2 ms
 <__main__.DistanceBand at 0x117d18e90>
 ```
 
+
+</div>
+</div>
+</div>
 

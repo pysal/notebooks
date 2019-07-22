@@ -2,6 +2,8 @@
 redirect_from:
   - "/model/spint/example-nycbikes-allfeatures"
 interact_link: content/model/spint/Example_NYCBikes_AllFeatures.ipynb
+kernel_name: Python [spint]
+has_widgets: false
 title: 'Example_NYCBikes_AllFeatures'
 prev_page:
   url: /model/spint/sparse_vs_dense_grav
@@ -13,8 +15,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 from pysal.contrib.spint.gravity import  BaseGravity, Gravity, Production, Attraction, Doubly
 from pysal.contrib.spint.dispersion import phi_disp
@@ -31,29 +33,38 @@ import matplotlib as mpl
 from mpl_toolkits.basemap import Basemap
 import pyproj as pj
 from shapely.geometry import Polygon, Point
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Populating the interactive namespace from numpy and matplotlib
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Load NYC bike data - trips between census tract centroids
 bikes = pd.read_csv(ps.examples.get_path('nyc_bikes_ct.csv'))
 bikes.head()
+
 ```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 
-
-
-<div markdown="0">
+<div markdown="0" class="output output_html">
 <div>
 <table border="1" class="dataframe">
   <thead>
@@ -210,10 +221,14 @@ bikes.head()
 </div>
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Process data
 
@@ -251,18 +266,24 @@ o = bikes['o_tract'].astype(str).values.reshape((-1,1))
 d = bikes['d_tract'].astype(str).values.reshape((-1,1))
 
 print len(bikes), ' OD pairs between census tracts after filtering out intrazonal flows'
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 14042  OD pairs between census tracts after filtering out intrazonal flows
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #First we fit a basic gravity model and examine the parameters and model fit
 
@@ -274,9 +295,12 @@ print 'Adjusted psuedo R2: ', grav.adj_pseudoR2
 print 'Adjusted D2: ', grav.adj_D2
 print 'SRMSE: ', grav.SRMSE
 print 'Sorensen similarity index: ', grav.SSI
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [ 0.09898099  0.05748786  0.50319944  0.06920194  0.06408526  0.39371417
@@ -285,12 +309,15 @@ Adjusted psuedo R2:  0.772607968896
 Adjusted D2:  0.77684235847
 SRMSE:  0.924994119459
 Sorensen similarity index:  0.746131903798
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Next we fit a production-constrained model
 
@@ -302,9 +329,12 @@ print 'Adjusted psuedo R2: ', prod.adj_pseudoR2
 print 'Adjusted D2: ', prod.adj_D2
 print 'SRMSE: ', prod.SRMSE
 print 'Sorensen similarity index: ', prod.SSI
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [ 0.00437122  0.06794379  0.85720958 -0.00227555]
@@ -312,12 +342,15 @@ Adjusted psuedo R2:  0.832399632692
 Adjusted D2:  0.836963213893
 SRMSE:  0.794147843751
 Sorensen similarity index:  0.777965361121
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Next we fit an attraction-constrained model
 
@@ -329,9 +362,12 @@ print 'Adjusted psuedo R2: ', att.adj_pseudoR2
 print 'Adjusted D2: ', att.adj_D2
 print 'SRMSE: ', att.SRMSE
 print 'Sorensen similarity index: ', att.SSI
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [ 0.05281568  0.05689814  0.85161213 -0.00229343]
@@ -339,12 +375,15 @@ Adjusted psuedo R2:  0.83252844463
 Adjusted D2:  0.83709408585
 SRMSE:  0.792604389867
 Sorensen similarity index:  0.777557481635
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Finally, we fit the doubly constrained model
 
@@ -356,9 +395,12 @@ print 'Adjusted psuedo R2: ', doub.adj_pseudoR2
 print 'Adjusted D2: ', doub.adj_D2
 print 'SRMSE: ', doub.SRMSE
 print 'Sorensen similarity index: ', doub.SSI
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [-0.00232112]
@@ -366,12 +408,15 @@ Adjusted psuedo R2:  0.895575966583
 Adjusted D2:  0.900342219279
 SRMSE:  0.627981455879
 Sorensen similarity index:  0.818294076455
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Next, we can test the models for violations of the equidispersion assumption of Poisson models
 
@@ -386,21 +431,27 @@ print phi_disp(doub)
 #which are statistically significant according the tvalues (large)
 #and pvalues (essentially zero). It does however decrease as more 
 #constraints are introduced and model fit increases
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [  2.99777896e+002   2.38580701e+001   4.17517731e-126]
 [  2.06092255e+002   2.60328203e+001   1.05289599e-149]
 [  2.07645243e+002   2.64229678e+001   3.73180682e-154]
 [  1.18261248e+002   2.96580921e+001   1.33362721e-193]
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #As a result we can compare our standard errors and tvalues for a Poisson model to a QuasiPoisson
 
@@ -423,9 +474,12 @@ print Quasi.tvalues[-4:]
 #We would even consdier rejecting the statistical significant of of the 
 #parameter estimate on destination building square footage because its abolsute 
 # value is less than 1.96 (96% confidence level) 
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Production-constrained Poisson model standard errors and tvalues
@@ -436,12 +490,15 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 [ 0.00437122  0.06794379  0.85720958 -0.00227555]
 [  7.21095039e-03   5.08251633e-03   9.88533597e-03   1.44411496e-05]
 [   0.60619162   13.36813995   86.71527071 -157.57383972]
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #We can also estimate a local model which subsets the data
 #For a production constrained model this means each local model
@@ -449,21 +506,27 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 #parameter estimates for each origin, we can then map them.
 
 local_prod = prod.local()
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #There is a set of local parameter estimates, tvalues, and pvalues for each covariate
 #And there is a set of local values for each diagnostic
 
 local_prod.keys()
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -491,10 +554,14 @@ local_prod.keys()
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Prep geometry for plotting
 
@@ -521,12 +588,16 @@ local_vals = pd.merge(local_vals, man_tracts[['CT2010S', 'geometry']], left_on='
 local_vals = gp.GeoDataFrame(local_vals)
 
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Plot local "cost" values: darker blue is stronger distance decay; grey is no data
 
@@ -538,10 +609,12 @@ no_tracts.plot('test', cmap='copper', ax=ax)
 local_vals.plot('inv_betas', cmap='Blues', ax=ax)
 plt.xlim(-74.02, -73.95)
 plt.ylim(40.7, 40.78)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -550,14 +623,22 @@ plt.ylim(40.7, 40.78)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spint/Example_NYCBikes_AllFeatures_12_1.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Plot local estimates for destination capacity: darker red is larger effect; grey is no data
 
@@ -570,10 +651,12 @@ local_vals.plot('cap', cmap='Reds', ax=ax)
 plt.legend()
 plt.xlim(-74.02, -73.95)
 plt.ylim(40.7, 40.78)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -582,14 +665,22 @@ plt.ylim(40.7, 40.78)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spint/Example_NYCBikes_AllFeatures_13_1.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Plot local estimates for # of housing units: darker red is larger effect; grey is no data
 
@@ -602,10 +693,12 @@ local_vals.plot('house', cmap='Reds', ax=ax)
 plt.legend()
 plt.xlim(-74.02, -73.95)
 plt.ylim(40.7, 40.78)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -614,14 +707,22 @@ plt.ylim(40.7, 40.78)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spint/Example_NYCBikes_AllFeatures_14_1.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Plot local estimates for destination building sq footage: darker red is larger effect; grey is no data
 
@@ -634,10 +735,12 @@ local_vals.plot('foot', cmap='Reds', ax=ax)
 plt.legend()
 plt.xlim(-74.02, -73.95)
 plt.ylim(40.7, 40.78)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -646,24 +749,36 @@ plt.ylim(40.7, 40.78)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spint/Example_NYCBikes_AllFeatures_15_1.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Drop NA values
 labels = ['start station longitude', 'start station latitude', 'end station longitude', 'end station latitude']
 bikes = bikes.dropna(subset=labels)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Prep OD data as vectors and then compute origin or destination focused distance-based weights
 
@@ -680,20 +795,26 @@ wo = ps.weights.DistanceBand(origins, 999, alpha=-1.5, binary=False, build_sp=Fa
 dests = vecs[:,3:5]
 wd = ps.weights.DistanceBand(dests, 999, alpha=-1.5, binary=False, build_sp=False, silent=True)
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Origin focused Moran's I of OD pairs as vectors in space
 vmo = VecMoran(vecs, wo, permutations=1)
 vmo.I
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -702,18 +823,24 @@ vmo.I
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Destination focused Moran's I of OD pairs as vectors in space
 vmd = VecMoran(vecs, wd, permutations=1)
 vmd.I
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -722,14 +849,22 @@ vmd.I
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #No substantial examples to show for spatial interaction weights
 #Will add them once there is a working SAR Lag spatial interaction
 #model implementation avaialble
 #from pysal.weights.spintW import vecW, netW, ODW
+
 ```
+</div>
+
+</div>
 

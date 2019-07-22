@@ -1,7 +1,7 @@
 ---
-redirect_from:
-  - "/explore/pointpats/centrography"
 interact_link: content/explore/pointpats/centrography.ipynb
+kernel_name: python3
+has_widgets: false
 title: 'centrography'
 prev_page:
   url: /explore/pointpats/distance_statistics
@@ -11,6 +11,7 @@ next_page:
   title: 'Minimum_bounding_circle'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+
 
 # Centrography of Point Patterns
 
@@ -26,6 +27,8 @@ This notebook introduces three types of centrography analysis for point patterns
 * [Shape Analysis](#Shape-Analysis)
 
 We also illustrate centrography analysis using two simulated datasets. See [Another Example](#Another-Example)
+
+
 
 The python file **centrography.py** contains several functions with which we can conduct centrography analysis.
 * Central Tendency
@@ -43,10 +46,11 @@ All of the above functions operate on a series of coordinate pairs. That is, the
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import numpy as np
-from pointpats import PointPattern
+from pysal.explore.pointpats import PointPattern
 %matplotlib inline
 import matplotlib.pyplot as plt
 points = [[66.22, 32.54], [22.52, 22.39], [31.01, 81.21],
@@ -55,13 +59,16 @@ points = [[66.22, 32.54], [22.52, 22.39], [31.01, 81.21],
           [89.78, 42.53], [65.19, 92.08], [54.46, 8.48]]
 pp = PointPattern(points) #create a point pattern "pp" from list
 pp.points 
+
 ```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 
-
-
-<div markdown="0">
+<div markdown="0" class="output output_html">
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -151,16 +158,22 @@ pp.points
 </div>
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 type(pp.points)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -169,28 +182,47 @@ pandas.core.frame.DataFrame
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 We can use PointPattern class method **plot** to visualize **pp**.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp.plot()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_5_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #import centragraphy analysis functions 
-from pointpats.centrography import hull, mbr, mean_center, weighted_mean_center, manhattan_median, std_distance,euclidean_median,ellipse
+from pysal.explore.pointpats.centrography import hull, mbr, mean_center, weighted_mean_center, manhattan_median, std_distance,euclidean_median,ellipse
+
 ```
+</div>
+
+</div>
+
 
 
 ## Central Tendency
@@ -204,14 +236,17 @@ $$y_{mc}=\frac{1}{n} \sum^n_{i=1}y_i$$
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 mc = mean_center(pp.points)
 mc
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -220,18 +255,24 @@ array([52.57166667, 46.17166667])
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp.plot()
 plt.plot(mc[0], mc[1], 'b^', label='Mean Center')
 plt.legend(numpoints=1)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -240,9 +281,18 @@ plt.legend(numpoints=1)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_9_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 ### Weighted Mean Center $(x_{wmc},y_{wmc})$
@@ -254,14 +304,17 @@ Weighted mean center is meant for marked point patterns. Aside from the first ar
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 weights = np.arange(12)
 weights
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -270,17 +323,23 @@ array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11])
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 wmc = weighted_mean_center(pp.points, weights)
 wmc
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -289,19 +348,25 @@ array([60.51681818, 47.76848485])
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp.plot() #use class method "plot" to visualize point pattern
 plt.plot(mc[0], mc[1], 'b^', label='Mean Center') 
 plt.plot(wmc[0], wmc[1], 'gd', label='Weighted Mean Center')
 plt.legend(numpoints=1)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -310,9 +375,18 @@ plt.legend(numpoints=1)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_13_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 ### Manhattan Median $(x_{mm},y_{mm})$
@@ -325,14 +399,17 @@ Though Manhattan median can be found very quickly, it is not unique if you have 
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #get the number of points in point pattern "pp"
 pp.n
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -341,18 +418,24 @@ pp.n
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Manhattan Median is not unique for "pp"
 mm = manhattan_median(pp.points)
 mm
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -361,20 +444,26 @@ array([59.825, 41.23 ])
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp.plot()
 plt.plot(mc[0], mc[1], 'b^', label='Mean Center')
 plt.plot(wmc[0], wmc[1], 'gd', label='Weighted Mean Center')
 plt.plot(mm[0], mm[1], 'rv', label='Manhattan Median')
 plt.legend(numpoints=1)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -383,9 +472,18 @@ plt.legend(numpoints=1)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_17_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 ### Euclidean Median $(x_{em},y_{em})$
@@ -394,11 +492,14 @@ $$min  f(x_{em},y_{em})= \sum^n_{i=1} \sqrt{(x_i-x_{em})^2+(y_i-y_{em})^2}$$
 
 Euclidean Median is the location from which the sum of the Euclidean distances to all points in a distribution is a minimum. It is an optimization problem and very important for more general location allocation problems. There is no closed form solution. We can use first iterative algorithm (Kuhn and Kuenne, 1962) to approximate Euclidean Median. 
 
+
+
 Below, we define a function named median_center with the first argument **points** a series of $(x,y)$ coordinates and the second argument **crit** the convergence criterion.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def median_center(points, crit=0.0001):
     points = np.asarray(points)
@@ -424,17 +525,24 @@ def median_center(points, crit=0.0001):
         y0 = y1
                
     return x1, y1
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 median_center(pp.points, crit=.0001)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 52.57166666666668 53.178128280602785 0.606461613936105 -0.9290354286335258 466.24479074356606 1
@@ -455,10 +563,11 @@ median_center(pp.points, crit=.0001)
 54.16712204754273 54.16736766581608 0.00024561827334679265 -8.289363293556562e-05 465.8074521002288 16
 54.16736766581608 54.167510839857464 0.0001431740413835314 -4.8115880247223686e-05 465.80745208200943 17
 54.167510839857464 54.167594287646125 8.344778866131719e-05 -2.7959041396741213e-05 465.807452075824 18
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -467,21 +576,31 @@ median_center(pp.points, crit=.0001)
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 After 18 iterations, the convergence criterion is reached. The Euclidean Median is $(54.167594287646125,44.424308658832047)$.
+
+
 
 We can also call the function **euclidean_median** in pysal to calculate the Euclidean Median.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 em = euclidean_median(pp.points)
 em
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -490,12 +609,18 @@ array([54.16770671, 44.4242589 ])
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 The two results we get from **euclidean_median** function in pysal and the **median_center** function we define here are very much the same.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp.plot()
 plt.plot(mc[0], mc[1], 'b^', label='Mean Center')
@@ -503,10 +628,12 @@ plt.plot(wmc[0], wmc[1], 'gd', label='Weighted Mean Center')
 plt.plot(mm[0], mm[1], 'rv', label='Manhattan Median')
 plt.plot(em[0], em[1], 'm+', label='Euclidean Median')
 plt.legend(numpoints=1)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -515,9 +642,18 @@ plt.legend(numpoints=1)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_26_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 ## Dispersion and Orientation
@@ -530,14 +666,17 @@ Standard distance is obviously closely related to the usual definition of the st
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 stdd = std_distance(pp.points)
 stdd
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -546,12 +685,18 @@ stdd
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Plot mean center as well as the standard distance circle.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 circle1=plt.Circle((mc[0], mc[1]),stdd,color='r')
 ax = pp.plot(get_ax=True, title='Standard Distance Circle')
@@ -559,10 +704,12 @@ ax.add_artist(circle1)
 plt.plot(mc[0], mc[1], 'b^', label='Mean Center')
 ax.set_aspect('equal')
 plt.legend(numpoints=1)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -571,12 +718,23 @@ plt.legend(numpoints=1)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_30_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 From the above figure, we can observe that there are five points outside the standard distance circle which are potential outliers.
+
+
 
 ## Standard Deviational Ellipse
 
@@ -597,14 +755,17 @@ $$\theta = \displaystyle \arctan{\{ (\sum_i(x_i-\bar{x})^2-\sum_i(y_i-\bar{y})^2
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 sx, sy, theta = ellipse(pp.points)
 sx, sy, theta
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -613,17 +774,23 @@ sx, sy, theta
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 theta_degree = np.degrees(theta) #need degree of rotation to plot the ellipse
 theta_degree
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -632,12 +799,18 @@ theta_degree
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 The Standard Deviational Ellipse for the point pattern is rotated clockwise by $63.25^{\circ}$.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 from matplotlib.patches import Ellipse
 from pylab import figure, show,rand
@@ -655,21 +828,34 @@ ax.set_aspect('equal')
 plt.plot(mc[0], mc[1], 'b^', label='Mean Center')
 plt.legend(numpoints=1)
 show()
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_36_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 ## Shape Analysis
+
+
 
 ### [Convex Hull](https://en.wikipedia.org/wiki/Convex_hull)
 
@@ -677,13 +863,16 @@ The convex hull of a point pattern *pp* is the smallest convex set that contains
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 hull(pp.points)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -700,12 +889,18 @@ array([[31.01, 81.21],
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 By specifying "hull" argument **True** in PointPattern class method **plot**, we can easily plot convex hull of the point pattern.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp.plot(title='Centers', hull=True ) #plot point pattern "pp" as well as its convex hull
 plt.plot(mc[0], mc[1], 'b^', label='Mean Center')
@@ -713,10 +908,12 @@ plt.plot(wmc[0], wmc[1], 'gd', label='Weighted Mean Center')
 plt.plot(mm[0], mm[1], 'rv', label='Manhattan Median')
 plt.plot(em[0], em[1], 'm+', label='Euclidean Median')
 plt.legend(numpoints=1)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -725,9 +922,18 @@ plt.legend(numpoints=1)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_41_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 ### [Minimum Bounding Rectangle](https://en.wikipedia.org/wiki/Minimum_bounding_rectangle)
@@ -738,13 +944,16 @@ We can call **mbr** function to calculate the leftmost, downmost, rightmost, and
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 mbr(pp.points)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -753,12 +962,18 @@ mbr(pp.points)
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Thus, four vertices of the  minimum bounding rectangle is $(8.23,7.68),(98.73,7.68),(98.73,92.08),(8.23,92.08)$.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp.plot(title='Centers', window=True ) #plot point pattern "pp" as well as its Minimum Bounding Rectangle
 plt.plot(mc[0], mc[1], 'b^', label='Mean Center')
@@ -766,10 +981,12 @@ plt.plot(wmc[0], wmc[1], 'gd', label='Weighted Mean Center')
 plt.plot(mm[0], mm[1], 'rv', label='Manhattan Median')
 plt.plot(em[0], em[1], 'm+', label='Euclidean Median')
 plt.legend(numpoints=1)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -778,14 +995,22 @@ plt.legend(numpoints=1)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_45_1.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp.plot(title='Centers',  hull=True , window=True )#plot point pattern "pp", convex hull, and Minimum Bounding Rectangle
 plt.plot(mc[0], mc[1], 'b^', label='Mean Center')
@@ -793,10 +1018,12 @@ plt.plot(wmc[0], wmc[1], 'gd', label='Weighted Mean Center')
 plt.plot(mm[0], mm[1], 'rv', label='Manhattan Median')
 plt.plot(em[0], em[1], 'm+', label='Euclidean Median')
 plt.legend(numpoints=1)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -805,16 +1032,26 @@ plt.legend(numpoints=1)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_46_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 Plot Standard Distance Circle and Convex Hull.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 circle1=plt.Circle((mc[0], mc[1]),stdd,color='r',alpha=0.2)
 ax = pp.plot(get_ax=True, title='Standard Distance Circle', hull=True)
@@ -822,10 +1059,12 @@ ax.add_artist(circle1)
 plt.plot(mc[0], mc[1], 'b^', label='Mean Center')
 ax.set_aspect('equal')
 plt.legend(numpoints=1)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -834,9 +1073,18 @@ plt.legend(numpoints=1)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_48_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 ## Another Example
@@ -845,13 +1093,14 @@ We apply the above centragraphy statistics and visualization to 2 simulated rand
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #from pysal.contrib import shapely_ext
-from libpysal.cg import shapely_ext
-from pointpats import PoissonPointProcess as csr
-import libpysal as ps
-from pointpats import as_window
+from pysal.lib.cg import shapely_ext
+from pysal.explore.pointpats import PoissonPointProcess as csr
+import pysal.lib as ps
+from pysal.explore.pointpats import as_window
 #import pysal_examples
 
 # open "vautm17n" polygon shapefile
@@ -860,39 +1109,61 @@ va = ps.io.open(ps.examples.get_path("vautm17n.shp"))
 # Create the exterior polygons for VA from the union of the county shapes
 polys = [shp for shp in va]
 state = shapely_ext.cascaded_union(polys)
+
 ```
+</div>
+
+</div>
+
 
 
 #### Simulate a 100-point dataset within VA state border from a CSR (complete spatial randomness) process.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp = csr(as_window(state), 100, 1, asPP=True).realizations[0]
 pp.plot(window=True)
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_52_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp.plot(window=True, hull=True)
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_53_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 mc = mean_center(pp.points)
 mm = manhattan_median(pp.points)
@@ -902,10 +1173,12 @@ plt.plot(mc[0], mc[1], 'c^', label='Mean Center')
 plt.plot(mm[0], mm[1], 'rv', label='Manhattan Median')
 plt.plot(em[0], em[1], 'm+', label='Euclidean Median')
 plt.legend(numpoints=1)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -914,16 +1187,26 @@ plt.legend(numpoints=1)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_54_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 Plot Standard Distance Circle of the simulated point pattern.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 sx, sy, theta = ellipse(pp.points)
 sx, sy, theta
@@ -944,50 +1227,78 @@ ax.set_ylim(4050000,4350000)
 plt.plot(mc[0], mc[1], 'c^', label='Mean Center')
 plt.legend(numpoints=1)
 show()
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_56_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 #### Simulate a 500-point dataset within VA state border from a CSR (complete spatial randomness) process.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp = csr(as_window(state), 500, 1, asPP=True).realizations[0]
 pp.plot(window=True)
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_58_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp.plot(window=True, hull=True)
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_59_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 mc = mean_center(pp.points)
 mm = manhattan_median(pp.points)
@@ -997,10 +1308,12 @@ plt.plot(mc[0], mc[1], 'c^', label='Mean Center')
 plt.plot(mm[0], mm[1], 'rv', label='Manhattan Median')
 plt.plot(em[0], em[1], 'm+', label='Euclidean Median')
 plt.legend(numpoints=1)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1009,14 +1322,22 @@ plt.legend(numpoints=1)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_60_1.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 sx, sy, theta = ellipse(pp.points)
 sx, sy, theta
@@ -1037,37 +1358,55 @@ ax.set_ylim(4050000,4350000)
 plt.plot(mc[0], mc[1], 'c^', label='Mean Center')
 plt.legend(numpoints=1)
 show()
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/centrography_61_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 If we calculate the Euclidean distances between every event point and Mean Center (Euclidean Median), and sum them up, we can see that Euclidean Median is the optimal point in iterms of minimizing the Euclidean distances to all the event points.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-from pointpats import dtot
+from pysal.explore.pointpats import dtot
 print(dtot(mc, pp.points))
 print(dtot(em, pp.points))
 print(dtot(mc, pp.points) > dtot(em, pp.points))
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 74214411.72342663
 73835502.40107813
 True
-
 ```
+</div>
+</div>
+</div>
+

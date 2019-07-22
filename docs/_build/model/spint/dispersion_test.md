@@ -2,19 +2,21 @@
 redirect_from:
   - "/model/spint/dispersion-test"
 interact_link: content/model/spint/dispersion_test.ipynb
+kernel_name: python2
+has_widgets: false
 title: 'dispersion_test'
 prev_page:
   url: /model/spint/validate_gravity
   title: 'validate_gravity'
 next_page:
-  url: /model/spint/glm_speed
-  title: 'glm_speed'
+  url: /model/spint/netW
+  title: 'netW'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import os
 os.chdir('/Users/toshan/dev/pysal/pysal/contrib/spint')
@@ -34,29 +36,40 @@ os.chdir('/Users/toshan/dev/pysal/pysal/contrib/spint')
 from dispersion import alpha_disp, phi_disp
 
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 rec = pd.read_csv('/Users/toshan/Documents/RecreationDemand.csv')
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 rec.head()
+
 ```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 
-
-
-<div markdown="0">
+<div markdown="0" class="output output_html">
 <div style="max-height:1000px;max-width:1500px;overflow:auto;">
 <table border="1" class="dataframe">
   <thead>
@@ -140,48 +153,70 @@ rec.head()
 </div>
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 y = rec['trips'].values.reshape((-1,1))
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 X = rec[['quality', 'income', 'costC', 'costS', 'costH']].values
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 test = CountModel(y, X, constant=False)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 glm_results = test.fit(framework='glm')
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 phi_disp(glm_results)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -190,16 +225,22 @@ array([  7.30811593e+00,   2.71035909e+00,   3.36051997e-03])
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 alpha_disp(glm_results)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -208,16 +249,22 @@ array([  6.30811593e+00,   2.71035909e+00,   3.36051997e-03])
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 alpha_disp(glm_results, lambda x: x**2)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -226,10 +273,14 @@ array([  1.55402055e+00,   3.38253708e+00,   3.59097912e-04])
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Prepare some test data - columbus example
 db = pysal.open(pysal.examples.get_path('columbus.dbf'),'r')
@@ -242,34 +293,48 @@ X.append(db.by_col("CRIME"))
 X = np.array(X).T
 
 poisson_y = np.round(y).astype(int)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 test = CountModel(poisson_y, X)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 glm_results = test.fit(framework='glm')
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 phi_disp(glm_results)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -278,16 +343,22 @@ array([ 5.39968689,  2.3230411 ,  0.01008847])
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 alpha_disp(glm_results)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -296,16 +367,22 @@ array([ 4.39968689,  2.3230411 ,  0.01008847])
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 alpha_disp(glm_results, lambda x:x**2)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -314,52 +391,74 @@ array([ 0.10690133,  2.24709978,  0.01231683])
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 model1 = GLM(y, X, constant=False, family=Poisson()).fit()
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 <class 'family.Poisson'>
 <class 'family.Poisson'>
 <class 'family.Poisson'>
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 model2 = GLM(y, X, constant=False, family=QuasiPoisson()).fit()
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 <class 'family.QuasiPoisson'>
 <class 'family.QuasiPoisson'>
 <class 'family.QuasiPoisson'>
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 print model1.scale
 print model2.scale
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 1.0
 <class 'family.QuasiPoisson'>
 7.02573401193
-
 ```
+</div>
+</div>
+</div>
+

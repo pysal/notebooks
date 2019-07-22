@@ -2,6 +2,8 @@
 redirect_from:
   - "/viz/mapclassify/maximum-breaks"
 interact_link: content/viz/mapclassify/maximum_breaks.ipynb
+kernel_name: python3
+has_widgets: false
 title: 'maximum_breaks'
 prev_page:
   url: /viz/mapclassify/south
@@ -13,38 +15,48 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import sys
 import os
 sys.path.append(os.path.abspath('..'))
-import mapclassify as mc
+from pysal.viz import mapclassify as mc
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 y = mc.load_example()
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-mc.Maximum_Breaks(y, k=4)
+mc.MaximumBreaks(y, k=4)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
-               Maximum_Breaks               
+               MaximumBreaks                
  
  Lower              Upper              Count
 ============================================
@@ -55,21 +67,27 @@ mc.Maximum_Breaks(y, k=4)
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-mc.Maximum_Breaks(y, k=7)
+mc.MaximumBreaks(y, k=7)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
-               Maximum_Breaks               
+               MaximumBreaks                
  
  Lower              Upper              Count
 ============================================
@@ -83,24 +101,34 @@ mc.Maximum_Breaks(y, k=7)
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-mb7 = mc.Maximum_Breaks(y, k=7)
+mb7 = mc.MaximumBreaks(y, k=7)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 mb7.bins
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -110,16 +138,22 @@ array([ 146.005,  228.49 ,  291.02 ,  350.21 ,  546.675, 2417.15 ,
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 mb7.counts
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -128,16 +162,22 @@ array([50,  2,  1,  2,  1,  1,  1])
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 mb7.yb
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -148,16 +188,22 @@ array([3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0,
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 mb7.adcm
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -165,4 +211,8 @@ mb7.adcm
 727.3200000000002
 ```
 
+
+</div>
+</div>
+</div>
 

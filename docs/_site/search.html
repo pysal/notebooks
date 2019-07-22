@@ -1,0 +1,2787 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+
+  <title>Search the site</title>
+  <meta name="description" content="Example notebooks from the PySAL federation.">
+
+  <link rel="canonical" href="http://0.0.0.0:4000/notebooks/search">
+  <link rel="alternate" type="application/rss+xml" title="PySAL Notebooks" href="http://0.0.0.0:4000/notebooks/feed.xml">
+
+  <meta property="og:url"         content="http://0.0.0.0:4000/notebooks/search" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="Search the site" />
+<meta property="og:description" content="Example notebooks from the PySAL federation." />
+<meta property="og:image"       content="" />
+
+
+  <script type="application/ld+json">
+  {
+  "@context": "http://schema.org",
+  "@type": "NewsArticle",
+  "mainEntityOfPage":
+    "http://0.0.0.0:4000/notebooks/search",
+  "headline":
+    "Search the site",
+  "datePublished":
+    "2019-07-22T16:47:05+00:00",
+  "dateModified":
+    "2019-07-22T16:47:05+00:00",
+  "description":
+    "Example notebooks from the PySAL federation.",
+  "author": {
+    "@type": "Person",
+    "name": "PySAL Developers"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Data 100 at UC Berkeley",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://0.0.0.0:4000/notebooks",
+      "width": 60,
+      "height": 60
+    }
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "http://0.0.0.0:4000/notebooks",
+    "height": 60,
+    "width": 60
+  }
+}
+
+  </script>
+  <link rel="stylesheet" href="/notebooks/assets/css/styles.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css ">
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+
+  <!-- <link rel="manifest" href="/manifest.json"> -->
+  <!-- <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#efae0a"> -->
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+  <meta name="theme-color" content="#233947">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/notebooks/assets/images/pysal_favicon.ico">
+
+  <!-- MathJax Config -->
+  <!-- Allow inline math using $ and automatically break long math lines -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true,
+        processEnvironments: true
+    },
+    CommonHTML: {
+        linebreaks: {
+            automatic: true,
+        },
+    },
+});
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML' async></script>
+
+  <!-- DOM updating function -->
+  <script>
+const runWhenDOMLoaded = cb => {
+  if (document.readyState != 'loading') {
+    cb()
+  } else if (document.addEventListener) {
+    document.addEventListener('DOMContentLoaded', cb)
+  } else {
+    document.attachEvent('onreadystatechange', function() {
+      if (document.readyState == 'complete') cb()
+    })
+  }
+}
+
+// Helper function to init things quickly
+initFunction = function(myfunc) {
+  runWhenDOMLoaded(myfunc);
+  document.addEventListener('turbolinks:load', myfunc);
+};
+</script>
+
+  <!-- Define some javascript variables that will be useful in other javascript -->
+  <script>
+    const site_basename = '/notebooks';
+  </script>
+
+  <!-- Add AnchorJS to let headers be linked -->
+  <script src="/notebooks/assets/js/anchor.min.js"  type="text/javascript"></script>
+  <script>
+
+initFunction(function () {
+    anchors.add("main h1, main h2, main h3, main h4")
+});
+
+</script>
+
+  <!-- Include Turbolinks to make page loads fast -->
+  <!-- https://github.com/turbolinks/turbolinks -->
+  <script src="/notebooks/assets/js/turbolinks.js" async></script>
+  <meta name="turbolinks-cache-control" content="no-cache">
+
+  <!-- Load nbinteract for widgets -->
+  
+
+  <!-- Load Thebelab for interactive widgets -->
+  <!-- Include Thebelab for interactive code if it's enabled -->
+
+
+
+  <!-- Load the auto-generating TOC -->
+  <script src="/notebooks/assets/js/tocbot.min.js"  type="text/javascript"></script>
+  <script>
+var initToc = function () {
+  tocbot.init({
+    tocSelector: 'nav.onthispage',
+    contentSelector: '.c-textbook__content',
+    headingSelector: 'h2, h3',
+    orderedList: false,
+    collapseDepth: 6,
+    listClass: 'toc__menu',
+    activeListItemClass: "",  // Not using
+    activeLinkClass: "", // Not using
+  });
+  tocbot.refresh();
+}
+initFunction(initToc);
+</script>
+
+  <!-- Google analytics -->
+  <script src="/notebooks/assets/js/ga.js" async></script>
+
+  <!-- Clipboard copy button -->
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" async></script>
+
+  <!-- Load JS that depends on site variables -->
+  <script>
+/**
+ * Set up copy/paste for code blocks
+ */
+const codeCellId = index => `codecell${index}`
+
+const clipboardButton = id =>
+  `<a id="copy-button-${id}" class="btn copybtn o-tooltip--left" data-tooltip="Copy" data-clipboard-target="#${id}">
+    <img src="/notebooks/assets/images/copy-button.svg" alt="Copy to clipboard">
+  </a>`
+
+// Clears selected text since ClipboardJS will select the text when copying
+const clearSelection = () => {
+  if (window.getSelection) {
+    window.getSelection().removeAllRanges()
+  } else if (document.selection) {
+    document.selection.empty()
+  }
+}
+
+// Changes tooltip text for two seconds, then changes it back
+const temporarilyChangeTooltip = (el, newText) => {
+  const oldText = el.getAttribute('data-tooltip')
+  el.setAttribute('data-tooltip', newText)
+  setTimeout(() => el.setAttribute('data-tooltip', oldText), 2000)
+}
+
+const addCopyButtonToCodeCells = () => {
+  // If ClipboardJS hasn't loaded, wait a bit and try again. This
+  // happens because we load ClipboardJS asynchronously.
+  if (window.ClipboardJS === undefined) {
+    setTimeout(addCopyButtonToCodeCells, 250)
+    return
+  }
+
+  const codeCells = document.querySelectorAll('div.c-textbook__content > div.highlighter-rouge > div.highlight > pre, div.input_area pre')
+  codeCells.forEach((codeCell, index) => {
+    const id = codeCellId(index)
+    codeCell.setAttribute('id', id)
+    if (document.getElementById("copy-button" + id) == null) {
+      codeCell.insertAdjacentHTML('afterend', clipboardButton(id));
+    }
+  })
+
+  const clipboard = new ClipboardJS('.copybtn')
+  clipboard.on('success', event => {
+    clearSelection()
+    temporarilyChangeTooltip(event.trigger, 'Copied!')
+  })
+
+  clipboard.on('error', event => {
+    temporarilyChangeTooltip(event.trigger, 'Failed to copy')
+  })
+
+  // Get rid of clipboard before the next page visit to avoid memory leak
+  document.addEventListener('turbolinks:before-visit', () =>
+    clipboard.destroy()
+  )
+}
+
+initFunction(addCopyButtonToCodeCells);
+</script>
+
+
+  <!-- Hide cell code -->
+  <script>
+    /**
+    Add buttons to hide code cells
+    */
+
+
+    var setCodeCellVisibility = function (inputField, kind) {
+        // Update the image and class for hidden
+        var id = inputField.getAttribute('data-id');
+        var codeCell = document.querySelector(`#${id} div.highlight`);
+
+        if (kind === "visible") {
+            codeCell.classList.remove('hidden');
+            inputField.checked = true;
+        } else {
+            codeCell.classList.add('hidden');
+            inputField.checked = false;
+        }
+    }
+
+    var toggleCodeCellVisibility = function (event) {
+        // The label is clicked, and now we decide what to do based on the input field's clicked status
+        if (event.target.tagName === "LABEL") {
+            var inputField = event.target.previousElementSibling;
+        } else {
+            // It is the span inside the target
+            var inputField = event.target.parentElement.previousElementSibling;
+        }
+
+        if (inputField.checked === true) {
+            setCodeCellVisibility(inputField, "visible");
+        } else {
+            setCodeCellVisibility(inputField, "hidden");
+        }
+    }
+
+
+    // Button constructor
+    const hideCodeButton = id => `<input class="hidebtn" type="checkbox" id="hidebtn${id}" data-id="${id}"><label title="Toggle cell" for="hidebtn${id}" class="plusminus"><span class="pm_h"></span><span class="pm_v"></span></label>`
+
+    var addHideButton = function () {
+        // If a hide button is already added, don't add another
+        if (document.querySelector('div.hidecode input') !== null) {
+            return;
+        }
+
+        // Find the input cells and add a hide button
+        document.querySelectorAll('div.input_area').forEach(function (item, index) {
+            if (!item.classList.contains("hidecode")) {
+                // Skip the cell if it doesn't have a hidecode class
+                return;
+            }
+
+            const id = codeCellId(index)
+            item.setAttribute('id', id);
+            // Insert the button just inside the end of the next div
+            item.querySelector('div').insertAdjacentHTML('beforeend', hideCodeButton(id))
+
+            // Set up the visibility toggle
+            hideLink = document.querySelector(`#${id} div.highlight + input + label`);
+            hideLink.addEventListener('click', toggleCodeCellVisibility)
+        });
+    }
+
+
+    // Initialize the hide buttos
+    var initHiddenCells = function () {
+        // Add hide buttons to the cells
+        addHideButton();
+
+        // Toggle the code cells that should be hidden
+        document.querySelectorAll('div.hidecode input').forEach(function (item) {
+            setCodeCellVisibility(item, 'hidden');
+            item.checked = true;
+        })
+    }
+
+    initFunction(initHiddenCells);
+
+</script>
+
+  <!-- Load custom website scripts -->
+  <script src="/notebooks/assets/js/scripts.js" async></script>
+
+  <!-- Load custom user CSS and JS  -->
+  <script src="/notebooks/assets/custom/custom.js" async></script>
+  <link rel="stylesheet" href="/notebooks/assets/custom/custom.css">
+
+  <!-- Update interact links w/ REST param, is defined in includes so we can use templates -->
+  
+<script>
+/**
+  * To auto-embed hub URLs in interact links if given in a RESTful fashion
+ */
+
+function getJsonFromUrl(url) {
+  var query = url.split('?');
+  if (query.length < 2) {
+    // No queries so just return false
+    return false;
+  }
+  query = query[1];
+  // Collect REST params into a dictionary
+  var result = {};
+  query.split("&").forEach(function(part) {
+    var item = part.split("=");
+    result[item[0]] = decodeURIComponent(item[1]);
+  });
+  return result;
+}
+    
+function dict2param(dict) {
+    params = Object.keys(dict).map(function(k) {
+        return encodeURIComponent(k) + '=' + encodeURIComponent(dict[k])
+    });
+    return params.join('&')
+}
+
+// Parse a Binder URL, converting it to the string needed for JupyterHub
+function binder2Jupyterhub(url) {
+  newUrl = {};
+  parts = url.split('v2/gh/')[1];
+  // Grab the base repo information
+  repoinfo = parts.split('?')[0];
+  var [org, repo, ref] = repoinfo.split('/');
+  newUrl['repo'] = ['https://github.com', org, repo].join('/');
+  newUrl['branch'] = ref
+  // Grab extra parameters passed
+  params = getJsonFromUrl(url);
+  if (params['filepath'] !== undefined) {
+    newUrl['subPath'] = params['filepath']
+  }
+  return dict2param(newUrl);
+}
+
+// Filter out potentially unsafe characters to prevent xss
+function safeUrl(url)
+{
+   return String(encodeURIComponent(url))
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+}
+
+function addParamToInternalLinks(hub) {
+  var links = document.querySelectorAll("a").forEach(function(link) {
+    var href = link.href;
+    // If the link is an internal link...
+    if (href.search("http://0.0.0.0:4000") !== -1 || href.startsWith('/') || href.search("127.0.0.1:") !== -1) {
+      // Assume we're an internal link, add the hub param to it
+      var params = getJsonFromUrl(href);
+      if (params !== false) {
+        // We have REST params, so append a new one
+        params['jupyterhub'] = hub;
+      } else {
+        // Create the REST params
+        params = {'jupyterhub': hub};
+      }
+      // Update the link
+      var newHref = href.split('?')[0] + '?' + dict2param(params);
+      link.setAttribute('href', decodeURIComponent(newHref));
+    }
+  });
+  return false;
+}
+
+
+// Update interact links
+function updateInteractLink() {
+    // hack to make this work since it expects a ? in the URL
+    rest = getJsonFromUrl("?" + location.search.substr(1));
+    jupyterHubUrl = rest['jupyterhub'];
+    var hubType = null;
+    var hubUrl = null;
+    if (jupyterHubUrl !== undefined) {
+      hubType = 'jupyterhub';
+      hubUrl = jupyterHubUrl;
+    }
+
+    if (hubType !== null) {
+      // Sanitize the hubUrl
+      hubUrl = safeUrl(hubUrl);
+
+      // Add HTTP text if omitted
+      if (hubUrl.indexOf('http') < 0) {hubUrl = 'http://' + hubUrl;}
+      var interactButtons = document.querySelectorAll("button.interact-button")
+      var lastButton = interactButtons[interactButtons.length-1];
+      var link = lastButton.parentElement;
+
+      // If we've already run this, skip the link updating
+      if (link.nextElementSibling !== null) {
+        return;
+      }
+
+      // Update the link and add context div
+      var href = link.getAttribute('href');
+      if (lastButton.id === 'interact-button-binder') {
+        // If binder links exist, we need to re-work them for jupyterhub
+        if (hubUrl.indexOf('http%3A%2F%2Flocalhost') > -1) {
+          // If localhost, assume we're working from a local Jupyter server and remove `/hub`
+          first = [hubUrl, 'git-sync'].join('/')
+        } else {
+          first = [hubUrl, 'hub', 'user-redirect', 'git-sync'].join('/')
+        }
+        href = first + '?' + binder2Jupyterhub(href);
+      } else {
+        // If interact button isn't binderhub, assume it's jupyterhub
+        // If JupyterHub links, we only need to replace the hub url
+        href = href.replace("", hubUrl);
+        if (hubUrl.indexOf('http%3A%2F%2Flocalhost') > -1) {
+          // Assume we're working from a local Jupyter server and remove `/hub`
+          href = href.replace("/hub/user-redirect", "");
+        }
+      }
+      link.setAttribute('href', decodeURIComponent(href));
+
+      // Add text after interact link saying where we're launching
+      hubUrlNoHttp = decodeURIComponent(hubUrl).replace('http://', '').replace('https://', '');
+      link.insertAdjacentHTML('afterend', '<div class="interact-context">on ' + hubUrlNoHttp + '</div>');
+
+      // Update internal links so we retain the hub url
+      addParamToInternalLinks(hubUrl);
+    }
+}
+
+runWhenDOMLoaded(updateInteractLink)
+document.addEventListener('turbolinks:load', updateInteractLink)
+</script>
+
+
+  <!-- Lunr search code - will only be executed on the /search page -->
+  <script src="/notebooks/assets/js/lunr/lunr.min.js" type="text/javascript"></script>
+  <script>var initQuery = function() {
+  // See if we have a search box
+  var searchInput = document.querySelector('input#lunr_search');
+  if (searchInput === null) {
+    return;
+  }
+
+  // Function to parse our lunr cache
+  var idx = lunr(function () {
+    this.field('title')
+    this.field('excerpt')
+    this.field('categories')
+    this.field('tags')
+    this.ref('id')
+
+    this.pipeline.remove(lunr.trimmer)
+
+    for (var item in store) {
+      this.add({
+        title: store[item].title,
+        excerpt: store[item].excerpt,
+        categories: store[item].categories,
+        tags: store[item].tags,
+        id: item
+      })
+    }
+  });
+
+  // Run search upon keyup
+  searchInput.addEventListener('keyup', function () {
+    var resultdiv = document.querySelector('#results');
+    var query = document.querySelector("input#lunr_search").value.toLowerCase();
+    var result =
+      idx.query(function (q) {
+        query.split(lunr.tokenizer.separator).forEach(function (term) {
+          q.term(term, { boost: 100 })
+          if(query.lastIndexOf(" ") != query.length-1){
+            q.term(term, {  usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 10 })
+          }
+          if (term != ""){
+            q.term(term, {  usePipeline: false, editDistance: 1, boost: 1 })
+          }
+        })
+      });
+
+      // Empty the results div
+      while (resultdiv.firstChild) {
+        resultdiv.removeChild(resultdiv.firstChild);
+      }
+
+    resultdiv.insertAdjacentHTML('afterbegin', '<p class="results__found">'+result.length+' Result(s) found</p>');
+    for (var item in result) {
+      var ref = result[item].ref;
+      if(store[ref].teaser){
+        var searchitem =
+          '<div class="list__item">'+
+            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="archive__item-title" itemprop="headline">'+
+                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+              '</h2>'+
+              '<div class="archive__item-teaser">'+
+                '<img src="'+store[ref].teaser+'" alt="">'+
+              '</div>'+
+              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
+            '</article>'+
+          '</div>';
+      }
+      else{
+    	  var searchitem =
+          '<div class="list__item">'+
+            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="archive__item-title" itemprop="headline">'+
+                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+              '</h2>'+
+              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
+            '</article>'+
+          '</div>';
+      }
+      resultdiv.insertAdjacentHTML('beforeend', searchitem);
+    }
+  });
+};
+
+initFunction(initQuery);
+</script>
+</head>
+
+  <body>
+    <!-- .js-show-sidebar shows sidebar by default -->
+    <div id="js-textbook" class="c-textbook js-show-sidebar">
+      
+
+
+
+<nav id="js-sidebar" class="c-textbook__sidebar">
+  <a href="https://pysal.org/notebooks/"><img src="/notebooks/assets/images/logo.png" class="textbook_logo" id="sidebar-logo" data-turbolinks-permanent/></a>
+  <h2 class="c-sidebar__title">PySAL Notebooks</h2>
+  <ul class="c-sidebar__chapters">
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/intro.html"
+        >
+          
+          Home
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">Explore</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/esda/intro.html"
+        >
+          
+          esda
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data.html"
+                >
+                  
+                  Spatial_Autocorrelation_for_Areal_Unit_Data
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/giddy/intro.html"
+        >
+          
+          giddy
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/Rank_based_Methods.html"
+                >
+                  
+                  Rank_based_Methods
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/directional.html"
+                >
+                  
+                  directional
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/Rank_Markov.html"
+                >
+                  
+                  Rank_Markov
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/Mobility_measures.html"
+                >
+                  
+                  Mobility_measures
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/Markov_Based_Methods.html"
+                >
+                  
+                  Markov_Based_Methods
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/pointpats/intro.html"
+        >
+          
+          pointpats
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/distance_statistics.html"
+                >
+                  
+                  distance_statistics
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/centrography.html"
+                >
+                  
+                  centrography
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/Minimum_bounding_circle.html"
+                >
+                  
+                  Minimum_bounding_circle
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/Quadrat_statistics.html"
+                >
+                  
+                  Quadrat_statistics
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/window.html"
+                >
+                  
+                  window
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/marks.html"
+                >
+                  
+                  marks
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/pointpattern.html"
+                >
+                  
+                  pointpattern
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/process.html"
+                >
+                  
+                  process
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/spaghetti/intro.html"
+        >
+          
+          spaghetti
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/spaghetti/Spaghetti_Pointpatterns_Empirical.html"
+                >
+                  
+                  Spaghetti_Pointpatterns_Empirical
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/spaghetti/Facility_Location.html"
+                >
+                  
+                  Facility_Location
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/spaghetti/Snapping_Demonstration.html"
+                >
+                  
+                  Snapping_Demonstration
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/spaghetti/Network_Usage.html"
+                >
+                  
+                  Network_Usage
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/segregation/intro.html"
+        >
+          
+          segregation
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/profile_wrappers_example.html"
+                >
+                  
+                  profile_wrappers_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/decomposition_wrapper_example.html"
+                >
+                  
+                  decomposition_wrapper_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/inference_wrappers_example.html"
+                >
+                  
+                  inference_wrappers_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/nonspatial_examples.html"
+                >
+                  
+                  nonspatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/spatial_examples.html"
+                >
+                  
+                  spatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/inequality/intro.html"
+        >
+          
+          inequality
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/inequality/gini.html"
+                >
+                  
+                  gini
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">Viz</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/viz/mapclassify/intro.html"
+        >
+          
+          mapclassify
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/mapclassify/plot.html"
+                >
+                  
+                  plot
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/mapclassify/deprecate.html"
+                >
+                  
+                  deprecate
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/mapclassify/south.html"
+                >
+                  
+                  south
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/mapclassify/maximum_breaks.html"
+                >
+                  
+                  maximum_breaks
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/viz/splot/intro.html"
+        >
+          
+          splot
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/esda_moran_matrix_viz.html"
+                >
+                  
+                  esda_moran_matrix_viz
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/libpysal_non_planar_joins_viz.html"
+                >
+                  
+                  libpysal_non_planar_joins_viz
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/esda_morans_viz.html"
+                >
+                  
+                  esda_morans_viz
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/giddy_space_time.html"
+                >
+                  
+                  giddy_space_time
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/mapping_vba.html"
+                >
+                  
+                  mapping_vba
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">Model</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/model/spvcm/intro.html"
+        >
+          
+          spvcm
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spvcm/spatially-varying-coefficients.html"
+                >
+                  
+                  spatially-varying-coefficients
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spvcm/using_the_sampler.html"
+                >
+                  
+                  using_the_sampler
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/model/spint/intro.html"
+        >
+          
+          spint
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_vs_dense_grav.html"
+                >
+                  
+                  sparse_vs_dense_grav
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/Example_NYCBikes_AllFeatures.html"
+                >
+                  
+                  Example_NYCBikes_AllFeatures
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/New_DistanceBand.html"
+                >
+                  
+                  New_DistanceBand
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_scipy_optim.html"
+                >
+                  
+                  sparse_scipy_optim
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/local_SI.html"
+                >
+                  
+                  local_SI
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/validate_gravity.html"
+                >
+                  
+                  validate_gravity
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/dispersion_test.html"
+                >
+                  
+                  dispersion_test
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/netW.html"
+                >
+                  
+                  netW
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_categorical.html"
+                >
+                  
+                  sparse_categorical
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/test_grav.html"
+                >
+                  
+                  test_grav
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_grav.html"
+                >
+                  
+                  sparse_grav
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_categorical_bottleneck.html"
+                >
+                  
+                  sparse_categorical_bottleneck
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/OD_weights.html"
+                >
+                  
+                  OD_weights
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_categorical_speed.html"
+                >
+                  
+                  sparse_categorical_speed
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/ODW_example.html"
+                >
+                  
+                  ODW_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/autograd_test.html"
+                >
+                  
+                  autograd_test
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/NYC_Bike_Example.html"
+                >
+                  
+                  NYC_Bike_Example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/4d_distance.html"
+                >
+                  
+                  4d_distance
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/model/spglm/intro.html"
+        >
+          
+          spglm
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spglm/Poisson_GLM.html"
+                >
+                  
+                  Poisson_GLM
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spglm/Gaussian_GLM.html"
+                >
+                  
+                  Gaussian_GLM
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spglm/Binomial_GLM.html"
+                >
+                  
+                  Binomial_GLM
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/model/mgwr/intro.html"
+        >
+          
+          mgwr
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_Georgia_example.html"
+                >
+                  
+                  GWR_Georgia_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_prediction_example.html"
+                >
+                  
+                  GWR_prediction_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_MGWR_example.html"
+                >
+                  
+                  GWR_MGWR_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/MGWR_Georgia_example.html"
+                >
+                  
+                  MGWR_Georgia_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">Lib</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/lib/libpysal/intro.html"
+        >
+          
+          libpysal
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/lib/libpysal/io.html"
+                >
+                  
+                  io
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/lib/libpysal/weights.html"
+                >
+                  
+                  weights
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/lib/libpysal/voronoi.html"
+                >
+                  
+                  voronoi
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+  </ul>
+  <p class="sidebar_footer">Powered by <a href="https://github.com/jupyter/jupyter-book">Jupyter Book</a></p>
+</nav>
+
+      
+      <main class="c-textbook__page" tabindex="-1">
+          <div class="o-wrapper">
+            <div class="c-sidebar-toggle">
+  <!-- We show the sidebar by default so we use .is-active -->
+  <button
+    id="js-sidebar-toggle"
+    class="hamburger hamburger--arrowalt is-active"
+  >
+    <span class="hamburger-box">
+      <span class="hamburger-inner"></span>
+    </span>
+    <span class="c-sidebar-toggle__label">Toggle Sidebar</span>
+  </button>
+</div>
+
+            
+
+            <div class="c-textbook__content">
+              <div class="search-content__inner-wrap">
+    <input type="text" id="lunr_search" class="search-input" tabindex="-1" placeholder="'Enter your search term...''" />
+    <div id="results" class="results"></div>
+</div>
+
+<script>
+    // Add the lunr store since we will now search it
+    var store = [{
+        "title": "Spatial_Autocorrelation_for_Areal_Unit_Data",
+        
+        "excerpt":
+            "Exploratory Analysis of Spatial Data: Spatial Autocorrelation In this notebook we introduce methods of exploratory spatial data analysis that are intended to complement geovizualization through formal univariate and multivariate statistical tests for spatial clustering. Imports import sys import os sys.path.append(os.path.abspath('..')) from pysal.explore import esda import pandas as pd import geopandas as gpd import pysal.lib as lps import numpy as np import matplotlib.pyplot as plt %matplotlib inline Our data set comes from the Berlin airbnb scrape taken in April 2018. This dataframe was constructed as part of the GeoPython 2018 workshop by Levi Wolf and Serge Rey. As part of the...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data.html",
+        "teaser":null},{
+        "title": "esda",
+        
+        "excerpt":
+            "Exploratory Spatial Data Analysis in PySAL Methods for testing for global and local autocorrelation in areal unit data. Installation Install esda by running: $ pip install esda Requirements libpysal Contribute PySAL-esda is under active development and contributors are welcome. If you have any suggestion, feature request, or bug report, please open a new issue on GitHub. To submit patches, please follow the PySAL development guidelines and open a pull request. Once your changes get merged, you’ll automatically be added to the Contributors List. Support If you are having issues, please talk to us in the gitter room. License The project...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/esda/intro.html",
+        "teaser":null},{
+        "title": "Markov_Based_Methods",
+        
+        "excerpt":
+            "Spatially Explicit Markov Methods Author: Serge Rey sjsrey@gmail.com, Wei Kang weikang9009@gmail.com Introduction This notebook introduces Discrete Markov Chains (DMC) model and its two variants which explicitly incorporate spatial effects. We will demonstrate the usage of these methods by an empirical study for understanding regional income dynamics in the US. The dataset is the per capita incomes observed annually from 1929 to 2009 for the lower 48 US states. Classic Markov Spatial Markov LISA Markov Note that a full execution of this notebook requires pandas, matplotlib and light-weight geovisualization package pysal-splot. Classic Markov giddy.markov.Markov(self, class_ids, classes=None) We start with a look...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/giddy/Markov_Based_Methods.html",
+        "teaser":null},{
+        "title": "Mobility_measures",
+        
+        "excerpt":
+            "Measures of Income Mobility Author: Wei Kang weikang9009@gmail.com, Serge Rey sjsrey@gmail.com Income mobility could be viewed as a reranking pheonomenon where regions switch income positions while it could also be considered to be happening as long as regions move away from the previous income levels. The former is named absolute mobility and the latter relative mobility. This notebook introduces how to estimate income mobility measures from longitudinal income data using methods in giddy. Currently, five summary mobility estimators are implemented in giddy.mobility. All of them are Markov-based, meaning that they are closely related to the discrete Markov Chains methods introduced...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/giddy/Mobility_measures.html",
+        "teaser":null},{
+        "title": "Rank_Markov",
+        
+        "excerpt":
+            "Full Rank Markov and Geographic Rank Markov Author: Wei Kang weikang9009@gmail.com import pysal.lib as ps import numpy as np import matplotlib.pyplot as plt %matplotlib inline import seaborn as sns import pandas as pd import geopandas as gpd Full Rank Markov from pysal.explore.giddy.markov import FullRank_Markov income_table = pd.read_csv(ps.examples.get_path(\"usjoin.csv\")) income_table.head() Name STATE_FIPS 1929 1930 1931 1932 1933 1934 1935 1936 ... 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 0 Alabama 1 323 267 224 162 166 211 217 251 ... 23471 24467 25161 26065 27665 29097 30634 31988 32819 32274 1 Arizona 4 600 520 429 321 308 362...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/giddy/Rank_Markov.html",
+        "teaser":null},{
+        "title": "Rank_based_Methods",
+        
+        "excerpt":
+            "Rank based Methods Author: Wei Kang weikang9009@gmail.com, Serge Rey sjsrey@gmail.com Introduction This notebook introduces two classic nonparametric statistics of exchange mobility and their spatial extensions. We will demonstrate the usage of these methods by an empirical study for understanding regional exchange mobility pattern in US. The dataset is the per capita incomes observed annually from 1929 to 2010 for the lower 48 US states. Kendall’s $\\tau$ Classic measures: Classic Kendall’s $\\tau$ Local Kendall’s $\\tau$ Spatial extensions: Spatial Kendall’s $\\tau$ Inter- and Intra-regional decomposition of Kendall’s $\\tau$ Local indicator of mobility association-LIMA $\\Theta$ statistic of exchange mobility Regional exchange mobility pattern...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/giddy/Rank_based_Methods.html",
+        "teaser":null},{
+        "title": "directional",
+        
+        "excerpt":
+            "Directional Analysis of Dynamic LISAs This notebook demonstrates how to use Rose diagram based inference for directional LISAs. import pysal.lib import numpy as np from pysal.explore.giddy.directional import Rose %matplotlib inline f = open(pysal.lib.examples.get_path('spi_download.csv'), 'r') lines = f.readlines() f.close() lines = [line.strip().split(\",\") for line in lines] names = [line[2] for line in lines[1:-5]] data = np.array([list(map(int, line[3:])) for line in lines[1:-5]]) sids = list(range(60)) out = ['\"United States 3/\"', '\"Alaska 3/\"', '\"District of Columbia\"', '\"Hawaii 3/\"', '\"New England\"','\"Mideast\"', '\"Great Lakes\"', '\"Plains\"', '\"Southeast\"', '\"Southwest\"', '\"Rocky Mountain\"', '\"Far West 3/\"'] snames = [name for name in names if name not in out] sids...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/giddy/directional.html",
+        "teaser":null},{
+        "title": "giddy",
+        
+        "excerpt":
+            "GeospatIal Distribution DYnamics (giddy) in PySAL Giddy is an open-source python library for the analysis of dynamics of longitudinal spatial data. Originating from the spatial dynamics module in PySAL (Python Spatial Analysis Library), it is under active development for the inclusion of newly proposed analytics that consider the role of space in the evolution of distributions over time. Below are six choropleth maps of US state per-capita incomes from 1929 to 2004 at a fifteen-year interval. Documentation Online documentation is available here. Features Directional LISA, inference and visualization as rose diagram Above shows the rose diagram (directional LISAs) for US...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/giddy/intro.html",
+        "teaser":null},{
+        "title": "gini",
+        
+        "excerpt":
+            "import sys import os import matplotlib.pyplot as plt %pylab inline Populating the interactive namespace from numpy and matplotlib sys.path.append(os.path.abspath('..')) from pysal.explore import inequality import pysal.lib pysal.lib.examples.available() ['georgia', '__pycache__', 'tests', 'newHaven', 'Polygon_Holes', 'nat', 'Polygon', '10740', 'berlin', 'rio_grande_do_sul', 'sids2', 'sacramento2', 'burkitt', 'arcgis', 'calemp', 'stl', 'virginia', 'geodanet', 'desmith', 'book', 'nyc_bikes', 'Line', 'south', 'snow_maps', 'Point', 'street_net_pts', 'guerry', '__pycache__', 'baltim', 'networks', 'us_income', 'taz', 'columbus', 'tokyo', 'mexico', '__pycache__', 'chicago', 'wmat', 'juvenile', 'clearwater'] pysal.lib.examples.explain('mexico') {'name': 'mexico', 'description': 'Decennial per capita incomes of Mexican states 1940-2000', 'explanation': ['* mexico.csv: attribute data. (n=32, k=13)', '* mexico.gal: spatial weights in GAL format.', '* mexicojoin.shp: Polygon shapefile. (n=32)', 'Data used in...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/inequality/gini.html",
+        "teaser":null},{
+        "title": "inequality",
+        
+        "excerpt":
+            "Spatial Inequality Analysis in PySAL Methods for measuring spatial inequality. Installation Install inequality by running: $ pip install inequality Requirements libpysal Contribute PySAL-inequality is under active development and contributors are welcome. If you have any suggestion, feature request, or bug report, please open a new issue on GitHub. To submit patches, please follow the PySAL development guidelines and open a pull request. Once your changes get merged, you’ll automatically be added to the Contributors List. Support If you are having issues, please talk to us in the gitter room. License The project is licensed under the BSD license. Funding Award...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/inequality/intro.html",
+        "teaser":null},{
+        "title": "Minimum_bounding_circle",
+        
+        "excerpt":
+            "import matplotlib.pyplot as plt import matplotlib.collections as mplc import pysal.lib as ps from shapely import geometry as sgeom import descartes as des from pysal.explore import pointpats %matplotlib inline data = ps.io.open(ps.examples.get_path('columbus.shp')).read() chains = [chain.parts[0] for chain in data] points = chains[0] points [(8.624129295349121, 14.236980438232422), (8.559700012207031, 14.742449760437012), (8.809452056884766, 14.734430313110352), (8.808412551879883, 14.636520385742188), (8.919304847717285, 14.638500213623047), (9.087138175964355, 14.63049030303955), (9.09996509552002, 14.244830131530762), (9.015047073364258, 14.241840362548828), (9.008951187133789, 13.995059967041016), (8.818140029907227, 14.002050399780273), (8.653305053710938, 14.008090019226074), (8.642902374267578, 14.089710235595703), (8.63259220123291, 14.1705904006958), (8.625825881958008, 14.22367000579834), (8.624129295349121, 14.236980438232422)] Let’s plot that polygon by interpreting it in Shapely and using its draw behavior. poly = sgeom.Polygon(points) poly Nifty. Now, I’ve implemented Skyum’s method for finding the Minimum...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/pointpats/Minimum_bounding_circle.html",
+        "teaser":null},{
+        "title": "Quadrat_statistics",
+        
+        "excerpt":
+            "Quadrat Based Statistical Method for Planar Point Patterns Authors: Serge Rey sjsrey@gmail.com, Wei Kang weikang9009@gmail.com and Hu Shao shaohutiger@gmail.com Introduction In this notebook, we are going to introduce how to apply quadrat statistics to a point pattern to infer whether it comes from a CSR process. In Quadrat Statistic we introduce the concept of quadrat based method. We illustrate how to use the module quadrat_statistics.py through an example dataset juvenile in Juvenile Example Quadrat Statistic In the previous notebooks, we introduced the concept of Complete Spatial Randomness (CSR) process which serves as the benchmark process. Utilizing CSR properties, we can...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/pointpats/Quadrat_statistics.html",
+        "teaser":null},{
+        "title": "centrography",
+        
+        "excerpt":
+            "Centrography of Point Patterns Authors: Serge Rey sjsrey@gmail.com and Wei Kang weikang9009@gmail.com Introduction Centrography refers to a set of descriptive statistics that provide summary descriptions of point patterns. This notebook introduces three types of centrography analysis for point patterns in pysal. Central Tendency Dispersion and Orientation Shape Analysis We also illustrate centrography analysis using two simulated datasets. See Another Example The python file centrography.py contains several functions with which we can conduct centrography analysis. Central Tendency mean_center: calculate the mean center of the unmarked point pattern. weighted_mean_center: calculate the weighted mean center of the marked point pattern. manhattan_median: calculate the...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/pointpats/centrography.html",
+        "teaser":null},{
+        "title": "distance_statistics",
+        
+        "excerpt":
+            "Distance Based Statistical Method for Planar Point Patterns Authors: Serge Rey sjsrey@gmail.com and Wei Kang weikang9009@gmail.com Introduction Distance based methods for point patterns are of three types: Mean Nearest Neighbor Distance Statistics Nearest Neighbor Distance Functions Interevent Distance Functions In addition, we are going to introduce a computational technique Simulation Envelopes to aid in making inferences about the data generating process. An example is used to demonstrate how to use and interprete simulation envelopes. import scipy.spatial import pysal.lib as ps import numpy as np from pysal.explore.pointpats import PointPattern, PoissonPointProcess, as_window, G, F, J, K, L, Genv, Fenv, Jenv, Kenv, Lenv...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/pointpats/distance_statistics.html",
+        "teaser":null},{
+        "title": "pointpats",
+        
+        "excerpt":
+            "pointpats: Point Pattern Analysis in PySAL Statistical analysis of planar point patterns. This package is part of a refactoring of PySAL. Introduction This pointpats package is intended to support the statistical analysis of planar point patterns. It currently works on cartesian coordinates. Users with data in geographic coordinates need to project their data prior to using this module. Documentation Online documentation is available here. Examples Basic point pattern structure Centrography and visualization Marks Simulation of point processes Distance based statistics Installation Install pointpats by running: $ pip install pointpats Development pointpats development is hosted on github. As part of the...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/pointpats/intro.html",
+        "teaser":null},{
+        "title": "marks",
+        
+        "excerpt":
+            "Marked Point Pattern In addition to the unmarked point pattern, non-binary attributes might be associated with each point, leading to the so-called marked point pattern. The charactertistics of a marked point pattern are: Location pattern of the events are of interest Stochastic attribute attached to the events is of interest Unmarked point pattern can be modified to be a marked point pattern using the method add_marks while the method explode could decompose a marked point pattern into a sequence of unmarked point patterns. Both methods belong to the class PointPattern. from pysal.explore.pointpats import PoissonPointProcess, PoissonClusterPointProcess, Window, poly_from_bbox, PointPattern import pysal.lib...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/pointpats/marks.html",
+        "teaser":null},{
+        "title": "pointpattern",
+        
+        "excerpt":
+            "Planar Point Patterns in PySAL Author: Serge Rey sjsrey@gmail.com and Wei Kang weikang9009@gmail.com Introduction This notebook introduces the basic PointPattern class in PySAL and covers the following: What is a point pattern? Creating Point Patterns Atributes of Point Patterns Intensity Estimates Next steps What is a point pattern? We introduce basic terminology here and point the interested reader to more detailed references on the underlying theory of the statistical analysis of point patterns. Points and Event Points To start we consider a series of point locations, $(s_1, s_2, \\ldots, s_n)$ in a study region $\\Re$. We limit our focus here...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/pointpats/pointpattern.html",
+        "teaser":null},{
+        "title": "process",
+        
+        "excerpt":
+            "Point Processes Author: Serge Rey sjsrey@gmail.com and Wei Kang weikang9009@gmail.com Introduction One philosophy of applying inferential statistics to spatial data is to think in terms of spatial processes and their possible realizations. In this view, an observed map pattern is one of the possible patterns that might have been generated by a hypothesized process. In this notebook, we are going to regard point patterns as the outcome of point processes. There are three major types of point process, which will result in three types of point patterns: Random Patterns Clustered Patterns Regular Patterns We will investigate how to generate these...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/pointpats/process.html",
+        "teaser":null},{
+        "title": "window",
+        
+        "excerpt":
+            "Point Pattern Windows Author: Serge Rey sjsrey@gmail.com Introduction Windows play several important roles in the analysis of planar point patterns. As we saw in the introductory notebook, the area of the window can be used to develop estimates of the intensity of the point pattern. A window also defines the domain for the point pattern and can support corrections for so-called edge effects in the statistical analysis of point patterns. However, there are different ways to define a window for a point pattern. This notebook provides an overview of how to work with windows and covers the following: Creating a...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/pointpats/window.html",
+        "teaser":null},{
+        "title": "decomposition_wrapper_example",
+        
+        "excerpt":
+            "Decomposition framework of the PySAL segregation module This is a notebook that explains a step-by-step procedure to perform decomposition on comparative segregation measures. First, let’s import all the needed libraries. import pandas as pd import pickle import numpy as np import matplotlib.pyplot as plt from pysal.explore import segregation from pysal.explore.segregation.decompose_segregation import Decompose_Segregation In this example, we are going to use census data that the user must download its own copy, following similar guidelines explained in https://github.com/spatialucr/geosnap/tree/master/geosnap/data where you should download the full type file of 2010. The zipped file download will have a name that looks like LTDB_Std_All_fullcount.zip. After extracting...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/segregation/decomposition_wrapper_example.html",
+        "teaser":null},{
+        "title": "inference_wrappers_example",
+        
+        "excerpt":
+            "Inference Wrappers use cases This is an example of the PySAL segregation framework to perform inference on a single value and comparative inference using simulations under the null hypothesis. Once the segregation classes are fitted, the user can perform inference to shed light for statistical significance in regional analysis. Currently, it is possible to make inference for a single measure or for two values of the same measure. The summary of the inference wrappers is presented in the following Table: Inference Type Class/Function Function main Inputs Function Outputs Single Value Infer_Segregation seg_class, iterations_under_null, null_approach, two_tailed p_value, est_sim, statistic Two Value...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/segregation/inference_wrappers_example.html",
+        "teaser":null},{
+        "title": "segregation",
+        
+        "excerpt":
+            "Segregation Analysis, Inference, and Decomposition with PySAL The PySAL segregation package is a tool for analyzing patterns of urban segregation. With only a few lines of code, segregation users can Calculate over 40 segregation measures from simple to state-of-the art, including: aspatial segregation indices spatial segregation indices using spatial weights matrices, euclidian distances, or topological relationships using street network distances using multiscalar definitions local segregation indices Test whether segregation estimates are statistically significant: single value inference comparative inference Decompose segregation comparisons into differences arising from spatial structure differences arising from demographic structure Installation Released versions of segregation are available on...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/segregation/intro.html",
+        "teaser":null},{
+        "title": "nonspatial_examples",
+        
+        "excerpt":
+            "PySAL segregation module for nonspatial indexes This is an example notebook of functionalities for nonspatial indexes of the segregation module. Firstly, we need to import the packages we need. %matplotlib inline import geopandas as gpd from pysal.explore import segregation import pysal.lib Then it’s time to load some data to estimate segregation. We use the data of 2000 Census Tract Data for the metropolitan area of Sacramento, CA, USA. We use a geopandas dataframe available in PySAL examples repository. We highlight that for nonspatial segregation measures only a pandas dataframe would also work to estimate. For more information about the data:...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/segregation/nonspatial_examples.html",
+        "teaser":null},{
+        "title": "profile_wrappers_example",
+        
+        "excerpt":
+            "Example of use of the Profile Wrappers of the PySAL segregation module The Profile Wrappers comprises simple and quick functions to assess multiple segregation measures at once in a dataset. It uses all the default parameters and returns an object that has an attribute (.profile) of a dictionary with summary of all values fitted. The wrappers have currently three classes: nonspatial profiles, spatial profiles and the overall profile which comprises all the measures available. Firstly, we need to import the libraries and functions to be used. %matplotlib inline import geopandas as gpd from pysal.explore import segregation import pysal.lib from pysal.explore.segregation.profile_wrappers...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/segregation/profile_wrappers_example.html",
+        "teaser":null},{
+        "title": "spatial_examples",
+        
+        "excerpt":
+            "PySAL segregation module for spatial indexes This is an example notebook of functionalities for spatial indexes of the segregation module. Firstly, we need to import the packages we need. %matplotlib inline import geopandas as gpd from pysal.explore import segregation import pysal.lib Then it’s time to load some data to estimate segregation. We use the data of 2000 Census Tract Data for the metropolitan area of Sacramento, CA, USA. We use a geopandas dataframe available in PySAL examples repository. For more information about the data: https://github.com/pysal/pysal.lib/tree/master/pysal.lib/examples/sacramento2 s_map = gpd.read_file(pysal.lib.examples.get_path(\"sacramentot2.shp\")) s_map.columns Index(['FIPS', 'MSA', 'TOT_POP', 'POP_16', 'POP_65', 'WHITE_', 'BLACK_', 'ASIAN_', 'HISP_', 'MULTI_RA', 'MALES',...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/segregation/spatial_examples.html",
+        "teaser":null},{
+        "title": "Facility_Location",
+        
+        "excerpt":
+            "This notebook requires installations of: geopandas $ conda install -c conda-forge geopandas shapely $ conda install -c conda-forge shapely matplotlib $ conda install matplotlib seaborn $ conda install seaborn ortools $ pip install ortools Demostrating fundamental network-based optimal facility location modeling Integrating spaghetti and Cbc/ortools James D. Gaboardi «jgaboardi@fsu.edu» import os last_modified = None if os.name == \"posix\": last_modified = !stat -f\\ \"# This notebook was last updated: %Sm\"\\ Facility_Location.ipynb elif os.name == \"nt\": last_modified = !for %a in (Facility_Location.ipynb)\\ do echo # This notebook was last updated: %~ta if last_modified: get_ipython().set_next_input(last_modified[-1]) # This notebook was last updated: May 13...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/spaghetti/Facility_Location.html",
+        "teaser":null},{
+        "title": "Network_Usage",
+        
+        "excerpt":
+            "Basic Tutorial for pysal.spaghetti import os last_modified = None if os.name == \"posix\": last_modified = !stat -f\\ \"# This notebook was last updated: %Sm\"\\ Network_Usage.ipynb elif os.name == \"nt\": last_modified = !for %a in (Network_Usage.ipynb)\\ do echo # This notebook was last updated: %~ta if last_modified: get_ipython().set_next_input(last_modified[-1]) # This notebook was last updated: May 13 20:21:51 2019 # pysal submodule imports from pysal.lib import examples from pysal.explore import spaghetti as spgh from pysal.explore import esda import numpy as np import matplotlib.pyplot as plt import time %matplotlib inline __author__ = \"James Gaboardi &lt;jgaboardi@gmail.com&gt;\" Instantiate a network ntw = spgh.Network(in_data=examples.get_path('streets.shp')) Snap point...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/spaghetti/Network_Usage.html",
+        "teaser":null},{
+        "title": "Snapping_Demonstration",
+        
+        "excerpt":
+            "Snapping point to segments import os last_modified = None if os.name == \"posix\": last_modified = !stat -f\\ \"# This notebook was last updated: %Sm\"\\ Snapping_Demonstration.ipynb elif os.name == \"nt\": last_modified = !for %a in (Snapping_Demonstration.ipynb)\\ do echo # This notebook was last updated: %~ta if last_modified: get_ipython().set_next_input(last_modified[-1]) # This notebook was last updated: May 13 20:04:46 2019 import numpy as np from pysal.lib import examples import geopandas as gpd from pysal.explore import spaghetti as spgh from shapely.geometry import Point %matplotlib inline __author__ = 'James Gaboardi &lt;jgaboardi@gmail.com&gt;' Segments streets = examples.get_path(\"streets.shp\") streets = gpd.read_file(streets) Points crimes = examples.get_path(\"crimes.shp\") crimes = gpd.read_file(crimes)...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/spaghetti/Snapping_Demonstration.html",
+        "teaser":null},{
+        "title": "Spaghetti_Pointpatterns_Empirical",
+        
+        "excerpt":
+            "$SPA$tial $G$rap$H$s: n$ET$works, $T$opology, &amp; $I$nference Tutorial for pysal.spaghetti: Working with point patterns: empirical observations James D. Gaboardi [jgaboardi@fsu.edu] Instantiating a pysal.spaghetti.Network Allocating observations to a network snapping Visualizing original and snapped locations visualization with geopandas and matplotlib import os last_modified = None if os.name == \"posix\": last_modified = !stat -f\\ \"# This notebook was last updated: %Sm\"\\ Spaghetti_Pointpatterns_Empirical.ipynb elif os.name == \"nt\": last_modified = !for %a in (Spaghetti_Pointpatterns_Empirical.ipynb)\\ do echo # This notebook was last updated: %~ta if last_modified: get_ipython().set_next_input(last_modified[-1]) # This notebook was last updated: Dec 9 14:23:58 2018 from pysal.explore import spaghetti as spgh from pysal.lib import...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/spaghetti/Spaghetti_Pointpatterns_Empirical.html",
+        "teaser":null},{
+        "title": "spaghetti",
+        
+        "excerpt":
+            "pysal/spaghetti SPAtial GrapHs: nETworks, Topology, &amp; Inference An example of snapping observation points to a network and plotting: Build &amp; Versions Anaconda Issues &amp; Pull Requests Commit Activity Community &amp; GitHub Stats Languages Licensing &amp; Citation Misc. This package is part of a refactoring of PySAL. Spaghetti is an open-source python library for the analysis of network-based spatial data. Originating from the network module in PySAL (Python Spatial Analysis Library), it is under active development for the inclusion of newly proposed methods for building graph-theoretic networks and the analysis of network events. Examples Network Usage Spaghetti Pointpatterns Empirical Snapping Demonstration...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/spaghetti/intro.html",
+        "teaser":null},{
+        "title": "Home",
+        
+        "excerpt":
+            "PySAL Notebooks Book   This is a compilation of official notebooks demonstrating the functionality of PySAL, the Python Spatial Analysis library.     IMPORTANT: fill in here with more general information about PySAL and the  notebooks project    ",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/intro.html",
+        "teaser":null},{
+        "title": "libpysal",
+        
+        "excerpt":
+            "404: Not Found  ",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/lib/libpysal/intro.html",
+        "teaser":null},{
+        "title": "io",
+        
+        "excerpt":
+            "import sys import os sys.path.append(os.path.abspath('..')) import libpysal w = libpysal.weights.lat2W(5,5) w.n 25 w.pct_nonzero 12.8 w.neighbors[0] [5, 1] w.neighbors[5] [0, 10, 6] libpysal.examples.available() ['georgia', '__pycache__', 'tests', 'newHaven', 'Polygon_Holes', 'nat', 'Polygon', '10740', 'berlin', 'rio_grande_do_sul', 'sids2', 'sacramento2', 'burkitt', 'arcgis', 'calemp', 'stl', 'virginia', 'geodanet', 'desmith', 'book', 'nyc_bikes', 'Line', 'south', 'snow_maps', 'Point', 'street_net_pts', 'guerry', '__pycache__', 'baltim', 'networks', 'us_income', 'taz', 'columbus', 'tokyo', 'mexico', '__pycache__', 'chicago', 'wmat', 'juvenile', 'clearwater'] libpysal.examples.explain('baltim') {'name': 'baltim', 'description': 'Baltimore house sales prices and hedonics 1978', 'explanation': ['* baltim.dbf: attribute data. (k=17)', '* baltim.shp: Point shapefile. (n=211)', '* baltim.shx: spatial index.', '* baltim.tri.k12.kwt: kernel weights using a triangular kernel with 12 nearest neighbors...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/lib/libpysal/io.html",
+        "teaser":null},{
+        "title": "voronoi",
+        
+        "excerpt":
+            "Voronoi Polygons for 2-D Point Sets Author: Serge Rey (http://github.com/sjsrey) Basic Usage import sys import os sys.path.append(os.path.abspath('..')) import libpysal from libpysal.cg.voronoi import voronoi, voronoi_frames points = [(10.2, 5.1), (4.7, 2.2), (5.3, 5.7), (2.7, 5.3)] regions, vertices = voronoi(points) regions [[1, 3, 2], [4, 5, 1, 0], [0, 1, 7, 6], [9, 0, 8]] vertices array([[ 4.21783296, 4.08408578], [ 7.51956025, 3.51807539], [ 9.4642193 , 19.3994576 ], [ 14.98210684, -10.63503022], [ -9.22691341, -4.58994414], [ 14.98210684, -10.63503022], [ 1.78491801, 19.89803294], [ 9.4642193 , 19.3994576 ], [ 1.78491801, 19.89803294], [ -9.22691341, -4.58994414]]) region_df, point_df = voronoi_frames(points) %matplotlib inline import matplotlib import numpy as np...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/lib/libpysal/voronoi.html",
+        "teaser":null},{
+        "title": "weights",
+        
+        "excerpt":
+            "import sys import os sys.path.append(os.path.abspath('..')) import libpysal libpysal.examples.available() ['georgia', '__pycache__', 'tests', 'newHaven', 'Polygon_Holes', 'nat', 'Polygon', '10740', 'berlin', 'rio_grande_do_sul', 'sids2', 'sacramento2', 'burkitt', 'arcgis', 'calemp', 'stl', 'virginia', 'geodanet', 'desmith', 'book', 'nyc_bikes', 'Line', 'south', 'snow_maps', 'Point', 'street_net_pts', 'guerry', '__pycache__', 'baltim', 'networks', 'us_income', 'taz', 'columbus', 'tokyo', 'mexico', '__pycache__', 'chicago', 'wmat', 'juvenile', 'clearwater'] libpysal.examples.explain('mexico') {'name': 'mexico', 'description': 'Decennial per capita incomes of Mexican states 1940-2000', 'explanation': ['* mexico.csv: attribute data. (n=32, k=13)', '* mexico.gal: spatial weights in GAL format.', '* mexicojoin.shp: Polygon shapefile. (n=32)', 'Data used in Rey, S.J. and M.L. Sastre Gutierrez. (2010) \"Interregional inequality dynamics in Mexico.\" Spatial Economic Analysis, 5: 277-298.']} Weights...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/lib/libpysal/weights.html",
+        "teaser":null},{
+        "title": "GWR_Georgia_example",
+        
+        "excerpt":
+            "import numpy as np import pysal.lib as ps from pysal.model.mgwr.gwr import GWR, MGWR from pysal.model.mgwr.sel_bw import Sel_BW import geopandas as gp import matplotlib.pyplot as plt import matplotlib as mpl import pandas as pd #Load Georgia dataset and generate plot of Georgia counties (figure 1) georgia_data = pd.read_csv(ps.examples.get_path('GData_utm.csv')) georgia_shp = gp.read_file(ps.examples.get_path('G_utm.shp')) fig, ax = plt.subplots(figsize=(10,10)) georgia_shp.plot(ax=ax, **{'edgecolor':'black', 'facecolor':'white'}) georgia_shp.centroid.plot(ax=ax, c='black') &lt;matplotlib.axes._subplots.AxesSubplot at 0x1a1d336588&gt; #Prepare Georgia dataset inputs g_y = georgia_data['PctBach'].values.reshape((-1,1)) g_X = georgia_data[['PctFB', 'PctBlack', 'PctRural']].values u = georgia_data['X'] v = georgia_data['Y'] g_coords = list(zip(u,v)) g_X = (g_X - g_X.mean(axis=0)) / g_X.std(axis=0) g_y = g_y.reshape((-1,1)) g_y = (g_y - g_y.mean(axis=0)) / g_y.std(axis=0)...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/mgwr/GWR_Georgia_example.html",
+        "teaser":null},{
+        "title": "GWR_MGWR_example",
+        
+        "excerpt":
+            "import numpy as np # import scipy as sp from pysal.model.mgwr.sel_bw import Sel_BW # from pysal.model.mgwr.gwr import GWR, MGWR import pandas as pd import pysal.lib as ps # import pickle as pk # import os data = ps.io.open(ps.examples.get_path('GData_utm.csv')) coords = list(zip(data.by_col('X'), data.by_col('Y'))) y = np.array(data.by_col('PctBach')).reshape((-1,1)) rural = np.array(data.by_col('PctRural')).reshape((-1,1)) pov = np.array(data.by_col('PctPov')).reshape((-1,1)) black = np.array(data.by_col('PctBlack')).reshape((-1,1)) fb = np.array(data.by_col('PctFB')).reshape((-1,1)) pop = np.array(data.by_col('TotPop90')).reshape((-1,1)) X = np.hstack([fb, black, rural]) X = (X - X.mean(axis=0)) / X.std(axis=0) y = y.reshape((-1,1)) y = (y - y.mean(axis=0)) / y.std(axis=0) sel = Sel_BW(coords, y, X) bw = sel.search() print('bw:', bw) gwr = GWR(coords, y, X, bw) gwr_results =...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/mgwr/GWR_MGWR_example.html",
+        "teaser":null},{
+        "title": "GWR_prediction_example",
+        
+        "excerpt":
+            "import numpy as np import pysal.lib as ps from pysal.model.mgwr.gwr import GWR, MGWR from pysal.model.mgwr.sel_bw import Sel_BW import geopandas as gp import matplotlib.pyplot as plt import matplotlib as mpl #Load Georgia dataset and generate plot of Georgia counties (figure 1) georgia = gp.read_file(ps.examples.get_path('G_utm.shp')) fig, ax = plt.subplots(figsize=(10,10)) georgia.plot(ax=ax, **{'edgecolor':'black', 'facecolor':'white'}) georgia.centroid.plot(ax=ax, c='black') &lt;matplotlib.axes._subplots.AxesSubplot at 0x1a2028dcc0&gt; #Prepare Georgia dataset inputs y = georgia['PctBach'].values.reshape((-1,1)) X = georgia[['PctFB', 'PctBlack', 'PctRural']].values u = georgia['X'] v = georgia['Y'] coords = np.array(list(zip(u,v))) np.random.seed(908) sample = np.random.choice(range(159), 10) mask = np.ones_like(y,dtype=bool).flatten() mask[sample] = False cal_coords = coords[mask] cal_y = y[mask] cal_X = X[mask] pred_coords = coords[~mask] pred_y...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/mgwr/GWR_prediction_example.html",
+        "teaser":null},{
+        "title": "MGWR_Georgia_example",
+        
+        "excerpt":
+            "Anaconda install instructions as of mgwr 1.0.2 and Conda 4.5: conda update conda conda update anaconda conda update scipy conda install pysal pip install pysal.lib conda install mgwr conda install geopandas import numpy as np import pysal.lib as ps from pysal.model.mgwr.gwr import GWR, MGWR from pysal.model.mgwr.sel_bw import Sel_BW from pysal.model.mgwr.utils import shift_colormap, truncate_colormap import geopandas as gp import matplotlib.pyplot as plt import matplotlib as mpl import pandas as pd #Load Georgia dataset and generate plot of Georgia counties (figure 1) georgia_data = pd.read_csv(ps.examples.get_path('GData_utm.csv')) georgia_shp = gp.read_file(ps.examples.get_path('G_utm.shp')) fig, ax = plt.subplots(figsize=(10,10)) georgia_shp.plot(ax=ax, **{'edgecolor':'black', 'facecolor':'white'}) georgia_shp.centroid.plot(ax=ax, c='black') &lt;matplotlib.axes._subplots.AxesSubplot at 0x121ee56a0&gt; #Prepare Georgia...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/mgwr/MGWR_Georgia_example.html",
+        "teaser":null},{
+        "title": "mgwr",
+        
+        "excerpt":
+            "Multiscale Geographically Weighted Regression (MGWR) This module provides functionality to calibrate multiscale (M)GWR as well as traditional GWR. It is built upon the sparse generalized linear modeling (spglm) module. Features GWR model calibration via iteratively weighted least squares for Gaussian, Poisson, and binomial probability models. GWR bandwidth selection via golden section search or equal interval search GWR-specific model diagnostics, including a multiple hypothesis test correction and local collinearity Monte Carlo test for spatial variability of parameter estimate surfaces GWR-based spatial prediction MGWR model calibration via GAM iterative backfitting for Gaussian model MGWR covariate-specific inference, including a multiple hypothesis test correction...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/mgwr/intro.html",
+        "teaser":null},{
+        "title": "Binomial_GLM",
+        
+        "excerpt":
+            "from pysal.model.spglm.glm import GLM from pysal.model.spglm.family import Binomial import pysal.lib.api as ps import numpy as np #Load sample dataset - Subset of london house price dataset db = ps.open(ps.get_path('columbus.dbf'),'r') #Set dependent variable y = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spglm/Binomial_GLM.html",
+        "teaser":null},{
+        "title": "Gaussian_GLM",
+        
+        "excerpt":
+            "from pysal.model.spglm.glm import GLM import pysal.lib.api as ps import numpy as np #Load sample dataset - columbus dataset db = ps.open(ps.get_path('columbus.dbf'),'r') #Set dependent variable y = np.array(db.by_col(\"HOVAL\")) y = np.reshape(y, (49,1)) #Set indepdent varibLES X = [] X.append(db.by_col(\"INC\")) X.append(db.by_col(\"CRIME\")) X = np.array(X).T #Estimate Gaussian GLM #First instantiate a GLM model object model = GLM(y, X) #Gaussian is the default family parameter so it doesn't need to be set #Then use the fit method to estimate coefficients and compute diagnostics results = model.fit() #Estimated prameters, intercept is always the first column on the left print(results.params) [46.42818268 0.62898397 -0.48488854] #Parameter standard errors...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spglm/Gaussian_GLM.html",
+        "teaser":null},{
+        "title": "Poisson_GLM",
+        
+        "excerpt":
+            "from pysal.model.spglm.glm import GLM from pysal.model.spglm.family import Poisson import pysal.lib.api as ps import numpy as np #Load sample dataset - columbus dataset db = ps.open(ps.get_path('columbus.dbf'),'r') #Set dependent variable y = np.array(db.by_col(\"HOVAL\")) y = np.reshape(y, (49,1)) #Round dependent variable and convert to integer for the example since Poisson is for discrete data y = np.round(y).astype(int) #Set indepdent varibLES X = [] X.append(db.by_col(\"INC\")) X.append(db.by_col(\"CRIME\")) X = np.array(X).T #Estimate Poisson GLM #First instantiate a GLM model object model = GLM(y, X, family=Poisson()) #Set family to Poisson family object for Poisson GLM #Then use the fit method to estimate coefficients and compute diagnostics results...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spglm/Poisson_GLM.html",
+        "teaser":null},{
+        "title": "spglm",
+        
+        "excerpt":
+            "Generalized Linear Modeling This module is an adaptation of a portion of GLM functionality from the Statsmodels package, this it has been simplified and customized for the purposes of serving as the base for several other PySAL modules, namely SpInt and GWR. Currently, it supports the estimation of Gaussian, Poisson, and Logistic regression using only iteratively weighted least squares estimation (IWLS). One of the large differences this module and the functions avaialble in the Statsmodels package is that the custom IWLS routine is fully sparse compatible, which was necesary for the very sparse design matrices that arise in constrained spatial...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spglm/intro.html",
+        "teaser":null},{
+        "title": "4d_distance",
+        
+        "excerpt":
+            "import numpy as np from scipy.spatial import distance import scipy.spatial as spatial from pysal.weights import W from pysal.weights.util import isKDTree from pysal.weights import Distance as Distance def nplinalg(): np.linalg.norm(np.array((67, 46, 92, 67))-np.array((44, 97, 25, 50))) np.linalg.norm(np.array((67, 46, 92, 67))-np.array((84, 37, 66, 53))) np.linalg.norm(np.array((67, 46, 92, 67))-np.array((30, 46, 23, 80))) np.linalg.norm(np.array((44, 97, 25, 50))-np.array((67, 46, 92, 67))) np.linalg.norm(np.array((44, 97, 25, 50))-np.array((84, 37, 66, 53))) np.linalg.norm(np.array((44, 97, 25, 50))-np.array((30, 46, 23, 80))) np.linalg.norm(np.array((84, 37, 66, 53))-np.array((44, 97, 25, 50))) np.linalg.norm(np.array((84, 37, 66, 53))-np.array((30, 46, 23, 80))) np.linalg.norm(np.array((84, 37, 66, 53))-np.array((67, 46, 92, 67))) np.linalg.norm(np.array((30, 46, 23, 80))-np.array((67, 46, 92, 67))) np.linalg.norm(np.array((30, 46,...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/4d_distance.html",
+        "teaser":null},{
+        "title": "Example_NYCBikes_AllFeatures",
+        
+        "excerpt":
+            "from pysal.contrib.spint.gravity import BaseGravity, Gravity, Production, Attraction, Doubly from pysal.contrib.spint.dispersion import phi_disp from pysal.contrib.spint.vec_SA import VecMoran import pysal as ps import pandas as pd import geopandas as gp import numpy as np import seaborn as sb import matplotlib.pylab as plt %pylab inline from descartes import PolygonPatch import matplotlib as mpl from mpl_toolkits.basemap import Basemap import pyproj as pj from shapely.geometry import Polygon, Point Populating the interactive namespace from numpy and matplotlib #Load NYC bike data - trips between census tract centroids bikes = pd.read_csv(ps.examples.get_path('nyc_bikes_ct.csv')) bikes.head() Unnamed: 0 index count d_cap d_tract distance end station latitude end station longitude o_cap o_tract...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/Example_NYCBikes_AllFeatures.html",
+        "teaser":null},{
+        "title": "NYC_Bike_Example",
+        
+        "excerpt":
+            "import os os.chdir('../') from gravity import Gravity, Production, Attraction, Doubly os.chdir('/Users/toshan/dev/pysal/pysal/contrib/spint') import entropy as grav import numpy as np import scipy.stats as stats import pandas as pd import seaborn as sns import geopandas as gp os.chdir('/Users/toshan/Dropbox/Data/NYC_BIKES') import matplotlib.pylab as plt %pylab inline from descartes import PolygonPatch import matplotlib as mpl from mpl_toolkits.basemap import Basemap import pyproj as pj from shapely.geometry import Polygon, Point Populating the interactive namespace from numpy and matplotlib ct = pd.read_csv('CT_BIKE_DATA.csv') ct = ct[ct['o_tract'] != ct['d_tract']] ct.ix[ct.o_sq_foot == 0, 'o_sq_foot'] = 1 ct.ix[ct.d_sq_foot == 0, 'd_sq_foot'] = 1 ct.ix[ct.o_cap == 0, 'o_cap'] = 1 ct.ix[ct.d_cap == 0,...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/NYC_Bike_Example.html",
+        "teaser":null},{
+        "title": "New_DistanceBand",
+        
+        "excerpt":
+            "import numpy as np from scipy.spatial import distance import scipy.spatial as spatial from pysal.weights import W from pysal.weights.util import isKDTree from pysal.weights import Distance as Distance from pysal.weights import WSP, WSP2W from scipy.spatial import distance_matrix import scipy.sparse as sp from pysal.common import KDTree class DistanceBand(W): \"\"\" Spatial weights based on distance band. Parameters ---------- data : array (n,k) or KDTree where KDtree.data is array (n,k) n observations on k characteristics used to measure distances between the n objects threshold : float distance band p : float Minkowski p-norm distance metric parameter: 1&lt;=p&lt;=infinity 2: Euclidean distance 1: Manhattan distance binary :...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/New_DistanceBand.html",
+        "teaser":null},{
+        "title": "ODW_example",
+        
+        "excerpt":
+            "        import sys sys.path.append('/Users/toshan/dev/pysal/pysal/weights') from pysal.model.spintW import ODW import pysal as ps             With an equal number of origins and destinations (n=16)           origins = ps.weights.lat2W(4,4) dests = ps.weights.lat2W(4,4)                     origins.n                          16                           dests.n                          16                           ODw = ODW(origins, dests)                     print ODw.n, 16*16                         256 256                          ODw.full()[0].shape                          (256, 256)                   # With non-equal number of origins (n=9) and destinations (m=25)           origins = ps.weights.lat2W(3,3)                     dests = ps.weights.lat2W(5,5)                     origins.n                          9                           dests.n                          25                           ODw = ODW(origins, dests)                     print ODw.n, 9*25                         225 225                          ODw.full()[0].shape                          (225, 225)                   ",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/ODW_example.html",
+        "teaser":null},{
+        "title": "OD_weights",
+        
+        "excerpt":
+            "import pysal as ps from pysal import weights as w import numpy as np import scipy.sparse as sp def OD(Wo, Wd): Wo = Wo.sparse Wd = Wd.sparse Ww = sp.kron(Wo, Wd) return w.WSP2W(w.WSP(Ww)) origins = ps.weights.lat2W(4,4) dests = ps.weights.lat2W(4,4) Ww = OD(origins, dests) Ww.transform = 'r' print Ww.full()[0].shape (256, 256) flows = np.random.randint(0,100, (4,4)) np.fill_diagonal(flows, 0) flows = flows.reshape((16,1)) print flows slag = ps.lag_spatial(Ww, flows) print slag [[ 0] [38] [36] [86] [30] [ 0] [69] [19] [84] [43] [ 0] [80] [58] [ 3] [35] [ 0]] [[ 28. ] [ 53.25] [ 53.25] [ 28. ] [ 28....",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/OD_weights.html",
+        "teaser":null},{
+        "title": "autograd_test",
+        
+        "excerpt":
+            "import pandas as pd import scipy.optimize as sc import autograd.numpy as np import autograd from autograd.convenience_wrappers import multigrad import scipy.sparse austria = pd.read_csv('http://dl.dropbox.com/u/8649795/AT_Austria.csv') austria = austria[austria['Origin'] != austria['Destination']] f = np.reshape(austria['Data'].values, (-1,1)) o = austria['Origin'].values d = austria['Destination'].values dij = np.reshape(austria['Dij'].values, (-1,1)) o_vars = np.reshape(austria['Oi2007'].values, (-1,1)) d_vars = np.reshape(austria['Dj2007'].values, (-1,1)) dij = np.reshape(austria['Dij'].values, (-1,1)) o_vars = np.reshape(austria['Oi2007'].values, (-1,1)) d_vars = np.reshape(austria['Dj2007'].values, (-1,1)) def newton(f, x0): # wrap scipy.optimize.newton with our automatic derivatives params = sc.fsolve(f, x0) return params def poiss_loglike(mu, sig, ep, x, inputs): a,b,c = inputs[:,0], inputs[:,1], inputs[:,2] predict = sig*a + ep*b + mu*c predict = np.reshape(predict, (-1,1))...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/autograd_test.html",
+        "teaser":null},{
+        "title": "dispersion_test",
+        
+        "excerpt":
+            "import os os.chdir('/Users/toshan/dev/pysal/pysal/contrib/spint') from count_model import CountModel import numpy as np import pandas as pd from gravity import Gravity, Production, Attraction, Doubly, BaseGravity import statsmodels.formula.api as smf from statsmodels.api import families os.chdir('/Users/toshan/dev/pysal/pysal/contrib/glm') from glm import GLM from family import Poisson, QuasiPoisson import pysal import os os.chdir('/Users/toshan/dev/pysal/pysal/contrib/spint') from dispersion import alpha_disp, phi_disp rec = pd.read_csv('/Users/toshan/Documents/RecreationDemand.csv') rec.head() Unnamed: 0 trips quality ski income userfee costC costS costH 0 1 0 0 yes 4 no 67.59 68.620 76.800 1 2 0 0 no 9 no 68.86 70.936 84.780 2 3 0 0 yes 5 no 58.12 59.465 72.110 3 4 0 0 no...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/dispersion_test.html",
+        "teaser":null},{
+        "title": "spint",
+        
+        "excerpt":
+            "Spatial Interaction Modeling Package The Spatial Interaction Modeling (SpInt) module seeks to provide a collection of tools to study spatial interaction processes and analyze spatial interaction data. The initial development of the module was carried out as a Google Summer of Code project (summer 2016). Documentation of the project progress can be found on the project blog. The module currently supports the calibration of the ‘family’ of spatial interaction models (Wilson, 1971) which are derived using an entropy maximizing (EM) framework or the equivalent information minimizing (IM) framework. As such, it is able to derive parameters for the following Poisson...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/intro.html",
+        "teaser":null},{
+        "title": "local_SI",
+        
+        "excerpt":
+            "import numpy as np import pandas as pd import os os.chdir('../') from gravity import Gravity, Production, Attraction, Doubly, BaseGravity import statsmodels.formula.api as smf from statsmodels.api import families import matplotlib.pyplot as plt %pylab inline Populating the interactive namespace from numpy and matplotlib austria = pd.read_csv('http://dl.dropbox.com/u/8649795/AT_Austria.csv') austria = austria[austria['Origin'] != austria['Destination']] f = austria['Data'].values o = austria['Origin'].values d = austria['Destination'].values dij = austria['Dij'].values o_vars = austria['Oi2007'].values d_vars = austria['Dj2007'].values model = Gravity(f, o_vars, d_vars, dij, 'exp') print model.params[-1] -0.00976746026969 local = model.local(loc_index=o, locs=np.unique(o)) local['param2'] [-0.01699776161094757, -0.0053210259160796358, -0.0028594272276957211, -0.006533037784217155, -0.0024666647861060209, -0.0058258251130860472, -0.010739622617965516, -0.0046867791898773659, -0.0065940756391066335] model = Production(f, o, d_vars, dij, 'exp') print model.params[-1]...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/local_SI.html",
+        "teaser":null},{
+        "title": "netW",
+        
+        "excerpt":
+            "import numpy as np import os os.chdir('/Users/toshan/dev/pysal/pysal/weights') from pysal.model.spintW import netW, mat2L link_list = [('a', 'b'), ('a', 'c'), ('a', 'd'), ('b', 'a'), ('b', 'c'), ('b', 'd'), ('c', 'a'), ('c', 'b'), ('c', 'd'), ('d', 'a'), ('d', 'b'), ('d', 'c')] w = netW(link_list) w.full()[0] array([[ 0., 1., 1., 1., 1., 1., 1., 1., 0., 1., 1., 0.], [ 1., 0., 1., 1., 1., 0., 1., 1., 1., 1., 0., 1.], [ 1., 1., 0., 1., 0., 1., 1., 0., 1., 1., 1., 1.], [ 1., 1., 1., 0., 1., 1., 1., 1., 0., 1., 1., 0.], [ 1., 1., 0., 1., 0.,...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/netW.html",
+        "teaser":null},{
+        "title": "sparse_categorical",
+        
+        "excerpt":
+            "import numpy as np from scipy import sparse as sp from statsmodels.tools.tools import categorical from datetime import datetime as dt def spcategorical(data): ''' Returns a dummy matrix given an array of categorical variables. Parameters ---------- data : array A 1d vector of the categorical variable. Returns -------- dummy_matrix A sparse matrix of dummy (indicator/binary) float variables for the categorical data. ''' if np.squeeze(data).ndim == 1: tmp_arr = np.unique(data) tmp_dummy = sp.csr_matrix((0, len(data))) for each in tmp_arr[:, None]: row = sp.csr_matrix((each == data).astype(float)) tmp_dummy = sp.vstack([tmp_dummy, row]) tmp_dummy = tmp_dummy.T return tmp_dummy else: raise IndexError(\"The index %s is not understood\" %...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/sparse_categorical.html",
+        "teaser":null},{
+        "title": "sparse_categorical_bottleneck",
+        
+        "excerpt":
+            "from scipy import sparse as sp import numpy as np def spcategorical(n_cat_ids): ''' Returns a dummy matrix given an array of categorical variables. Parameters ---------- n_cat_ids : array A 1d vector of the categorical labels for n observations. Returns -------- dummy : array A sparse matrix of dummy (indicator/binary) variables for the categorical data. ''' if np.squeeze(n_cat_ids).ndim == 1: cat_set = np.unique(n_cat_ids) n = len(n_cat_ids) index = [np.where(cat_set == id)[0].tolist()[0] for id in n_cat_ids] #This list comprehension is likely print index #the most intense part of the algorithm indptr = np.arange(n+1, dtype=int) return sp.csr_matrix((np.ones(n), index, indptr)) else: raise IndexError(\"The index...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/sparse_categorical_bottleneck.html",
+        "teaser":null},{
+        "title": "sparse_categorical_speed",
+        
+        "excerpt":
+            "import numpy as np import pysal import scipy.sparse as sp import itertools as iter from scipy.stats import f, chisqprob import numpy.linalg as la import pandas as pd from datetime import datetime as dt import matplotlib.pyplot as plt %pylab inline Populating the interactive namespace from numpy and matplotlib #OLD \"\"\" def spcategorical2(n_cat_ids): ''' Returns a dummy matrix given an array of categorical variables. Parameters ---------- n_cat_ids : array A 1d vector of the categorical labels for n observations. Returns -------- dummy : array A sparse matrix of dummy (indicator/binary) variables for the categorical data. ''' if np.squeeze(n_cat_ids).ndim == 1: cat_set =...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/sparse_categorical_speed.html",
+        "teaser":null},{
+        "title": "sparse_grav",
+        
+        "excerpt":
+            "import numpy as np import pandas as pd from gravity import Gravity, Production, Attraction, Doubly, BaseGravity from entropy import Unconstrained, ProductionConstrained, AttractionConstrained, DoublyConstrained import statsmodels.formula.api as smf from statsmodels.api import families import matplotlib.pyplot as plt %pylab inline import time def timeit(method): def timed(*args, **kw): ts = time.time() result = method(*args, **kw) te = time.time() elapsed = te-ts #print '%2.8f sec' % \\ #(elapsed) return result, elapsed return timed Populating the interactive namespace from numpy and matplotlib @timeit def gravity(f ,o, d, o_vars, d_vars, dij, cost='exp', framework='glm'): results = Gravity(f, o_vars, d_vars, dij, cost, framework=framework) return results @timeit def production(f ,o,...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/sparse_grav.html",
+        "teaser":null},{
+        "title": "sparse_scipy_optim",
+        
+        "excerpt":
+            "import pandas as pd import scipy.optimize as sc import scipy.sparse as sp data = np.random.poisson(100, (10000,1)) data = sp.csr_matrix(data) def poiss_loglike(x, data, a): print x return -np.sum(data*np.log(x)-x)*a params = sc.fmin(poiss_loglike, 0, args=(data ,1)) print params [ 0.] [ 0.00025] [ 0.0005] [ 0.00075] [ 0.00125] [ 0.00175] [ 0.00275] [ 0.00375] [ 0.00575] [ 0.00775] [ 0.01175] [ 0.01575] [ 0.02375] [ 0.03175] [ 0.04775] [ 0.06375] [ 0.09575] [ 0.12775] [ 0.19175] [ 0.25575] [ 0.38375] [ 0.51175] [ 0.76775] [ 1.02375] [ 1.53575] [ 2.04775] [ 3.07175] [ 4.09575] [ 6.14375] [ 8.19175] [ 12.28775] [ 16.38375] [...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/sparse_scipy_optim.html",
+        "teaser":null},{
+        "title": "sparse_vs_dense_grav",
+        
+        "excerpt":
+            "import numpy as np import pandas as pd from gravity import Gravity, Production, Attraction, Doubly, BaseGravity from entropy import Unconstrained, ProductionConstrained, AttractionConstrained, DoublyConstrained import statsmodels.formula.api as smf from statsmodels.api import families import matplotlib.pyplot as plt %pylab inline import time def timeit(method): def timed(*args, **kw): ts = time.time() result = method(*args, **kw) te = time.time() elapsed = te-ts #print '%2.8f sec' % \\ #(elapsed) return result, elapsed return timed Populating the interactive namespace from numpy and matplotlib @timeit def gravity(f ,o, d, o_vars, d_vars, dij, cost='exp', framework='glm'): results = Gravity(f, o_vars, d_vars, dij, cost, framework=framework) return results @timeit def production(f ,o,...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/sparse_vs_dense_grav.html",
+        "teaser":null},{
+        "title": "test_grav",
+        
+        "excerpt":
+            "import numpy as np import pandas as pd import os os.chdir('../') from gravity import Gravity, Production, Attraction, Doubly, BaseGravity import statsmodels.formula.api as smf from statsmodels.api import families import matplotlib.pyplot as plt %pylab inline Populating the interactive namespace from numpy and matplotlib n = 3000 o = np.tile(np.arange(n),n) d = np.repeat(np.arange(n),n) loc_size = np.random.randint(25000,500000, n) o_vars = np.tile(loc_size, n) d_vars = np.repeat(loc_size, n) dij = np.random.exponential(2500, n**2) f = o_vars**.3*d_vars**.4*np.exp(dij*-.00005) o = np.reshape(o, (-1,1)) d = np.reshape(d, (-1,1)) o_vars = np.reshape(o_vars, (-1,1)) d_vars = np.reshape(d_vars, (-1,1)) dij = np.reshape(dij, (-1,1)) f = np.reshape(f, (-1,1)) f = f.astype(np.int64) %time Gravity(f, o_vars, d_vars,...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/test_grav.html",
+        "teaser":null},{
+        "title": "validate_gravity",
+        
+        "excerpt":
+            "#import sys #sys.path.append('/Users/toshan/dev/pysal/pysal/contrib/glm') #from utils import import numpy as np import pandas as pd import sys sys.path.append('/Users/toshan/dev/pysal/pysal/contrib/spint') from gravity import Gravity, Production, Attraction, Doubly, BaseGravity import gravity from utils import sorensen import statsmodels.formula.api as smf from statsmodels.api import families as families austria = pd.read_csv('http://dl.dropbox.com/u/8649795/AT_Austria.csv') austria = austria[austria['Origin'] != austria['Destination']] f = austria['Data'].values o = austria['Origin'].values d = austria['Destination'].values dij = austria['Dij'].values o_vars = austria['Oi2007'].values d_vars = austria['Dj2007'].values grav = Gravity(f, o_vars, d_vars, dij, 'exp', framework='glm', constant=True) print grav.params gravity = smf.glm('Data~np.log(Oi2007)+np.log(Dj2007)+Dij', family=families.Poisson(), data=austria).fit() print gravity.params.values [ -7.95447436e+00 8.63867812e-01 8.80474585e-01 -6.20544765e-03] [ -7.95447436e+00 8.63867812e-01 8.80474585e-01 -6.20544766e-03] production = Production(f, o, d_vars,...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spint/validate_gravity.html",
+        "teaser":null},{
+        "title": "spvcm",
+        
+        "excerpt":
+            "404: Not Found  ",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spvcm/intro.html",
+        "teaser":null},{
+        "title": "spatially-varying-coefficients",
+        
+        "excerpt":
+            "from pysal.model.spvcm.svc import SVC import pysal as ps import numpy as np import seaborn as sns import matplotlib.pyplot as plt %matplotlib inline Today, we’ll sample a spatially-varying coefficient model, like that discussed in Gelfand (2003). These models are of the form: where $\\beta_{i.}$ reflects the vector of $p$ coefficient estimates local to site $i$. This is a hierarchical model, where a prior on the $\\beta$ effects is assigned as a function of a spatial kernel $\\mathbf{H}(\\phi)$, relating all $N$ sites to one another as a function of distance and attenuation parameter $\\phi$, and an intrinsic covariance among the $\\beta$ unrelated...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spvcm/spatially-varying-coefficients.html",
+        "teaser":null},{
+        "title": "using_the_sampler",
+        
+        "excerpt":
+            "Using the sampler spvcm is a generic gibbs sampling framework for spatially-correlated variance components models. The current supported models are: spvcm.both contains specifications with correlated errors in both levels, with the first statement se/sma describing the lower level and the second statement se/sma describing the upper level. In addition, MVCM, the multilevel variance components model with no spatial correlation, is in the both namespace. spvcm.lower contains two specifications, se/sma, that can be used for a variance components model with correlated lower-level errors. spvcm.upper contains two specifications, se/sma that can be used for a variance components model with correlated upper-level errors....",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/spvcm/using_the_sampler.html",
+        "teaser":null},{
+        "title": "deprecate",
+        
+        "excerpt":
+            "Deprecations with version 2.1.0 import pysal.lib import geopandas as gpd from pysal.viz import mapclassify as mc columbus = gpd.read_file(pysal.lib.examples.get_path('columbus.shp')) mc.Equal_Interval(columbus.CRIME) Equal Interval Lower Upper Count ======================================== x[i] &lt;= 13.921 2 13.921 &lt; x[i] &lt;= 27.664 16 27.664 &lt; x[i] &lt;= 41.407 14 41.407 &lt; x[i] &lt;= 55.149 10 55.149 &lt; x[i] &lt;= 68.892 7 qc = mc.EqualInterval(columbus.CRIME) mc.HeadTail_Breaks(columbus.CRIME) HeadTailBreaks Lower Upper Count ======================================== x[i] &lt;= 35.129 25 35.129 &lt; x[i] &lt;= 49.361 12 49.361 &lt; x[i] &lt;= 57.542 8 57.542 &lt; x[i] &lt;= 63.304 3 63.304 &lt; x[i] &lt;= 68.892 1 mc.HeadTailBreaks(columbus.CRIME) HeadTailBreaks Lower Upper Count ======================================== x[i] &lt;= 35.129...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/viz/mapclassify/deprecate.html",
+        "teaser":null},{
+        "title": "mapclassify",
+        
+        "excerpt":
+            "mapclassify: Classification Schemes for Choropleth Maps &gt;&gt;&gt; import mapclassify &gt;&gt;&gt; y = mapclassify.load_example() &gt;&gt;&gt; y.mean() 125.92810344827588 &gt;&gt;&gt; y.min(), y.max() (0.13, 4111.4499999999998) Map Classifiers Supported BoxPlot &gt;&gt;&gt; mapclassify.BoxPlot(y) Box Plot Lower Upper Count ============================================ x[i] &lt;= -52.876 0 -52.876 &lt; x[i] &lt;= 2.567 15 2.567 &lt; x[i] &lt;= 9.365 14 9.365 &lt; x[i] &lt;= 39.530 14 39.530 &lt; x[i] &lt;= 94.974 6 94.974 &lt; x[i] &lt;= 4111.450 9 EqualInterval &gt;&gt;&gt; mapclassify.EqualInterval(y) Equal Interval Lower Upper Count ============================================ x[i] &lt;= 822.394 57 822.394 &lt; x[i] &lt;= 1644.658 0 1644.658 &lt; x[i] &lt;= 2466.922 0 2466.922 &lt; x[i] &lt;= 3289.186 0 3289.186 &lt;...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/viz/mapclassify/intro.html",
+        "teaser":null},{
+        "title": "maximum_breaks",
+        
+        "excerpt":
+            "import sys import os sys.path.append(os.path.abspath('..')) from pysal.viz import mapclassify as mc y = mc.load_example() mc.MaximumBreaks(y, k=4) MaximumBreaks Lower Upper Count ============================================ x[i] &lt;= 228.490 52 228.490 &lt; x[i] &lt;= 546.675 4 546.675 &lt; x[i] &lt;= 2417.150 1 2417.150 &lt; x[i] &lt;= 4111.450 1 mc.MaximumBreaks(y, k=7) MaximumBreaks Lower Upper Count ============================================ x[i] &lt;= 146.005 50 146.005 &lt; x[i] &lt;= 228.490 2 228.490 &lt; x[i] &lt;= 291.020 1 291.020 &lt; x[i] &lt;= 350.210 2 350.210 &lt; x[i] &lt;= 546.675 1 546.675 &lt; x[i] &lt;= 2417.150 1 2417.150 &lt; x[i] &lt;= 4111.450 1 mb7 = mc.MaximumBreaks(y, k=7) mb7.bins array([ 146.005, 228.49 , 291.02...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/viz/mapclassify/maximum_breaks.html",
+        "teaser":null},{
+        "title": "plot",
+        
+        "excerpt":
+            "import pysal.lib import geopandas as gpd from pysal.viz import mapclassify as mc columbus = gpd.read_file(pysal.lib.examples.get_path('columbus.shp')) q5 = mc.Quantiles(columbus.CRIME, k=5) q5 Quantiles Lower Upper Count ======================================== x[i] &lt;= 19.023 10 19.023 &lt; x[i] &lt;= 29.326 10 29.326 &lt; x[i] &lt;= 39.025 9 39.025 &lt; x[i] &lt;= 53.161 10 53.161 &lt; x[i] &lt;= 68.892 10 q5.plot(columbus) (&lt;Figure size 640x480 with 1 Axes&gt;, &lt;matplotlib.axes._subplots.AxesSubplot at 0x7f893be186d8&gt;) q5.plot(columbus, axis_on=False) (&lt;Figure size 432x288 with 1 Axes&gt;, &lt;matplotlib.axes._subplots.AxesSubplot at 0x7f893bb0acc0&gt;) q5.plot(columbus, axis_on=False, cmap='Blues') (&lt;Figure size 432x288 with 1 Axes&gt;, &lt;matplotlib.axes._subplots.AxesSubplot at 0x7f893ba1bb70&gt;) f = q5.plot(columbus, axis_on=False, cmap='Blues') f = q5.plot(columbus, axis_on=False, cmap='Blues', title='Columbus, OH') f =...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/viz/mapclassify/plot.html",
+        "teaser":null},{
+        "title": "south",
+        
+        "excerpt":
+            "import sys import os sys.path.append(os.path.abspath('..')) from pysal.viz import mapclassify as mc import pysal.lib import geopandas as gpd import matplotlib.pyplot as plt %matplotlib inline df = gpd.read_file(pysal.lib.examples.get_path('south.shp')) hr60_q10 = mc.Quantiles(df['HR60'], k=10) hr60_q10 Quantiles Lower Upper Count ========================================= x[i] &lt;= 0.000 180 0.000 &lt; x[i] &lt;= 2.497 103 2.497 &lt; x[i] &lt;= 3.927 141 3.927 &lt; x[i] &lt;= 5.104 141 5.104 &lt; x[i] &lt;= 6.245 141 6.245 &lt; x[i] &lt;= 7.621 141 7.621 &lt; x[i] &lt;= 9.188 141 9.188 &lt; x[i] &lt;= 10.981 141 10.981 &lt; x[i] &lt;= 14.313 141 14.313 &lt; x[i] &lt;= 92.937 142 fig, ax = plt.subplots(figsize=(12,10), subplot_kw={'aspect':'equal'}) df.assign(cl=hr60_q10.yb).plot(column='cl',...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/viz/mapclassify/south.html",
+        "teaser":null},{
+        "title": "esda_moran_matrix_viz",
+        
+        "excerpt":
+            "Visualising the esda Moran Matrix with splot esda.moran.Moran_BV_matrix offers you a tool to assess the relationship between multiple input variables and over space as bivariate and univariate Moran’s I Statistics. Moran_BV_matrix returns a dictionary of Moran_BV objects which can be displayed and further analysed. In case you are not familiar with Moran Statistics, have a look at splot’s esda_morans_viz.ipynb notebook. Contents What to import? Example 1: Working with arrays Example 2: Working with a geopandas.GeoDataFrame Imports from pysal.lib.weights.contiguity import Queen from pysal.lib import examples import pysal.lib as lp import geopandas as gpd import pandas as pd import matplotlib.pyplot as plt...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/viz/splot/esda_moran_matrix_viz.html",
+        "teaser":null},{
+        "title": "esda_morans_viz",
+        
+        "excerpt":
+            "Exploratory Analysis of Spatial Data: Visualizing Spatial Autocorrelation with splot and esda Content Imports Load Example data Assessing Global Spatial Autocorrelation Visualizing Local Autocorrelation Statistics with splot Combined visualizations: Moran Local Scatterplot, LISA clustermap and Choropleth map Bivariate Moran Statistics Imports %matplotlib inline import matplotlib.pyplot as plt from pysal.lib.weights.contiguity import Queen from pysal.lib import examples import numpy as np import pandas as pd import geopandas as gpd import os from pysal.viz import splot Example Data First, we will load the Guerry.shp data from examples in pysal.lib. link_to_data = examples.get_path('Guerry.shp') gdf = gpd.read_file(link_to_data) For this example we will focus on the...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/viz/splot/esda_morans_viz.html",
+        "teaser":null},{
+        "title": "giddy_space_time",
+        
+        "excerpt":
+            "Space-time visualisations (giddy) from pysal.lib.weights.contiguity import Queen from pysal.lib import examples import geopandas as gpd import pandas as pd import numpy as np from pysal.explore.giddy.directional import Rose import matplotlib.pyplot as plt from pysal.explore import esda from pysal.viz.splot.esda import lisa_cluster from ipywidgets import interact, fixed import ipywidgets as widgets %matplotlib inline plt.style.use('ggplot') Data prepration # get csv and shp and merge shp_link = examples.get_path('us48.shp') df = gpd.read_file(shp_link) income_table = pd.read_csv(examples.get_path(\"usjoin.csv\")) # calculate relative values for year in range(1969, 2010): income_table[str(year) + '_rel'] = income_table[str(year)] / income_table[str(year)].mean() # merge gdf = df.merge(income_table,left_on='STATE_NAME',right_on='Name') #retrieve spatial weights and data for two points in time...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/viz/splot/giddy_space_time.html",
+        "teaser":null},{
+        "title": "splot",
+        
+        "excerpt":
+            "splot Visual analytics for spatial analysis with PySAL. What is splot? splot connects spatial analysis done in PySAL to different popular visualization toolkits like matplotlib. The splot package allows you to create both static plots ready for publication and interactive visualizations for quick iteration and spatial data exploration. The primary goal of splot is to enable you to visualize popular PySAL objects and gives you different views on your spatial analysis workflow. If you are new to splot and PySAL you will best get started with our documentation! Installing splot Installing dependencies: splot is compatible with Python 3.6 and 3.7...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/viz/splot/intro.html",
+        "teaser":null},{
+        "title": "libpysal_non_planar_joins_viz",
+        
+        "excerpt":
+            "splot.pysal.lib: assessing neigbors &amp; spatial weights In spatial analysis workflows it is often important and necessary to asses the relationships of neighbouring polygons. pysal.lib and splot can help you to inspect if two neighbouring polygons share an edge or not. Content: Imports Data Preparation Plotting Imports from pysal.lib.weights.contiguity import Queen import pysal.lib from pysal.lib import examples import matplotlib.pyplot as plt import geopandas as gpd %matplotlib inline from pysal.viz.splot.pysal.lib import plot_spatial_weights Data Preparation Let’s first have a look at the dataset with pysal.lib.examples.explain examples.explain('rio_grande_do_sul') {'name': 'Rio_Grande_do_Sul', 'description': 'Cities of the Brazilian State of Rio Grande do Sul', 'explanation': ['* 43MUE250GC_SIR.dbf: attribute...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/viz/splot/libpysal_non_planar_joins_viz.html",
+        "teaser":null},{
+        "title": "mapping_vba",
+        
+        "excerpt":
+            "Mapping with splot and PySAL Imports import pysal.lib as lp from pysal.lib import examples import geopandas as gpd import pandas as pd import matplotlib.pyplot as plt import matplotlib import numpy as np %matplotlib inline Data Preparation Load example data into a geopandas.GeoDataFrame and inspect column names. In this example we will use the columbus.shp file containing neighborhood crime data of 1980. link_to_data = examples.get_path('columbus.shp') gdf = gpd.read_file(link_to_data) gdf.columns Index(['AREA', 'PERIMETER', 'COLUMBUS_', 'COLUMBUS_I', 'POLYID', 'NEIG', 'HOVAL', 'INC', 'CRIME', 'OPEN', 'PLUMB', 'DISCBD', 'X', 'Y', 'NSA', 'NSB', 'EW', 'CP', 'THOUS', 'NEIGNO', 'geometry'], dtype='object') We extract two arrays x (housing value (in $1,000)) and...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/viz/splot/mapping_vba.html",
+        "teaser":null},]
+</script>
+              <nav class="c-page__nav">
+  
+
+  
+</nav>
+
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+  </body>
+</html>

@@ -1,6 +1,4 @@
 ---
-redirect_from:
-  - "/model/spglm/intro"
 title: 'spglm'
 prev_page:
   url: /model/spint/4d_distance

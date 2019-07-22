@@ -2,30 +2,36 @@
 redirect_from:
   - "/model/spglm/binomial-glm"
 interact_link: content/model/spglm/Binomial_GLM.ipynb
+kernel_name: Python [Root]
+has_widgets: false
 title: 'Binomial_GLM'
 prev_page:
   url: /model/spglm/Gaussian_GLM
   title: 'Gaussian_GLM'
 next_page:
-  url: 
-  title: ''
+  url: /model/mgwr/intro
+  title: 'mgwr'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-from spglm.glm import GLM
-from spglm.family import Binomial
-import libpysal.api as ps
+from pysal.model.spglm.glm import GLM
+from pysal.model.spglm.family import Binomial
+import pysal.lib.api as ps
 import numpy as np
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Load sample dataset - Subset of london house price dataset
 db = ps.open(ps.get_path('columbus.dbf'),'r')
@@ -74,12 +80,16 @@ X = np.array([ 77,  75,  64,  95, 107, 100,  81, 151,  98, 260, 171, 161,  91,
     83, 180, 108,  80,  96,  49, 117, 117,  86,  46,  66,  95,  57,
     120, 137,  68, 240])
 X = X.reshape((316,1))
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Estimate Binomial GLM
 
@@ -88,65 +98,93 @@ model = GLM(y, X, family=Binomial()) #Set family to Binomial family object for B
 
 #Then use the fit method to estimate coefficients and compute diagnostics
 results = model.fit()
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Estimated prameters, intercept is always the first column on the left
 print(results.params)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [-5.33638276  0.0287754 ]
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Parameter standard errors
 print(results.bse)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [0.64499904 0.00518312]
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Parameter t-values
 print(results.tvalues)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [-8.27347396  5.55175826]
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #Model AIC
 print(results.aic)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 155.19347530342466
-
 ```
+</div>
+</div>
+</div>
+

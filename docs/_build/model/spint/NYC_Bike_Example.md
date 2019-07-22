@@ -2,6 +2,8 @@
 redirect_from:
   - "/model/spint/nyc-bike-example"
 interact_link: content/model/spint/NYC_Bike_Example.ipynb
+kernel_name: Python [Root]
+has_widgets: false
 title: 'NYC_Bike_Example'
 prev_page:
   url: /model/spint/autograd_test
@@ -13,8 +15,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import os
 os.chdir('../')
@@ -36,18 +38,24 @@ import pyproj as pj
 from shapely.geometry import Polygon, Point
 
 
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Populating the interactive namespace from numpy and matplotlib
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 ct = pd.read_csv('CT_BIKE_DATA.csv')
 ct = ct[ct['o_tract'] != ct['d_tract']]
@@ -68,19 +76,24 @@ d = ct['d_tract'].astype(str).values.reshape((-1,1))
 print len(ct), ' OD pairs between census tracts after filtering out intrazonal flows'
 ct.head()
 
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 14042  OD pairs between census tracts after filtering out intrazonal flows
-
 ```
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 
-
-<div markdown="0">
+<div markdown="0" class="output output_html">
 <div style="max-height:1000px;max-width:1500px;overflow:auto;">
 <table border="1" class="dataframe">
   <thead>
@@ -237,10 +250,14 @@ ct.head()
 </div>
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 os.chdir('/Users/toshan/dev/pysal/pysal/contrib/spint')
 from gravity import Gravity, Production, Attraction, Doubly
@@ -248,69 +265,93 @@ from gravity import Gravity, Production, Attraction, Doubly
 model = Gravity(flows, o_vars, d_vars, cost, 'exp')
 print model.params
 print model.deviance
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [ 0.09898099  0.05748786  0.50319944  0.06920194  0.06408526  0.39371417
  -0.00226671]
 3289243.68953
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 model = Production(flows, o, d_vars, cost, 'exp')
 print model.params[-4:]
 print model.deviance
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [ 0.00437122  0.06794379  0.85720958 -0.00227555]
 2383227.55076
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 model = Doubly(flows, o, d, cost, 'exp')
 print model.params[-1]
 print model.deviance
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 -0.00232112445583
 1444734.46276
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 model = Production(flows, o, d_vars, cost, 'exp')
 local = model.local()
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 local['param4'][:10]
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -328,16 +369,22 @@ local['param4'][:10]
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 model.params[-1:] - local['param4']
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -385,10 +432,14 @@ array([ -4.95948156e-04,   3.40120247e-04,  -3.91480275e-05,
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 crs = {'datum':'WGS84', 'proj':'longlat'}
 tracts = gp.read_file('/Users/toshan/Dropbox/Data/NYC_BIKES/nyct2010_15a/nyct2010.shp')
@@ -405,12 +456,16 @@ local_vals = pd.merge(local_vals, man_tracts[['CT2010S', 'geometry']], left_on='
 local_vals = gp.GeoDataFrame(local_vals)
 
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 plt.figure(figsize=(12,12))
 local_vals['inv_betas'] = (local_vals['betas']*-1)
@@ -419,10 +474,12 @@ no_tracts.plot('test', colormap='copper')
 local_vals.plot('inv_betas', colormap='Blues')
 plt.xlim(-74.02, -73.95)
 plt.ylim(40.7, 40.78)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -431,14 +488,22 @@ plt.ylim(40.7, 40.78)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spint/NYC_Bike_Example_9_1.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 plt.figure(figsize=(12,12))
 local_vals['cap'] = local['param3']
@@ -448,10 +513,12 @@ local_vals.plot('cap', colormap='Reds')
 plt.legend()
 plt.xlim(-74.02, -73.95)
 plt.ylim(40.7, 40.78)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -460,14 +527,22 @@ plt.ylim(40.7, 40.78)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spint/NYC_Bike_Example_10_1.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 plt.figure(figsize=(12,12))
 local_vals['house'] = local['param2']
@@ -477,10 +552,12 @@ local_vals.plot('house', colormap='Reds')
 plt.legend()
 plt.xlim(-74.02, -73.95)
 plt.ylim(40.7, 40.78)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -489,14 +566,22 @@ plt.ylim(40.7, 40.78)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spint/NYC_Bike_Example_11_1.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 plt.figure(figsize=(12,12))
 local_vals['foot'] = local['param1']
@@ -506,10 +591,12 @@ local_vals.plot('foot', colormap='Reds')
 plt.legend()
 plt.xlim(-74.02, -73.95)
 plt.ylim(40.7, 40.78)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -518,7 +605,15 @@ plt.ylim(40.7, 40.78)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spint/NYC_Bike_Example_12_1.png)
+
+</div>
+</div>
+</div>
 

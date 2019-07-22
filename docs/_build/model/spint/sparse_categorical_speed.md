@@ -2,6 +2,8 @@
 redirect_from:
   - "/model/spint/sparse-categorical-speed"
 interact_link: content/model/spint/sparse_categorical_speed.ipynb
+kernel_name: python2
+has_widgets: false
 title: 'sparse_categorical_speed'
 prev_page:
   url: /model/spint/OD_weights
@@ -13,8 +15,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import numpy as np
 import pysal
@@ -26,18 +28,24 @@ import pandas as pd
 from datetime import datetime as dt
 import matplotlib.pyplot as plt
 %pylab inline
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Populating the interactive namespace from numpy and matplotlib
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #OLD
 """
@@ -93,12 +101,16 @@ def spcategorical2(n_cat_ids):
         return sp.csr_matrix((np.ones(n), indices, indptr))
     else:
         raise IndexError("The index %s is not understood" % col)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def spcategorical1(data):
     '''
@@ -127,12 +139,16 @@ def spcategorical1(data):
         raise IndexError("The index %s is not understood" % col)
 
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def spcategorical1a(data):
     '''
@@ -164,12 +180,16 @@ def spcategorical1a(data):
 
 
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def spcategorical1b(data):
     '''
@@ -198,32 +218,42 @@ def spcategorical1b(data):
     else:
         raise IndexError("The index %s is not understood" % col)
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 n = 20
 o = np.tile(np.arange(n),n)
 print np.allclose(spcategorical1(o).toarray(), spcategorical2(o).toarray())
 print np.allclose(spcategorical1(o).toarray(), spcategorical1a(o).toarray())
 print np.allclose(spcategorical1(o).toarray(), spcategorical1b(o).toarray())
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 True
 True
 True
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spcat1 = []
 for n in np.arange(25,250,25):
@@ -232,12 +262,16 @@ for n in np.arange(25,250,25):
     a = spcategorical1(np.array(o))
     e = dt.now()
     spcat1.append((e-s).total_seconds())
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spcat1a = []
 for n in np.arange(25,250,25):
@@ -246,12 +280,16 @@ for n in np.arange(25,250,25):
     b = spcategorical1a(np.array(o))
     e = dt.now()
     spcat1a.append((e-s).total_seconds())
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spcat1b = []
 for n in np.arange(25,250,25):
@@ -260,12 +298,16 @@ for n in np.arange(25,250,25):
     b = spcategorical1b(np.array(o))
     e = dt.now()
     spcat1b.append((e-s).total_seconds())
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spcat2 = []
 for n in np.arange(25,250,25):
@@ -274,44 +316,64 @@ for n in np.arange(25,250,25):
     b = spcategorical2(np.array(o))
     e = dt.now()
     spcat2.append((e-s).total_seconds())
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spcat1
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spcat1a
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spcat1b
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spcat2
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 x = np.arange(25, 250, 25)
 plt.plot(x, spcat1, x, spcat1a, x, spcat1b, x, spcat2)
@@ -319,14 +381,20 @@ plt.legend(('spcat1', 'spcat1a', 'spcat1b', 'spcat2'))
 plt.title('Speed of Sparse Dummy Functions')
 plt.xlabel('Sample Size')
 plt.ylabel('Seconds')
+
 ```
+</div>
+
+</div>
+
 
 
 ###### It is obvious that spcat1 and spcat2 are the fastest functions for creating sparse dummies. The differnece between these two functions is that spcat1 creates the dummies row by row (in sparse format) and then stacks the rows using sparse.hstack() while spcat2 builds an index for the non-zero dummy variable entries and then uses this index to instanitate the entire sparse dummy matrix, somewhat simularly to how the regimes are built in pysal. The slower functions spcat1a and spcat1b are riffs on spcat1 in that they also work row by row but they first instantiate an empty sparse matrix (either lil or dok) and then assign the rows to the empty matrix. The scipy doucmentation suggests that assignment for these two types of sparce matrices is faster than csr and csc and therefore is better for incrementally building a sparse matrix. However, it appears that avoiding assignment alother may be the best route if building a sparse matrix row by row. Therefrow csr is the best sparse data structure for row by row contruction in this context. Now lets lets row by row building (spcat1) vs entire instantiation using an non-zero-value index (spcat2) when the number of dummy variables starts to become much larger.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spcat1 = []
 for n in np.arange(100,1000,100):
@@ -335,12 +403,16 @@ for n in np.arange(100,1000,100):
     b = spcategorical1(np.array(o))
     e = dt.now()
     spcat1.append((e-s).total_seconds())
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spcat2 = []
 for n in np.arange(100,1000,100):
@@ -349,28 +421,40 @@ for n in np.arange(100,1000,100):
     b = spcategorical2(np.array(o))
     e = dt.now()
     spcat2.append((e-s).total_seconds())
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spcat1
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spcat2
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 x = np.arange(100, 1000, 100)
 plt.plot(x, spcat1, x, spcat2)
@@ -378,14 +462,20 @@ plt.legend(('spcat1', 'spcat2'))
 plt.title('Speed of Sparse Dummy Functions')
 plt.xlabel('Sample Size')
 plt.ylabel('Seconds')
+
 ```
+</div>
+
+</div>
+
 
 
 ###### It is clear that the spcat2 function, which uses the non-zero-value index, is more efficient than the row by row method in spcat1. However, from additional testing, it was noticed that spcat2 does use more memory and for larger n (somewhere between 10k and 20k), my notebook ran out of memory. This is likely due to to the fact that the spcat2 function requires an ($n^2$,) array ones ones, an index array of shape ($n^2$,) and an index pointer array of shape ($n^2$,). Combined these must soak up a lot of memory, which makes very large n infeasible. Then the spcat1 function still may be useful in scenarios where there is a very large sample size and no way of accessing more memory. It will be very slow in compairson, but will make analysis feasible where it would otherwise be infeasible. As a reasult,  I will keep both functions as options.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def concatenate_csc_matrices_by_columns(matrix1, matrix2):
     new_data = np.concatenate((matrix1.data, matrix2.data))
@@ -417,12 +507,16 @@ def spcategorical2a(n_cat_ids, unique=None):
         return sp.csr_matrix((np.ones(n, dtype=int8), n_cat_ids, indptr))
     else:
         raise IndexError("The index %s is not understood" % col)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 n = 3500
 o = np.tile(np.arange(n, dtype=uint16),n)
@@ -431,16 +525,20 @@ b2 = spcategorical2(o)
 e = dt.now()
 print e-s
 b2
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 0:00:00.462530
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -450,10 +548,14 @@ b2
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 n = 3500
 o = np.tile(np.arange(n, dtype=uint16),n)
@@ -462,16 +564,20 @@ b2a = spcategorical2a(o)
 e = dt.now()
 print e-s
 b2a
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 0:00:00.074958
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -480,4 +586,8 @@ b2a
 	with 12250000 stored elements in Compressed Sparse Row format>
 ```
 
+
+</div>
+</div>
+</div>
 

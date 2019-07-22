@@ -1,11 +1,11 @@
 ---
-redirect_from:
-  - "/viz/mapclassify/south"
 interact_link: content/viz/mapclassify/south.ipynb
+kernel_name: python3
+has_widgets: false
 title: 'south'
 prev_page:
-  url: /viz/mapclassify/intro
-  title: 'mapclassify'
+  url: /viz/mapclassify/deprecate
+  title: 'deprecate'
 next_page:
   url: /viz/mapclassify/maximum_breaks
   title: 'maximum_breaks'
@@ -13,46 +13,49 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import sys
 import os
 sys.path.append(os.path.abspath('..'))
-import mapclassify as mc
-import libpysal
+from pysal.viz import mapclassify as mc
+import pysal.lib
 import geopandas as gpd
 import matplotlib.pyplot as plt
 
 %matplotlib inline
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-df = gpd.read_file(libpysal.examples.get_path('south.shp'))
+df = gpd.read_file(pysal.lib.examples.get_path('south.shp'))
+
 ```
+</div>
 
-
-f, ax = plt.subplots(1, figsize=(9, 9))
-tx.assign(cl=HR90LagQ10.yb).plot(column='cl', categorical=True, \
-        k=10, cmap='OrRd', linewidth=0.1, ax=ax, \
-        edgecolor='white', legend=True)
-ax.set_axis_off()
-plt.title("HR90 Spatial Lag Deciles")
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 hr60_q10 = mc.Quantiles(df['HR60'], k=10)
 hr60_q10
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -74,10 +77,14 @@ Lower            Upper              Count
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 fig, ax = plt.subplots(figsize=(12,10), subplot_kw={'aspect':'equal'})
 df.assign(cl=hr60_q10.yb).plot(column='cl', categorical=True, \
@@ -86,30 +93,40 @@ df.assign(cl=hr60_q10.yb).plot(column='cl', categorical=True, \
 ax.set_axis_off()
 plt.title('HR60 Deciles')
 plt.savefig('hr60q10.png')
+
 ```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+{:.output_png}
+![png](../../images/viz/mapclassify/south_3_0.png)
+
+</div>
+</div>
+</div>
 
 
 
-![png](../../images/viz/mapclassify/south_4_0.png)
-
-
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import numpy as np
 np.random.seed(12345)
-hr60_fj10 = mc.Fisher_Jenks(df['HR60'], k=10)
+hr60_fj10 = mc.FisherJenks(df['HR60'], k=10)
 hr60_fj10
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
-               Fisher_Jenks              
+               FisherJenks               
  
 Lower            Upper              Count
 =========================================
@@ -126,10 +143,14 @@ Lower            Upper              Count
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 fig, ax = plt.subplots(figsize=(12,10), subplot_kw={'aspect':'equal'})
 df.assign(cl=hr60_fj10.yb).plot(column='cl', categorical=True, \
@@ -138,18 +159,26 @@ df.assign(cl=hr60_fj10.yb).plot(column='cl', categorical=True, \
 ax.set_axis_off()
 plt.title('HR60 Fisher-Jenks')
 plt.savefig('hr60fj10.png')
+
 ```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+{:.output_png}
+![png](../../images/viz/mapclassify/south_5_0.png)
+
+</div>
+</div>
+</div>
 
 
 
-![png](../../images/viz/mapclassify/south_6_0.png)
-
-
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-hr60_mb10 = mc.Maximum_Breaks(df['HR60'], k=10)
+hr60_mb10 = mc.MaximumBreaks(df['HR60'], k=10)
 
 
 fig, ax = plt.subplots(figsize=(12,10), subplot_kw={'aspect':'equal'})
@@ -159,18 +188,26 @@ df.assign(cl=hr60_mb10.yb).plot(column='cl', categorical=True, \
 ax.set_axis_off()
 plt.title('HR60 Maximum Breaks')
 plt.savefig('hr60mb10.png')
+
 ```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+{:.output_png}
+![png](../../images/viz/mapclassify/south_6_0.png)
+
+</div>
+</div>
+</div>
 
 
 
-![png](../../images/viz/mapclassify/south_7_0.png)
-
-
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-hr60_ea10 = mc.Equal_Interval(df['HR60'], k=10)
+hr60_ea10 = mc.EqualInterval(df['HR60'], k=10)
 
 
 fig, ax = plt.subplots(figsize=(12,10), subplot_kw={'aspect':'equal'})
@@ -179,63 +216,89 @@ df.assign(cl=hr60_ea10.yb).plot(column='cl', categorical=True, \
                               edgecolor='white', legend=True)
 ax.set_axis_off()
 plt.title('HR60 Equal Interval')
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
-Text(0.5,1,'HR60 Equal Interval')
+Text(0.5, 1, 'HR60 Equal Interval')
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+{:.output_png}
+![png](../../images/viz/mapclassify/south_7_1.png)
+
+</div>
+</div>
+</div>
 
 
-![png](../../images/viz/mapclassify/south_8_1.png)
 
-
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 fig, ax = plt.subplots(figsize=(12,10), subplot_kw={'aspect':'equal'})
 df.plot(column='HR60', ax=ax)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
-<matplotlib.axes._subplots.AxesSubplot at 0x7fc902e1ab38>
+<matplotlib.axes._subplots.AxesSubplot at 0x7f1b25913198>
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+{:.output_png}
+![png](../../images/viz/mapclassify/south_8_1.png)
+
+</div>
+</div>
+</div>
 
 
-![png](../../images/viz/mapclassify/south_9_1.png)
 
-
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 hr60_q5 = mc.Quantiles(df['HR60'], k=5)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 hr60_q5
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -251,4 +314,8 @@ Lower            Upper              Count
 10.981 < x[i] <= 92.937               283
 ```
 
+
+</div>
+</div>
+</div>
 

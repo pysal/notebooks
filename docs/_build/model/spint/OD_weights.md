@@ -2,6 +2,8 @@
 redirect_from:
   - "/model/spint/od-weights"
 interact_link: content/model/spint/OD_weights.ipynb
+kernel_name: Python [Root]
+has_widgets: false
 title: 'OD_weights'
 prev_page:
   url: /model/spint/sparse_categorical_bottleneck
@@ -13,19 +15,23 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import pysal as ps
 from pysal import weights as w
 import numpy as np
 import scipy.sparse as sp
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 
 def OD(Wo, Wd):
@@ -33,30 +39,40 @@ def OD(Wo, Wd):
     Wd = Wd.sparse
     Ww = sp.kron(Wo, Wd)
     return w.WSP2W(w.WSP(Ww))
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 origins = ps.weights.lat2W(4,4)
 dests = ps.weights.lat2W(4,4)
 Ww = OD(origins, dests)
 Ww.transform = 'r'
 print Ww.full()[0].shape
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 (256, 256)
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 flows = np.random.randint(0,100, (4,4))
 np.fill_diagonal(flows, 0)
@@ -64,9 +80,12 @@ flows = flows.reshape((16,1))
 print flows
 slag = ps.lag_spatial(Ww, flows)
 print slag
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [[ 0]
@@ -101,18 +120,23 @@ print slag
  [ 53.25]
  [ 53.25]
  [ 28.  ]]
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 origins.weights
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -121,36 +145,50 @@ origins.weights
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import os
 os.chdir('/Users/toshan/dev/pysal/pysal/weights')
-from spintW import ODW
+from pysal.model.spintW import ODW
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 origins = ps.weights.lat2W(2,2)
 dests = ps.weights.lat2W(2,2)
 Ww = ODW(origins, dests)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 Ww.full()[0]
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -189,4 +227,8 @@ array([[ 0.  ,  0.  ,  0.  ,  0.  ,  0.  ,  0.25,  0.25,  0.  ,  0.  ,
          0.25,  0.25,  0.  ,  0.  ,  0.  ,  0.  ,  0.  ]])
 ```
 
+
+</div>
+</div>
+</div>
 

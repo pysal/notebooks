@@ -2,6 +2,8 @@
 redirect_from:
   - "/explore/pointpats/quadrat-statistics"
 interact_link: content/explore/pointpats/Quadrat_statistics.ipynb
+kernel_name: python3
+has_widgets: false
 title: 'Quadrat_statistics'
 prev_page:
   url: /explore/pointpats/Minimum_bounding_circle
@@ -11,6 +13,7 @@ next_page:
   title: 'window'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+
 
 # Quadrat Based Statistical Method for Planar Point Patterns
 
@@ -22,6 +25,8 @@ In this notebook, we are going to introduce how to apply quadrat statistics to a
 
 1. In [Quadrat Statistic](#Quadrat-Statistic) we introduce the concept of quadrat based method.
 2. We illustrate how to use the module **quadrat_statistics.py** through an example dataset **juvenile** in [Juvenile Example](#Juvenile-Example)
+
+
 
 ##  Quadrat Statistic
 
@@ -51,19 +56,27 @@ $nsim$ is the number of simulations, $\psi_i^2$ is the $\chi^2$ test statistic c
 We are going to introduce how to use the **quadrat_statistics.py** module to perform quadrat based method using either of the above two approaches to constructing the sampling distribution and acquire a p-value.
 
 
+
+
 ## Juvenile Example
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-import libpysal as ps
+import pysal.lib as ps
 import numpy as np
-from pointpats import PointPattern, as_window
-from pointpats import PoissonPointProcess as csr
+from pysal.explore.pointpats import PointPattern, as_window
+from pysal.explore.pointpats import PoissonPointProcess as csr
 %matplotlib inline
 import matplotlib.pyplot as plt
+
 ```
+</div>
+
+</div>
+
 
 
 Import the quadrat_statistics module to conduct quadrat-based method. 
@@ -72,21 +85,28 @@ Among the three major classes in the module, **RectangleM, HexagonM, QStatistic*
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-import pointpats.quadrat_statistics as qs
+from pysal.explore import pointpats.quadrat_statistics as qs
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 dir(qs)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -111,26 +131,38 @@ dir(qs)
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Open the point shapefile "juvenile.shp".
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 juv = ps.io.open(ps.examples.get_path("juvenile.shp"))
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 len(juv) # 168 point events in total
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -139,17 +171,23 @@ len(juv) # 168 point events in total
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 juv_points = np.array([event for event in juv]) # get x,y coordinates for all the points
 juv_points
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -325,19 +363,27 @@ array([[94., 93.],
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Construct a point pattern from numpy array **juv_points**.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_juv = PointPattern(juv_points)
 pp_juv
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -346,15 +392,22 @@ pp_juv
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_juv.summary()
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point Pattern
@@ -368,19 +421,31 @@ Intensity estimate for window: 0.02051783097215437
 2  79.0  90.0
 3  78.0  92.0
 4  76.0  92.0
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_juv.plot(window= True, title= "Point pattern")
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Quadrat_statistics_14_0.png)
+
+</div>
+</div>
+</div>
+
 
 
 ### Rectangle quadrats & analytical sampling distribution
@@ -389,35 +454,52 @@ We can impose rectangle tessellation over mbb of the point pattern by specifying
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 q_r = qs.QStatistic(pp_juv,shape= "rectangle",nx = 3, ny = 3)
+
 ```
+</div>
+
+</div>
+
 
 
 Use the plot method to plot the quadrats as well as the number of points falling in each quadrat.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 q_r.plot()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Quadrat_statistics_18_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 q_r.chi2 #chi-squared test statistic for the observed point pattern
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -426,16 +508,22 @@ q_r.chi2 #chi-squared test statistic for the observed point pattern
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 q_r.df #degree of freedom
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -444,16 +532,22 @@ q_r.df #degree of freedom
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 q_r.chi2_pvalue # analytical pvalue
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -462,8 +556,15 @@ q_r.chi2_pvalue # analytical pvalue
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Since the p-value based on the analytical $\chi^2$ distribution (degree of freedom = 8) is 0.0000589, much smaller than 0.05. We might determine that the underlying process is not CSR. We can also turn to empirical sampling distribution to ascertain our decision.
+
+
 
 ### Rectangle quadrats & empirical sampling distribution
 
@@ -471,31 +572,44 @@ To construct a empirical sampling distribution, we need to simulate CSR within t
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 csr_process = csr(pp_juv.window, pp_juv.n, 999, asPP=True)
+
 ```
+</div>
+
+</div>
+
 
 
 We specify parameter **realizations** as the point process instance which contains 999 CSR realizations.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 q_r_e = qs.QStatistic(pp_juv,shape= "rectangle",nx = 3, ny = 3, realizations = csr_process)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 q_r_e.chi2_r_pvalue
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -504,8 +618,15 @@ q_r_e.chi2_r_pvalue
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 The pseudo p-value is 0.002, which is smaller than 0.05. Thus, we reject the null at the $95\%$ confidence level.
+
+
 
 ### Hexagon quadrats & analytical sampling distribution
 
@@ -513,33 +634,48 @@ We can also impose hexagon tessellation over mbb of the point pattern by specify
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 q_h = qs.QStatistic(pp_juv,shape= "hexagon",lh = 15)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 q_h.plot()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Quadrat_statistics_31_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 q_h.chi2 #chi-squared test statistic for the observed point pattern
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -548,16 +684,22 @@ q_h.chi2 #chi-squared test statistic for the observed point pattern
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 q_h.df #degree of freedom
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -566,16 +708,22 @@ q_h.df #degree of freedom
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 q_h.chi2_pvalue  # analytical pvalue
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -584,28 +732,42 @@ q_h.chi2_pvalue  # analytical pvalue
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Similar to the inference of rectangle tessellation, since the analytical p-value is much smaller than 0.05, we reject the null of CSR. The point pattern is not random.
+
+
 
 ### Hexagon quadrats & empirical sampling distribution
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 q_h_e = qs.QStatistic(pp_juv,shape= "hexagon",lh = 15, realizations = csr_process)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 q_h_e.chi2_r_pvalue
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -614,5 +776,11 @@ q_h_e.chi2_r_pvalue
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Because 0.001 is smaller than 0.05, we reject the null.
+
