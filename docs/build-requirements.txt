@@ -1,7 +1,0 @@
-# Requirements to build site
-bs4
-tqdm
-numpy
-pyyaml
-nbformat
-nbclean
