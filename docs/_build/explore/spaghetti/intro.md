@@ -1,6 +1,4 @@
 ---
-redirect_from:
-  - "/explore/spaghetti/intro"
 title: 'spaghetti'
 prev_page:
   url: /explore/pointpats/process
@@ -25,8 +23,12 @@ SPAtial GrapHs: nETworks, Topology, & Inference
 
 **Build & Versions**
 
-[![PyPI version](https://badge.fury.io/py/spaghetti.svg)](https://badge.fury.io/py/spaghetti) [![GitHub tag](https://img.shields.io/github/tag/pysal/spaghetti.svg?maxAge=3600&label=Github)](https://github.com/pysal/spaghetti) [![Build Status](https://travis-ci.org/pysal/spaghetti.svg?branch=master)](https://travis-ci.org/pysal/spaghetti) [![Documentation Status](https://readthedocs.org/projects/pysal-spaghetti/badge/?version=latest)](https://pysal-spaghetti.readthedocs.io/en/latest/?badge=latest) [![Coverage Status](https://coveralls.io/repos/github/pysal/spaghetti/badge.svg)](https://coveralls.io/github/pysal/spaghetti)
+[![PyPI version](https://badge.fury.io/py/spaghetti.svg)](https://badge.fury.io/py/spaghetti) [![GitHub version](https://img.shields.io/github/release/pysal/spaghetti.svg)](https://img.shields.io/github/release/pysal/spaghetti) [![Build Status](https://travis-ci.org/pysal/spaghetti.svg?branch=master)](https://travis-ci.org/pysal/spaghetti) [![Documentation Status](https://readthedocs.org/projects/pysal-spaghetti/badge/?version=latest)](https://pysal-spaghetti.readthedocs.io/en/latest/?badge=latest) [![Coverage Status](https://coveralls.io/repos/github/pysal/spaghetti/badge.svg)](https://coveralls.io/github/pysal/spaghetti)
 
+
+**Anaconda**
+
+[![Anaconda-Server Badge](https://anaconda.org/conda-forge/spaghetti/badges/version.svg)](https://anaconda.org/conda-forge/spaghetti) [![Anaconda-Server Badge](https://anaconda.org/conda-forge/spaghetti/badges/platforms.svg)](https://anaconda.org/conda-forge/spaghetti) [![Anaconda-Server Badge](https://anaconda.org/conda-forge/spaghetti/badges/downloads.svg)](https://anaconda.org/conda-forge/spaghetti) [![Anaconda-Server Badge](https://anaconda.org/conda-forge/spaghetti/badges/installer/conda.svg)](https://conda.anaconda.org/conda-forge)
 
 **Issues & Pull Requests**
 
@@ -76,13 +78,19 @@ Examples
 Installation
 ------------
 
-(Recommended) Install the latest stable of spaghetti by running:
+Install the latest stable of `spaghetti` via [PyPI](https://pypi.org/project/spaghetti/) by running:
 
 ```
 $ pip install spaghetti
 ```
 
-Install the most current development version of spaghetti by running:
+Install the latest stable of `spaghetti` via [conda-forge](https://github.com/conda-forge/spaghetti-feedstock) by running:
+
+```
+$ conda install --channel conda-forge spaghetti
+```
+
+Install the most current development version of `spaghetti` by running:
 
 ```
 $ pip install git+https://github.com/pysal/spaghetti
@@ -94,7 +102,14 @@ Requirements
 
 - `scipy`
 - `numpy`
-- `libpysal`
+- `esda`
+- `rtree`
+
+
+Soft Dependencies
+-----------------
+- `shapely`
+- `geopandas`
 
 
 Contribute

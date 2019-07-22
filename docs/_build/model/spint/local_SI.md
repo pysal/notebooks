@@ -2,6 +2,8 @@
 redirect_from:
   - "/model/spint/local-si"
 interact_link: content/model/spint/local_SI.ipynb
+kernel_name: python3
+has_widgets: false
 title: 'local_SI'
 prev_page:
   url: /model/spint/sparse_scipy_optim
@@ -13,8 +15,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import numpy as np
 import pandas as pd
@@ -25,18 +27,24 @@ import statsmodels.formula.api as smf
 from statsmodels.api import families
 import matplotlib.pyplot as plt
 %pylab inline
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Populating the interactive namespace from numpy and matplotlib
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 austria = pd.read_csv('http://dl.dropbox.com/u/8649795/AT_Austria.csv')
 austria = austria[austria['Origin'] != austria['Destination']]
@@ -46,34 +54,46 @@ d = austria['Destination'].values
 dij = austria['Dij'].values
 o_vars = austria['Oi2007'].values
 d_vars = austria['Dj2007'].values
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 model = Gravity(f, o_vars, d_vars, dij, 'exp')
 print model.params[-1]
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 -0.00976746026969
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 local = model.local(loc_index=o, locs=np.unique(o))
 local['param2']
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -90,32 +110,44 @@ local['param2']
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 model = Production(f, o, d_vars, dij, 'exp')
 print model.params[-1]
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 -0.00727113391179
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 local = model.local()
 local['param2']
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -132,32 +164,44 @@ local['param2']
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 model = Attraction(f, d, o_vars, dij, 'exp')
 print model.params[-1]
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 -0.00693754909526
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 local = model.local()
 local['param2']
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -173,4 +217,8 @@ local['param2']
  -0.0081576735088411123]
 ```
 
+
+</div>
+</div>
+</div>
 

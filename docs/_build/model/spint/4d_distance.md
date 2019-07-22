@@ -2,6 +2,8 @@
 redirect_from:
   - "/model/spint/4d-distance"
 interact_link: content/model/spint/4d_distance.ipynb
+kernel_name: Python [Root]
+has_widgets: false
 title: '4d_distance'
 prev_page:
   url: /model/spint/NYC_Bike_Example
@@ -13,8 +15,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import numpy as np
 from scipy.spatial import distance
@@ -22,12 +24,16 @@ import scipy.spatial as spatial
 from pysal.weights import W
 from pysal.weights.util import isKDTree
 from pysal.weights import Distance as Distance
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def nplinalg():
     np.linalg.norm(np.array((67, 46, 92, 67))-np.array((44, 97, 25, 50)))
@@ -85,19 +91,26 @@ def scpkdtree():
     tree = spatial.KDTree(data)
     W = pysal.weights.DistanceBand(tree, threshold=9999, alpha=-1.5, binary=False)
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %timeit nplinalg()
 %timeit distpython()
 %timeit scpkdtree()
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 The slowest run took 144.28 times longer than the fastest. This could mean that an intermediate result is being cached.
@@ -106,12 +119,15 @@ The slowest run took 17.86 times longer than the fastest. This could mean that a
 10000 loops, best of 3: 82.1 µs per loop
 The slowest run took 5.82 times longer than the fastest. This could mean that an intermediate result is being cached.
 1 loop, best of 3: 40min 50s per loop
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 x = np.random.randint(1,1000, 3000)
 y = np.random.randint(1,1000, 3000)
@@ -121,60 +137,53 @@ z = np.random.randint(1,1000, 3000)
 data = zip(x.ravel(), y.ravel(), w.ravel(), z.ravel())
 tree = spatial.KDTree(data)
 W = pysal.weights.DistanceBand(tree, threshold=9999, alpha=-1.5, binary=False)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_traceback_line}
 ```
----------------------------------------------------------------------------
-```
 
-{:.output_traceback_line}
-```
-KeyboardInterrupt                         Traceback (most recent call last)
-```
+    ---------------------------------------------------------------------------
 
-{:.output_traceback_line}
-```
-<ipython-input-371-25b6bf1123d8> in <module>()
-      6 data = zip(x.ravel(), y.ravel(), w.ravel(), z.ravel())
-      7 tree = spatial.KDTree(data)
-----> 8 W = pysal.weights.DistanceBand(tree, threshold=9999, alpha=-1.5, binary=False)
+    KeyboardInterrupt                         Traceback (most recent call last)
 
-```
+    <ipython-input-371-25b6bf1123d8> in <module>()
+          6 data = zip(x.ravel(), y.ravel(), w.ravel(), z.ravel())
+          7 tree = spatial.KDTree(data)
+    ----> 8 W = pysal.weights.DistanceBand(tree, threshold=9999, alpha=-1.5, binary=False)
+    
 
-{:.output_traceback_line}
-```
-//anaconda/lib/python2.7/site-packages/pysal/weights/Distance.pyc in __init__(self, data, threshold, p, alpha, binary, ids)
-    472         self.alpha = alpha
-    473         self._band()
---> 474         neighbors, weights = self._distance_to_W(ids)
-    475         W.__init__(self, neighbors, weights, ids)
-    476 
+    //anaconda/lib/python2.7/site-packages/pysal/weights/Distance.pyc in __init__(self, data, threshold, p, alpha, binary, ids)
+        472         self.alpha = alpha
+        473         self._band()
+    --> 474         neighbors, weights = self._distance_to_W(ids)
+        475         W.__init__(self, neighbors, weights, ids)
+        476 
 
-```
 
-{:.output_traceback_line}
-```
-//anaconda/lib/python2.7/site-packages/pysal/weights/Distance.pyc in _distance_to_W(self, ids)
-    504                 i,j = key
-    505                 if i != j:
---> 506                     if j not in neighbors[i]:
-    507                         weights[i].append(weight**self.alpha)
-    508                         neighbors[i].append(j)
+    //anaconda/lib/python2.7/site-packages/pysal/weights/Distance.pyc in _distance_to_W(self, ids)
+        504                 i,j = key
+        505                 if i != j:
+    --> 506                     if j not in neighbors[i]:
+        507                         weights[i].append(weight**self.alpha)
+        508                         neighbors[i].append(j)
+
+
+    KeyboardInterrupt: 
+
 
 ```
-
-{:.output_traceback_line}
-```
-KeyboardInterrupt: 
-```
+</div>
+</div>
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 class DistanceBand(W):
     """
@@ -286,12 +295,16 @@ class DistanceBand(W):
 
         return neighbors, weights
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 x = np.random.randint(1,1000, 500)
 y = np.random.randint(1,1000, 500)
@@ -301,81 +314,115 @@ z = np.random.randint(1,1000, 500)
 data = zip(x.ravel(), y.ravel(), w.ravel(), z.ravel())
 tree = spatial.KDTree(data)
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %timeit DistanceBand(tree, threshold=9999, alpha=-1.5, binary=False)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 1 loop, best of 3: 7.73 s per loop
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %prun DistanceBand(tree, threshold=9999, alpha=-1.5, binary=False)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
- 
-```
+ ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 weight = DistanceBand(tree, threshold=9999, alpha=-1.5, binary=False)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pairs = weight.dmat.keys()
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 from scipy.spatial import distance_matrix
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 one = np.hstack([x.reshape((-1,1)),y.reshape((-1,1))])
 two = np.hstack([w.reshape((-1,1)),z.reshape((-1,1))])
 test = np.hstack([x.reshape((-1,1)),y.reshape((-1,1)), w.reshape((-1,1)),z.reshape((-1,1))])
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 mat = distance_matrix(data, data)
 mat = np.array(mat)
 mat.shape
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -384,24 +431,32 @@ mat.shape
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %time DistanceBand(tree, alpha=-1.5, binary=False)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 (500, 500)
 CPU times: user 1.82 s, sys: 87 ms, total: 1.91 s
 Wall time: 1.85 s
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -410,23 +465,31 @@ Wall time: 1.85 s
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %time Distance.DistanceBand(tree, threshold=9999999, alpha=-1.5, binary=False)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 CPU times: user 8.43 s, sys: 92.3 ms, total: 8.52 s
 Wall time: 8.5 s
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -435,38 +498,54 @@ Wall time: 8.5 s
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 W_new = DistanceBand(tree, alpha=-1.5, binary=False)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 (500, 500)
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 W_old = Distance.DistanceBand(tree, threshold=9999999, alpha=-1.5, binary=False)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 np.allclose(W_new.full()[0], W_old.full()[0])
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -474,4 +553,8 @@ np.allclose(W_new.full()[0], W_old.full()[0])
 True
 ```
 
+
+</div>
+</div>
+</div>
 

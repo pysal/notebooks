@@ -2,6 +2,8 @@
 redirect_from:
   - "/model/spvcm/using-the-sampler"
 interact_link: content/model/spvcm/using_the_sampler.ipynb
+kernel_name: python3
+has_widgets: false
 title: 'using_the_sampler'
 prev_page:
   url: /model/spvcm/spatially-varying-coefficients
@@ -11,6 +13,7 @@ next_page:
   title: 'spint'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+
 
 # Using the sampler
 
@@ -39,13 +42,14 @@ Where:
 
 All of the possible combinations of Spatial Moving Average and Spatial Error processes are contained in the following classes. I will walk through estimating one below, and talk about the various features of the package. 
 
-First, the API of the package is defined by the `spvcm.api` submodule. To load it, use `import spvcm.api as spvcm`:
+First, the API of the package is defined by the `spvcm.api` submodule. To load it, use `from pysal.model import spvcm.api as spvcm`:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-import spvcm as spvcm #package API
+from pysal.model import spvcm as spvcm #package API
 spvcm.both_levels.Generic # abstract customizable class, ignores rho/lambda, equivalent to MVCM
 spvcm.both_levels.MVCM # no spatial effect
 spvcm.both_levels.SESE #  both spatial error (SE)
@@ -56,16 +60,23 @@ spvcm.upper_level.Upper_SE # response-level uncorrelated, region-level SE
 spvcm.upper_level.Upper_SMA # response-level uncorrelated, region-level SMA
 spvcm.lower_level.Lower_SE # response-level SE, region-level uncorrelated
 spvcm.lower_level.Lower_SMA # response-level SMA, region-level uncorrelated 
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
 spvcm.lower_level.sma.model.Lower_SMA
 ```
+
+
+</div>
+</div>
+</div>
 
 
 
@@ -86,7 +97,8 @@ We will also use the state-level average percentage of families below the povert
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 #seaborn is required for the traceplots
 import pysal as ps
@@ -96,14 +108,20 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import geopandas as gpd
 %matplotlib inline
+
 ```
+</div>
+
+</div>
+
 
 
 Reading in the data, we'll extract these values we need from the dataframe.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 data = ps.pdio.read_files(ps.examples.get_path('south.shp'))
 gdf = gpd.read_file(ps.examples.get_path('south.shp'))
@@ -114,14 +132,20 @@ Z = data.groupby('STATE_NAME')[['FP89', 'GI89']].mean().values
 J = Z.shape[0]
 
 Y = data.HR90.values.reshape(-1,1)
+
 ```
+</div>
+
+</div>
+
 
 
 Then, we'll construct some queen contiguity weights from the files to show how to run a model. 
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 W2 = ps.queen_from_shapefile(ps.examples.get_path('us48.shp'), 
                              idVariable='STATE_NAME')
@@ -132,28 +156,45 @@ W1 = ps.w_subset(W1, ids=data.FIPS.tolist()) #again, only keep what's in the dat
 
 W1.transform = 'r'
 W2.transform = 'r'
+
 ```
+</div>
+
+</div>
+
 
 
 With the data, upper-level weights, and lower-level weights, we can construct a membership vector *or* a dummy data matrix. For now, I'll create the membership vector.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 membership = data.STATE_NAME.apply(lambda x: W2.id_order.index(x)).values
+
 ```
+</div>
+
+</div>
+
 
 
 But, we could also build the dummy variable matrix using `pandas`, if we have a suitable categorical variable:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 Delta_frame = pd.get_dummies(data.STATE_NAME)
 Delta = Delta_frame.values
+
 ```
+</div>
+
+</div>
+
 
 
 Every call to the sampler is of the following form:
@@ -172,14 +213,20 @@ The most common way to call the sampler is something like:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma = spvcm.upper_level.Upper_SMA(Y, X, M=W2, Z=Z, 
                                     membership=membership, 
                                     n_samples=5000,
                                     configs=dict(tuning=1000, 
                                                  adapt_step=1.01))
+
 ```
+</div>
+
+</div>
+
 
 
 This model, `spvcm.upper_level.Upper_SMA`, is a variance components/varying intercept model with a state-level SMA-correlated error. 
@@ -188,19 +235,27 @@ Thus, there are only five parameters in this model, since $\rho$, the lower-leve
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma.trace.varnames
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
 ['Alphas', 'Betas', 'Sigma2', 'Tau2', 'Lambda']
 ```
+
+
+</div>
+</div>
+</div>
 
 
 
@@ -212,19 +267,27 @@ The quickest way to get information out of the model is via the trace object. Th
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma.trace.varnames
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
 ['Alphas', 'Betas', 'Sigma2', 'Tau2', 'Lambda']
 ```
+
+
+</div>
+</div>
+</div>
 
 
 
@@ -234,26 +297,36 @@ I've written two helper functions for working with traces. First is to just dump
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 trace_dataframe = vcsma.trace.to_df()
+
 ```
+</div>
+
+</div>
+
 
 
 the dataframe will have columns containing the elements of the parameters and each row is a single iteration of the sampler:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 trace_dataframe.head()
+
 ```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 
-
-
-<div markdown="0">
+<div markdown="0" class="output output_html">
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -423,18 +496,26 @@ trace_dataframe.head()
 </div>
 
 
+</div>
+</div>
+</div>
+
+
 
 You can write this out to a csv or analyze it in memory like a typical pandas dataframes:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 trace_dataframe.mean()
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -468,33 +549,51 @@ dtype: float64
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 The second is a method to plot the traces:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 fig, ax = vcsma.trace.plot()
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spvcm/using_the_sampler_25_0.png)
+
+</div>
+</div>
+</div>
+
 
 
 The trace object can be sliced by (chain, parameter, index) tuples, or any subset thereof. 
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma.trace['Lambda',-4:] #last 4 draws of lambda
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -503,16 +602,22 @@ array([0.72462283, 0.72462283, 0.34900417, 0.34900417])
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma.trace[['Tau2', 'Sigma2'], 0:2] #the first 2 variance parameters
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -522,12 +627,18 @@ vcsma.trace[['Tau2', 'Sigma2'], 0:2] #the first 2 variance parameters
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 We only ran a single chain, so the first index is assumed to be zero. You can run more than one chain in parallel, using the builtin python `multiprocessing` library:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma_p = spvcm.upper_level.Upper_SMA(Y, X, M=W2, Z=Z, 
                                       membership=membership, 
@@ -535,18 +646,24 @@ vcsma_p = spvcm.upper_level.Upper_SMA(Y, X, M=W2, Z=Z,
                                       n_samples=5000, n_jobs=3, 
                                       configs=dict(tuning=500, 
                                                    adapt_step=1.01))
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma_p.trace[0, 'Betas', -1] #the last draw of Beta on the first chain. 
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -560,16 +677,22 @@ array([[ 8.34392377],
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma_p.trace[1, 'Betas', -1] #the last draw of Beta on the second chain
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -583,60 +706,91 @@ array([[ 8.12849684],
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 and the chain plotting works also for the multi-chain traces. In addition, there are quite a few traceplot options, and all the plots are returned by the methods as matplotlib objects, so they can also be saved using `plt.savefig()`. 
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma_p.trace.plot(burn=1000, thin=10)
 plt.suptitle('SMA of Homicide Rate in Southern US Counties', y=0, fontsize=20)
 #plt.savefig('trace.png') #saves to a file called "trace.png"
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spvcm/using_the_sampler_34_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma_p.trace.plot(burn=-100, varnames='Lambda') #A negative burn-in works like negative indexing in Python & R 
 plt.suptitle('First 100 iterations of $\lambda$', fontsize=20, y=.02)
 plt.show() #so this plots Lambda in the first 100 iterations. 
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spvcm/using_the_sampler_35_0.png)
+
+</div>
+</div>
+</div>
+
 
 
 To get stuff like posterior quantiles, you can use the attendant pandas dataframe functionality, like `describe`. 
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 df = vcsma.trace.to_df()
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 df.describe()
+
 ```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 
-
-
-<div markdown="0">
+<div markdown="0" class="output output_html">
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -878,21 +1032,30 @@ df.describe()
 </div>
 
 
+</div>
+</div>
+</div>
+
+
 
 There is also a `trace.summarize` function that will compute various things contained in `spvcm.diagnostics` on the chain. It takes a while for large chains, because the `statsmodels.tsa.AR` estimator is much slower than the `ar` estimator in `R`. If you have rpy2 installed *and* `CODA` installed in your R environment, I attempt to use R directly. 
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma.trace.summarize()
+
 ```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 
-
-
-<div markdown="0">
+<div markdown="0" class="output output_html">
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -1205,32 +1368,48 @@ vcsma.trace.summarize()
 </div>
 
 
+</div>
+</div>
+</div>
+
+
 
 So, 5000 iterations, but many parameters have an effective sample size that's much less than this. There's debate about whether it's necesasry to thin these samples in accordance with the effective size, and I think you should thin your sample to the effective size and see if it affects your HPD/Standard Errorrs. 
+
+
 
 The existing python packages for MCMC diagnostics were incorrect. So, I've implemented many of the diagnostics from `CODA`, and have verified that the diagnostics comport with `CODA` diagnostics. One can also use `numpy` & `statsmodels` functions. I'll show some types of analysis.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 from statsmodels.api import tsa
 #if you don't have it, try removing the comment and:
 #! pip install statsmodels
+
 ```
+</div>
+
+</div>
+
 
 
 For example, a plot of the partial autocorrelation in $\lambda$, the upper-level spatial moving average parameter, over the last half of the chain is:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 plt.plot(tsa.pacf(vcsma.trace['Lambda', -2500:]))
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1239,22 +1418,34 @@ plt.plot(tsa.pacf(vcsma.trace['Lambda', -2500:]))
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spvcm/using_the_sampler_45_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 So, the chain is close-to-first order:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 tsa.pacf(df.Lambda)[0:3]
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1263,12 +1454,18 @@ array([1.        , 0.90178845, 0.03398422])
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 We could do this for many parameters, too. An Autocorrelation/Partial Autocorrelation plot can be made of the marginal effects by:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 betas = [c for c in df.columns if c.startswith('Beta')]
 f,ax = plt.subplots(len(betas), 2, figsize=(10,8))
@@ -1279,26 +1476,41 @@ for i, col in enumerate(betas):
     ax[i,1].set_title('(PACF)')
 f.tight_layout()
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spvcm/using_the_sampler_49_0.png)
+
+</div>
+</div>
+</div>
+
 
 
 As far as the builtin diagnostics for convergence and simulation quality, the `diagnostics` module exposes a few things:
+
+
 
 Geweke statistics for differences in means between chain components:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 gstats = spvcm.diagnostics.geweke(vcsma, varnames='Tau2') #takes a while
 print(gstats)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [{'Tau2': array([-0.70525936, -0.86465127, -0.66491713, -1.10260496, -0.85742401,
@@ -1311,20 +1523,27 @@ print(gstats)
         0.80814834, -0.23443594,  0.2413701 , -0.73956236, -0.77123872,
        -0.74954084,  0.1017357 , -0.141298  , -0.11990577,  1.05561834,
         1.04085492,  1.58169489,  1.69289289,  2.08680592,  1.98418018])}]
-
 ```
+</div>
+</div>
+</div>
+
+
 
 Typically, this means the chain is converged at the given "bin" count if the line stays within $\pm2$. The geweke statistic is a test of differences in means between the given chunk of the chain and the remaining chain. If it's outside of +/- 2 in the early part of the chain, you should discard observations early in the chain. If you get extreme values of these statistics throughout, you need to keep running the chain. 
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 plt.plot(gstats[0]['Tau2'][:-1])
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1333,28 +1552,45 @@ plt.plot(gstats[0]['Tau2'][:-1])
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spvcm/using_the_sampler_54_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 We can also compute Monte Carlo Standard Errors like in the `mcse` R package, which represent the intrinsic error contained in the estimate:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spvcm.diagnostics.mcse(vcsma, varnames=['Tau2', 'Sigma2'])
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
 {'Sigma2': 0.01727439579905615, 'Tau2': 0.031562453419661775}
 ```
+
+
+</div>
+</div>
+</div>
 
 
 
@@ -1364,13 +1600,16 @@ If these are significantly larger than one (say, 1.5), the chain probably has no
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spvcm.diagnostics.psrf(vcsma_p, varnames=['Tau2', 'Sigma2'])
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1379,18 +1618,26 @@ spvcm.diagnostics.psrf(vcsma_p, varnames=['Tau2', 'Sigma2'])
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Highest posterior density intervals provide a kind of interval estimate for parameters in Bayesian models:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spvcm.diagnostics.hpd_interval(vcsma, varnames=['Betas', 'Lambda', 'Sigma2'])
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1406,21 +1653,29 @@ spvcm.diagnostics.hpd_interval(vcsma, varnames=['Betas', 'Lambda', 'Sigma2'])
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Sometimes, you want to apply arbitrary functions to each parameter trace. To do this, I've written a `map` function that works like the python builtin `map`. For example, if you wanted to get arbitrary percentiles from the chain:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma.trace.map(np.percentile, 
                 varnames=['Lambda', 'Tau2', 'Sigma2'],
                 #arguments to pass to the function go last
                 q=[25, 50, 75]) 
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1431,6 +1686,11 @@ vcsma.trace.map(np.percentile,
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 In addition, you can pop the trace results pretty simply to a `.csv` file and analyze it elsewhere, like if you want to use use the `coda` Bayesian Diagnostics package in `R`. 
 
@@ -1438,31 +1698,42 @@ To write out a model to a csv, you can use:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma.trace.to_csv('./model_run.csv')
+
 ```
+</div>
+
+</div>
+
 
 
 And, you can even load traces from csvs:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 tr = spvcm.abstracts.Trace.from_csv('./model_run.csv')
 print(tr.varnames)
 tr.plot(varnames=['Tau2'])
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 ['Lambda', 'Sigma2', 'Tau2', 'Alphas', 'Betas']
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1474,9 +1745,18 @@ tr.plot(varnames=['Tau2'])
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spvcm/using_the_sampler_66_2.png)
+
+</div>
+</div>
+</div>
+
 
 
 #  Working with models: `draw` and `sample`
@@ -1485,33 +1765,48 @@ These two functions are used to call the underlying Gibbs sampler. They take no 
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma.draw()
+
 ```
+</div>
+
+</div>
+
 
 
 And sample steps forward an arbitrary number of times:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma.sample(10)
+
 ```
+</div>
+
+</div>
+
 
 
 At this point, we did 5000 initial samples and 11 extra samples. Thus:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma.cycles
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1520,26 +1815,38 @@ vcsma.cycles
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Parallel models can suspend/resume sampling too:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma_p.sample(10)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma_p.cycles
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1548,8 +1855,15 @@ vcsma_p.cycles
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Under the hood, it's the `draw` method that actually ends up calling one run of `model._iteration`, which is where the actual statistical code lives. Then, it updates all `model.traced_params` by adding their current value in `model.state` to `model.trace.` In addition, `model._finalize` is called the first time sampling is run, which computes some of the constants & derived quantities that save computing time.
+
+
 
 # Working with models:  `state`
 
@@ -1559,23 +1873,32 @@ All of the following are tracked in the state:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 print(vcsma.state.keys())
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 dict_keys(['X', 'Y', 'M', 'W', 'Delta', 'N', 'J', 'p', 'Sigma2_a0', 'Sigma2_b0', 'Betas_cov0', 'Betas_mean0', 'Tau2_a0', 'Tau2_b0', 'Log_Lambda0', 'Log_Rho0', 'Rho_min', 'Rho_max', 'Lambda_min', 'Lambda_max', 'Betas', 'Alphas', 'Sigma2', 'Tau2', 'Rho', 'Lambda', 'Psi_1', 'Psi_1i', 'Psi_2', 'Psi_2i', 'In', 'Ij', 'Betas_cov0i', 'Betas_covm', 'Sigma2_an', 'Tau2_an', 'PsiRhoi', 'PsiLambdai', 'XtX', 'DeltatDelta', 'DeltaAlphas', 'XBetas', 'initial_values'])
-
 ```
+</div>
+</div>
+</div>
+
+
 
 If you want to track how something (maybe a hyperparameter) changes over sampling, you can pass `extra_traced_params` to the model declaration:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 example = spvcm.upper_level.Upper_SMA(Y, X, M=W2, Z=Z, 
                                       membership=membership, 
@@ -1583,16 +1906,23 @@ example = spvcm.upper_level.Upper_SMA(Y, X, M=W2, Z=Z,
                                       extra_traced_params = ['DeltaAlphas'],
                                       configs=dict(tuning=500, adapt_step=1.01))
 example.trace.varnames
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
 ['Alphas', 'Betas', 'Sigma2', 'Tau2', 'Lambda', 'DeltaAlphas']
 ```
+
+
+</div>
+</div>
+</div>
 
 
 
@@ -1603,13 +1933,16 @@ Each MCMC step has its own config:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma.configs
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1619,18 +1952,26 @@ vcsma.configs
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Since `vcsma` is an upper-level-only model, the `Rho` config is skipped. But, we can look at the `Lambda` config. The number of accepted `lambda` draws is contained in :
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma.configs.Lambda.accepted
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1639,18 +1980,26 @@ vcsma.configs.Lambda.accepted
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 so, the acceptance rate is
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma.configs.Lambda.accepted / float(vcsma.cycles)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1659,12 +2008,18 @@ vcsma.configs.Lambda.accepted / float(vcsma.cycles)
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Also, if you want to get verbose output from the metropolis sampler, there is a "debug" flag:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 example = spvcm.upper_level.Upper_SMA(Y, X, M=W2, Z=Z, 
                                       membership=membership, 
@@ -1672,20 +2027,28 @@ example = spvcm.upper_level.Upper_SMA(Y, X, M=W2, Z=Z,
                                       configs=dict(tuning=250, 
                                                    adapt_step=1.01, 
                                                    debug=True))
+
 ```
+</div>
+
+</div>
+
 
 
 Which stores the information about each iteration in a list, accessible from `model.configs.<parameter>._cache`:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 example.configs.Lambda._cache[-1] #let's only look at the last one
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1697,15 +2060,26 @@ example.configs.Lambda._cache[-1] #let's only look at the last one
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Configuration of the MCMC steps is done using the `config` options dictionary, like done in `spBayes` in `R`. The actual configuration classes exist in spvcm.steps:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-from spvcm.steps import Metropolis, Slice
+from pysal.model.spvcm.steps import Metropolis, Slice
+
 ```
+</div>
+
+</div>
+
 
 
 Most of the common options are:
@@ -1723,7 +2097,8 @@ Most of the common options are:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 example = spvcm.upper_level.Upper_SMA(Y, X, M=W2, Z=Z, 
                                       membership=membership, 
@@ -1731,18 +2106,24 @@ example = spvcm.upper_level.Upper_SMA(Y, X, M=W2, Z=Z,
                                       configs=dict(tuning=250, 
                                                    adapt_step=1.01, 
                                       debug=True, ar_low=.1, ar_hi=.4))
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 example.configs.Lambda.ar_hi, example.configs.Lambda.ar_low
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1751,40 +2132,58 @@ example.configs.Lambda.ar_hi, example.configs.Lambda.ar_low
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 example_slicer = spvcm.upper_level.Upper_SMA(Y, X, M=W2, Z=Z, 
                                              membership=membership, 
                                              n_samples=500, 
                                              configs=dict(Lambda_method='slice'))
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 example_slicer.trace.plot(varnames='Lambda')
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spvcm/using_the_sampler_97_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 example_slicer.configs.Lambda.adapt, example_slicer.configs.Lambda.width
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1793,8 +2192,15 @@ example_slicer.configs.Lambda.adapt, example_slicer.configs.Lambda.width
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 # Working with models: customization
+
+
 
 If you're doing heavy customization, it makes the most sense to first initialize the class without sampling. We did this before when showing how the "extra_traced_params" option worked. 
 
@@ -1804,17 +2210,27 @@ To do this, you pass the option `n_samples=0`.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsese = spvcm.both_levels.SESE(Y, X, W=W1, M=W2, Z=Z, 
                                 membership=membership, 
                                 n_samples=0)
+
 ```
+</div>
+
+</div>
+
 
 
 This sets up a two-level spatial error model with the default uninformative configuration. This means the prior precisions are all `I * .001*`, prior means are all 0, spatial parameters are set to `-1/(n-1)`, and prior scale factors are set arbitrarily. 
 
+
+
 ### Configs
+
+
 
 Options are set by assgning to the relevant property in `model.configs`. 
 
@@ -1824,13 +2240,16 @@ Configuration options are stored for each parameter separately:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsese.configs
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1840,19 +2259,32 @@ vcsese.configs
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 So, for example, if we wanted to turn off adaptation in the upper-level parameter, and fix the Metrpolis jump variance to `.25`:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsese.configs.Lambda.max_tuning = 0
 vcsese.configs.Lambda.jump  = .25
+
 ```
+</div>
+
+</div>
+
 
 
 ### Priors
+
+
 
 Another thing that might be interesting (though not "bayesian") would be to fix the prior mean of $\beta$ to the OLS estimates. One way this could be done would be to pull the `Delta` matrix out from the state, and estimate:
 $$ Y = X\beta + \Delta Z + \epsilon $$
@@ -1860,24 +2292,38 @@ using `PySAL`:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 Delta = vcsese.state.Delta
 DeltaZ = Delta.dot(Z)
 vcsese.state.Betas_mean0 = ps.spreg.OLS(Y, np.hstack((X, DeltaZ))).betas
+
 ```
+</div>
+
+</div>
+
 
 
 ### Starting Values
+
+
 
 If you wanted to start the sampler at a given starting value, you can do so by assigning that value to the `Lambda` value in `state`. 
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsese.state.Lambda = -.25
+
 ```
+</div>
+
+</div>
+
 
 
 Sometimes, it's suggested that you start the beta vector randomly, rather than at zero. For the parallel sampling, the model starting values are adjusted to induce overdispersion in the start values. 
@@ -1886,13 +2332,21 @@ You could do this manually, too:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsese.state.Betas += np.random.uniform(-10, 10, size=(vcsese.state.p,1))
+
 ```
+</div>
+
+</div>
+
 
 
 ### Spatial Priors
+
+
 
 Changing the spatial parameter priors is also done by changing their prior in state. This prior must be a function that takes a value of the parameter and return the log of the prior probability for that value. 
 
@@ -1900,91 +2354,137 @@ For example, we could assign `P(\lambda) = Beta(2,1)` and zero if outside $(0,1)
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 from scipy import stats
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def Lambda_prior(val):
     if (val < 0) or (val > 1):
         return -np.inf
     return np.log(stats.beta.pdf(val, 2,1))
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def Rho_prior(val):
     if (val > .5) or (val < -.5):
         return -np.inf
     return np.log(stats.truncnorm.pdf(val, -.5, .5, loc=0, scale=.5))
+
 ```
+</div>
+
+</div>
+
 
 
 And then assigning to their symbols, `LogLambda0` and `LogRho0` in the state:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsese.state.LogLambda0 = Lambda_prior
 vcsese.state.LogRho0 = Rho_prior
+
 ```
+</div>
+
+</div>
+
 
 
 ### Performance
+
+
 
 The efficiency of the sampler is contingent on the lower-level size. If we were to estimate the draw in a dual-level SAR-Error Variance Components iteration:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %timeit vcsese.draw()
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 26 ms ± 2.37 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-
 ```
+</div>
+</div>
+</div>
+
+
 
 To make it easy to work with the model, you can interrupt and resume sampling using keyboard interrupts (`ctrl-c` or the `stop` button in the notebook). 
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %time vcsese.sample(100)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 CPU times: user 10.4 s, sys: 148 ms, total: 10.5 s
 Wall time: 2.64 s
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsese.sample(10)
+
 ```
+</div>
+
+</div>
+
 
 
 # Under the Hood
 
+
+
 ### Package Structure
+
+
 
 Most of the tools in the package are stored in relevant python files in the top level or a dedicated subfolder. Explaining a few:
 
@@ -1996,6 +2496,8 @@ Most of the tools in the package are stored in relevant python files in the top 
 - `diagnostics.py` - all the diagnostics
 - `priors.py` - definitions of alternative prior forms. Right now, this is pretty simple. 
 - `sqlite.py` - functions to use a sqlite database instead of an in-memory chain are defined here. 
+
+
 
 ### The implementation of a Model
 
@@ -2047,19 +2549,24 @@ class Base_VISAR(spvcm.generic.Base_Generic):
 ```
 I've organized the directories in this project into `both_levels`, `upper_level`, `lower_level`, and `hierarchical`, which contains some of the spatially-varying coefficient models & other models I'm working on that are unrelated to the multilevel variance components stuff. 
 
+
+
 Since most of the `_iteration` loop is the same between models, most of the models share the same sampling code, but customize the structure of the covariance in each level. These covariance variables are stored in the `state.Psi_1`, for the lower-level covariance, and `state.Psi_2` for the upper-level covariance. Likewise, the precision functions are `state.Psi_1i` and `state.Psi_2i`. 
 
 For example:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsese.state.Psi_1 #lower-level covariance
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -2068,16 +2575,22 @@ vcsese.state.Psi_1 #lower-level covariance
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsese.state.Psi_2 #upper-level covariance
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -2086,16 +2599,22 @@ vcsese.state.Psi_2 #upper-level covariance
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma.state.Psi_2 #upper-level covariance
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -2104,16 +2623,22 @@ vcsma.state.Psi_2 #upper-level covariance
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma.state.Psi_2i
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -2122,16 +2647,22 @@ vcsma.state.Psi_2i
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 vcsma.state.Psi_1
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -2140,7 +2671,13 @@ vcsma.state.Psi_1
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 The functions that generate the covariance matrices are stored in `spvcm.utils`. They can be arbitrarily overwritten for alternative covariance specifications. 
 
 Thus, if we want to sample a model with a new covariance specification, then we need to define functions for the variance and precision.
+

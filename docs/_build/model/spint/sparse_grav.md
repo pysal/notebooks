@@ -2,6 +2,8 @@
 redirect_from:
   - "/model/spint/sparse-grav"
 interact_link: content/model/spint/sparse_grav.ipynb
+kernel_name: python2
+has_widgets: false
 title: 'sparse_grav'
 prev_page:
   url: /model/spint/test_grav
@@ -13,8 +15,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import numpy as np
 import pandas as pd
@@ -40,18 +42,24 @@ def timeit(method):
         return result, elapsed
 
     return timed
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Populating the interactive namespace from numpy and matplotlib
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 @timeit
 def gravity(f ,o, d, o_vars, d_vars, dij, cost='exp', framework='glm'):
@@ -74,12 +82,16 @@ def doubly(f ,o, d, o_vars, d_vars, dij, cost='exp', framework='glm'):
     return results
 
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def sim_data(n):
     o = np.tile(np.arange(n),n)
@@ -99,12 +111,16 @@ def sim_data(n):
     return f, o, d, o_vars, d_vars, dij
 
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def loop(func, start, stop, step, framework='glm'):
     results = []
@@ -117,20 +133,27 @@ def loop(func, start, stop, step, framework='glm'):
     
 
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 grav = loop(gravity, 25, 500, 25)
 prod = loop(production, 25, 500, 25)
 att = loop(attraction, 25, 500, 25)
 doub = loop(doubly, 25, 500, 25)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [  4.00004848e-01  -5.00084038e-05]
@@ -209,18 +232,23 @@ doub = loop(doubly, 25, 500, 25)
 [  7.93233294e+00  -5.00054770e-05]
 [  8.51533586e+00  -5.00055944e-05]
 [  8.86541542e+00  -5.00053305e-05]
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 grav
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -247,16 +275,22 @@ grav
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 prod
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -283,16 +317,22 @@ prod
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 att
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -319,16 +359,22 @@ att
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 doub
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -355,28 +401,38 @@ doub
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 x = np.arange(25, 500, 25)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 plt.plot(x, grav, x, prod, x, att, x, doub)
 plt.legend(('unconstrained', 'production', 'attraction', 'doubly'))
 plt.title('Sparse GLM Framework')
 plt.xlabel('Sample Size')
 plt.ylabel('Seconds')
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -385,7 +441,15 @@ plt.ylabel('Seconds')
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spint/sparse_grav_10_1.png)
+
+</div>
+</div>
+</div>
 

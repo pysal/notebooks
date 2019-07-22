@@ -2,6 +2,8 @@
 redirect_from:
   - "/explore/spaghetti/spaghetti-pointpatterns-empirical"
 interact_link: content/explore/spaghetti/Spaghetti_Pointpatterns_Empirical.ipynb
+kernel_name: conda-env-py3_spgh_dev-py
+has_widgets: false
 title: 'Spaghetti_Pointpatterns_Empirical'
 prev_page:
   url: /explore/spaghetti/intro
@@ -12,12 +14,17 @@ next_page:
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
+
 ---------------------------------------
+
+
 
 # $SPA$tial $G$rap$H$s: n$ET$works, $T$opology, & $I$nference
 
 ## Tutorial for `pysal.spaghetti`: Working with point patterns: empirical observations
 #### James D. Gaboardi [<jgaboardi@fsu.edu>]
+
+
 
 1. Instantiating a `pysal.spaghetti.Network`
 2. Allocating observations to a network
@@ -27,7 +34,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import os
 last_modified = None
@@ -41,25 +49,35 @@ elif os.name == "nt":
     
 if last_modified:
     get_ipython().set_next_input(last_modified[-1])
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-# This notebook was last updated: Dec  9 13:58:21 2018
+# This notebook was last updated: Dec  9 14:23:58 2018
+
 ```
+</div>
+
+</div>
+
 
 
 -----------------
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-import spaghetti as spgh
-from libpysal import examples
+from pysal.explore import spaghetti as spgh
+from pysal.lib import examples
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
@@ -68,7 +86,12 @@ from shapely.geometry import Point, LineString
 %matplotlib inline
 
 __author__ = "James Gaboardi <jgaboardi@gmail.com>"
+
 ```
+</div>
+
+</div>
+
 
 
 # 1. Instantiating a `pysal.spaghetti.Network`
@@ -76,10 +99,16 @@ __author__ = "James Gaboardi <jgaboardi@gmail.com>"
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 ntw = spgh.Network(in_data=examples.get_path('streets.shp'))
+
 ```
+</div>
+
+</div>
+
 
 
 # 2. Allocating observations to a network
@@ -87,7 +116,8 @@ ntw = spgh.Network(in_data=examples.get_path('streets.shp'))
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 # Crimes with attributes
 ntw.snapobservations(examples.get_path('crimes.shp'),
@@ -98,16 +128,24 @@ ntw.snapobservations(examples.get_path('crimes.shp'),
 ntw.snapobservations(examples.get_path('schools.shp'),
                      'schools',
                      attribute=False)
+
 ```
+</div>
+
+</div>
+
 
 
 # 3. Visualizing original and snapped locations
+
+
 
 ## True and snapped school locations
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 schools_df = spgh.element_as_gdf(ntw,
                                  pp_name='schools',
@@ -116,14 +154,20 @@ schools_df = spgh.element_as_gdf(ntw,
 snapped_schools_df = spgh.element_as_gdf(ntw,
                                          pp_name='schools',
                                          snapped=True)
+
 ```
+</div>
+
+</div>
+
 
 
 ## True and snapped crime locations
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 crimes_df = spgh.element_as_gdf(ntw,
                                 pp_name='crimes',
@@ -132,27 +176,39 @@ crimes_df = spgh.element_as_gdf(ntw,
 snapped_crimes_df = spgh.element_as_gdf(ntw,
                                         pp_name='crimes',
                                         snapped=True)
+
 ```
+</div>
+
+</div>
+
 
 
 ## Create `geopandas.GeoDataFrame` objects of the vertices and arcs
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 # network nodes and edges
 vertices_df, arcs_df = spgh.element_as_gdf(ntw,
                                            vertices=True,
                                            arcs=True)
+
 ```
+</div>
+
+</div>
+
 
 
 ## Plotting `geopandas.GeoDataFrame` objects
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 # legend patches
 arcs = mlines.Line2D([], [], color='k', label='Network Arcs', alpha=.5)
@@ -168,12 +224,16 @@ snp_crme = mlines.Line2D([], [], color='r', linewidth=0, markersize=3,
                          marker='o', label='Snapped Crimes', alpha=.75)
 
 patches = [arcs, vtxs, schl, snp_schl, crme, snp_crme]
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 # plot figure
 base = arcs_df.plot(color='k', alpha=.25, figsize=(12,12), zorder=0)
@@ -192,7 +252,13 @@ snapped_schools_df.plot(ax=base,cmap='tab20', column='id',
 # add legend
 plt.legend(handles=patches, fancybox=True, framealpha=0.8,
            scatterpoints=1, fontsize="xx-large", bbox_to_anchor=(1.04, .6))
+
 ```
+</div>
+
+</div>
+
 
 
 -----------
+

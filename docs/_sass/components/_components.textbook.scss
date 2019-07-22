@@ -23,13 +23,14 @@
  *   simultaneously, so make sure that the page doesn't overflow.
  */
 
-$sidebar-width: 300px;
-
 .c-textbook {
   /* [1] */
   position: relative;
   height: 100vh;
   overflow: hidden;
+
+  max-width: $page-max-width;
+  margin: 0 auto;
 }
 
 .c-textbook__sidebar,
@@ -61,4 +62,18 @@ $sidebar-width: 300px;
       width: calc(100% - #{$sidebar-width});
     }
   }
+}
+
+// Scrollbar width
+::-webkit-scrollbar {
+  width: 5px;
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+}
+
+main, nav {
+  scrollbar-width: thin;
 }

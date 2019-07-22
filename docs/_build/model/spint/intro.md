@@ -1,6 +1,4 @@
 ---
-redirect_from:
-  - "/model/spint/intro"
 title: 'spint'
 prev_page:
   url: /model/spvcm/using_the_sampler

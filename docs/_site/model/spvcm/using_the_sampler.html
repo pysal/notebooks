@@ -1,0 +1,4379 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+
+  <title>using_the_sampler</title>
+  <meta name="description" content="Using the sampler">
+
+  <link rel="canonical" href="http://0.0.0.0:4000/notebooks/model/spvcm/using_the_sampler.html">
+  <link rel="alternate" type="application/rss+xml" title="PySAL Notebooks" href="http://0.0.0.0:4000/notebooks/feed.xml">
+
+  <meta property="og:url"         content="http://0.0.0.0:4000/notebooks/model/spvcm/using_the_sampler.html" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="using_the_sampler" />
+<meta property="og:description" content="Using the sampler" />
+<meta property="og:image"       content="" />
+
+
+  <script type="application/ld+json">
+  {
+  "@context": "http://schema.org",
+  "@type": "NewsArticle",
+  "mainEntityOfPage":
+    "http://0.0.0.0:4000/notebooks/model/spvcm/using_the_sampler.html",
+  "headline":
+    "using_the_sampler",
+  "datePublished":
+    "2019-07-22T16:47:05+00:00",
+  "dateModified":
+    "2019-07-22T16:47:05+00:00",
+  "description":
+    "Using the sampler",
+  "author": {
+    "@type": "Person",
+    "name": "PySAL Developers"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Data 100 at UC Berkeley",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://0.0.0.0:4000/notebooks",
+      "width": 60,
+      "height": 60
+    }
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "http://0.0.0.0:4000/notebooks",
+    "height": 60,
+    "width": 60
+  }
+}
+
+  </script>
+  <link rel="stylesheet" href="/notebooks/assets/css/styles.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css ">
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+
+  <!-- <link rel="manifest" href="/manifest.json"> -->
+  <!-- <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#efae0a"> -->
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+  <meta name="theme-color" content="#233947">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/notebooks/assets/images/pysal_favicon.ico">
+
+  <!-- MathJax Config -->
+  <!-- Allow inline math using $ and automatically break long math lines -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true,
+        processEnvironments: true
+    },
+    CommonHTML: {
+        linebreaks: {
+            automatic: true,
+        },
+    },
+});
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML' async></script>
+
+  <!-- DOM updating function -->
+  <script>
+const runWhenDOMLoaded = cb => {
+  if (document.readyState != 'loading') {
+    cb()
+  } else if (document.addEventListener) {
+    document.addEventListener('DOMContentLoaded', cb)
+  } else {
+    document.attachEvent('onreadystatechange', function() {
+      if (document.readyState == 'complete') cb()
+    })
+  }
+}
+
+// Helper function to init things quickly
+initFunction = function(myfunc) {
+  runWhenDOMLoaded(myfunc);
+  document.addEventListener('turbolinks:load', myfunc);
+};
+</script>
+
+  <!-- Define some javascript variables that will be useful in other javascript -->
+  <script>
+    const site_basename = '/notebooks';
+  </script>
+
+  <!-- Add AnchorJS to let headers be linked -->
+  <script src="/notebooks/assets/js/anchor.min.js"  type="text/javascript"></script>
+  <script>
+
+initFunction(function () {
+    anchors.add("main h1, main h2, main h3, main h4")
+});
+
+</script>
+
+  <!-- Include Turbolinks to make page loads fast -->
+  <!-- https://github.com/turbolinks/turbolinks -->
+  <script src="/notebooks/assets/js/turbolinks.js" async></script>
+  <meta name="turbolinks-cache-control" content="no-cache">
+
+  <!-- Load nbinteract for widgets -->
+  
+
+  <!-- Load Thebelab for interactive widgets -->
+  <!-- Include Thebelab for interactive code if it's enabled -->
+
+
+
+  <!-- Load the auto-generating TOC -->
+  <script src="/notebooks/assets/js/tocbot.min.js"  type="text/javascript"></script>
+  <script>
+var initToc = function () {
+  tocbot.init({
+    tocSelector: 'nav.onthispage',
+    contentSelector: '.c-textbook__content',
+    headingSelector: 'h2, h3',
+    orderedList: false,
+    collapseDepth: 6,
+    listClass: 'toc__menu',
+    activeListItemClass: "",  // Not using
+    activeLinkClass: "", // Not using
+  });
+  tocbot.refresh();
+}
+initFunction(initToc);
+</script>
+
+  <!-- Google analytics -->
+  <script src="/notebooks/assets/js/ga.js" async></script>
+
+  <!-- Clipboard copy button -->
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" async></script>
+
+  <!-- Load JS that depends on site variables -->
+  <script>
+/**
+ * Set up copy/paste for code blocks
+ */
+const codeCellId = index => `codecell${index}`
+
+const clipboardButton = id =>
+  `<a id="copy-button-${id}" class="btn copybtn o-tooltip--left" data-tooltip="Copy" data-clipboard-target="#${id}">
+    <img src="/notebooks/assets/images/copy-button.svg" alt="Copy to clipboard">
+  </a>`
+
+// Clears selected text since ClipboardJS will select the text when copying
+const clearSelection = () => {
+  if (window.getSelection) {
+    window.getSelection().removeAllRanges()
+  } else if (document.selection) {
+    document.selection.empty()
+  }
+}
+
+// Changes tooltip text for two seconds, then changes it back
+const temporarilyChangeTooltip = (el, newText) => {
+  const oldText = el.getAttribute('data-tooltip')
+  el.setAttribute('data-tooltip', newText)
+  setTimeout(() => el.setAttribute('data-tooltip', oldText), 2000)
+}
+
+const addCopyButtonToCodeCells = () => {
+  // If ClipboardJS hasn't loaded, wait a bit and try again. This
+  // happens because we load ClipboardJS asynchronously.
+  if (window.ClipboardJS === undefined) {
+    setTimeout(addCopyButtonToCodeCells, 250)
+    return
+  }
+
+  const codeCells = document.querySelectorAll('div.c-textbook__content > div.highlighter-rouge > div.highlight > pre, div.input_area pre')
+  codeCells.forEach((codeCell, index) => {
+    const id = codeCellId(index)
+    codeCell.setAttribute('id', id)
+    if (document.getElementById("copy-button" + id) == null) {
+      codeCell.insertAdjacentHTML('afterend', clipboardButton(id));
+    }
+  })
+
+  const clipboard = new ClipboardJS('.copybtn')
+  clipboard.on('success', event => {
+    clearSelection()
+    temporarilyChangeTooltip(event.trigger, 'Copied!')
+  })
+
+  clipboard.on('error', event => {
+    temporarilyChangeTooltip(event.trigger, 'Failed to copy')
+  })
+
+  // Get rid of clipboard before the next page visit to avoid memory leak
+  document.addEventListener('turbolinks:before-visit', () =>
+    clipboard.destroy()
+  )
+}
+
+initFunction(addCopyButtonToCodeCells);
+</script>
+
+
+  <!-- Hide cell code -->
+  <script>
+    /**
+    Add buttons to hide code cells
+    */
+
+
+    var setCodeCellVisibility = function (inputField, kind) {
+        // Update the image and class for hidden
+        var id = inputField.getAttribute('data-id');
+        var codeCell = document.querySelector(`#${id} div.highlight`);
+
+        if (kind === "visible") {
+            codeCell.classList.remove('hidden');
+            inputField.checked = true;
+        } else {
+            codeCell.classList.add('hidden');
+            inputField.checked = false;
+        }
+    }
+
+    var toggleCodeCellVisibility = function (event) {
+        // The label is clicked, and now we decide what to do based on the input field's clicked status
+        if (event.target.tagName === "LABEL") {
+            var inputField = event.target.previousElementSibling;
+        } else {
+            // It is the span inside the target
+            var inputField = event.target.parentElement.previousElementSibling;
+        }
+
+        if (inputField.checked === true) {
+            setCodeCellVisibility(inputField, "visible");
+        } else {
+            setCodeCellVisibility(inputField, "hidden");
+        }
+    }
+
+
+    // Button constructor
+    const hideCodeButton = id => `<input class="hidebtn" type="checkbox" id="hidebtn${id}" data-id="${id}"><label title="Toggle cell" for="hidebtn${id}" class="plusminus"><span class="pm_h"></span><span class="pm_v"></span></label>`
+
+    var addHideButton = function () {
+        // If a hide button is already added, don't add another
+        if (document.querySelector('div.hidecode input') !== null) {
+            return;
+        }
+
+        // Find the input cells and add a hide button
+        document.querySelectorAll('div.input_area').forEach(function (item, index) {
+            if (!item.classList.contains("hidecode")) {
+                // Skip the cell if it doesn't have a hidecode class
+                return;
+            }
+
+            const id = codeCellId(index)
+            item.setAttribute('id', id);
+            // Insert the button just inside the end of the next div
+            item.querySelector('div').insertAdjacentHTML('beforeend', hideCodeButton(id))
+
+            // Set up the visibility toggle
+            hideLink = document.querySelector(`#${id} div.highlight + input + label`);
+            hideLink.addEventListener('click', toggleCodeCellVisibility)
+        });
+    }
+
+
+    // Initialize the hide buttos
+    var initHiddenCells = function () {
+        // Add hide buttons to the cells
+        addHideButton();
+
+        // Toggle the code cells that should be hidden
+        document.querySelectorAll('div.hidecode input').forEach(function (item) {
+            setCodeCellVisibility(item, 'hidden');
+            item.checked = true;
+        })
+    }
+
+    initFunction(initHiddenCells);
+
+</script>
+
+  <!-- Load custom website scripts -->
+  <script src="/notebooks/assets/js/scripts.js" async></script>
+
+  <!-- Load custom user CSS and JS  -->
+  <script src="/notebooks/assets/custom/custom.js" async></script>
+  <link rel="stylesheet" href="/notebooks/assets/custom/custom.css">
+
+  <!-- Update interact links w/ REST param, is defined in includes so we can use templates -->
+  
+<script>
+/**
+  * To auto-embed hub URLs in interact links if given in a RESTful fashion
+ */
+
+function getJsonFromUrl(url) {
+  var query = url.split('?');
+  if (query.length < 2) {
+    // No queries so just return false
+    return false;
+  }
+  query = query[1];
+  // Collect REST params into a dictionary
+  var result = {};
+  query.split("&").forEach(function(part) {
+    var item = part.split("=");
+    result[item[0]] = decodeURIComponent(item[1]);
+  });
+  return result;
+}
+    
+function dict2param(dict) {
+    params = Object.keys(dict).map(function(k) {
+        return encodeURIComponent(k) + '=' + encodeURIComponent(dict[k])
+    });
+    return params.join('&')
+}
+
+// Parse a Binder URL, converting it to the string needed for JupyterHub
+function binder2Jupyterhub(url) {
+  newUrl = {};
+  parts = url.split('v2/gh/')[1];
+  // Grab the base repo information
+  repoinfo = parts.split('?')[0];
+  var [org, repo, ref] = repoinfo.split('/');
+  newUrl['repo'] = ['https://github.com', org, repo].join('/');
+  newUrl['branch'] = ref
+  // Grab extra parameters passed
+  params = getJsonFromUrl(url);
+  if (params['filepath'] !== undefined) {
+    newUrl['subPath'] = params['filepath']
+  }
+  return dict2param(newUrl);
+}
+
+// Filter out potentially unsafe characters to prevent xss
+function safeUrl(url)
+{
+   return String(encodeURIComponent(url))
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+}
+
+function addParamToInternalLinks(hub) {
+  var links = document.querySelectorAll("a").forEach(function(link) {
+    var href = link.href;
+    // If the link is an internal link...
+    if (href.search("http://0.0.0.0:4000") !== -1 || href.startsWith('/') || href.search("127.0.0.1:") !== -1) {
+      // Assume we're an internal link, add the hub param to it
+      var params = getJsonFromUrl(href);
+      if (params !== false) {
+        // We have REST params, so append a new one
+        params['jupyterhub'] = hub;
+      } else {
+        // Create the REST params
+        params = {'jupyterhub': hub};
+      }
+      // Update the link
+      var newHref = href.split('?')[0] + '?' + dict2param(params);
+      link.setAttribute('href', decodeURIComponent(newHref));
+    }
+  });
+  return false;
+}
+
+
+// Update interact links
+function updateInteractLink() {
+    // hack to make this work since it expects a ? in the URL
+    rest = getJsonFromUrl("?" + location.search.substr(1));
+    jupyterHubUrl = rest['jupyterhub'];
+    var hubType = null;
+    var hubUrl = null;
+    if (jupyterHubUrl !== undefined) {
+      hubType = 'jupyterhub';
+      hubUrl = jupyterHubUrl;
+    }
+
+    if (hubType !== null) {
+      // Sanitize the hubUrl
+      hubUrl = safeUrl(hubUrl);
+
+      // Add HTTP text if omitted
+      if (hubUrl.indexOf('http') < 0) {hubUrl = 'http://' + hubUrl;}
+      var interactButtons = document.querySelectorAll("button.interact-button")
+      var lastButton = interactButtons[interactButtons.length-1];
+      var link = lastButton.parentElement;
+
+      // If we've already run this, skip the link updating
+      if (link.nextElementSibling !== null) {
+        return;
+      }
+
+      // Update the link and add context div
+      var href = link.getAttribute('href');
+      if (lastButton.id === 'interact-button-binder') {
+        // If binder links exist, we need to re-work them for jupyterhub
+        if (hubUrl.indexOf('http%3A%2F%2Flocalhost') > -1) {
+          // If localhost, assume we're working from a local Jupyter server and remove `/hub`
+          first = [hubUrl, 'git-sync'].join('/')
+        } else {
+          first = [hubUrl, 'hub', 'user-redirect', 'git-sync'].join('/')
+        }
+        href = first + '?' + binder2Jupyterhub(href);
+      } else {
+        // If interact button isn't binderhub, assume it's jupyterhub
+        // If JupyterHub links, we only need to replace the hub url
+        href = href.replace("", hubUrl);
+        if (hubUrl.indexOf('http%3A%2F%2Flocalhost') > -1) {
+          // Assume we're working from a local Jupyter server and remove `/hub`
+          href = href.replace("/hub/user-redirect", "");
+        }
+      }
+      link.setAttribute('href', decodeURIComponent(href));
+
+      // Add text after interact link saying where we're launching
+      hubUrlNoHttp = decodeURIComponent(hubUrl).replace('http://', '').replace('https://', '');
+      link.insertAdjacentHTML('afterend', '<div class="interact-context">on ' + hubUrlNoHttp + '</div>');
+
+      // Update internal links so we retain the hub url
+      addParamToInternalLinks(hubUrl);
+    }
+}
+
+runWhenDOMLoaded(updateInteractLink)
+document.addEventListener('turbolinks:load', updateInteractLink)
+</script>
+
+
+  <!-- Lunr search code - will only be executed on the /search page -->
+  <script src="/notebooks/assets/js/lunr/lunr.min.js" type="text/javascript"></script>
+  <script>var initQuery = function() {
+  // See if we have a search box
+  var searchInput = document.querySelector('input#lunr_search');
+  if (searchInput === null) {
+    return;
+  }
+
+  // Function to parse our lunr cache
+  var idx = lunr(function () {
+    this.field('title')
+    this.field('excerpt')
+    this.field('categories')
+    this.field('tags')
+    this.ref('id')
+
+    this.pipeline.remove(lunr.trimmer)
+
+    for (var item in store) {
+      this.add({
+        title: store[item].title,
+        excerpt: store[item].excerpt,
+        categories: store[item].categories,
+        tags: store[item].tags,
+        id: item
+      })
+    }
+  });
+
+  // Run search upon keyup
+  searchInput.addEventListener('keyup', function () {
+    var resultdiv = document.querySelector('#results');
+    var query = document.querySelector("input#lunr_search").value.toLowerCase();
+    var result =
+      idx.query(function (q) {
+        query.split(lunr.tokenizer.separator).forEach(function (term) {
+          q.term(term, { boost: 100 })
+          if(query.lastIndexOf(" ") != query.length-1){
+            q.term(term, {  usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 10 })
+          }
+          if (term != ""){
+            q.term(term, {  usePipeline: false, editDistance: 1, boost: 1 })
+          }
+        })
+      });
+
+      // Empty the results div
+      while (resultdiv.firstChild) {
+        resultdiv.removeChild(resultdiv.firstChild);
+      }
+
+    resultdiv.insertAdjacentHTML('afterbegin', '<p class="results__found">'+result.length+' Result(s) found</p>');
+    for (var item in result) {
+      var ref = result[item].ref;
+      if(store[ref].teaser){
+        var searchitem =
+          '<div class="list__item">'+
+            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="archive__item-title" itemprop="headline">'+
+                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+              '</h2>'+
+              '<div class="archive__item-teaser">'+
+                '<img src="'+store[ref].teaser+'" alt="">'+
+              '</div>'+
+              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
+            '</article>'+
+          '</div>';
+      }
+      else{
+    	  var searchitem =
+          '<div class="list__item">'+
+            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="archive__item-title" itemprop="headline">'+
+                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+              '</h2>'+
+              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
+            '</article>'+
+          '</div>';
+      }
+      resultdiv.insertAdjacentHTML('beforeend', searchitem);
+    }
+  });
+};
+
+initFunction(initQuery);
+</script>
+</head>
+
+  <body>
+    <!-- .js-show-sidebar shows sidebar by default -->
+    <div id="js-textbook" class="c-textbook js-show-sidebar">
+      
+
+
+
+<nav id="js-sidebar" class="c-textbook__sidebar">
+  <a href="https://pysal.org/notebooks/"><img src="/notebooks/assets/images/logo.png" class="textbook_logo" id="sidebar-logo" data-turbolinks-permanent/></a>
+  <h2 class="c-sidebar__title">PySAL Notebooks</h2>
+  <ul class="c-sidebar__chapters">
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/intro.html"
+        >
+          
+          Home
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">Explore</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/esda/intro.html"
+        >
+          
+          esda
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data.html"
+                >
+                  
+                  Spatial_Autocorrelation_for_Areal_Unit_Data
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/giddy/intro.html"
+        >
+          
+          giddy
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/Rank_based_Methods.html"
+                >
+                  
+                  Rank_based_Methods
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/directional.html"
+                >
+                  
+                  directional
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/Rank_Markov.html"
+                >
+                  
+                  Rank_Markov
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/Mobility_measures.html"
+                >
+                  
+                  Mobility_measures
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/Markov_Based_Methods.html"
+                >
+                  
+                  Markov_Based_Methods
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/pointpats/intro.html"
+        >
+          
+          pointpats
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/distance_statistics.html"
+                >
+                  
+                  distance_statistics
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/centrography.html"
+                >
+                  
+                  centrography
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/Minimum_bounding_circle.html"
+                >
+                  
+                  Minimum_bounding_circle
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/Quadrat_statistics.html"
+                >
+                  
+                  Quadrat_statistics
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/window.html"
+                >
+                  
+                  window
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/marks.html"
+                >
+                  
+                  marks
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/pointpattern.html"
+                >
+                  
+                  pointpattern
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/process.html"
+                >
+                  
+                  process
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/spaghetti/intro.html"
+        >
+          
+          spaghetti
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/spaghetti/Spaghetti_Pointpatterns_Empirical.html"
+                >
+                  
+                  Spaghetti_Pointpatterns_Empirical
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/spaghetti/Facility_Location.html"
+                >
+                  
+                  Facility_Location
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/spaghetti/Snapping_Demonstration.html"
+                >
+                  
+                  Snapping_Demonstration
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/spaghetti/Network_Usage.html"
+                >
+                  
+                  Network_Usage
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/segregation/intro.html"
+        >
+          
+          segregation
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/profile_wrappers_example.html"
+                >
+                  
+                  profile_wrappers_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/decomposition_wrapper_example.html"
+                >
+                  
+                  decomposition_wrapper_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/inference_wrappers_example.html"
+                >
+                  
+                  inference_wrappers_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/nonspatial_examples.html"
+                >
+                  
+                  nonspatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/spatial_examples.html"
+                >
+                  
+                  spatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/inequality/intro.html"
+        >
+          
+          inequality
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/inequality/gini.html"
+                >
+                  
+                  gini
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">Viz</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/viz/mapclassify/intro.html"
+        >
+          
+          mapclassify
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/mapclassify/plot.html"
+                >
+                  
+                  plot
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/mapclassify/deprecate.html"
+                >
+                  
+                  deprecate
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/mapclassify/south.html"
+                >
+                  
+                  south
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/mapclassify/maximum_breaks.html"
+                >
+                  
+                  maximum_breaks
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/viz/splot/intro.html"
+        >
+          
+          splot
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/esda_moran_matrix_viz.html"
+                >
+                  
+                  esda_moran_matrix_viz
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/libpysal_non_planar_joins_viz.html"
+                >
+                  
+                  libpysal_non_planar_joins_viz
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/esda_morans_viz.html"
+                >
+                  
+                  esda_morans_viz
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/giddy_space_time.html"
+                >
+                  
+                  giddy_space_time
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/mapping_vba.html"
+                >
+                  
+                  mapping_vba
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">Model</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/model/spvcm/intro.html"
+        >
+          
+          spvcm
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spvcm/spatially-varying-coefficients.html"
+                >
+                  
+                  spatially-varying-coefficients
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry c-sidebar__entry--active"
+                  href="/notebooks/model/spvcm/using_the_sampler.html"
+                >
+                  
+                  using_the_sampler
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/model/spint/intro.html"
+        >
+          
+          spint
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_vs_dense_grav.html"
+                >
+                  
+                  sparse_vs_dense_grav
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/Example_NYCBikes_AllFeatures.html"
+                >
+                  
+                  Example_NYCBikes_AllFeatures
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/New_DistanceBand.html"
+                >
+                  
+                  New_DistanceBand
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_scipy_optim.html"
+                >
+                  
+                  sparse_scipy_optim
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/local_SI.html"
+                >
+                  
+                  local_SI
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/validate_gravity.html"
+                >
+                  
+                  validate_gravity
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/dispersion_test.html"
+                >
+                  
+                  dispersion_test
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/netW.html"
+                >
+                  
+                  netW
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_categorical.html"
+                >
+                  
+                  sparse_categorical
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/test_grav.html"
+                >
+                  
+                  test_grav
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_grav.html"
+                >
+                  
+                  sparse_grav
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_categorical_bottleneck.html"
+                >
+                  
+                  sparse_categorical_bottleneck
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/OD_weights.html"
+                >
+                  
+                  OD_weights
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_categorical_speed.html"
+                >
+                  
+                  sparse_categorical_speed
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/ODW_example.html"
+                >
+                  
+                  ODW_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/autograd_test.html"
+                >
+                  
+                  autograd_test
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/NYC_Bike_Example.html"
+                >
+                  
+                  NYC_Bike_Example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/4d_distance.html"
+                >
+                  
+                  4d_distance
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/model/spglm/intro.html"
+        >
+          
+          spglm
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spglm/Poisson_GLM.html"
+                >
+                  
+                  Poisson_GLM
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spglm/Gaussian_GLM.html"
+                >
+                  
+                  Gaussian_GLM
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spglm/Binomial_GLM.html"
+                >
+                  
+                  Binomial_GLM
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/model/mgwr/intro.html"
+        >
+          
+          mgwr
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_Georgia_example.html"
+                >
+                  
+                  GWR_Georgia_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_prediction_example.html"
+                >
+                  
+                  GWR_prediction_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_MGWR_example.html"
+                >
+                  
+                  GWR_MGWR_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/MGWR_Georgia_example.html"
+                >
+                  
+                  MGWR_Georgia_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">Lib</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/lib/libpysal/intro.html"
+        >
+          
+          libpysal
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/lib/libpysal/io.html"
+                >
+                  
+                  io
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/lib/libpysal/weights.html"
+                >
+                  
+                  weights
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/lib/libpysal/voronoi.html"
+                >
+                  
+                  voronoi
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+  </ul>
+  <p class="sidebar_footer">Powered by <a href="https://github.com/jupyter/jupyter-book">Jupyter Book</a></p>
+</nav>
+
+      
+      <!-- Empty sidebar placeholder that we'll auto-fill with javascript -->
+      <aside class="sidebar__right">
+          <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
+          <nav class="onthispage">
+          </nav>
+      </aside>
+      
+      <main class="c-textbook__page" tabindex="-1">
+          <div class="o-wrapper">
+            <div class="c-sidebar-toggle">
+  <!-- We show the sidebar by default so we use .is-active -->
+  <button
+    id="js-sidebar-toggle"
+    class="hamburger hamburger--arrowalt is-active"
+  >
+    <span class="hamburger-box">
+      <span class="hamburger-inner"></span>
+    </span>
+    <span class="c-sidebar-toggle__label">Toggle Sidebar</span>
+  </button>
+</div>
+
+            
+<div class="buttons">
+<a href="/notebooks/content/model/spvcm/using_the_sampler.ipynb" download>
+<button id="interact-button-download" class="interact-button">Download</button>
+</a>
+
+
+
+
+
+
+
+
+
+
+<a href="https://mybinder.org/v2/gh/pysal/pysal/master?urlpath=lab/tree/content%2Fmodel%2Fspvcm%2Fusing_the_sampler.ipynb"><button class="interact-button" id="interact-button-binder"><img class="interact-button-logo" src="/notebooks/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
+
+
+</div>
+
+
+            <div class="c-textbook__content">
+              <h1 id="using-the-sampler">Using the sampler</h1>
+
+<p><code class="highlighter-rouge">spvcm</code> is a generic gibbs sampling framework for spatially-correlated variance components models. The current supported models are:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">spvcm.both</code> contains specifications with correlated errors in both levels, with the first statement <code class="highlighter-rouge">se/sma</code> describing the lower level and the second statement <code class="highlighter-rouge">se/sma</code> describing the upper level. In addition, <code class="highlighter-rouge">MVCM</code>, the multilevel variance components model with no spatial correlation, is in the <code class="highlighter-rouge">both</code> namespace.</li>
+  <li><code class="highlighter-rouge">spvcm.lower</code> contains two specifications, <code class="highlighter-rouge">se/sma</code>, that can be used for a variance components model with correlated lower-level errors.</li>
+  <li><code class="highlighter-rouge">spvcm.upper</code> contains two specifications, <code class="highlighter-rouge">se/sma</code> that can be used for a variance components model with correlated upper-level errors.</li>
+</ul>
+
+<h3 id="specification">Specification</h3>
+
+<p>These derive from a variance components specification:</p>
+
+<script type="math/tex; mode=display">Y \sim \mathcal{N}(X\beta, \Psi_1(\lambda, \sigma^2) + \Delta\Psi_2(\rho, \tau^2)\Delta')</script>
+
+<p>Where:</p>
+<ol>
+  <li>$\beta$, called <code class="highlighter-rouge">Betas</code> in code, is the marginal effect parameter. In this implementation, any region-level covariates $Z$ get appended to the end of $X$. So, if $X$ is $n \times p$ ($n$ observations of $p$ covariates)  and $Z$ is $J \times p’$ ($p’$ covariates observed for $J$ regions), then the model’s $X$ matrix is $n \times (p + p’)$ and $\beta$ is $p + p’ \times 1$.</li>
+  <li>$\Psi_1$ is the covariance function for the response-level model. In the software, a separable covariance is assumed, so that $\Psi_1(\rho, \sigma^2) = \Psi_1(\rho) * I \sigma^2)$, where $I$ is the $n \times n$ covariance matrix. Thus, $\rho$ is the spatial autoregressive parameter and $\sigma^2$ is the variance parameter. In the software, $\Psi_1$ takes any of the following forms:
+    <ul>
+      <li>Spatial Error (<code class="highlighter-rouge">SE</code>): $\Psi_1(\rho) = [(I - \rho \mathbf{W})’(I - \rho \mathbf{W})]^{-1} \sigma^2$</li>
+      <li>Spatial Moving Average (<code class="highlighter-rouge">SMA</code>): $\Psi_1(\rho) = (I + \rho \mathbf{W})(I + \lambda \mathbf{W})’$</li>
+      <li>Identity: $\Psi_1(\rho) = I$</li>
+    </ul>
+  </li>
+  <li>$\Psi_2$ is the region-level covariance function, with region-level autoregressive parameter $\lambda$ and region-level variance $\tau^2$. It has the same potential forms as $\Psi_1$.</li>
+  <li>$\alpha$, called <code class="highlighter-rouge">Alphas</code> in code, is the region-level random effect. In a variance components model, this is interpreted as a random effect for the upper-level. For a Varying-intercept format, this random component should be added to a region-level fixed effect to provide the varying intercept. This may also make it more difficult to identify the spatial parameter.</li>
+</ol>
+
+<h2 id="softare-implementation">Softare implementation</h2>
+
+<p>All of the possible combinations of Spatial Moving Average and Spatial Error processes are contained in the following classes. I will walk through estimating one below, and talk about the various features of the package.</p>
+
+<p>First, the API of the package is defined by the <code class="highlighter-rouge">spvcm.api</code> submodule. To load it, use <code class="highlighter-rouge">from pysal.model import spvcm.api as spvcm</code>:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.model</span> <span class="kn">import</span> <span class="n">spvcm</span> <span class="k">as</span> <span class="n">spvcm</span> <span class="c">#package API</span>
+<span class="n">spvcm</span><span class="o">.</span><span class="n">both_levels</span><span class="o">.</span><span class="n">Generic</span> <span class="c"># abstract customizable class, ignores rho/lambda, equivalent to MVCM</span>
+<span class="n">spvcm</span><span class="o">.</span><span class="n">both_levels</span><span class="o">.</span><span class="n">MVCM</span> <span class="c"># no spatial effect</span>
+<span class="n">spvcm</span><span class="o">.</span><span class="n">both_levels</span><span class="o">.</span><span class="n">SESE</span> <span class="c">#  both spatial error (SE)</span>
+<span class="n">spvcm</span><span class="o">.</span><span class="n">both_levels</span><span class="o">.</span><span class="n">SESMA</span> <span class="c"># response-level SE, region-level spatial moving average</span>
+<span class="n">spvcm</span><span class="o">.</span><span class="n">both_levels</span><span class="o">.</span><span class="n">SMASE</span> <span class="c"># response-level SMA, region-level SE</span>
+<span class="n">spvcm</span><span class="o">.</span><span class="n">both_levels</span><span class="o">.</span><span class="n">SMASMA</span> <span class="c"># both levels SMA</span>
+<span class="n">spvcm</span><span class="o">.</span><span class="n">upper_level</span><span class="o">.</span><span class="n">Upper_SE</span> <span class="c"># response-level uncorrelated, region-level SE</span>
+<span class="n">spvcm</span><span class="o">.</span><span class="n">upper_level</span><span class="o">.</span><span class="n">Upper_SMA</span> <span class="c"># response-level uncorrelated, region-level SMA</span>
+<span class="n">spvcm</span><span class="o">.</span><span class="n">lower_level</span><span class="o">.</span><span class="n">Lower_SE</span> <span class="c"># response-level SE, region-level uncorrelated</span>
+<span class="n">spvcm</span><span class="o">.</span><span class="n">lower_level</span><span class="o">.</span><span class="n">Lower_SMA</span> <span class="c"># response-level SMA, region-level uncorrelated </span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spvcm.lower_level.sma.model.Lower_SMA
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Depending on the structure of the model, you need at least:</p>
+<ul>
+  <li><code class="highlighter-rouge">X</code>, data at the response (lower) level</li>
+  <li><code class="highlighter-rouge">Y</code>, system response in the lower level</li>
+  <li><code class="highlighter-rouge">membership</code> or <code class="highlighter-rouge">Delta</code>, the membership vector relating each observation to its group or the “dummy variable” matrix encoding the same information.</li>
+</ul>
+
+<p>Then, if spatial correlation is desired, <code class="highlighter-rouge">M</code> is the “upper-level” weights matrix and <code class="highlighter-rouge">W</code> the lower-level weights matrix.</p>
+
+<p>Any upper-level data should be passed in $Z$, and have $J$ rows. To fit a varying-intercept model, include an identity matrix in $Z$. You can include state-level and response-level intercept terms simultaneously.</p>
+
+<p>Finally, there are many configuration and tuning options that can be passed in at the start, or assigned after the model is initialized.</p>
+
+<p>First, though, let’s set up some data for a model on southern counties predicting <code class="highlighter-rouge">HR90</code>, the Homicide Rate in the US South in 1990, using the the percent of the labor force that is unemployed (<code class="highlighter-rouge">UE90</code>), a principal component expressing the population structure (<code class="highlighter-rouge">PS90</code>), and a principal component expressing resource deprivation.</p>
+
+<p>We will also use the state-level average percentage of families below the poverty line and the average Gini coefficient at the state level for a $Z$ variable.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#seaborn is required for the traceplots</span>
+<span class="kn">import</span> <span class="nn">pysal</span> <span class="k">as</span> <span class="n">ps</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="n">gpd</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>Reading in the data, we’ll extract these values we need from the dataframe.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">pdio</span><span class="o">.</span><span class="n">read_files</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s">'south.shp'</span><span class="p">))</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s">'south.shp'</span><span class="p">))</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">STATE_NAME</span> <span class="o">!=</span> <span class="s">'District of Columbia'</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s">'UE90'</span><span class="p">,</span> <span class="s">'PS90'</span><span class="p">,</span> <span class="s">'RD90'</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">N</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'STATE_NAME'</span><span class="p">)[[</span><span class="s">'FP89'</span><span class="p">,</span> <span class="s">'GI89'</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+<span class="n">J</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">Y</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">HR90</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>Then, we’ll construct some queen contiguity weights from the files to show how to run a model.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">W2</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">queen_from_shapefile</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s">'us48.shp'</span><span class="p">),</span> 
+                             <span class="n">idVariable</span><span class="o">=</span><span class="s">'STATE_NAME'</span><span class="p">)</span>
+<span class="n">W2</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">w_subset</span><span class="p">(</span><span class="n">W2</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">STATE_NAME</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span> <span class="c">#only keep what's in the data</span>
+<span class="n">W1</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">queen_from_shapefile</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s">'south.shp'</span><span class="p">),</span>
+                             <span class="n">idVariable</span><span class="o">=</span><span class="s">'FIPS'</span><span class="p">)</span>
+<span class="n">W1</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">w_subset</span><span class="p">(</span><span class="n">W1</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">FIPS</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span> <span class="c">#again, only keep what's in the data</span>
+
+<span class="n">W1</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="s">'r'</span>
+<span class="n">W2</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="s">'r'</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>With the data, upper-level weights, and lower-level weights, we can construct a membership vector <em>or</em> a dummy data matrix. For now, I’ll create the membership vector.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">membership</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">STATE_NAME</span><span class="o">.</span><span class="nb">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">W2</span><span class="o">.</span><span class="n">id_order</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">values</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>But, we could also build the dummy variable matrix using <code class="highlighter-rouge">pandas</code>, if we have a suitable categorical variable:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Delta_frame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">STATE_NAME</span><span class="p">)</span>
+<span class="n">Delta</span> <span class="o">=</span> <span class="n">Delta_frame</span><span class="o">.</span><span class="n">values</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>Every call to the sampler is of the following form:</p>
+
+<p><code class="highlighter-rouge">sampler(Y, X, W, M, Z, membership, Delta, n_samples, **configuration)</code></p>
+
+<p>Where <code class="highlighter-rouge">W</code>, <code class="highlighter-rouge">M</code> are passed if appropriate, <code class="highlighter-rouge">Z</code> is passed if used, and only one of <code class="highlighter-rouge">membership</code> or <code class="highlighter-rouge">Delta</code> is required. In the end, <code class="highlighter-rouge">Z</code> is appended to <code class="highlighter-rouge">X</code>, so the effects pertaining to the upper level will be at the tail end of the $\beta$ effects vector. If both <code class="highlighter-rouge">Delta</code> and <code class="highlighter-rouge">membership</code> are supplied, they’re verified against each other to ensure that they agree before they are used in the model.</p>
+
+<p>For all models, the membership vector or an equivalent dummy variable matrix is required. For models with correlation in the upper level, only the upper-level weights matrix $\mathbf{M}$ is needed. For lower level models, the lower-level weights matrix $\mathbf{W}$ is required. For models with correlation in both levels, both $\mathbf{W}$ and $\mathbf{M}$ are required.</p>
+
+<p>Every sampler uses, either in whole or in part, <code class="highlighter-rouge">spvcm.both.generic</code>, which implements the full generic sampler discussed in the working paper. For efficiency, the upper-level samplers modify this runtime to avoid processing the full lower-level covariance matrix.</p>
+
+<p>Like many of the <code class="highlighter-rouge">R</code> packages dedicated to bayesian models, configuration occurs by passing the correct dictionary to the model call. In addition, you can “setup” the model, configure it, and then run samples in separate steps.</p>
+
+<p>The most common way to call the sampler is something like:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span> <span class="o">=</span> <span class="n">spvcm</span><span class="o">.</span><span class="n">upper_level</span><span class="o">.</span><span class="n">Upper_SMA</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">W2</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> 
+                                    <span class="n">membership</span><span class="o">=</span><span class="n">membership</span><span class="p">,</span> 
+                                    <span class="n">n_samples</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span>
+                                    <span class="n">configs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">tuning</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> 
+                                                 <span class="n">adapt_step</span><span class="o">=</span><span class="mf">1.01</span><span class="p">))</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>This model, <code class="highlighter-rouge">spvcm.upper_level.Upper_SMA</code>, is a variance components/varying intercept model with a state-level SMA-correlated error.</p>
+
+<p>Thus, there are only five parameters in this model, since $\rho$, the lower-level autoregressive parameter, is constrained to zero:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">varnames</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>['Alphas', 'Betas', 'Sigma2', 'Tau2', 'Lambda']
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>The results and state of the sampler are stored within the <code class="highlighter-rouge">vcsma</code> object. I’ll step through the most important parts of this object.</p>
+
+<h1 id="trace"><code class="highlighter-rouge">trace</code></h1>
+
+<p>The quickest way to get information out of the model is via the trace object. This is where the results of the tracked parameters are stored each iteration. Any variable in the sampler state can be added to the tracked params. Trace objects are essentially dictionaries with the keys being the name of the tracked parameter and the values being a list of each iteration’s sampler output.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">varnames</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>['Alphas', 'Betas', 'Sigma2', 'Tau2', 'Lambda']
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>In this case, <code class="highlighter-rouge">Lambda</code> is the upper-level moving average parameter, <code class="highlighter-rouge">Alphas</code> is the vector of correlated group-level random effects, <code class="highlighter-rouge">Tau2</code> is the upper-level variance, <code class="highlighter-rouge">Betas</code> are the marginal effects, and <code class="highlighter-rouge">Sigma2</code> is the lower-level error variance.</p>
+
+<p>I’ve written two helper functions for working with traces. First is to just dump all the output into a pandas dataframe, which makes it super easy to do work on the samples, or write them out to <code class="highlighter-rouge">csv</code> and assess convergence in R’s <code class="highlighter-rouge">coda</code> package.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">trace_dataframe</span> <span class="o">=</span> <span class="n">vcsma</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">to_df</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>the dataframe will have columns containing the elements of the parameters and each row is a single iteration of the sampler:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">trace_dataframe</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output output_html">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sigma2</th>
+      <th>Tau2</th>
+      <th>Lambda</th>
+      <th>Alphas_0</th>
+      <th>Alphas_1</th>
+      <th>Alphas_2</th>
+      <th>Alphas_3</th>
+      <th>Alphas_4</th>
+      <th>Alphas_5</th>
+      <th>Alphas_6</th>
+      <th>...</th>
+      <th>Alphas_12</th>
+      <th>Alphas_13</th>
+      <th>Alphas_14</th>
+      <th>Alphas_15</th>
+      <th>Betas_0</th>
+      <th>Betas_1</th>
+      <th>Betas_2</th>
+      <th>Betas_3</th>
+      <th>Betas_4</th>
+      <th>Betas_5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>31.233393</td>
+      <td>0.923435</td>
+      <td>-0.047215</td>
+      <td>-1.261656</td>
+      <td>-0.736935</td>
+      <td>-0.399375</td>
+      <td>-0.034331</td>
+      <td>-2.236596</td>
+      <td>-1.213818</td>
+      <td>-0.568231</td>
+      <td>...</td>
+      <td>0.106951</td>
+      <td>1.516595</td>
+      <td>-1.364607</td>
+      <td>2.041536</td>
+      <td>10.531876</td>
+      <td>-0.483666</td>
+      <td>2.109549</td>
+      <td>4.480676</td>
+      <td>0.003791</td>
+      <td>-0.540474</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>34.099349</td>
+      <td>2.240627</td>
+      <td>-0.047215</td>
+      <td>-1.842016</td>
+      <td>-0.847182</td>
+      <td>-0.389802</td>
+      <td>-0.111497</td>
+      <td>-2.765864</td>
+      <td>-2.446336</td>
+      <td>-0.447575</td>
+      <td>...</td>
+      <td>0.798257</td>
+      <td>1.826385</td>
+      <td>0.221681</td>
+      <td>2.458930</td>
+      <td>5.712048</td>
+      <td>-0.236144</td>
+      <td>2.160096</td>
+      <td>4.133212</td>
+      <td>-0.054797</td>
+      <td>10.323832</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>32.481750</td>
+      <td>2.785222</td>
+      <td>-0.047215</td>
+      <td>-2.489083</td>
+      <td>0.720136</td>
+      <td>-1.188099</td>
+      <td>-0.501012</td>
+      <td>-3.213930</td>
+      <td>-2.258950</td>
+      <td>-1.216194</td>
+      <td>...</td>
+      <td>0.859106</td>
+      <td>2.192760</td>
+      <td>-1.669444</td>
+      <td>3.091403</td>
+      <td>12.897608</td>
+      <td>-0.215380</td>
+      <td>1.741864</td>
+      <td>3.757071</td>
+      <td>-0.011310</td>
+      <td>-9.057812</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>34.457911</td>
+      <td>1.190100</td>
+      <td>-0.047215</td>
+      <td>-1.201301</td>
+      <td>-1.893444</td>
+      <td>-0.217819</td>
+      <td>-0.681230</td>
+      <td>-2.466085</td>
+      <td>-1.134824</td>
+      <td>-1.307211</td>
+      <td>...</td>
+      <td>0.386158</td>
+      <td>1.437928</td>
+      <td>-0.062408</td>
+      <td>2.459207</td>
+      <td>4.788274</td>
+      <td>-0.172863</td>
+      <td>1.685140</td>
+      <td>3.760042</td>
+      <td>-0.049314</td>
+      <td>11.777028</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>32.185869</td>
+      <td>2.298772</td>
+      <td>-0.047215</td>
+      <td>-1.554065</td>
+      <td>-0.884244</td>
+      <td>1.800027</td>
+      <td>-0.027299</td>
+      <td>-2.574601</td>
+      <td>-1.991742</td>
+      <td>-0.659893</td>
+      <td>...</td>
+      <td>-0.148268</td>
+      <td>1.202387</td>
+      <td>-0.822042</td>
+      <td>1.747517</td>
+      <td>3.763874</td>
+      <td>-0.237071</td>
+      <td>2.108391</td>
+      <td>3.923432</td>
+      <td>-0.041574</td>
+      <td>15.185345</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 25 columns</p>
+</div>
+</div>
+
+    </div>
+  </div>
+</div>
+
+<p>You can write this out to a csv or analyze it in memory like a typical pandas dataframes:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">trace_dataframe</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sigma2       32.191602
+Tau2          1.875002
+Lambda        0.590718
+Alphas_0     -1.511708
+Alphas_1     -0.091938
+Alphas_2     -0.034680
+Alphas_3      0.119041
+Alphas_4     -2.194331
+Alphas_5     -0.865278
+Alphas_6     -0.313610
+Alphas_7      1.154932
+Alphas_8      0.196744
+Alphas_9     -0.106956
+Alphas_10     1.071748
+Alphas_11     0.372573
+Alphas_12     0.264176
+Alphas_13     1.943292
+Alphas_14    -0.562918
+Alphas_15     2.167571
+Betas_0       8.178978
+Betas_1      -0.261140
+Betas_2       1.793932
+Betas_3       3.974848
+Betas_4      -0.006224
+Betas_5       2.013807
+dtype: float64
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>The second is a method to plot the traces:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">vcsma</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/model/spvcm/using_the_sampler_25_0.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<p>The trace object can be sliced by (chain, parameter, index) tuples, or any subset thereof.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span><span class="o">.</span><span class="n">trace</span><span class="p">[</span><span class="s">'Lambda'</span><span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span> <span class="c">#last 4 draws of lambda</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([0.72462283, 0.72462283, 0.34900417, 0.34900417])
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span><span class="o">.</span><span class="n">trace</span><span class="p">[[</span><span class="s">'Tau2'</span><span class="p">,</span> <span class="s">'Sigma2'</span><span class="p">],</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="c">#the first 2 variance parameters</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'Tau2': [0.923435131177113, 2.240627234434746],
+ 'Sigma2': [31.23339280347621, 34.09934860150135]}
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>We only ran a single chain, so the first index is assumed to be zero. You can run more than one chain in parallel, using the builtin python <code class="highlighter-rouge">multiprocessing</code> library:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma_p</span> <span class="o">=</span> <span class="n">spvcm</span><span class="o">.</span><span class="n">upper_level</span><span class="o">.</span><span class="n">Upper_SMA</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">W2</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> 
+                                      <span class="n">membership</span><span class="o">=</span><span class="n">membership</span><span class="p">,</span> 
+                                      <span class="c">#run 3 chains</span>
+                                      <span class="n">n_samples</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> 
+                                      <span class="n">configs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">tuning</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> 
+                                                   <span class="n">adapt_step</span><span class="o">=</span><span class="mf">1.01</span><span class="p">))</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma_p</span><span class="o">.</span><span class="n">trace</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s">'Betas'</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c">#the last draw of Beta on the first chain. </span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[ 8.34392377],
+       [-0.29268161],
+       [ 1.85086248],
+       [ 4.0572153 ],
+       [ 0.12809572],
+       [-2.34258149]])
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma_p</span><span class="o">.</span><span class="n">trace</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">'Betas'</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c">#the last draw of Beta on the second chain</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[ 8.12849684],
+       [-0.26135619],
+       [ 1.43630595],
+       [ 4.01361537],
+       [ 0.15468895],
+       [-4.25558513]])
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>and the chain plotting works also for the multi-chain traces. In addition, there are quite a few traceplot options, and all the plots are returned by the methods as matplotlib objects, so they can also be saved using <code class="highlighter-rouge">plt.savefig()</code>.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma_p</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">burn</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">thin</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s">'SMA of Homicide Rate in Southern US Counties'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="c">#plt.savefig('trace.png') #saves to a file called "trace.png"</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/model/spvcm/using_the_sampler_34_0.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma_p</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">burn</span><span class="o">=-</span><span class="mi">100</span><span class="p">,</span> <span class="n">varnames</span><span class="o">=</span><span class="s">'Lambda'</span><span class="p">)</span> <span class="c">#A negative burn-in works like negative indexing in Python &amp; R </span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s">'First 100 iterations of $</span><span class="err">\</span><span class="s">lambda$'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">y</span><span class="o">=.</span><span class="mo">02</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span> <span class="c">#so this plots Lambda in the first 100 iterations. </span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/model/spvcm/using_the_sampler_35_0.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<p>To get stuff like posterior quantiles, you can use the attendant pandas dataframe functionality, like <code class="highlighter-rouge">describe</code>.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">vcsma</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">to_df</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output output_html">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sigma2</th>
+      <th>Tau2</th>
+      <th>Lambda</th>
+      <th>Alphas_0</th>
+      <th>Alphas_1</th>
+      <th>Alphas_2</th>
+      <th>Alphas_3</th>
+      <th>Alphas_4</th>
+      <th>Alphas_5</th>
+      <th>Alphas_6</th>
+      <th>...</th>
+      <th>Alphas_12</th>
+      <th>Alphas_13</th>
+      <th>Alphas_14</th>
+      <th>Alphas_15</th>
+      <th>Betas_0</th>
+      <th>Betas_1</th>
+      <th>Betas_2</th>
+      <th>Betas_3</th>
+      <th>Betas_4</th>
+      <th>Betas_5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>...</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+      <td>5000.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>32.191602</td>
+      <td>1.875002</td>
+      <td>0.590718</td>
+      <td>-1.511708</td>
+      <td>-0.091938</td>
+      <td>-0.034680</td>
+      <td>0.119041</td>
+      <td>-2.194331</td>
+      <td>-0.865278</td>
+      <td>-0.313610</td>
+      <td>...</td>
+      <td>0.264176</td>
+      <td>1.943292</td>
+      <td>-0.562918</td>
+      <td>2.167571</td>
+      <td>8.178978</td>
+      <td>-0.261140</td>
+      <td>1.793932</td>
+      <td>3.974848</td>
+      <td>-0.006224</td>
+      <td>2.013807</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>1.215098</td>
+      <td>1.109614</td>
+      <td>0.310978</td>
+      <td>0.851727</td>
+      <td>1.316852</td>
+      <td>0.994013</td>
+      <td>0.741269</td>
+      <td>0.711876</td>
+      <td>0.824202</td>
+      <td>0.845083</td>
+      <td>...</td>
+      <td>0.766177</td>
+      <td>0.721764</td>
+      <td>0.841160</td>
+      <td>0.834297</td>
+      <td>3.238247</td>
+      <td>0.078861</td>
+      <td>0.202619</td>
+      <td>0.229363</td>
+      <td>0.086044</td>
+      <td>9.466125</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>28.402067</td>
+      <td>0.191395</td>
+      <td>-0.559725</td>
+      <td>-4.727676</td>
+      <td>-5.917587</td>
+      <td>-3.671202</td>
+      <td>-3.125425</td>
+      <td>-4.846071</td>
+      <td>-4.800286</td>
+      <td>-3.748046</td>
+      <td>...</td>
+      <td>-3.088506</td>
+      <td>-0.282006</td>
+      <td>-3.737387</td>
+      <td>-0.651108</td>
+      <td>-1.523421</td>
+      <td>-0.567038</td>
+      <td>1.083104</td>
+      <td>3.093189</td>
+      <td>-0.329770</td>
+      <td>-29.672208</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>31.350144</td>
+      <td>1.131752</td>
+      <td>0.396936</td>
+      <td>-2.059361</td>
+      <td>-0.923023</td>
+      <td>-0.692784</td>
+      <td>-0.382492</td>
+      <td>-2.664186</td>
+      <td>-1.400970</td>
+      <td>-0.882462</td>
+      <td>...</td>
+      <td>-0.243498</td>
+      <td>1.435780</td>
+      <td>-1.129984</td>
+      <td>1.588522</td>
+      <td>5.942375</td>
+      <td>-0.313919</td>
+      <td>1.658467</td>
+      <td>3.822273</td>
+      <td>-0.063075</td>
+      <td>-4.347806</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>32.154740</td>
+      <td>1.613698</td>
+      <td>0.652983</td>
+      <td>-1.480018</td>
+      <td>-0.099072</td>
+      <td>-0.078723</td>
+      <td>0.084165</td>
+      <td>-2.191222</td>
+      <td>-0.870115</td>
+      <td>-0.329271</td>
+      <td>...</td>
+      <td>0.245405</td>
+      <td>1.902598</td>
+      <td>-0.552477</td>
+      <td>2.149598</td>
+      <td>8.184837</td>
+      <td>-0.260328</td>
+      <td>1.794327</td>
+      <td>3.974249</td>
+      <td>-0.004559</td>
+      <td>2.020761</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>33.023853</td>
+      <td>2.324573</td>
+      <td>0.856933</td>
+      <td>-0.939373</td>
+      <td>0.718350</td>
+      <td>0.599587</td>
+      <td>0.583585</td>
+      <td>-1.722762</td>
+      <td>-0.313782</td>
+      <td>0.226628</td>
+      <td>...</td>
+      <td>0.760613</td>
+      <td>2.404884</td>
+      <td>-0.009692</td>
+      <td>2.697399</td>
+      <td>10.406652</td>
+      <td>-0.209999</td>
+      <td>1.929081</td>
+      <td>4.129607</td>
+      <td>0.049533</td>
+      <td>8.396030</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>36.857707</td>
+      <td>16.142846</td>
+      <td>0.996376</td>
+      <td>1.885945</td>
+      <td>5.544127</td>
+      <td>4.107627</td>
+      <td>2.975758</td>
+      <td>0.513466</td>
+      <td>1.952173</td>
+      <td>3.301225</td>
+      <td>...</td>
+      <td>3.775299</td>
+      <td>4.693092</td>
+      <td>2.795567</td>
+      <td>5.473443</td>
+      <td>21.099968</td>
+      <td>0.063420</td>
+      <td>2.660798</td>
+      <td>4.763580</td>
+      <td>0.346991</td>
+      <td>31.900158</td>
+    </tr>
+  </tbody>
+</table>
+<p>8 rows × 25 columns</p>
+</div>
+</div>
+
+    </div>
+  </div>
+</div>
+
+<p>There is also a <code class="highlighter-rouge">trace.summarize</code> function that will compute various things contained in <code class="highlighter-rouge">spvcm.diagnostics</code> on the chain. It takes a while for large chains, because the <code class="highlighter-rouge">statsmodels.tsa.AR</code> estimator is much slower than the <code class="highlighter-rouge">ar</code> estimator in <code class="highlighter-rouge">R</code>. If you have rpy2 installed <em>and</em> <code class="highlighter-rouge">CODA</code> installed in your R environment, I attempt to use R directly.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">summarize</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output output_html">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>mean</th>
+      <th>HPD_low</th>
+      <th>median</th>
+      <th>HPD_high</th>
+      <th>std</th>
+      <th>N_iters</th>
+      <th>N_effective</th>
+      <th>AR_loss</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="25" valign="top">Chain_0</th>
+      <th>Sigma2</th>
+      <td>32.191602</td>
+      <td>29.907175</td>
+      <td>32.154740</td>
+      <td>34.637546</td>
+      <td>1.215098</td>
+      <td>5000</td>
+      <td>4788</td>
+      <td>0.0424</td>
+    </tr>
+    <tr>
+      <th>Tau2</th>
+      <td>1.875002</td>
+      <td>0.363706</td>
+      <td>1.613698</td>
+      <td>3.967562</td>
+      <td>1.109614</td>
+      <td>5000</td>
+      <td>1156</td>
+      <td>0.7688</td>
+    </tr>
+    <tr>
+      <th>Lambda</th>
+      <td>0.590718</td>
+      <td>-0.010077</td>
+      <td>0.652983</td>
+      <td>0.988580</td>
+      <td>0.310978</td>
+      <td>5000</td>
+      <td>243</td>
+      <td>0.9514</td>
+    </tr>
+    <tr>
+      <th>Alphas_0</th>
+      <td>-1.511708</td>
+      <td>-3.261126</td>
+      <td>-1.480018</td>
+      <td>0.112208</td>
+      <td>0.851727</td>
+      <td>5000</td>
+      <td>558</td>
+      <td>0.8884</td>
+    </tr>
+    <tr>
+      <th>Alphas_1</th>
+      <td>-0.091938</td>
+      <td>-2.717617</td>
+      <td>-0.099072</td>
+      <td>2.510040</td>
+      <td>1.316852</td>
+      <td>5000</td>
+      <td>2415</td>
+      <td>0.5170</td>
+    </tr>
+    <tr>
+      <th>Alphas_2</th>
+      <td>-0.034680</td>
+      <td>-1.939546</td>
+      <td>-0.078723</td>
+      <td>1.956138</td>
+      <td>0.994013</td>
+      <td>5000</td>
+      <td>871</td>
+      <td>0.8258</td>
+    </tr>
+    <tr>
+      <th>Alphas_3</th>
+      <td>0.119041</td>
+      <td>-1.240382</td>
+      <td>0.084165</td>
+      <td>1.660025</td>
+      <td>0.741269</td>
+      <td>5000</td>
+      <td>419</td>
+      <td>0.9162</td>
+    </tr>
+    <tr>
+      <th>Alphas_4</th>
+      <td>-2.194331</td>
+      <td>-3.625861</td>
+      <td>-2.191222</td>
+      <td>-0.832241</td>
+      <td>0.711876</td>
+      <td>5000</td>
+      <td>419</td>
+      <td>0.9162</td>
+    </tr>
+    <tr>
+      <th>Alphas_5</th>
+      <td>-0.865278</td>
+      <td>-2.595160</td>
+      <td>-0.870115</td>
+      <td>0.644972</td>
+      <td>0.824202</td>
+      <td>5000</td>
+      <td>398</td>
+      <td>0.9204</td>
+    </tr>
+    <tr>
+      <th>Alphas_6</th>
+      <td>-0.313610</td>
+      <td>-1.913203</td>
+      <td>-0.329271</td>
+      <td>1.459151</td>
+      <td>0.845083</td>
+      <td>5000</td>
+      <td>303</td>
+      <td>0.9394</td>
+    </tr>
+    <tr>
+      <th>Alphas_7</th>
+      <td>1.154932</td>
+      <td>-0.462574</td>
+      <td>1.116507</td>
+      <td>2.936222</td>
+      <td>0.874826</td>
+      <td>5000</td>
+      <td>484</td>
+      <td>0.9032</td>
+    </tr>
+    <tr>
+      <th>Alphas_8</th>
+      <td>0.196744</td>
+      <td>-1.471783</td>
+      <td>0.157301</td>
+      <td>1.876040</td>
+      <td>0.875341</td>
+      <td>5000</td>
+      <td>237</td>
+      <td>0.9526</td>
+    </tr>
+    <tr>
+      <th>Alphas_9</th>
+      <td>-0.106956</td>
+      <td>-1.671481</td>
+      <td>-0.119013</td>
+      <td>1.397663</td>
+      <td>0.780549</td>
+      <td>5000</td>
+      <td>447</td>
+      <td>0.9106</td>
+    </tr>
+    <tr>
+      <th>Alphas_10</th>
+      <td>1.071748</td>
+      <td>-0.629166</td>
+      <td>1.058539</td>
+      <td>2.726753</td>
+      <td>0.861175</td>
+      <td>5000</td>
+      <td>497</td>
+      <td>0.9006</td>
+    </tr>
+    <tr>
+      <th>Alphas_11</th>
+      <td>0.372573</td>
+      <td>-1.162294</td>
+      <td>0.366974</td>
+      <td>1.930433</td>
+      <td>0.799864</td>
+      <td>5000</td>
+      <td>409</td>
+      <td>0.9182</td>
+    </tr>
+    <tr>
+      <th>Alphas_12</th>
+      <td>0.264176</td>
+      <td>-1.130617</td>
+      <td>0.245405</td>
+      <td>1.871470</td>
+      <td>0.766177</td>
+      <td>5000</td>
+      <td>484</td>
+      <td>0.9032</td>
+    </tr>
+    <tr>
+      <th>Alphas_13</th>
+      <td>1.943292</td>
+      <td>0.589564</td>
+      <td>1.902598</td>
+      <td>3.395755</td>
+      <td>0.721764</td>
+      <td>5000</td>
+      <td>249</td>
+      <td>0.9502</td>
+    </tr>
+    <tr>
+      <th>Alphas_14</th>
+      <td>-0.562918</td>
+      <td>-2.205367</td>
+      <td>-0.552477</td>
+      <td>1.125969</td>
+      <td>0.841160</td>
+      <td>5000</td>
+      <td>510</td>
+      <td>0.8980</td>
+    </tr>
+    <tr>
+      <th>Alphas_15</th>
+      <td>2.167571</td>
+      <td>0.555624</td>
+      <td>2.149598</td>
+      <td>3.804761</td>
+      <td>0.834297</td>
+      <td>5000</td>
+      <td>409</td>
+      <td>0.9182</td>
+    </tr>
+    <tr>
+      <th>Betas_0</th>
+      <td>8.178978</td>
+      <td>1.900055</td>
+      <td>8.184837</td>
+      <td>14.474289</td>
+      <td>3.238247</td>
+      <td>5000</td>
+      <td>2668</td>
+      <td>0.4664</td>
+    </tr>
+    <tr>
+      <th>Betas_1</th>
+      <td>-0.261140</td>
+      <td>-0.410947</td>
+      <td>-0.260328</td>
+      <td>-0.101738</td>
+      <td>0.078861</td>
+      <td>5000</td>
+      <td>2513</td>
+      <td>0.4974</td>
+    </tr>
+    <tr>
+      <th>Betas_2</th>
+      <td>1.793932</td>
+      <td>1.384019</td>
+      <td>1.794327</td>
+      <td>2.176764</td>
+      <td>0.202619</td>
+      <td>5000</td>
+      <td>4310</td>
+      <td>0.1380</td>
+    </tr>
+    <tr>
+      <th>Betas_3</th>
+      <td>3.974848</td>
+      <td>3.508665</td>
+      <td>3.974249</td>
+      <td>4.408589</td>
+      <td>0.229363</td>
+      <td>5000</td>
+      <td>3408</td>
+      <td>0.3184</td>
+    </tr>
+    <tr>
+      <th>Betas_4</th>
+      <td>-0.006224</td>
+      <td>-0.178816</td>
+      <td>-0.004559</td>
+      <td>0.162295</td>
+      <td>0.086044</td>
+      <td>5000</td>
+      <td>418</td>
+      <td>0.9164</td>
+    </tr>
+    <tr>
+      <th>Betas_5</th>
+      <td>2.013807</td>
+      <td>-16.324642</td>
+      <td>2.020761</td>
+      <td>20.862976</td>
+      <td>9.466125</td>
+      <td>5000</td>
+      <td>4064</td>
+      <td>0.1872</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+    </div>
+  </div>
+</div>
+
+<p>So, 5000 iterations, but many parameters have an effective sample size that’s much less than this. There’s debate about whether it’s necesasry to thin these samples in accordance with the effective size, and I think you should thin your sample to the effective size and see if it affects your HPD/Standard Errorrs.</p>
+
+<p>The existing python packages for MCMC diagnostics were incorrect. So, I’ve implemented many of the diagnostics from <code class="highlighter-rouge">CODA</code>, and have verified that the diagnostics comport with <code class="highlighter-rouge">CODA</code> diagnostics. One can also use <code class="highlighter-rouge">numpy</code> &amp; <code class="highlighter-rouge">statsmodels</code> functions. I’ll show some types of analysis.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">statsmodels.api</span> <span class="kn">import</span> <span class="n">tsa</span>
+<span class="c">#if you don't have it, try removing the comment and:</span>
+<span class="c">#! pip install statsmodels</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>For example, a plot of the partial autocorrelation in $\lambda$, the upper-level spatial moving average parameter, over the last half of the chain is:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tsa</span><span class="o">.</span><span class="n">pacf</span><span class="p">(</span><span class="n">vcsma</span><span class="o">.</span><span class="n">trace</span><span class="p">[</span><span class="s">'Lambda'</span><span class="p">,</span> <span class="o">-</span><span class="mi">2500</span><span class="p">:]))</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[&lt;matplotlib.lines.Line2D at 0x7fcfe122d7f0&gt;]
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/model/spvcm/using_the_sampler_45_1.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<p>So, the chain is close-to-first order:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tsa</span><span class="o">.</span><span class="n">pacf</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Lambda</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([1.        , 0.90178845, 0.03398422])
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>We could do this for many parameters, too. An Autocorrelation/Partial Autocorrelation plot can be made of the marginal effects by:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">betas</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'Beta'</span><span class="p">)]</span>
+<span class="n">f</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">betas</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">betas</span><span class="p">):</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tsa</span><span class="o">.</span><span class="n">acf</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tsa</span><span class="o">.</span><span class="n">pacf</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span> <span class="c">#the pacf plots take a while</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">col</span> <span class="o">+</span><span class="s">' (ACF)'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'(PACF)'</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/model/spvcm/using_the_sampler_49_0.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<p>As far as the builtin diagnostics for convergence and simulation quality, the <code class="highlighter-rouge">diagnostics</code> module exposes a few things:</p>
+
+<p>Geweke statistics for differences in means between chain components:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gstats</span> <span class="o">=</span> <span class="n">spvcm</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">geweke</span><span class="p">(</span><span class="n">vcsma</span><span class="p">,</span> <span class="n">varnames</span><span class="o">=</span><span class="s">'Tau2'</span><span class="p">)</span> <span class="c">#takes a while</span>
+<span class="k">print</span><span class="p">(</span><span class="n">gstats</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[{'Tau2': array([-0.70525936, -0.86465127, -0.66491713, -1.10260496, -0.85742401,
+       -0.57409951, -0.41226321, -1.20085802, -1.45556743, -1.50305192,
+       -1.36917624, -1.7651641 , -1.62251801, -1.91653818, -2.95959606,
+       -3.25223318, -3.00471879, -1.58320811, -1.49846186, -1.84009018,
+       -1.94378006, -1.55312447, -1.74487948, -1.77123135, -1.25633365,
+       -1.75786086, -0.88990747, -0.68509239, -0.66391378,  0.32228814,
+        0.98220296,  1.03257125,  0.93549226,  0.88218052,  0.41084557,
+        0.80814834, -0.23443594,  0.2413701 , -0.73956236, -0.77123872,
+       -0.74954084,  0.1017357 , -0.141298  , -0.11990577,  1.05561834,
+        1.04085492,  1.58169489,  1.69289289,  2.08680592,  1.98418018])}]
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<p>Typically, this means the chain is converged at the given “bin” count if the line stays within $\pm2$. The geweke statistic is a test of differences in means between the given chunk of the chain and the remaining chain. If it’s outside of +/- 2 in the early part of the chain, you should discard observations early in the chain. If you get extreme values of these statistics throughout, you need to keep running the chain.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gstats</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">'Tau2'</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[&lt;matplotlib.lines.Line2D at 0x7fcfe12a9eb8&gt;]
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/model/spvcm/using_the_sampler_54_1.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<p>We can also compute Monte Carlo Standard Errors like in the <code class="highlighter-rouge">mcse</code> R package, which represent the intrinsic error contained in the estimate:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spvcm</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">mcse</span><span class="p">(</span><span class="n">vcsma</span><span class="p">,</span> <span class="n">varnames</span><span class="o">=</span><span class="p">[</span><span class="s">'Tau2'</span><span class="p">,</span> <span class="s">'Sigma2'</span><span class="p">])</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'Sigma2': 0.01727439579905615, 'Tau2': 0.031562453419661775}
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Another handy statistic is the Partial Scale Reduction factor, which measures of how likely a set of chains run in parallel have converged to the same stationary distribution. It provides the difference in variance between between chains vs. within chains.</p>
+
+<p>If these are significantly larger than one (say, 1.5), the chain probably has not converged. Being marginally below $1$ is fine, too.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spvcm</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">psrf</span><span class="p">(</span><span class="n">vcsma_p</span><span class="p">,</span> <span class="n">varnames</span><span class="o">=</span><span class="p">[</span><span class="s">'Tau2'</span><span class="p">,</span> <span class="s">'Sigma2'</span><span class="p">])</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'Tau2': 1.0077401382404925, 'Sigma2': 0.9998141761817744}
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Highest posterior density intervals provide a kind of interval estimate for parameters in Bayesian models:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spvcm</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">hpd_interval</span><span class="p">(</span><span class="n">vcsma</span><span class="p">,</span> <span class="n">varnames</span><span class="o">=</span><span class="p">[</span><span class="s">'Betas'</span><span class="p">,</span> <span class="s">'Lambda'</span><span class="p">,</span> <span class="s">'Sigma2'</span><span class="p">])</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'Betas': [(1.9000548460393478, 14.474288717664574),
+  (-0.41094673834079987, -0.10173775264997412),
+  (1.384018831652215, 2.1767635687081506),
+  (3.508665394133376, 4.408589008319321),
+  (-0.17881562058023562, 0.16229519966707567),
+  (-16.32464174373274, 20.862975934687753)],
+ 'Sigma2': (29.9071748836272, 34.63754603742357),
+ 'Lambda': (-0.010077055754050324, 0.9885795446636961)}
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Sometimes, you want to apply arbitrary functions to each parameter trace. To do this, I’ve written a <code class="highlighter-rouge">map</code> function that works like the python builtin <code class="highlighter-rouge">map</code>. For example, if you wanted to get arbitrary percentiles from the chain:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="nb">map</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">,</span> 
+                <span class="n">varnames</span><span class="o">=</span><span class="p">[</span><span class="s">'Lambda'</span><span class="p">,</span> <span class="s">'Tau2'</span><span class="p">,</span> <span class="s">'Sigma2'</span><span class="p">],</span>
+                <span class="c">#arguments to pass to the function go last</span>
+                <span class="n">q</span><span class="o">=</span><span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">75</span><span class="p">])</span> 
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[{'Lambda': array([0.39693634, 0.65298256, 0.85693311]),
+  'Tau2': array([1.13175212, 1.61369846, 2.32457265]),
+  'Sigma2': array([31.35014374, 32.15473988, 33.02385302])}]
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>In addition, you can pop the trace results pretty simply to a <code class="highlighter-rouge">.csv</code> file and analyze it elsewhere, like if you want to use use the <code class="highlighter-rouge">coda</code> Bayesian Diagnostics package in <code class="highlighter-rouge">R</code>.</p>
+
+<p>To write out a model to a csv, you can use:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'./model_run.csv'</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>And, you can even load traces from csvs:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tr</span> <span class="o">=</span> <span class="n">spvcm</span><span class="o">.</span><span class="n">abstracts</span><span class="o">.</span><span class="n">Trace</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s">'./model_run.csv'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">varnames</span><span class="p">)</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">varnames</span><span class="o">=</span><span class="p">[</span><span class="s">'Tau2'</span><span class="p">])</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>['Lambda', 'Sigma2', 'Tau2', 'Alphas', 'Betas']
+</code></pre></div>      </div>
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(&lt;Figure size 576x144 with 2 Axes&gt;,
+ array([[&lt;matplotlib.axes._subplots.AxesSubplot object at 0x7fcfe12fd5f8&gt;,
+         &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7fcfe12c5198&gt;]],
+       dtype=object))
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/model/spvcm/using_the_sampler_66_2.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<h1 id="working-with-models-draw-and-sample">Working with models: <code class="highlighter-rouge">draw</code> and <code class="highlighter-rouge">sample</code></h1>
+
+<p>These two functions are used to call the underlying Gibbs sampler. They take no arguments, and operate on the sampler in place. <code class="highlighter-rouge">draw</code> provides a single new sample:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>And sample steps forward an arbitrary number of times:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>At this point, we did 5000 initial samples and 11 extra samples. Thus:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span><span class="o">.</span><span class="n">cycles</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>5011
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Parallel models can suspend/resume sampling too:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma_p</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma_p</span><span class="o">.</span><span class="n">cycles</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>5010
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Under the hood, it’s the <code class="highlighter-rouge">draw</code> method that actually ends up calling one run of <code class="highlighter-rouge">model._iteration</code>, which is where the actual statistical code lives. Then, it updates all <code class="highlighter-rouge">model.traced_params</code> by adding their current value in <code class="highlighter-rouge">model.state</code> to <code class="highlighter-rouge">model.trace.</code> In addition, <code class="highlighter-rouge">model._finalize</code> is called the first time sampling is run, which computes some of the constants &amp; derived quantities that save computing time.</p>
+
+<h1 id="working-with-models--state">Working with models:  <code class="highlighter-rouge">state</code></h1>
+
+<p>This is the collection of current values in the sampler. To be efficient, Gibbs sampling must keep around some of the computations used in the simulation, since sometimes the same terms show up in different conditional posteriors. So, the current values of the sampler are stored in <code class="highlighter-rouge">state</code>.</p>
+
+<p>All of the following are tracked in the state:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">vcsma</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dict_keys(['X', 'Y', 'M', 'W', 'Delta', 'N', 'J', 'p', 'Sigma2_a0', 'Sigma2_b0', 'Betas_cov0', 'Betas_mean0', 'Tau2_a0', 'Tau2_b0', 'Log_Lambda0', 'Log_Rho0', 'Rho_min', 'Rho_max', 'Lambda_min', 'Lambda_max', 'Betas', 'Alphas', 'Sigma2', 'Tau2', 'Rho', 'Lambda', 'Psi_1', 'Psi_1i', 'Psi_2', 'Psi_2i', 'In', 'Ij', 'Betas_cov0i', 'Betas_covm', 'Sigma2_an', 'Tau2_an', 'PsiRhoi', 'PsiLambdai', 'XtX', 'DeltatDelta', 'DeltaAlphas', 'XBetas', 'initial_values'])
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<p>If you want to track how something (maybe a hyperparameter) changes over sampling, you can pass <code class="highlighter-rouge">extra_traced_params</code> to the model declaration:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">example</span> <span class="o">=</span> <span class="n">spvcm</span><span class="o">.</span><span class="n">upper_level</span><span class="o">.</span><span class="n">Upper_SMA</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">W2</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> 
+                                      <span class="n">membership</span><span class="o">=</span><span class="n">membership</span><span class="p">,</span> 
+                                      <span class="n">n_samples</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> 
+                                      <span class="n">extra_traced_params</span> <span class="o">=</span> <span class="p">[</span><span class="s">'DeltaAlphas'</span><span class="p">],</span>
+                                      <span class="n">configs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">tuning</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">adapt_step</span><span class="o">=</span><span class="mf">1.01</span><span class="p">))</span>
+<span class="n">example</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">varnames</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>['Alphas', 'Betas', 'Sigma2', 'Tau2', 'Lambda', 'DeltaAlphas']
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<h1 id="configs"><code class="highlighter-rouge">configs</code></h1>
+<p>this is where configuration options for the various MCMC steps are stored. For multilevel variance components models, these are called $\rho$ for the lower-level error parameter and $\lambda$ for the upper-level parameter. Two exact sampling methods are implemented, Metropolis sampling &amp; Slice sampling.</p>
+
+<p>Each MCMC step has its own config:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span><span class="o">.</span><span class="n">configs</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'Rho': &lt;spvcm.steps.Metropolis at 0x7fcfe1438780&gt;,
+ 'Lambda': &lt;spvcm.steps.Metropolis at 0x7fcfe1438828&gt;}
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Since <code class="highlighter-rouge">vcsma</code> is an upper-level-only model, the <code class="highlighter-rouge">Rho</code> config is skipped. But, we can look at the <code class="highlighter-rouge">Lambda</code> config. The number of accepted <code class="highlighter-rouge">lambda</code> draws is contained in :</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span><span class="o">.</span><span class="n">configs</span><span class="o">.</span><span class="n">Lambda</span><span class="o">.</span><span class="n">accepted</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>725
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>so, the acceptance rate is</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span><span class="o">.</span><span class="n">configs</span><span class="o">.</span><span class="n">Lambda</span><span class="o">.</span><span class="n">accepted</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">vcsma</span><span class="o">.</span><span class="n">cycles</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.14468170025942925
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Also, if you want to get verbose output from the metropolis sampler, there is a “debug” flag:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">example</span> <span class="o">=</span> <span class="n">spvcm</span><span class="o">.</span><span class="n">upper_level</span><span class="o">.</span><span class="n">Upper_SMA</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">W2</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> 
+                                      <span class="n">membership</span><span class="o">=</span><span class="n">membership</span><span class="p">,</span> 
+                                      <span class="n">n_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> 
+                                      <span class="n">configs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">tuning</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> 
+                                                   <span class="n">adapt_step</span><span class="o">=</span><span class="mf">1.01</span><span class="p">,</span> 
+                                                   <span class="n">debug</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>Which stores the information about each iteration in a list, accessible from <code class="highlighter-rouge">model.configs.&lt;parameter&gt;._cache</code>:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">example</span><span class="o">.</span><span class="n">configs</span><span class="o">.</span><span class="n">Lambda</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c">#let's only look at the last one</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'jump': 2.1374234835161063,
+ 'current_logp': array([-8.76422011]),
+ 'new_logp': array([-8.76422011]),
+ 'accepted': False}
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Configuration of the MCMC steps is done using the <code class="highlighter-rouge">config</code> options dictionary, like done in <code class="highlighter-rouge">spBayes</code> in <code class="highlighter-rouge">R</code>. The actual configuration classes exist in spvcm.steps:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.model.spvcm.steps</span> <span class="kn">import</span> <span class="n">Metropolis</span><span class="p">,</span> <span class="n">Slice</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>Most of the common options are:</p>
+
+<h3 id="metropolis">Metropolis</h3>
+<ul>
+  <li><code class="highlighter-rouge">jump</code>: the starting standard deviation of the proposal distribution</li>
+  <li><code class="highlighter-rouge">tuning</code>: the number of iterations to tune the scale of the proposal</li>
+  <li><code class="highlighter-rouge">ar_low</code>: the lower bound of the target acceptance rate range</li>
+  <li><code class="highlighter-rouge">ar_hi</code>: the upper bound of the target acceptance rate range</li>
+  <li><code class="highlighter-rouge">adapt_step</code>: a number (bigger than 1) that will be used to modify the jump in order to keep the acceptance rate betwen <code class="highlighter-rouge">ar_lo</code> and <code class="highlighter-rouge">ar_hi</code>. Values much larger than <code class="highlighter-rouge">1</code> result in much more dramatic tuning.</li>
+</ul>
+
+<h3 id="slice">Slice</h3>
+<ul>
+  <li><code class="highlighter-rouge">width</code>: starting width of the level set</li>
+  <li><code class="highlighter-rouge">adapt</code>: number of previous slices use in the weighted average for the next slice. If <code class="highlighter-rouge">0</code>, the <code class="highlighter-rouge">width</code> is not dynamically tuned.</li>
+</ul>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">example</span> <span class="o">=</span> <span class="n">spvcm</span><span class="o">.</span><span class="n">upper_level</span><span class="o">.</span><span class="n">Upper_SMA</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">W2</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> 
+                                      <span class="n">membership</span><span class="o">=</span><span class="n">membership</span><span class="p">,</span> 
+                                      <span class="n">n_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> 
+                                      <span class="n">configs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">tuning</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> 
+                                                   <span class="n">adapt_step</span><span class="o">=</span><span class="mf">1.01</span><span class="p">,</span> 
+                                      <span class="n">debug</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ar_low</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span> <span class="n">ar_hi</span><span class="o">=.</span><span class="mi">4</span><span class="p">))</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">example</span><span class="o">.</span><span class="n">configs</span><span class="o">.</span><span class="n">Lambda</span><span class="o">.</span><span class="n">ar_hi</span><span class="p">,</span> <span class="n">example</span><span class="o">.</span><span class="n">configs</span><span class="o">.</span><span class="n">Lambda</span><span class="o">.</span><span class="n">ar_low</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(0.4, 0.1)
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">example_slicer</span> <span class="o">=</span> <span class="n">spvcm</span><span class="o">.</span><span class="n">upper_level</span><span class="o">.</span><span class="n">Upper_SMA</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">W2</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> 
+                                             <span class="n">membership</span><span class="o">=</span><span class="n">membership</span><span class="p">,</span> 
+                                             <span class="n">n_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> 
+                                             <span class="n">configs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Lambda_method</span><span class="o">=</span><span class="s">'slice'</span><span class="p">))</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">example_slicer</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">varnames</span><span class="o">=</span><span class="s">'Lambda'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/model/spvcm/using_the_sampler_97_0.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">example_slicer</span><span class="o">.</span><span class="n">configs</span><span class="o">.</span><span class="n">Lambda</span><span class="o">.</span><span class="n">adapt</span><span class="p">,</span> <span class="n">example_slicer</span><span class="o">.</span><span class="n">configs</span><span class="o">.</span><span class="n">Lambda</span><span class="o">.</span><span class="n">width</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(0, 0.5)
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<h1 id="working-with-models-customization">Working with models: customization</h1>
+
+<p>If you’re doing heavy customization, it makes the most sense to first initialize the class without sampling. We did this before when showing how the “extra_traced_params” option worked.</p>
+
+<p>To show, let’s initialize a double-level SAR-Error variance components model, but not actually draw anything.</p>
+
+<p>To do this, you pass the option <code class="highlighter-rouge">n_samples=0</code>.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsese</span> <span class="o">=</span> <span class="n">spvcm</span><span class="o">.</span><span class="n">both_levels</span><span class="o">.</span><span class="n">SESE</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">W1</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">W2</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> 
+                                <span class="n">membership</span><span class="o">=</span><span class="n">membership</span><span class="p">,</span> 
+                                <span class="n">n_samples</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>This sets up a two-level spatial error model with the default uninformative configuration. This means the prior precisions are all <code class="highlighter-rouge">I * .001*</code>, prior means are all 0, spatial parameters are set to <code class="highlighter-rouge">-1/(n-1)</code>, and prior scale factors are set arbitrarily.</p>
+
+<h3 id="configs-1">Configs</h3>
+
+<p>Options are set by assgning to the relevant property in <code class="highlighter-rouge">model.configs</code>.</p>
+
+<p>The model configuration object is another dictionary with a few special methods.</p>
+
+<p>Configuration options are stored for each parameter separately:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsese</span><span class="o">.</span><span class="n">configs</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'Rho': &lt;spvcm.steps.Metropolis at 0x7fcfe13004a8&gt;,
+ 'Lambda': &lt;spvcm.steps.Metropolis at 0x7fcfe13002b0&gt;}
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>So, for example, if we wanted to turn off adaptation in the upper-level parameter, and fix the Metrpolis jump variance to <code class="highlighter-rouge">.25</code>:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsese</span><span class="o">.</span><span class="n">configs</span><span class="o">.</span><span class="n">Lambda</span><span class="o">.</span><span class="n">max_tuning</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">vcsese</span><span class="o">.</span><span class="n">configs</span><span class="o">.</span><span class="n">Lambda</span><span class="o">.</span><span class="n">jump</span>  <span class="o">=</span> <span class="o">.</span><span class="mi">25</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<h3 id="priors">Priors</h3>
+
+<p>Another thing that might be interesting (though not “bayesian”) would be to fix the prior mean of $\beta$ to the OLS estimates. One way this could be done would be to pull the <code class="highlighter-rouge">Delta</code> matrix out from the state, and estimate:
+<script type="math/tex">Y = X\beta + \Delta Z + \epsilon</script>
+using <code class="highlighter-rouge">PySAL</code>:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Delta</span> <span class="o">=</span> <span class="n">vcsese</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">Delta</span>
+<span class="n">DeltaZ</span> <span class="o">=</span> <span class="n">Delta</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+<span class="n">vcsese</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">Betas_mean0</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">spreg</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">DeltaZ</span><span class="p">)))</span><span class="o">.</span><span class="n">betas</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<h3 id="starting-values">Starting Values</h3>
+
+<p>If you wanted to start the sampler at a given starting value, you can do so by assigning that value to the <code class="highlighter-rouge">Lambda</code> value in <code class="highlighter-rouge">state</code>.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsese</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">=</span> <span class="o">-.</span><span class="mi">25</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>Sometimes, it’s suggested that you start the beta vector randomly, rather than at zero. For the parallel sampling, the model starting values are adjusted to induce overdispersion in the start values.</p>
+
+<p>You could do this manually, too:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsese</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">Betas</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">vcsese</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">p</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<h3 id="spatial-priors">Spatial Priors</h3>
+
+<p>Changing the spatial parameter priors is also done by changing their prior in state. This prior must be a function that takes a value of the parameter and return the log of the prior probability for that value.</p>
+
+<p>For example, we could assign <code class="highlighter-rouge">P(\lambda) = Beta(2,1)</code> and zero if outside $(0,1)$, and asign $\rho$ a truncated $\mathcal{N}(0,.5)$ prior by first defining their functional form:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">Lambda_prior</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">val</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">Rho_prior</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">&gt;</span> <span class="o">.</span><span class="mi">5</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">val</span> <span class="o">&lt;</span> <span class="o">-.</span><span class="mi">5</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">truncnorm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="o">-.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=.</span><span class="mi">5</span><span class="p">))</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>And then assigning to their symbols, <code class="highlighter-rouge">LogLambda0</code> and <code class="highlighter-rouge">LogRho0</code> in the state:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsese</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">LogLambda0</span> <span class="o">=</span> <span class="n">Lambda_prior</span>
+<span class="n">vcsese</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">LogRho0</span> <span class="o">=</span> <span class="n">Rho_prior</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<h3 id="performance">Performance</h3>
+
+<p>The efficiency of the sampler is contingent on the lower-level size. If we were to estimate the draw in a dual-level SAR-Error Variance Components iteration:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">timeit</span> <span class="n">vcsese</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>26 ms ± 2.37 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<p>To make it easy to work with the model, you can interrupt and resume sampling using keyboard interrupts (<code class="highlighter-rouge">ctrl-c</code> or the <code class="highlighter-rouge">stop</code> button in the notebook).</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">time</span> <span class="n">vcsese</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU times: user 10.4 s, sys: 148 ms, total: 10.5 s
+Wall time: 2.64 s
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsese</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<h1 id="under-the-hood">Under the Hood</h1>
+
+<h3 id="package-structure">Package Structure</h3>
+
+<p>Most of the tools in the package are stored in relevant python files in the top level or a dedicated subfolder. Explaining a few:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">abstracts.py</code> - the abstract class machinery to iterate over a sampling loop. This is where the classes are defined, like <code class="highlighter-rouge">Trace</code>, <code class="highlighter-rouge">Sampler_Mixin</code>, or <code class="highlighter-rouge">Hashmap</code>.</li>
+  <li><code class="highlighter-rouge">plotting.py</code> - tools for plotting output</li>
+  <li><code class="highlighter-rouge">steps.py</code> - the step method definitions</li>
+  <li><code class="highlighter-rouge">verify.py</code> - like <code class="highlighter-rouge">user</code> checks in <code class="highlighter-rouge">pysal.spreg</code>, this contains a few sanity checks.</li>
+  <li><code class="highlighter-rouge">utils.py</code>- contains statistical or numerical utilities to make the computation easier, like cholesky multivariate normal sampling, more sparse utility functions, etc.</li>
+  <li><code class="highlighter-rouge">diagnostics.py</code> - all the diagnostics</li>
+  <li><code class="highlighter-rouge">priors.py</code> - definitions of alternative prior forms. Right now, this is pretty simple.</li>
+  <li><code class="highlighter-rouge">sqlite.py</code> - functions to use a sqlite database instead of an in-memory chain are defined here.</li>
+</ul>
+
+<h3 id="the-implementation-of-a-model">The implementation of a Model</h3>
+
+<p>The package is implemented so that every “model type” first sends off to the <code class="highlighter-rouge">spvcm.both.Base_Generic</code>, which sets up the state, trace, and priors.</p>
+
+<p>Models are added by writing a <code class="highlighter-rouge">model.py</code> file and possibly a <code class="highlighter-rouge">sample.py</code> file. The <code class="highlighter-rouge">model.py</code> file defines a <code class="highlighter-rouge">Base/User</code> class pair (like <code class="highlighter-rouge">spreg</code>) that sets up the state and trace. It must define hyperparameters, and can precompute objects used in the sampling loop. The base class should inherit from <code class="highlighter-rouge">Sampler_Mixin</code>, which defines all of the machinery of sampling.</p>
+
+<p>The loop through the conditional posteriors should be defined in <code class="highlighter-rouge">model.py</code>, in the <code class="highlighter-rouge">model._iteration</code> function. This should update the model state in place.</p>
+
+<p>The model may also define a <code class="highlighter-rouge">_finalize</code> function which is run once before sampling.</p>
+
+<p>So, if I write a new model, like a varying-intercept model with endogenously-lagged intercepts, I would write a <code class="highlighter-rouge">model.py</code> containing something like:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">class</span> <span class="nc">Base_VISAR</span><span class="p">(</span><span class="n">spvcm</span><span class="o">.</span><span class="n">generic</span><span class="o">.</span><span class="n">Base_Generic</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">membership</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">Delta</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">extra_traced_params</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="c">#record extra things in state</span>
+                 <span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="c">#sampling config</span>
+                 <span class="n">priors</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="c"># dict with prior values for params</span>
+                 <span class="n">configs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="c"># dict with configs for MCMC steps</span>
+                 <span class="n">starting_values</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="c"># dict with starting values</span>
+                 <span class="n">truncation</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="c"># options to truncate MCMC step priors</span>
+                 <span class="n">center</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="c"># Whether to center the X,Z matrices</span>
+                 <span class="n">scale</span><span class="o">=</span><span class="bp">False</span> <span class="c"># Whether re-scale the X,Z matrices</span>
+                 <span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Base_VISAR</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                         <span class="n">membership</span><span class="o">=</span><span class="n">membership</span><span class="p">,</span>
+                                         <span class="n">Delta</span><span class="o">=</span><span class="n">Delta</span><span class="p">,</span>
+                                         <span class="n">n_samples</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
+                                         <span class="n">priors</span><span class="o">=</span><span class="n">priors</span><span class="p">,</span> <span class="n">configs</span><span class="o">=</span><span class="n">configs</span><span class="p">,</span>
+                                         <span class="n">starting_values</span><span class="o">=</span><span class="n">starting_values</span><span class="p">,</span>
+                                         <span class="n">truncation</span><span class="o">=</span><span class="n">truncation</span><span class="p">,</span>
+                                         <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span>
+                                         <span class="n">scale</span><span class="o">=</span><span class="n">scale</span>
+                                         <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">)</span>
+        
+        <span class="k">def</span> <span class="nf">_finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="c"># the degrees of freedom of the variance parameter is constant</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">Sigma2_an</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">N</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">Sigma2_a0</span>
+            <span class="o">...</span>
+        
+        <span class="k">def</span> <span class="nf">_iteration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            
+            <span class="c"># computing the values needed to sample from the conditional posteriors</span>
+            <span class="n">mean</span> <span class="o">=</span> <span class="n">spdot</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">spdot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PsiRhoi</span><span class="p">,</span> <span class="n">X</span><span class="p">))</span> <span class="o">/</span> <span class="n">Sigma2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">bmean0</span>
+            <span class="o">...</span>
+    <span class="o">...</span>
+</code></pre></div></div>
+<p>I’ve organized the directories in this project into <code class="highlighter-rouge">both_levels</code>, <code class="highlighter-rouge">upper_level</code>, <code class="highlighter-rouge">lower_level</code>, and <code class="highlighter-rouge">hierarchical</code>, which contains some of the spatially-varying coefficient models &amp; other models I’m working on that are unrelated to the multilevel variance components stuff.</p>
+
+<p>Since most of the <code class="highlighter-rouge">_iteration</code> loop is the same between models, most of the models share the same sampling code, but customize the structure of the covariance in each level. These covariance variables are stored in the <code class="highlighter-rouge">state.Psi_1</code>, for the lower-level covariance, and <code class="highlighter-rouge">state.Psi_2</code> for the upper-level covariance. Likewise, the precision functions are <code class="highlighter-rouge">state.Psi_1i</code> and <code class="highlighter-rouge">state.Psi_2i</code>.</p>
+
+<p>For example:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsese</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">Psi_1</span> <span class="c">#lower-level covariance</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;function spvcm.utils.se_covariance(param, W, sparse=False)&gt;
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsese</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">Psi_2</span> <span class="c">#upper-level covariance</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;function spvcm.utils.se_covariance(param, W, sparse=False)&gt;
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">Psi_2</span> <span class="c">#upper-level covariance</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;function spvcm.utils.sma_covariance(param, W, sparse=True)&gt;
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">Psi_2i</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;function spvcm.utils.sma_precision(param, W, sparse=False)&gt;
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vcsma</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">Psi_1</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;function spvcm.utils.ind_covariance(param, W, sparse=False)&gt;
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>The functions that generate the covariance matrices are stored in <code class="highlighter-rouge">spvcm.utils</code>. They can be arbitrarily overwritten for alternative covariance specifications.</p>
+
+<p>Thus, if we want to sample a model with a new covariance specification, then we need to define functions for the variance and precision.</p>
+
+
+              <nav class="c-page__nav">
+  
+    
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/notebooks/model/spvcm/spatially-varying-coefficients">
+      〈 <span class="u-margin-right-tiny"></span> spatially-varying-coefficients
+    </a>
+  
+
+  
+    
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/notebooks/model/spint/intro">
+      spint <span class="u-margin-right-tiny"></span> 〉
+    </a>
+  
+</nav>
+
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+  </body>
+</html>

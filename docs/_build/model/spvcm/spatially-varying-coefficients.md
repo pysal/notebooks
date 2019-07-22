@@ -1,7 +1,7 @@
 ---
-redirect_from:
-  - "/model/spvcm/spatially-varying-coefficients"
 interact_link: content/model/spvcm/spatially-varying-coefficients.ipynb
+kernel_name: python3
+has_widgets: false
 title: 'spatially-varying-coefficients'
 prev_page:
   url: /model/spvcm/intro
@@ -13,16 +13,21 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-from spvcm.svc import SVC
+from pysal.model.spvcm.svc import SVC
 import pysal as ps
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 %matplotlib inline
+
 ```
+</div>
+
+</div>
+
 
 
 Today, we'll sample a spatially-varying coefficient model, like that discussed in [Gelfand (2003)](). These models are of the form:
@@ -40,35 +45,53 @@ For starters, let's state a simple parameter surface we are interested in fittin
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 side = np.arange(0,10,1)
 grid = np.tile(side, 10)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 beta1 = grid.reshape(10,10)
 beta2 = np.fliplr(beta1).T
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 fig, ax = plt.subplots(1,2, figsize=(12*1.6, 6))
 sns.heatmap(beta1, ax=ax[0])
 sns.heatmap(beta2, ax=ax[1])
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spvcm/spatially-varying-coefficients_4_0.png)
+
+</div>
+</div>
+</div>
+
 
 
 This reflects a gradient from left to right, and from bottom to top of a perfectly square grid. While this is highly idealized, we can see how well the model recovers these estimates in the exercise below. 
@@ -77,51 +100,72 @@ First, though, let's draw some random normal data for the exercise and construct
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 x1, x2 = np.random.normal(0,1,size=(100,2)).T
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 x1 = x1.reshape(100,1)
 x2 = x2.reshape(100,1)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 flat_beta1 = beta1.flatten().reshape(100,1)
 flat_beta2 = beta2.flatten().reshape(100,1)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 y = x1 * flat_beta1 + x2 * flat_beta2 + np.random.normal(0,1,size=(100,1))
+
 ```
+</div>
+
+</div>
+
 
 
 The aspatial distribution of our data does not betray any specific trending, since we've ensured that our $\beta_1$ and $\beta_2$ surfaces are perfectly independent of one another:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 f,ax = plt.subplots(1,2, figsize=(12,6))
 sns.heatmap(y.reshape(10,10), ax=ax[1])
 sns.regplot(beta1.flatten(), beta2.flatten(), ax=ax[0])
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -130,28 +174,44 @@ sns.regplot(beta1.flatten(), beta2.flatten(), ax=ax[0])
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spvcm/spatially-varying-coefficients_11_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 So, before we sample, let's assemble our data matrix and our coordinates. The coordinates are used to compute the spatial kernel function, $\mathbf{H}(\phi)$, which models the spatial similarity in the random component of $\beta$ in space. 
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 positions = np.array(list(zip(flat_beta1.flatten(),
                               flat_beta2.flatten())))
 X = np.hstack((x1, x2))
+
 ```
+</div>
+
+</div>
+
 
 
 We can sample multiple traces in parallel using `spvcm`, so below, we will see progressbars for each of the chains independently:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import time as t
 m = SVC(y, X, positions, n_samples=0, 
@@ -161,56 +221,84 @@ start = t.time()
 m.sample(2000, n_jobs=4)
 end = t.time() - start
 print('{} seconds elapsed'.format(end))
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 152.74864077568054 seconds elapsed
-
 ```
+</div>
+</div>
+</div>
+
+
 
 We can see the structure of the model below, with our traceplots showing the sample paths, and the Kernel density estimates on right:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 m.trace.plot(burn=1000)
 plt.tight_layout()
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spvcm/spatially-varying-coefficients_17_0.png)
+
+</div>
+</div>
+</div>
+
 
 
 Further, we can extract our estimatesfrom the trace:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 a,b,c,d = np.squeeze(m.trace['Betas'])
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 est_b0s = np.squeeze(m.trace['Betas'])[:,:,::3].mean(axis=1)
 est_b1s = np.squeeze(m.trace['Betas'])[:,:,1::3].mean(axis=1)
 est_b2s = np.squeeze(m.trace['Betas'])[:,:,2::3].mean(axis=1)
+
 ```
+</div>
+
+</div>
+
 
 
 And verify that the estimates from all of our chains, though slightly different, look like our target surfaces:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 f,ax = plt.subplots(4,2, figsize=(16,20), 
                     subplot_kw=dict(aspect='equal'))
@@ -223,18 +311,28 @@ for i, (b1,b2) in enumerate(zip(est_b1s, est_b2s)):
     ax[i,1].set_title('Chain {} $\\beta_2$'.format(i))
 plt.tight_layout()
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spvcm/spatially-varying-coefficients_22_0.png)
+
+</div>
+</div>
+</div>
+
 
 
 Finally, it is important that our prediction error in the $\hat{\beta_i}$ estimates are uncorrelated. Below, we can see that, in the map, the surfaces are indeed spatially random:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 f,ax = plt.subplots(3,2, figsize=(16,20))
 cfgs = dict(xticklabels='', yticklabels='', 
@@ -248,18 +346,28 @@ for i, (b1,b2) in enumerate(zip(est_b1s[1:], est_b2s[1:])):
     ax[i,1].set_title('Chain 1 - Chain {}: $\\beta_2$'.format(i))
 plt.tight_layout()
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spvcm/spatially-varying-coefficients_24_0.png)
+
+</div>
+</div>
+</div>
+
 
 
 Finally, we can see that the true and estimated values are strongly correlated:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 f,ax = plt.subplots(2,4, figsize=(20,10), sharex=True, sharey='row')
 [sns.regplot(beta1.flatten(), est_b1.flatten(), color='k', 
@@ -269,10 +377,12 @@ f,ax = plt.subplots(2,4, figsize=(20,10), sharex=True, sharey='row')
              line_kws=dict(color='orangered'), ax=subax) 
              for est_b2,subax in zip(est_b2s, ax[1])]
 [subax.set_title("Chain {}".format(i)) for i,subax in enumerate(ax[0])]
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -284,7 +394,15 @@ f,ax = plt.subplots(2,4, figsize=(20,10), sharex=True, sharey='row')
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/model/spvcm/spatially-varying-coefficients_26_1.png)
+
+</div>
+</div>
+</div>
 

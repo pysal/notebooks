@@ -2,6 +2,8 @@
 redirect_from:
   - "/model/spint/test-grav"
 interact_link: content/model/spint/test_grav.ipynb
+kernel_name: Python [Root]
+has_widgets: false
 title: 'test_grav'
 prev_page:
   url: /model/spint/sparse_categorical
@@ -13,8 +15,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import numpy as np
 import pandas as pd
@@ -25,18 +27,24 @@ import statsmodels.formula.api as smf
 from statsmodels.api import families
 import matplotlib.pyplot as plt
 %pylab inline
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Populating the interactive namespace from numpy and matplotlib
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 
 n = 3000
@@ -54,25 +62,33 @@ d_vars = np.reshape(d_vars, (-1,1))
 dij = np.reshape(dij, (-1,1))
 f = np.reshape(f, (-1,1))
 f = f.astype(np.int64)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %time Gravity(f, o_vars, d_vars, dij, 'exp')
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 CPU times: user 14.3 s, sys: 1.46 s, total: 15.8 s
 Wall time: 7.41 s
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -81,23 +97,31 @@ Wall time: 7.41 s
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %time Production(f, o, d_vars, dij, 'exp')
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 CPU times: user 38.3 s, sys: 4 s, total: 42.3 s
 Wall time: 24.6 s
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -106,23 +130,31 @@ Wall time: 24.6 s
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %time Attraction(f, d, o_vars, dij, 'exp')
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 CPU times: user 36 s, sys: 4.25 s, total: 40.2 s
 Wall time: 21.4 s
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -131,23 +163,31 @@ Wall time: 21.4 s
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %time Doubly(f, o, d, dij, 'exp')
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 CPU times: user 1min 19s, sys: 6.3 s, total: 1min 25s
 Wall time: 37.4 s
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -156,10 +196,14 @@ Wall time: 37.4 s
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 from glm import GLM
 from iwls import iwls
@@ -169,36 +213,54 @@ ip = IPython.get_ipython()
 ip.define_magic('lprun', line_profiler.magic_lprun)
 instance = Production(f, o, d_vars, dij, 'exp')
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %lprun -f BaseGravity.__init__ instance.__init__(f, o, d_vars, dij, 'exp')
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 correct sparse
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 glm_inst = GLM(instance.y, instance.X, family=families.Poisson())
 %lprun -f GLM.__init__ glm_inst.__init__(instance.y, instance.X, family=families.Poisson())
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 %lprun -f iwls iwls(instance.y, instance.X, family=families.Poisson(), offset=None, y_fix=None)
+
 ```
+</div>
+
+</div>
 

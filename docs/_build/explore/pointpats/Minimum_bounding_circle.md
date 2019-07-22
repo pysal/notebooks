@@ -2,6 +2,8 @@
 redirect_from:
   - "/explore/pointpats/minimum-bounding-circle"
 interact_link: content/explore/pointpats/Minimum_bounding_circle.ipynb
+kernel_name: python3
+has_widgets: false
 title: 'Minimum_bounding_circle'
 prev_page:
   url: /explore/pointpats/centrography
@@ -13,38 +15,48 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import matplotlib.pyplot as plt
 import matplotlib.collections as mplc
-import libpysal as ps
+import pysal.lib as ps
 from shapely import geometry as sgeom
 import descartes as des
-import pointpats 
+from pysal.explore import pointpats 
 %matplotlib inline
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 data = ps.io.open(ps.examples.get_path('columbus.shp')).read()
 chains = [chain.parts[0] for chain in data]
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 points = chains[0]
 points
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -67,44 +79,65 @@ points
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Let's plot that polygon by interpreting it in Shapely and using its draw behavior.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 poly = sgeom.Polygon(points)
 poly
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 
 ![svg](../../images/explore/pointpats/Minimum_bounding_circle_4_0.svg)
 
 
+</div>
+</div>
+</div>
+
+
 
 Nifty. Now, I've implemented Skyum's method for finding the Minimum Bounding Circle for a set of points in `centrography`. 
+
+
 
 Right now, there's some extra printing. Essentially, if you have sufficiently straight lines on the boundary, the equations for the circumcenter of the tuple $(p,q,r)$ explodes. Thus, I test if $\angle (p,q,r)$ identifies a circle whose diameter is $(p,r)$ or $(p,q)$. There are two triplets of straight enough lines, so their circle equations are modified, and I retain printing for bug diagnostics.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 (radius, center), inset, removed, constraints = pointpats.skyum(points)
 #p,q,r = cent.skyum(points)
 #mbc = cent._circle(points[p], points[q], points[r])
 #mbc = cent._circle()
 mbc_poly = sgeom.Point(*center).buffer(radius)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 fig = plt.figure(figsize=(10,10))
 ax = fig.add_subplot(111)
@@ -118,26 +151,40 @@ ax.plot([p[0] for p in constraints], [p[-1] for p in constraints], '^b')
 ax.plot([p[0] for p in inset], [p[-1] for p in inset], 'ob')
 ax.plot([p[0] for p in removed], [p[-1] for p in removed], 'xb')
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_8_0.png)
+
+</div>
+</div>
+</div>
+
 
 
 ### Cool. How fast is this?
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import time
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def demo_mbc(chains):
     for cidx, chain in enumerate(chains):
@@ -169,17 +216,24 @@ def demo_mbc(chains):
                 ax.plot(chull.tolist()[i][0], chull.tolist()[i][1], 'gH')
         plt.show()
         plt.clf()
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 demo_mbc(chains)
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -188,13 +242,19 @@ Point 2: True
 Point 3: True
 Point 4: True
 Point 5: True
-
 ```
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_1.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -206,20 +266,28 @@ Point 5: True
 Point 6: True
 Point 7: True
 Point 8: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_4.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: False
@@ -227,20 +295,28 @@ Point 1: True
 Point 2: True
 Point 3: True
 Point 4: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_7.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -251,20 +327,28 @@ Point 4: True
 Point 5: True
 Point 6: True
 Point 7: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_10.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: False
@@ -272,20 +356,28 @@ Point 1: True
 Point 2: True
 Point 3: True
 Point 4: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_13.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -296,20 +388,28 @@ Point 4: True
 Point 5: True
 Point 6: True
 Point 7: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_16.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -320,20 +420,28 @@ Point 4: True
 Point 5: True
 Point 6: True
 Point 7: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_19.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -344,20 +452,28 @@ Point 4: True
 Point 5: True
 Point 6: True
 Point 7: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_22.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -370,20 +486,28 @@ Point 6: True
 Point 7: True
 Point 8: True
 Point 9: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_25.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -396,40 +520,56 @@ Point 6: True
 Point 7: True
 Point 8: True
 Point 9: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_28.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
 Point 1: True
 Point 2: True
 Point 3: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_31.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -437,38 +577,54 @@ Point 1: True
 Point 2: True
 Point 3: True
 Point 4: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_34.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
 Point 1: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_37.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -476,20 +632,28 @@ Point 1: True
 Point 2: True
 Point 3: True
 Point 4: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_40.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -498,20 +662,28 @@ Point 2: True
 Point 3: True
 Point 4: True
 Point 5: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_43.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -522,20 +694,28 @@ Point 4: True
 Point 5: True
 Point 6: True
 Point 7: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_46.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -544,20 +724,28 @@ Point 2: True
 Point 3: True
 Point 4: True
 Point 5: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_49.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: False
@@ -569,39 +757,55 @@ Point 5: False
 Point 6: True
 Point 7: False
 Point 8: False
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_52.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
 Point 1: True
 Point 2: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_55.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -610,20 +814,28 @@ Point 2: True
 Point 3: True
 Point 4: True
 Point 5: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_58.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -643,20 +855,28 @@ Point 13: True
 Point 14: True
 Point 15: True
 Point 16: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_61.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -667,20 +887,28 @@ Point 4: True
 Point 5: True
 Point 6: True
 Point 7: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_64.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -689,20 +917,28 @@ Point 2: True
 Point 3: True
 Point 4: True
 Point 5: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_67.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -717,20 +953,28 @@ Point 8: True
 Point 9: True
 Point 10: True
 Point 11: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_70.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -743,60 +987,84 @@ Point 6: True
 Point 7: True
 Point 8: True
 Point 9: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_73.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
 Point 1: True
 Point 2: True
 Point 3: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_76.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
 Point 1: True
 Point 2: True
 Point 3: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_79.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -809,58 +1077,82 @@ Point 6: True
 Point 7: True
 Point 8: True
 Point 9: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_82.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
 Point 1: True
 Point 2: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_85.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
 Point 1: True
 Point 2: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_88.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -870,20 +1162,28 @@ Point 3: True
 Point 4: True
 Point 5: True
 Point 6: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_91.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -891,20 +1191,28 @@ Point 1: True
 Point 2: True
 Point 3: True
 Point 4: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_94.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -915,20 +1223,28 @@ Point 4: True
 Point 5: True
 Point 6: True
 Point 7: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_97.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -940,20 +1256,28 @@ Point 5: True
 Point 6: True
 Point 7: True
 Point 8: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_100.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -965,20 +1289,28 @@ Point 5: True
 Point 6: True
 Point 7: True
 Point 8: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_103.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -986,20 +1318,28 @@ Point 1: True
 Point 2: True
 Point 3: True
 Point 4: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_106.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -1007,58 +1347,82 @@ Point 1: True
 Point 2: True
 Point 3: True
 Point 4: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_109.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
 Point 1: True
 Point 2: True
 Point 3: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_112.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
 Point 1: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_115.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -1071,20 +1435,28 @@ Point 6: True
 Point 7: True
 Point 8: True
 Point 9: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_118.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -1098,20 +1470,28 @@ Point 7: True
 Point 8: True
 Point 9: True
 Point 10: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_121.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -1121,59 +1501,83 @@ Point 3: True
 Point 4: True
 Point 5: True
 Point 6: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_124.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
 Point 1: True
 Point 2: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_127.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
 Point 1: True
 Point 2: True
 Point 3: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_130.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -1184,20 +1588,28 @@ Point 4: True
 Point 5: True
 Point 6: True
 Point 7: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_133.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: False
@@ -1205,20 +1617,28 @@ Point 1: True
 Point 2: True
 Point 3: True
 Point 4: False
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_136.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -1229,20 +1649,28 @@ Point 4: True
 Point 5: True
 Point 6: True
 Point 7: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_139.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -1255,20 +1683,28 @@ Point 6: True
 Point 7: True
 Point 8: True
 Point 9: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_142.png)
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point 0: True
@@ -1277,36 +1713,49 @@ Point 2: True
 Point 3: True
 Point 4: True
 Point 5: True
-
 ```
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_12_145.png)
 
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_data_text}
 ```
 <Figure size 432x288 with 0 Axes>
 ```
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pointpats.hull(chains[8])
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1326,19 +1775,25 @@ array([[ 9.33329678, 13.27241993],
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 plt.plot(*pointpats.hull(chains[8]).T.tolist())
 plt.plot(*pointpats.hull(chains[8])[5].T.tolist(), markerfacecolor='k', marker='o')
 plt.plot(*pointpats.hull(chains[8])[6].T.tolist(), markerfacecolor='k', marker='o')
 plt.plot(*pointpats.hull(chains[8])[7].T.tolist(), markerfacecolor='k', marker='o')
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1347,20 +1802,30 @@ plt.plot(*pointpats.hull(chains[8])[7].T.tolist(), markerfacecolor='k', marker='
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/pointpats/Minimum_bounding_circle_14_1.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pointpats._circle(chains[8][-5], chains[8][-4], chains[8][-3])
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1368,4 +1833,8 @@ pointpats._circle(chains[8][-5], chains[8][-4], chains[8][-3])
 (0.914822771306765, (8.333136366132898, 13.026633376705332))
 ```
 
+
+</div>
+</div>
+</div>
 

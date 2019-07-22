@@ -2,15 +2,18 @@
 redirect_from:
   - "/explore/esda/spatial-autocorrelation-for-areal-unit-data"
 interact_link: content/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data.ipynb
+kernel_name: python3
+has_widgets: false
 title: 'Spatial_Autocorrelation_for_Areal_Unit_Data'
 prev_page:
   url: /explore/esda/intro
   title: 'esda'
 next_page:
-  url: /explore/pointpats/intro
-  title: 'pointpats'
+  url: /explore/giddy/intro
+  title: 'giddy'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+
 
 # Exploratory Analysis of Spatial Data: Spatial Autocorrelation
 
@@ -24,52 +27,70 @@ multivariate statistical tests for spatial clustering.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import sys
 import os
 sys.path.append(os.path.abspath('..'))
-import esda
+from pysal.explore import esda
+
 
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import pandas as pd
 import geopandas as gpd
-import libpysal as lps
+import pysal.lib as lps
 import numpy as np
 import matplotlib.pyplot as plt
 %matplotlib inline
+
 ```
+</div>
+
+</div>
+
 
 
 Our data set comes from the Berlin airbnb scrape taken in April 2018. This dataframe was constructed as part of the [GeoPython 2018 workshop](https://github.com/ljwolf/geopython) by [Levi Wolf](https://ljwolf.org) and [Serge Rey](https://sergerey.org). As part of the workshop a geopandas data frame was constructed with one of the columns reporting the median listing price of units in each neighborhood in Berlin:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 df = gpd.read_file('data/neighborhoods.shp')
 # was created in previous notebook with df.to_file('data/neighborhoods.shp')
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 df.head()
+
 ```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 
-
-
-<div markdown="0">
+<div markdown="0" class="output output_html">
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -148,18 +169,26 @@ df.head()
 </div>
 
 
+</div>
+</div>
+</div>
+
+
 
 We have an `nan` to first deal with:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pd.isnull(df['median_pri']).sum()
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -168,26 +197,36 @@ pd.isnull(df['median_pri']).sum()
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 df = df
 df['median_pri'].fillna((df['median_pri'].mean()), inplace=True)
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 df.plot(column='median_pri')
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -196,23 +235,33 @@ df.plot(column='median_pri')
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_9_1.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 fig, ax = plt.subplots(figsize=(12,10), subplot_kw={'aspect':'equal'})
 df.plot(column='median_pri', scheme='Quantiles', k=5, cmap='GnBu', legend=True, ax=ax)
 #ax.set_xlim(150000, 160000)
 #ax.set_ylim(208000, 215000)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -221,9 +270,18 @@ df.plot(column='median_pri', scheme='Quantiles', k=5, cmap='GnBu', legend=True, 
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_10_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 ## Spatial Autocorrelation
@@ -258,11 +316,17 @@ are many ways to define spatial weights, here we will use queen contiguity:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 wq =  lps.weights.Queen.from_dataframe(df)
 wq.transform = 'r'
+
 ```
+</div>
+
+</div>
+
 
 
 ### Attribute Similarity
@@ -275,22 +339,29 @@ $i$ the spatial lag is defined as: $$ylag_i = \sum_j w_{i,j} y_j$$
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 y = df['median_pri']
 ylag = lps.weights.lag_spatial(wq, y)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 ylag
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -326,19 +397,27 @@ array([45.2       , 52.625     , 45.75      , 32.5       , 63.5       ,
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-import mapclassify as mc
+from pysal.viz import mapclassify as mc
 ylagq5 = mc.Quantiles(ylag, k=5)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 f, ax = plt.subplots(1, figsize=(9, 9))
 df.assign(cl=ylagq5.yb).plot(column='cl', categorical=True, \
@@ -348,11 +427,20 @@ ax.set_axis_off()
 plt.title("Spatial Lag Median Price (Quintiles)")
 
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_17_0.png)
+
+</div>
+</div>
+</div>
+
 
 
 The quintile map for the spatial lag tends to enhance the impression of value
@@ -360,7 +448,8 @@ similarity in space. It is, in effect, a local smoother.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 df['lag_median_pri'] = ylag
 f,ax = plt.subplots(1,2,figsize=(2.16*4,4))
@@ -375,11 +464,20 @@ ax[1].set_title("Spatial Lag Price")
 ax[0].axis('off')
 ax[1].axis('off')
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_19_0.png)
+
+</div>
+</div>
+</div>
+
 
 
 However, we still have
@@ -402,14 +500,17 @@ to illustrate the key concepts:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 y.median()
 
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -418,17 +519,23 @@ y.median()
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 yb = y > y.median()
 sum(yb)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -437,19 +544,30 @@ sum(yb)
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 We have 68 neighborhoods with list prices above the median and 70 below the
 median (recall the issue with ties).
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 yb = y > y.median()
 labels = ["0 Low", "1 High"]
 yb = [labels[i] for i in 1*yb] 
 df['yb'] = yb
+
 ```
+</div>
+
+</div>
+
 
 
 The spatial distribution of the binary variable immediately raises questions
@@ -457,14 +575,17 @@ about the juxtaposition of the "black" and "white" areas.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 fig, ax = plt.subplots(figsize=(12,10), subplot_kw={'aspect':'equal'})
 df.plot(column='yb', cmap='binary', edgecolor='grey', legend=True, ax=ax)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -473,9 +594,18 @@ df.plot(column='yb', cmap='binary', edgecolor='grey', legend=True, ax=ax)
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_26_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 ### Join counts
@@ -501,28 +631,37 @@ We can use the `esda` package from PySAL to carry out join count analysis:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-import esda 
+from pysal.explore import esda 
 yb = 1 * (y > y.median()) # convert back to binary
 wq =  lps.weights.Queen.from_dataframe(df)
 wq.transform = 'b'
 np.random.seed(12345)
 jc = esda.join_counts.Join_Counts(yb, wq)
+
 ```
+</div>
+
+</div>
+
 
 
 The resulting object stores the observed counts for the different types of joins:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 jc.bb
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -531,16 +670,22 @@ jc.bb
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 jc.ww
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -549,16 +694,22 @@ jc.ww
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 jc.bw
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -567,24 +718,37 @@ jc.bw
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Note that the three cases exhaust all possibilities:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 jc.bb + jc.ww + jc.bw
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
 385.0
 ```
+
+
+</div>
+</div>
+</div>
 
 
 
@@ -592,19 +756,27 @@ and
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 wq.s0 / 2
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
 385.0
 ```
+
+
+</div>
+</div>
+</div>
 
 
 
@@ -614,19 +786,27 @@ Our object tells us we have observed 121 BB joins:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 jc.bb
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
 121.0
 ```
+
+
+</div>
+</div>
+</div>
 
 
 
@@ -642,13 +822,16 @@ The average number of BB joins from the synthetic realizations is:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 jc.mean_bb
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -657,13 +840,19 @@ jc.mean_bb
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 which is less than our observed count. The question is whether our observed
 value is so different from the expectation that we would reject the null of CSR?
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import seaborn as sbn
 sbn.kdeplot(jc.sim_bb, shade=True)
@@ -671,10 +860,12 @@ plt.vlines(jc.bb, 0, 0.075, color='r')
 plt.vlines(jc.mean_bb, 0,0.075)
 plt.xlabel('BB Counts')
 
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -683,9 +874,18 @@ Text(0.5,0,'BB Counts')
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_42_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 The density portrays the distribution of the BB counts, with the black vertical
@@ -695,20 +895,28 @@ extremely high. A pseudo p-value summarizes this:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 jc.p_sim_bb
 
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
 0.001
 ```
+
+
+</div>
+</div>
+</div>
 
 
 
@@ -729,39 +937,57 @@ First, we transform our weights to be row-standardized, from the current binary 
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 wq.transform = 'r'
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 y = df['median_pri']
+
 ```
+</div>
+
+</div>
+
 
 
 Moran's I is a test for global autocorrelation for a continuous attribute:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 np.random.seed(12345)
 mi = esda.moran.Moran(y, wq)
 mi.I
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
 0.09715984916381672
 ```
+
+
+</div>
+</div>
+</div>
 
 
 
@@ -771,7 +997,8 @@ the join count analysis: random spatial permutations.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import seaborn as sbn
 sbn.kdeplot(mi.sim, shade=True)
@@ -779,10 +1006,12 @@ plt.vlines(mi.I, 0, 1, color='r')
 plt.vlines(mi.EI, 0,1)
 plt.xlabel("Moran's I")
 
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -791,9 +1020,18 @@ Text(0.5,0,"Moran's I")
 ```
 
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_51_1.png)
+
+</div>
+</div>
+</div>
+
 
 
 Here our observed value is again in the upper tail, although visually it does
@@ -801,19 +1039,27 @@ not look as extreme relative to the binary case. Yet, it is still statistically 
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 mi.p_sim
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
 0.02
 ```
+
+
+</div>
+</div>
+</div>
 
 
 
@@ -825,26 +1071,35 @@ d
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 np.random.seed(12345)
-import esda
+from pysal.explore import esda
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 wq.transform = 'r'
 lag_price = lps.weights.lag_spatial(wq, df['median_pri'])
 
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 price = df['median_pri']
 b, a = np.polyfit(price, lag_price, 1)
@@ -864,11 +1119,20 @@ plt.ylabel('Spatial Lag of Price')
 plt.xlabel('Price')
 plt.show()
 
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_57_0.png)
+
+</div>
+</div>
+</div>
+
 
 
 Now, instead of a single $I$ statistic, we have an *array* of local $I_i$
@@ -877,21 +1141,28 @@ in `p_sim`.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 li = esda.moran.Moran_Local(y, wq)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 li.q
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -906,19 +1177,27 @@ array([2, 1, 1, 4, 2, 3, 2, 1, 3, 4, 3, 1, 3, 1, 1, 3, 3, 2, 3, 1, 1, 1,
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 We can again test for local clustering using permutations, but here we use
 conditional random permutations (different distributions for each focal location)
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 (li.p_sim < 0.05).sum()
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -927,34 +1206,48 @@ conditional random permutations (different distributions for each focal location
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 We can distinguish the specific type of local spatial association reflected in
 the four quadrants of the Moran Scatterplot above:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 sig = li.p_sim < 0.05
 hotspot = sig * li.q==1
 coldspot = sig * li.q==3
 doughnut = sig * li.q==2
 diamond = sig * li.q==4
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spots = ['n.sig.', 'hot spot']
 labels = [spots[i] for i in hotspot*1]
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 df = df
 from matplotlib import colors
@@ -965,25 +1258,37 @@ df.assign(cl=labels).plot(column='cl', categorical=True, \
         edgecolor='white', legend=True)
 ax.set_axis_off()
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_66_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spots = ['n.sig.', 'cold spot']
 labels = [spots[i] for i in coldspot*1]
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 df = df
 from matplotlib import colors
@@ -994,25 +1299,37 @@ df.assign(cl=labels).plot(column='cl', categorical=True, \
         edgecolor='white', legend=True)
 ax.set_axis_off()
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_68_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spots = ['n.sig.', 'doughnut']
 labels = [spots[i] for i in doughnut*1]
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 df = df
 from matplotlib import colors
@@ -1023,25 +1340,37 @@ df.assign(cl=labels).plot(column='cl', categorical=True, \
         edgecolor='white', legend=True)
 ax.set_axis_off()
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_70_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spots = ['n.sig.', 'diamond']
 labels = [spots[i] for i in diamond*1]
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 df = df
 from matplotlib import colors
@@ -1052,16 +1381,24 @@ df.assign(cl=labels).plot(column='cl', categorical=True, \
         edgecolor='white', legend=True)
 ax.set_axis_off()
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_72_0.png)
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 sig = 1 * (li.p_sim < 0.05)
 hotspot = 1 * (sig * li.q==1)
@@ -1070,10 +1407,12 @@ doughnut = 2 * (sig * li.q==2)
 diamond = 4 * (sig * li.q==4)
 spots = hotspot + coldspot + doughnut + diamond
 spots
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -1088,19 +1427,27 @@ array([0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3, 1, 0, 0, 0, 0, 3, 1, 0, 0,
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 spot_labels = [ '0 ns', '1 hot spot', '2 doughnut', '3 cold spot', '4 diamond']
 labels = [spot_labels[i] for i in spots]
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 
 from matplotlib import colors
@@ -1111,9 +1458,17 @@ df.assign(cl=labels).plot(column='cl', categorical=True, \
         edgecolor='white', legend=True)
 ax.set_axis_off()
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_75_0.png)
+
+</div>
+</div>
+</div>
 

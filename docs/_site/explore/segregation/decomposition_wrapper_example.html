@@ -1,0 +1,2781 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+
+  <title>decomposition_wrapper_example</title>
+  <meta name="description" content="Decomposition framework of the PySAL segregation module">
+
+  <link rel="canonical" href="http://0.0.0.0:4000/notebooks/explore/segregation/decomposition_wrapper_example.html">
+  <link rel="alternate" type="application/rss+xml" title="PySAL Notebooks" href="http://0.0.0.0:4000/notebooks/feed.xml">
+
+  <meta property="og:url"         content="http://0.0.0.0:4000/notebooks/explore/segregation/decomposition_wrapper_example.html" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="decomposition_wrapper_example" />
+<meta property="og:description" content="Decomposition framework of the PySAL segregation module" />
+<meta property="og:image"       content="" />
+
+
+  <script type="application/ld+json">
+  {
+  "@context": "http://schema.org",
+  "@type": "NewsArticle",
+  "mainEntityOfPage":
+    "http://0.0.0.0:4000/notebooks/explore/segregation/decomposition_wrapper_example.html",
+  "headline":
+    "decomposition_wrapper_example",
+  "datePublished":
+    "2019-07-22T16:47:05+00:00",
+  "dateModified":
+    "2019-07-22T16:47:05+00:00",
+  "description":
+    "Decomposition framework of the PySAL segregation module",
+  "author": {
+    "@type": "Person",
+    "name": "PySAL Developers"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Data 100 at UC Berkeley",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://0.0.0.0:4000/notebooks",
+      "width": 60,
+      "height": 60
+    }
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "http://0.0.0.0:4000/notebooks",
+    "height": 60,
+    "width": 60
+  }
+}
+
+  </script>
+  <link rel="stylesheet" href="/notebooks/assets/css/styles.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css ">
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+
+  <!-- <link rel="manifest" href="/manifest.json"> -->
+  <!-- <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#efae0a"> -->
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+  <meta name="theme-color" content="#233947">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/notebooks/assets/images/pysal_favicon.ico">
+
+  <!-- MathJax Config -->
+  <!-- Allow inline math using $ and automatically break long math lines -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true,
+        processEnvironments: true
+    },
+    CommonHTML: {
+        linebreaks: {
+            automatic: true,
+        },
+    },
+});
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML' async></script>
+
+  <!-- DOM updating function -->
+  <script>
+const runWhenDOMLoaded = cb => {
+  if (document.readyState != 'loading') {
+    cb()
+  } else if (document.addEventListener) {
+    document.addEventListener('DOMContentLoaded', cb)
+  } else {
+    document.attachEvent('onreadystatechange', function() {
+      if (document.readyState == 'complete') cb()
+    })
+  }
+}
+
+// Helper function to init things quickly
+initFunction = function(myfunc) {
+  runWhenDOMLoaded(myfunc);
+  document.addEventListener('turbolinks:load', myfunc);
+};
+</script>
+
+  <!-- Define some javascript variables that will be useful in other javascript -->
+  <script>
+    const site_basename = '/notebooks';
+  </script>
+
+  <!-- Add AnchorJS to let headers be linked -->
+  <script src="/notebooks/assets/js/anchor.min.js"  type="text/javascript"></script>
+  <script>
+
+initFunction(function () {
+    anchors.add("main h1, main h2, main h3, main h4")
+});
+
+</script>
+
+  <!-- Include Turbolinks to make page loads fast -->
+  <!-- https://github.com/turbolinks/turbolinks -->
+  <script src="/notebooks/assets/js/turbolinks.js" async></script>
+  <meta name="turbolinks-cache-control" content="no-cache">
+
+  <!-- Load nbinteract for widgets -->
+  
+
+  <!-- Load Thebelab for interactive widgets -->
+  <!-- Include Thebelab for interactive code if it's enabled -->
+
+
+
+  <!-- Load the auto-generating TOC -->
+  <script src="/notebooks/assets/js/tocbot.min.js"  type="text/javascript"></script>
+  <script>
+var initToc = function () {
+  tocbot.init({
+    tocSelector: 'nav.onthispage',
+    contentSelector: '.c-textbook__content',
+    headingSelector: 'h2, h3',
+    orderedList: false,
+    collapseDepth: 6,
+    listClass: 'toc__menu',
+    activeListItemClass: "",  // Not using
+    activeLinkClass: "", // Not using
+  });
+  tocbot.refresh();
+}
+initFunction(initToc);
+</script>
+
+  <!-- Google analytics -->
+  <script src="/notebooks/assets/js/ga.js" async></script>
+
+  <!-- Clipboard copy button -->
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" async></script>
+
+  <!-- Load JS that depends on site variables -->
+  <script>
+/**
+ * Set up copy/paste for code blocks
+ */
+const codeCellId = index => `codecell${index}`
+
+const clipboardButton = id =>
+  `<a id="copy-button-${id}" class="btn copybtn o-tooltip--left" data-tooltip="Copy" data-clipboard-target="#${id}">
+    <img src="/notebooks/assets/images/copy-button.svg" alt="Copy to clipboard">
+  </a>`
+
+// Clears selected text since ClipboardJS will select the text when copying
+const clearSelection = () => {
+  if (window.getSelection) {
+    window.getSelection().removeAllRanges()
+  } else if (document.selection) {
+    document.selection.empty()
+  }
+}
+
+// Changes tooltip text for two seconds, then changes it back
+const temporarilyChangeTooltip = (el, newText) => {
+  const oldText = el.getAttribute('data-tooltip')
+  el.setAttribute('data-tooltip', newText)
+  setTimeout(() => el.setAttribute('data-tooltip', oldText), 2000)
+}
+
+const addCopyButtonToCodeCells = () => {
+  // If ClipboardJS hasn't loaded, wait a bit and try again. This
+  // happens because we load ClipboardJS asynchronously.
+  if (window.ClipboardJS === undefined) {
+    setTimeout(addCopyButtonToCodeCells, 250)
+    return
+  }
+
+  const codeCells = document.querySelectorAll('div.c-textbook__content > div.highlighter-rouge > div.highlight > pre, div.input_area pre')
+  codeCells.forEach((codeCell, index) => {
+    const id = codeCellId(index)
+    codeCell.setAttribute('id', id)
+    if (document.getElementById("copy-button" + id) == null) {
+      codeCell.insertAdjacentHTML('afterend', clipboardButton(id));
+    }
+  })
+
+  const clipboard = new ClipboardJS('.copybtn')
+  clipboard.on('success', event => {
+    clearSelection()
+    temporarilyChangeTooltip(event.trigger, 'Copied!')
+  })
+
+  clipboard.on('error', event => {
+    temporarilyChangeTooltip(event.trigger, 'Failed to copy')
+  })
+
+  // Get rid of clipboard before the next page visit to avoid memory leak
+  document.addEventListener('turbolinks:before-visit', () =>
+    clipboard.destroy()
+  )
+}
+
+initFunction(addCopyButtonToCodeCells);
+</script>
+
+
+  <!-- Hide cell code -->
+  <script>
+    /**
+    Add buttons to hide code cells
+    */
+
+
+    var setCodeCellVisibility = function (inputField, kind) {
+        // Update the image and class for hidden
+        var id = inputField.getAttribute('data-id');
+        var codeCell = document.querySelector(`#${id} div.highlight`);
+
+        if (kind === "visible") {
+            codeCell.classList.remove('hidden');
+            inputField.checked = true;
+        } else {
+            codeCell.classList.add('hidden');
+            inputField.checked = false;
+        }
+    }
+
+    var toggleCodeCellVisibility = function (event) {
+        // The label is clicked, and now we decide what to do based on the input field's clicked status
+        if (event.target.tagName === "LABEL") {
+            var inputField = event.target.previousElementSibling;
+        } else {
+            // It is the span inside the target
+            var inputField = event.target.parentElement.previousElementSibling;
+        }
+
+        if (inputField.checked === true) {
+            setCodeCellVisibility(inputField, "visible");
+        } else {
+            setCodeCellVisibility(inputField, "hidden");
+        }
+    }
+
+
+    // Button constructor
+    const hideCodeButton = id => `<input class="hidebtn" type="checkbox" id="hidebtn${id}" data-id="${id}"><label title="Toggle cell" for="hidebtn${id}" class="plusminus"><span class="pm_h"></span><span class="pm_v"></span></label>`
+
+    var addHideButton = function () {
+        // If a hide button is already added, don't add another
+        if (document.querySelector('div.hidecode input') !== null) {
+            return;
+        }
+
+        // Find the input cells and add a hide button
+        document.querySelectorAll('div.input_area').forEach(function (item, index) {
+            if (!item.classList.contains("hidecode")) {
+                // Skip the cell if it doesn't have a hidecode class
+                return;
+            }
+
+            const id = codeCellId(index)
+            item.setAttribute('id', id);
+            // Insert the button just inside the end of the next div
+            item.querySelector('div').insertAdjacentHTML('beforeend', hideCodeButton(id))
+
+            // Set up the visibility toggle
+            hideLink = document.querySelector(`#${id} div.highlight + input + label`);
+            hideLink.addEventListener('click', toggleCodeCellVisibility)
+        });
+    }
+
+
+    // Initialize the hide buttos
+    var initHiddenCells = function () {
+        // Add hide buttons to the cells
+        addHideButton();
+
+        // Toggle the code cells that should be hidden
+        document.querySelectorAll('div.hidecode input').forEach(function (item) {
+            setCodeCellVisibility(item, 'hidden');
+            item.checked = true;
+        })
+    }
+
+    initFunction(initHiddenCells);
+
+</script>
+
+  <!-- Load custom website scripts -->
+  <script src="/notebooks/assets/js/scripts.js" async></script>
+
+  <!-- Load custom user CSS and JS  -->
+  <script src="/notebooks/assets/custom/custom.js" async></script>
+  <link rel="stylesheet" href="/notebooks/assets/custom/custom.css">
+
+  <!-- Update interact links w/ REST param, is defined in includes so we can use templates -->
+  
+<script>
+/**
+  * To auto-embed hub URLs in interact links if given in a RESTful fashion
+ */
+
+function getJsonFromUrl(url) {
+  var query = url.split('?');
+  if (query.length < 2) {
+    // No queries so just return false
+    return false;
+  }
+  query = query[1];
+  // Collect REST params into a dictionary
+  var result = {};
+  query.split("&").forEach(function(part) {
+    var item = part.split("=");
+    result[item[0]] = decodeURIComponent(item[1]);
+  });
+  return result;
+}
+    
+function dict2param(dict) {
+    params = Object.keys(dict).map(function(k) {
+        return encodeURIComponent(k) + '=' + encodeURIComponent(dict[k])
+    });
+    return params.join('&')
+}
+
+// Parse a Binder URL, converting it to the string needed for JupyterHub
+function binder2Jupyterhub(url) {
+  newUrl = {};
+  parts = url.split('v2/gh/')[1];
+  // Grab the base repo information
+  repoinfo = parts.split('?')[0];
+  var [org, repo, ref] = repoinfo.split('/');
+  newUrl['repo'] = ['https://github.com', org, repo].join('/');
+  newUrl['branch'] = ref
+  // Grab extra parameters passed
+  params = getJsonFromUrl(url);
+  if (params['filepath'] !== undefined) {
+    newUrl['subPath'] = params['filepath']
+  }
+  return dict2param(newUrl);
+}
+
+// Filter out potentially unsafe characters to prevent xss
+function safeUrl(url)
+{
+   return String(encodeURIComponent(url))
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+}
+
+function addParamToInternalLinks(hub) {
+  var links = document.querySelectorAll("a").forEach(function(link) {
+    var href = link.href;
+    // If the link is an internal link...
+    if (href.search("http://0.0.0.0:4000") !== -1 || href.startsWith('/') || href.search("127.0.0.1:") !== -1) {
+      // Assume we're an internal link, add the hub param to it
+      var params = getJsonFromUrl(href);
+      if (params !== false) {
+        // We have REST params, so append a new one
+        params['jupyterhub'] = hub;
+      } else {
+        // Create the REST params
+        params = {'jupyterhub': hub};
+      }
+      // Update the link
+      var newHref = href.split('?')[0] + '?' + dict2param(params);
+      link.setAttribute('href', decodeURIComponent(newHref));
+    }
+  });
+  return false;
+}
+
+
+// Update interact links
+function updateInteractLink() {
+    // hack to make this work since it expects a ? in the URL
+    rest = getJsonFromUrl("?" + location.search.substr(1));
+    jupyterHubUrl = rest['jupyterhub'];
+    var hubType = null;
+    var hubUrl = null;
+    if (jupyterHubUrl !== undefined) {
+      hubType = 'jupyterhub';
+      hubUrl = jupyterHubUrl;
+    }
+
+    if (hubType !== null) {
+      // Sanitize the hubUrl
+      hubUrl = safeUrl(hubUrl);
+
+      // Add HTTP text if omitted
+      if (hubUrl.indexOf('http') < 0) {hubUrl = 'http://' + hubUrl;}
+      var interactButtons = document.querySelectorAll("button.interact-button")
+      var lastButton = interactButtons[interactButtons.length-1];
+      var link = lastButton.parentElement;
+
+      // If we've already run this, skip the link updating
+      if (link.nextElementSibling !== null) {
+        return;
+      }
+
+      // Update the link and add context div
+      var href = link.getAttribute('href');
+      if (lastButton.id === 'interact-button-binder') {
+        // If binder links exist, we need to re-work them for jupyterhub
+        if (hubUrl.indexOf('http%3A%2F%2Flocalhost') > -1) {
+          // If localhost, assume we're working from a local Jupyter server and remove `/hub`
+          first = [hubUrl, 'git-sync'].join('/')
+        } else {
+          first = [hubUrl, 'hub', 'user-redirect', 'git-sync'].join('/')
+        }
+        href = first + '?' + binder2Jupyterhub(href);
+      } else {
+        // If interact button isn't binderhub, assume it's jupyterhub
+        // If JupyterHub links, we only need to replace the hub url
+        href = href.replace("", hubUrl);
+        if (hubUrl.indexOf('http%3A%2F%2Flocalhost') > -1) {
+          // Assume we're working from a local Jupyter server and remove `/hub`
+          href = href.replace("/hub/user-redirect", "");
+        }
+      }
+      link.setAttribute('href', decodeURIComponent(href));
+
+      // Add text after interact link saying where we're launching
+      hubUrlNoHttp = decodeURIComponent(hubUrl).replace('http://', '').replace('https://', '');
+      link.insertAdjacentHTML('afterend', '<div class="interact-context">on ' + hubUrlNoHttp + '</div>');
+
+      // Update internal links so we retain the hub url
+      addParamToInternalLinks(hubUrl);
+    }
+}
+
+runWhenDOMLoaded(updateInteractLink)
+document.addEventListener('turbolinks:load', updateInteractLink)
+</script>
+
+
+  <!-- Lunr search code - will only be executed on the /search page -->
+  <script src="/notebooks/assets/js/lunr/lunr.min.js" type="text/javascript"></script>
+  <script>var initQuery = function() {
+  // See if we have a search box
+  var searchInput = document.querySelector('input#lunr_search');
+  if (searchInput === null) {
+    return;
+  }
+
+  // Function to parse our lunr cache
+  var idx = lunr(function () {
+    this.field('title')
+    this.field('excerpt')
+    this.field('categories')
+    this.field('tags')
+    this.ref('id')
+
+    this.pipeline.remove(lunr.trimmer)
+
+    for (var item in store) {
+      this.add({
+        title: store[item].title,
+        excerpt: store[item].excerpt,
+        categories: store[item].categories,
+        tags: store[item].tags,
+        id: item
+      })
+    }
+  });
+
+  // Run search upon keyup
+  searchInput.addEventListener('keyup', function () {
+    var resultdiv = document.querySelector('#results');
+    var query = document.querySelector("input#lunr_search").value.toLowerCase();
+    var result =
+      idx.query(function (q) {
+        query.split(lunr.tokenizer.separator).forEach(function (term) {
+          q.term(term, { boost: 100 })
+          if(query.lastIndexOf(" ") != query.length-1){
+            q.term(term, {  usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 10 })
+          }
+          if (term != ""){
+            q.term(term, {  usePipeline: false, editDistance: 1, boost: 1 })
+          }
+        })
+      });
+
+      // Empty the results div
+      while (resultdiv.firstChild) {
+        resultdiv.removeChild(resultdiv.firstChild);
+      }
+
+    resultdiv.insertAdjacentHTML('afterbegin', '<p class="results__found">'+result.length+' Result(s) found</p>');
+    for (var item in result) {
+      var ref = result[item].ref;
+      if(store[ref].teaser){
+        var searchitem =
+          '<div class="list__item">'+
+            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="archive__item-title" itemprop="headline">'+
+                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+              '</h2>'+
+              '<div class="archive__item-teaser">'+
+                '<img src="'+store[ref].teaser+'" alt="">'+
+              '</div>'+
+              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
+            '</article>'+
+          '</div>';
+      }
+      else{
+    	  var searchitem =
+          '<div class="list__item">'+
+            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="archive__item-title" itemprop="headline">'+
+                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+              '</h2>'+
+              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
+            '</article>'+
+          '</div>';
+      }
+      resultdiv.insertAdjacentHTML('beforeend', searchitem);
+    }
+  });
+};
+
+initFunction(initQuery);
+</script>
+</head>
+
+  <body>
+    <!-- .js-show-sidebar shows sidebar by default -->
+    <div id="js-textbook" class="c-textbook js-show-sidebar">
+      
+
+
+
+<nav id="js-sidebar" class="c-textbook__sidebar">
+  <a href="https://pysal.org/notebooks/"><img src="/notebooks/assets/images/logo.png" class="textbook_logo" id="sidebar-logo" data-turbolinks-permanent/></a>
+  <h2 class="c-sidebar__title">PySAL Notebooks</h2>
+  <ul class="c-sidebar__chapters">
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/intro.html"
+        >
+          
+          Home
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">Explore</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/esda/intro.html"
+        >
+          
+          esda
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data.html"
+                >
+                  
+                  Spatial_Autocorrelation_for_Areal_Unit_Data
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/giddy/intro.html"
+        >
+          
+          giddy
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/Rank_based_Methods.html"
+                >
+                  
+                  Rank_based_Methods
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/directional.html"
+                >
+                  
+                  directional
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/Rank_Markov.html"
+                >
+                  
+                  Rank_Markov
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/Mobility_measures.html"
+                >
+                  
+                  Mobility_measures
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/Markov_Based_Methods.html"
+                >
+                  
+                  Markov_Based_Methods
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/pointpats/intro.html"
+        >
+          
+          pointpats
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/distance_statistics.html"
+                >
+                  
+                  distance_statistics
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/centrography.html"
+                >
+                  
+                  centrography
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/Minimum_bounding_circle.html"
+                >
+                  
+                  Minimum_bounding_circle
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/Quadrat_statistics.html"
+                >
+                  
+                  Quadrat_statistics
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/window.html"
+                >
+                  
+                  window
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/marks.html"
+                >
+                  
+                  marks
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/pointpattern.html"
+                >
+                  
+                  pointpattern
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/process.html"
+                >
+                  
+                  process
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/spaghetti/intro.html"
+        >
+          
+          spaghetti
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/spaghetti/Spaghetti_Pointpatterns_Empirical.html"
+                >
+                  
+                  Spaghetti_Pointpatterns_Empirical
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/spaghetti/Facility_Location.html"
+                >
+                  
+                  Facility_Location
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/spaghetti/Snapping_Demonstration.html"
+                >
+                  
+                  Snapping_Demonstration
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/spaghetti/Network_Usage.html"
+                >
+                  
+                  Network_Usage
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/segregation/intro.html"
+        >
+          
+          segregation
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/profile_wrappers_example.html"
+                >
+                  
+                  profile_wrappers_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry c-sidebar__entry--active"
+                  href="/notebooks/explore/segregation/decomposition_wrapper_example.html"
+                >
+                  
+                  decomposition_wrapper_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/inference_wrappers_example.html"
+                >
+                  
+                  inference_wrappers_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/nonspatial_examples.html"
+                >
+                  
+                  nonspatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/spatial_examples.html"
+                >
+                  
+                  spatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/inequality/intro.html"
+        >
+          
+          inequality
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/inequality/gini.html"
+                >
+                  
+                  gini
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">Viz</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/viz/mapclassify/intro.html"
+        >
+          
+          mapclassify
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/mapclassify/plot.html"
+                >
+                  
+                  plot
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/mapclassify/deprecate.html"
+                >
+                  
+                  deprecate
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/mapclassify/south.html"
+                >
+                  
+                  south
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/mapclassify/maximum_breaks.html"
+                >
+                  
+                  maximum_breaks
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/viz/splot/intro.html"
+        >
+          
+          splot
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/esda_moran_matrix_viz.html"
+                >
+                  
+                  esda_moran_matrix_viz
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/libpysal_non_planar_joins_viz.html"
+                >
+                  
+                  libpysal_non_planar_joins_viz
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/esda_morans_viz.html"
+                >
+                  
+                  esda_morans_viz
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/giddy_space_time.html"
+                >
+                  
+                  giddy_space_time
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/mapping_vba.html"
+                >
+                  
+                  mapping_vba
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">Model</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/model/spvcm/intro.html"
+        >
+          
+          spvcm
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spvcm/spatially-varying-coefficients.html"
+                >
+                  
+                  spatially-varying-coefficients
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spvcm/using_the_sampler.html"
+                >
+                  
+                  using_the_sampler
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/model/spint/intro.html"
+        >
+          
+          spint
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_vs_dense_grav.html"
+                >
+                  
+                  sparse_vs_dense_grav
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/Example_NYCBikes_AllFeatures.html"
+                >
+                  
+                  Example_NYCBikes_AllFeatures
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/New_DistanceBand.html"
+                >
+                  
+                  New_DistanceBand
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_scipy_optim.html"
+                >
+                  
+                  sparse_scipy_optim
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/local_SI.html"
+                >
+                  
+                  local_SI
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/validate_gravity.html"
+                >
+                  
+                  validate_gravity
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/dispersion_test.html"
+                >
+                  
+                  dispersion_test
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/netW.html"
+                >
+                  
+                  netW
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_categorical.html"
+                >
+                  
+                  sparse_categorical
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/test_grav.html"
+                >
+                  
+                  test_grav
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_grav.html"
+                >
+                  
+                  sparse_grav
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_categorical_bottleneck.html"
+                >
+                  
+                  sparse_categorical_bottleneck
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/OD_weights.html"
+                >
+                  
+                  OD_weights
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_categorical_speed.html"
+                >
+                  
+                  sparse_categorical_speed
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/ODW_example.html"
+                >
+                  
+                  ODW_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/autograd_test.html"
+                >
+                  
+                  autograd_test
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/NYC_Bike_Example.html"
+                >
+                  
+                  NYC_Bike_Example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/4d_distance.html"
+                >
+                  
+                  4d_distance
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/model/spglm/intro.html"
+        >
+          
+          spglm
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spglm/Poisson_GLM.html"
+                >
+                  
+                  Poisson_GLM
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spglm/Gaussian_GLM.html"
+                >
+                  
+                  Gaussian_GLM
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spglm/Binomial_GLM.html"
+                >
+                  
+                  Binomial_GLM
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/model/mgwr/intro.html"
+        >
+          
+          mgwr
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_Georgia_example.html"
+                >
+                  
+                  GWR_Georgia_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_prediction_example.html"
+                >
+                  
+                  GWR_prediction_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_MGWR_example.html"
+                >
+                  
+                  GWR_MGWR_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/MGWR_Georgia_example.html"
+                >
+                  
+                  MGWR_Georgia_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">Lib</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/lib/libpysal/intro.html"
+        >
+          
+          libpysal
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/lib/libpysal/io.html"
+                >
+                  
+                  io
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/lib/libpysal/weights.html"
+                >
+                  
+                  weights
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/lib/libpysal/voronoi.html"
+                >
+                  
+                  voronoi
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+  </ul>
+  <p class="sidebar_footer">Powered by <a href="https://github.com/jupyter/jupyter-book">Jupyter Book</a></p>
+</nav>
+
+      
+      <!-- Empty sidebar placeholder that we'll auto-fill with javascript -->
+      <aside class="sidebar__right">
+          <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
+          <nav class="onthispage">
+          </nav>
+      </aside>
+      
+      <main class="c-textbook__page" tabindex="-1">
+          <div class="o-wrapper">
+            <div class="c-sidebar-toggle">
+  <!-- We show the sidebar by default so we use .is-active -->
+  <button
+    id="js-sidebar-toggle"
+    class="hamburger hamburger--arrowalt is-active"
+  >
+    <span class="hamburger-box">
+      <span class="hamburger-inner"></span>
+    </span>
+    <span class="c-sidebar-toggle__label">Toggle Sidebar</span>
+  </button>
+</div>
+
+            
+<div class="buttons">
+<a href="/notebooks/content/explore/segregation/decomposition_wrapper_example.ipynb" download>
+<button id="interact-button-download" class="interact-button">Download</button>
+</a>
+
+
+
+
+
+
+
+
+
+
+<a href="https://mybinder.org/v2/gh/pysal/pysal/master?urlpath=lab/tree/content%2Fexplore%2Fsegregation%2Fdecomposition_wrapper_example.ipynb"><button class="interact-button" id="interact-button-binder"><img class="interact-button-logo" src="/notebooks/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
+
+
+</div>
+
+
+            <div class="c-textbook__content">
+              <h1 id="decomposition-framework-of-the-pysal-segregation-module">Decomposition framework of the PySAL <em>segregation</em> module</h1>
+
+<p>This is a notebook that explains a step-by-step procedure to perform decomposition on comparative segregation measures.</p>
+
+<p>First, let’s import all the needed libraries.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="kn">from</span> <span class="nn">pysal.explore</span> <span class="kn">import</span> <span class="n">segregation</span>
+<span class="kn">from</span> <span class="nn">pysal.explore.segregation.decompose_segregation</span> <span class="kn">import</span> <span class="n">Decompose_Segregation</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>In this example, we are going to use census data that the user must download its own copy, following similar guidelines explained in https://github.com/spatialucr/geosnap/tree/master/geosnap/data where you should download the full type file  of 2010. The zipped file download will have a name that looks like <code class="highlighter-rouge">LTDB_Std_All_fullcount.zip</code>. After extracting the zipped content, the filepath of the data should looks like this:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#filepath = '~/std_2010_fullcount.csv'</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>Then, we read the data:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="s">"ISO-8859-1"</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">","</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>We are going to work with the variable of the nonhispanic black people (<code class="highlighter-rouge">nhblk10</code>) and the total population of each unit (<code class="highlighter-rouge">pop10</code>). So, let’s read the map of all census tracts of US and select some specific columns for the analysis:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># This file can be download here: https://drive.google.com/open?id=1gWF0OCn6xuR_WrEj7Ot2jY6KI2t6taIm</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'data/tracts_US.pkl'</span><span class="p">,</span> <span class="s">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="nb">input</span><span class="p">:</span>
+    <span class="n">map_gpd</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    
+<span class="n">map_gpd</span><span class="p">[</span><span class="s">'INTGEOID10'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">map_gpd</span><span class="p">[</span><span class="s">"GEOID10"</span><span class="p">])</span>
+<span class="n">gdf_pre</span> <span class="o">=</span> <span class="n">map_gpd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">left_on</span> <span class="o">=</span> <span class="s">'INTGEOID10'</span><span class="p">,</span> <span class="n">right_on</span> <span class="o">=</span> <span class="s">'trtid10'</span><span class="p">)</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf_pre</span><span class="p">[[</span><span class="s">'GEOID10'</span><span class="p">,</span> <span class="s">'geometry'</span><span class="p">,</span> <span class="s">'pop10'</span><span class="p">,</span> <span class="s">'nhblk10'</span><span class="p">]]</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>In this notebook, we use the Metropolitan Statistical Area (MSA) of US (we’re also using the word ‘cities’ here to refer them). So, let’s read the correspondence table that relates the tract id with the corresponding Metropolitan area…</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># You can download this file here: https://drive.google.com/open?id=10HUUJSy9dkZS6m4vCVZ-8GiwH0EXqIau</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'data/tract_metro_corresp.pkl'</span><span class="p">,</span> <span class="s">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="nb">input</span><span class="p">:</span>
+    <span class="n">tract_metro_corresp</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>..and merge them with the previous data.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">merged_gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">tract_metro_corresp</span><span class="p">,</span> <span class="n">left_on</span> <span class="o">=</span> <span class="s">'GEOID10'</span><span class="p">,</span> <span class="n">right_on</span> <span class="o">=</span> <span class="s">'geoid10'</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>We now build the composition variable (<code class="highlighter-rouge">compo</code>) which is the division of the frequency of the chosen group and total population. Let’s inspect the first rows of the data.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">merged_gdf</span><span class="p">[</span><span class="s">'compo'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">merged_gdf</span><span class="p">[</span><span class="s">'pop10'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">merged_gdf</span><span class="p">[</span><span class="s">'nhblk10'</span><span class="p">]</span> <span class="o">/</span> <span class="n">merged_gdf</span><span class="p">[</span><span class="s">'pop10'</span><span class="p">])</span>
+<span class="n">merged_gdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output output_html">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>GEOID10</th>
+      <th>geometry</th>
+      <th>pop10</th>
+      <th>nhblk10</th>
+      <th>geoid10</th>
+      <th>metro_id</th>
+      <th>numeric_id</th>
+      <th>geoid</th>
+      <th>name</th>
+      <th>compo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>01001020801</td>
+      <td>POLYGON ((-86.456273 32.405837, -86.4570349999...</td>
+      <td>3081</td>
+      <td>293</td>
+      <td>01001020801</td>
+      <td>33860</td>
+      <td>33860</td>
+      <td>33860</td>
+      <td>Montgomery, AL</td>
+      <td>0.095099</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>01001020802</td>
+      <td>POLYGON ((-86.412497 32.589422, -86.412442 32....</td>
+      <td>10435</td>
+      <td>1420</td>
+      <td>01001020802</td>
+      <td>33860</td>
+      <td>33860</td>
+      <td>33860</td>
+      <td>Montgomery, AL</td>
+      <td>0.136080</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>01001020200</td>
+      <td>POLYGON ((-86.467354 32.459308, -86.46764 32.4...</td>
+      <td>2170</td>
+      <td>1226</td>
+      <td>01001020200</td>
+      <td>33860</td>
+      <td>33860</td>
+      <td>33860</td>
+      <td>Montgomery, AL</td>
+      <td>0.564977</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>01001020700</td>
+      <td>POLYGON ((-86.46106999999999 32.42709, -86.461...</td>
+      <td>2891</td>
+      <td>452</td>
+      <td>01001020700</td>
+      <td>33860</td>
+      <td>33860</td>
+      <td>33860</td>
+      <td>Montgomery, AL</td>
+      <td>0.156347</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>01001020600</td>
+      <td>POLYGON ((-86.470524 32.456117, -86.4700469999...</td>
+      <td>3668</td>
+      <td>776</td>
+      <td>01001020600</td>
+      <td>33860</td>
+      <td>33860</td>
+      <td>33860</td>
+      <td>Montgomery, AL</td>
+      <td>0.211559</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+    </div>
+  </div>
+</div>
+
+<p>Now, we chose two different metropolitan areas to compare the degree of segregation.</p>
+
+<h2 id="map-of-the-composition-of-the-metropolitan-area-of-los-angeles">Map of the composition of the Metropolitan area of Los Angeles</h2>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">la_2010</span> <span class="o">=</span> <span class="n">merged_gdf</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">merged_gdf</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">"Los Angeles-Long Beach-Anaheim, CA"</span><span class="p">)]</span>
+<span class="n">la_2010</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span> <span class="o">=</span> <span class="s">'compo'</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s">'OrRd'</span><span class="p">,</span> <span class="n">legend</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">'off'</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(-119.02865769999998, -117.3360503, 32.6463769, 34.9269651)
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/segregation/decomposition_wrapper_example_16_1.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<h2 id="map-of-the-composition-of-the-metropolitan-area-of-new-york">Map of the composition of the Metropolitan area of New York</h2>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ny_2010</span> <span class="o">=</span> <span class="n">merged_gdf</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">merged_gdf</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">'New York-Newark-Jersey City, NY-NJ-PA'</span><span class="p">)]</span>
+<span class="n">ny_2010</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span> <span class="o">=</span> <span class="s">'compo'</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s">'OrRd'</span><span class="p">,</span> <span class="n">legend</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">'off'</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(-75.5381038, -71.59841419999998, 39.36886419999999, 41.70820779999999)
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/segregation/decomposition_wrapper_example_18_1.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<p>We first compare the Gini index of both cities. Let’s import the <code class="highlighter-rouge">Gini_Seg</code> class from <code class="highlighter-rouge">segregation</code>, fit both indexes and check the difference in point estimation.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.non_spatial_indexes</span> <span class="kn">import</span> <span class="n">Gini_Seg</span>
+
+<span class="n">G_la</span> <span class="o">=</span> <span class="n">Gini_Seg</span><span class="p">(</span><span class="n">la_2010</span><span class="p">,</span> <span class="s">'nhblk10'</span><span class="p">,</span> <span class="s">'pop10'</span><span class="p">)</span>
+<span class="n">G_ny</span> <span class="o">=</span> <span class="n">Gini_Seg</span><span class="p">(</span><span class="n">ny_2010</span><span class="p">,</span> <span class="s">'nhblk10'</span><span class="p">,</span> <span class="s">'pop10'</span><span class="p">)</span>
+
+<span class="n">G_la</span><span class="o">.</span><span class="n">statistic</span> <span class="o">-</span> <span class="n">G_ny</span><span class="o">.</span><span class="n">statistic</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-0.10652888790131243
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Let’s decompose these difference according to <em>Rey, S. et al “Comparative Spatial Segregation Analytics”. Forthcoming</em>. You can check the options available in this decomposition below:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">help</span><span class="p">(</span><span class="n">Decompose_Segregation</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Help on class Decompose_Segregation in module segregation.decompose_segregation:
+
+class Decompose_Segregation(builtins.object)
+ |  Decompose segregation differences into spatial and attribute components.
+ |  
+ |  Given two segregation indices of the same type, use Shapley decomposition
+ |  to measure whether the differences between index measures arise from
+ |  differences in spatial structure or population structure
+ |  
+ |  Parameters
+ |  ----------
+ |  index1 : segregation.SegIndex class
+ |      First SegIndex class to compare.
+ |  index2 : segregation.SegIndex class
+ |      Second SegIndex class to compare.
+ |  counterfactual_approach : str, one of
+ |                            ["composition", "share", "dual_composition"]
+ |      The technique used to generate the counterfactual population
+ |      distributions.
+ |  
+ |  Attributes
+ |  ----------
+ |  
+ |  c_s : float
+ |      Shapley's Spatial Component of the decomposition
+ |              
+ |  c_a : float
+ |      Shapley's Attribute Component of the decomposition
+ |  
+ |  Methods
+ |  ----------
+ |  
+ |  plot : Visualize features of the Decomposition performed
+ |      plot_type : str, one of ['cdfs', 'maps']
+ |      
+ |      'cdfs' : visualize the cumulative distribution functions of the compositions/shares
+ |      'maps' : visualize the spatial distributions for original data and counterfactuals generated and Shapley's components (only available for GeoDataFrames)
+ |  
+ |  Methods defined here:
+ |  
+ |  __init__(self, index1, index2, counterfactual_approach='composition')
+ |      Initialize self.  See help(type(self)) for accurate signature.
+ |  
+ |  plot(self, plot_type='cdfs')
+ |      Plot the Segregation Decomposition Profile
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  __dict__
+ |      dictionary for instance variables (if defined)
+ |  
+ |  __weakref__
+ |      list of weak references to the object (if defined)
+
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<h2 id="composition-approach-default">Composition Approach (default)</h2>
+
+<p>The difference of -0.10653 fitted previously, can be decomposed into two components. The Spatial component and the attribute component. Let’s estimate both, respectively.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DS_composition</span> <span class="o">=</span> <span class="n">Decompose_Segregation</span><span class="p">(</span><span class="n">G_la</span><span class="p">,</span> <span class="n">G_ny</span><span class="p">)</span>
+<span class="n">DS_composition</span><span class="o">.</span><span class="n">c_s</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.029575766160051364
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DS_composition</span><span class="o">.</span><span class="n">c_a</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-0.1361046540613638
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>So, the first thing to notice is that attribute component, i.e., given by a difference in the population structure (in this case, the composition) plays a more important role in the difference, since it has a higher absolute value.</p>
+
+<p>The difference in the composition can be inspected in the plotting method with the type <code class="highlighter-rouge">cdfs</code>:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DS_composition</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_type</span> <span class="o">=</span> <span class="s">'cdfs'</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/segregation/decomposition_wrapper_example_28_0.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<p>If your data is a GeoDataFrame, it is also possible to visualize the counterfactual compositions with the argument <code class="highlighter-rouge">plot_type = 'maps'</code></p>
+
+<p>The first and second contexts are Los Angeles and New York, respectively.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DS_composition</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_type</span> <span class="o">=</span> <span class="s">'maps'</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/segregation/decomposition_wrapper_example_30_0.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<p><em>Note that in all plotting methods, the title presents each component of the decomposition performed.</em></p>
+
+<h2 id="share-approach">Share Approach</h2>
+
+<p>The share approach takes into consideration the share of each group in each city. Since this approach takes into consideration the focus group and the complementary group share to build the “counterfactual” total population of each unit, it is of interest to inspect all these four cdf’s.</p>
+
+<p><em>ps.: The share is the population frequency of each group in each unit over the total population of that respectively group.</em></p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DS_share</span> <span class="o">=</span> <span class="n">Decompose_Segregation</span><span class="p">(</span><span class="n">G_la</span><span class="p">,</span> <span class="n">G_ny</span><span class="p">,</span> <span class="n">counterfactual_approach</span> <span class="o">=</span> <span class="s">'share'</span><span class="p">)</span>
+<span class="n">DS_share</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_type</span> <span class="o">=</span> <span class="s">'cdfs'</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/segregation/decomposition_wrapper_example_34_0.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<p>We can see that curve between the contexts are closer to each other which represent a drop in the importance of the population structure (attribute component) to -0.062. However, this attribute still overcomes the spatial component (-0.045) in terms of importance due to both absolute magnitudes.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DS_share</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_type</span> <span class="o">=</span> <span class="s">'maps'</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/segregation/decomposition_wrapper_example_36_0.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<p>We can see that the counterfactual maps of the composition (outside of the main diagonal), in this case, are slightly different from the previous approach.</p>
+
+<h2 id="dual-composition-approach">Dual Composition Approach</h2>
+
+<p>The <code class="highlighter-rouge">dual_composition</code> approach is similar to the composition approach. However, it uses also the counterfactual composition of the cdf of the complementary group.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DS_dual</span> <span class="o">=</span> <span class="n">Decompose_Segregation</span><span class="p">(</span><span class="n">G_la</span><span class="p">,</span> <span class="n">G_ny</span><span class="p">,</span> <span class="n">counterfactual_approach</span> <span class="o">=</span> <span class="s">'dual_composition'</span><span class="p">)</span>
+<span class="n">DS_dual</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_type</span> <span class="o">=</span> <span class="s">'cdfs'</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/segregation/decomposition_wrapper_example_39_0.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<p>It is possible to see that the component values are very similar with slight changes from the <code class="highlighter-rouge">composition</code> approach.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DS_dual</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_type</span> <span class="o">=</span> <span class="s">'maps'</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/segregation/decomposition_wrapper_example_41_0.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<p>The counterfactual distributions are virtually the same (but not equal) as the one from the <code class="highlighter-rouge">composition</code> approach.</p>
+
+<h2 id="inspecting-a-different-index-relative-concentration">Inspecting a different index: Relative Concentration</h2>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Relative_Concentration</span>
+
+<span class="n">RCO_la</span> <span class="o">=</span> <span class="n">Relative_Concentration</span><span class="p">(</span><span class="n">la_2010</span><span class="p">,</span> <span class="s">'nhblk10'</span><span class="p">,</span> <span class="s">'pop10'</span><span class="p">)</span>
+<span class="n">RCO_ny</span> <span class="o">=</span> <span class="n">Relative_Concentration</span><span class="p">(</span><span class="n">ny_2010</span><span class="p">,</span> <span class="s">'nhblk10'</span><span class="p">,</span> <span class="s">'pop10'</span><span class="p">)</span>
+
+<span class="n">RCO_la</span><span class="o">.</span><span class="n">statistic</span> <span class="o">-</span> <span class="n">RCO_ny</span><span class="o">.</span><span class="n">statistic</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-0.4251693177385222
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">RCO_DS_composition</span> <span class="o">=</span> <span class="n">Decompose_Segregation</span><span class="p">(</span><span class="n">RCO_la</span><span class="p">,</span> <span class="n">RCO_ny</span><span class="p">)</span>
+<span class="n">RCO_DS_composition</span><span class="o">.</span><span class="n">c_s</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-0.37581968640142394
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">RCO_DS_composition</span><span class="o">.</span><span class="n">c_a</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-0.0493496313370983
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>It is possible to note that, in this case, the spatial component is playing a much more relevant role in the decomposition.</p>
+
+
+              <nav class="c-page__nav">
+  
+    
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/notebooks/explore/segregation/profile_wrappers_example">
+      〈 <span class="u-margin-right-tiny"></span> profile_wrappers_example
+    </a>
+  
+
+  
+    
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/notebooks/explore/segregation/inference_wrappers_example">
+      inference_wrappers_example <span class="u-margin-right-tiny"></span> 〉
+    </a>
+  
+</nav>
+
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+  </body>
+</html>

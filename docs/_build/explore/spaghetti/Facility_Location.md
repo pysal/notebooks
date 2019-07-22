@@ -2,6 +2,8 @@
 redirect_from:
   - "/explore/spaghetti/facility-location"
 interact_link: content/explore/spaghetti/Facility_Location.ipynb
+kernel_name: conda-env-py3_spgh_dev-py
+has_widgets: false
 title: 'Facility_Location'
 prev_page:
   url: /explore/spaghetti/Spaghetti_Pointpatterns_Empirical
@@ -12,7 +14,10 @@ next_page:
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
+
 -------------------------
+
+
 
 #### This notebook requires installations of:
 * [`geopandas`](http://geopandas.org)
@@ -30,16 +35,23 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 * [`ortools`](https://developers.google.com/optimization/)
     * `$ pip install ortools`
 
+
+
 ---------------------
+
+
 
 # Demostrating fundamental network-based optimal facility location modeling
 ## Integrating `spaghetti` and [`Cbc`](https://projects.coin-or.org/Cbc)/[`ortools`](https://developers.google.com/optimization/)
+
+
 
 #### James D. Gaboardi <<jgaboardi@fsu.edu>>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import os
 last_modified = None
@@ -53,22 +65,35 @@ elif os.name == "nt":
     
 if last_modified:
     get_ipython().set_next_input(last_modified[-1])
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-# This notebook was last updated: Nov 24 16:19:45 2018
+# This notebook was last updated: May 13 20:33:56 2019
+
 ```
+</div>
+
+</div>
+
 
 
 ---------------------------
 
+
+
 ## Scenario:
 
-The Neighborhood X Planning Committee has been asked by residents to set up a [Little Free Library](https://littlefreelibrary.org) program to supplement the community's growing reading needs, as 15 families just moved in bring the total household count to ***400***. Since the neighborhood can't afford to have a library on every corner, the committee must decide on where to locate them and how to do so in a transparent manner. There are currently ***14*** candidate sites in the neighborhood for Little Free Libraries and the community can afford to support up to ***5*** locations, but would preferably support ***3*** locations with the extra budget going towards new books and unforseen maintaince costs. The committee also must locate all the libraries within ***1 km*** of all households, but preferably with ***.8km***. As it turns out one of the committee members is an Operations Research professor at the local university, Dr. Minimax, and volunteers to build 4 models to optimally site the Little Free Libraries acording to objective functions and specific sets of contraints. She puts forth 4 facility location models:
+The Neighborhood X Planning Committee has been asked by residents to set up a [Little Free Library](https://littlefreelibrary.org) program to supplement the community's growing reading needs, as 15 families just moved in bring the total household count to ***400***. Since the neighborhood can't afford to have a library on every corner, the committee must decide on where to locate them and how to do so in a transparent manner. There are currently ***14*** candidate sites in the neighborhood for Little Free Libraries and the community can afford to support up to ***5*** locations, but would preferably support ***3*** locations with the extra budget going towards new books and unforseen maintenance costs. The committee also must locate all the libraries within ***1 km*** of all households, but preferably with ***.8km***. As it turns out one of the committee members is an Operations Research professor at the local university, Dr. Minimax, and volunteers to build 4 models to optimally site the Little Free Libraries acording to objective functions and specific sets of contraints. She puts forth 4 facility location models:
+
+
 
    * **Location Set Covering Problem**
        * Site the minimum number of facilities to cover all demand (clients) within a specified service radius.
@@ -94,15 +119,18 @@ The Neighborhood X Planning Committee has been asked by residents to set up a [L
              Church, R. L and C. ReVelle. 1974. The Maximal Covering Location Problem.
              Papers of the Regional Science Association. 32:101-18.
 
+
+
 -------------------
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 # pysal submodule imports
-from libpysal import cg, examples
-import spaghetti as spgh
+from pysal.lib import cg, examples
+from pysal.explore import spaghetti as spgh
 
 import geopandas as gpd
 from shapely.geometry import Point
@@ -125,27 +153,41 @@ except ImportError:
     pass
 
 %matplotlib inline
+
 ```
+</div>
+
+</div>
+
 
 
 #### Suppress `matplotlib` color `UserWarning` messages
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 warnings.filterwarnings('ignore', message="Setting the 'color'")
 warnings.filterwarnings('ignore', message="The GeoDataFrame you are")
+
 ```
+</div>
+
+</div>
+
 
 
 -------------------
+
+
 
 ### Set  parameters as per the scenario layed out above
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 # n clients and n facilities
 client_count, facility_count = 400, 14
@@ -163,14 +205,20 @@ random_seeds = {'client': 3006,
                 'facility': 1520}
 
 title = 'Neighborhood X'
+
 ```
+</div>
+
+</div>
+
 
 
 ---------------------------------------
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 class FacilityLocationModel:
     """Solve a facility locatiom optimization model
@@ -630,12 +678,16 @@ class FacilityLocationModel:
                         sp = 'ies'
                     print('--- %i clients are covered' % ncli,
                           'by %i' % ncov, 'facilit'+sp)             
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def add_results(model, cli_df, fac_df, print_solution=False):
     """Add decision variable relationships to a dataframe.
@@ -668,12 +720,16 @@ def add_results(model, cli_df, fac_df, print_solution=False):
             print(selected.loc[idx, "dv"], 'serving:',
                   selected.loc[idx, col_name])
     return cli_df, fac_df
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def plotter(fig=None, base=None, plot_aux=None, buffered=None, model=None,
             pt1_size=None, pt2_size=None, plot_res=None, save_fig=False,
@@ -835,12 +891,16 @@ def plotter(fig=None, base=None, plot_aux=None, buffered=None, model=None,
     # if for a multiplot explicityly return items to add to legend
     if for_multiplot:
         return add_to_legend
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def multi_plotter(models, plot_aux=None, plot_res=None, select=None,
                   title=None, figsize=(14,14), shape=(2,2)):
@@ -895,12 +955,16 @@ def multi_plotter(models, plot_aux=None, plot_res=None, select=None,
                              dvs_to_leg=dvs_to_leg,
                              for_multiplot=True)
     add_legend(patches, for_multiplot=True)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def add_north_arrow(base):
     """add a north arrow to an axes
@@ -913,12 +977,16 @@ def add_north_arrow(base):
     base.text(221200, 267200, '      z    ', bbox=bbox_props,
              fontsize='large',fontweight='heavy',
              ha='center', va='center', rotation=90)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def add_scale(base):
     """add a scale arrow to an axes
@@ -931,12 +999,16 @@ def add_scale(base):
     base.text(base.get_xlim()[0]+75, base.get_ylim()[0]+75,
               '|  ~.25km~  |', fontstyle='italic',
               bbox=bbox_props)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def create_patches(model=None, pt1_size=None, pt2_size=None,
                    buffered=None, legend_aux=None, dvs_to_leg=None,
@@ -1055,12 +1127,16 @@ def create_patches(model=None, pt1_size=None, pt2_size=None,
                                 alpha=.8, label='%s ($n$=%i)' % (k,n))
             patches.extend([spacer, fdv, spacer])
     return patches
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def add_legend(patches, for_multiplot=False):
     """Add a legend to a plot
@@ -1078,12 +1154,16 @@ def add_legend(patches, for_multiplot=False):
                         fancybox=True, framealpha=.85,
                         bbox_to_anchor=anchor, fontsize='x-large')
     legend.get_frame().set_facecolor('white')
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def dv_colorset(dvs):
     """decision variables color set
@@ -1104,12 +1184,16 @@ def dv_colorset(dvs):
     dv_colors = {dv:dv_colors[idx] for idx, dv\
                  in enumerate(dvs)}
     return dv_colors
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def get_buffer(in_data, buff=50):
     """ geopandas.GeoDataFrame should be in a meters projection.
@@ -1130,15 +1214,19 @@ def get_buffer(in_data, buff=50):
     out_data = gpd.GeoDataFrame(b2, crs=in_data.crs,
                                 columns=['geometry'])
     return out_data
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def concave_hull(fac_df, cli_df, f, smoother=10):
-    """Create `libpysal.cg.alpha_shape_auto()` object
+    """Create `pysal.lib.cg.alpha_shape_auto()` object
     for service area representation.
     Parameters
     ----------
@@ -1168,12 +1256,16 @@ def concave_hull(fac_df, cli_df, f, smoother=10):
     ccv = gpd.GeoDataFrame([ccv.buffer(smoother)],
                            columns=["geometry"])
     return ccv
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def simulated_geo_points(in_data, needed=20, seed=0, to_file=None):
     """Generate synthetic spatial data points within an area.s
@@ -1211,12 +1303,16 @@ def simulated_geo_points(in_data, needed=20, seed=0, to_file=None):
     if to_file:
         sim_pts.to_file(to_file+".shp")
     return sim_pts
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def map_coords(df, col_name=None, coords=None):
     """ map point coordinates dict to dataframe
@@ -1237,12 +1333,16 @@ def map_coords(df, col_name=None, coords=None):
     df[col_name] = df.index.map(coords)
     df[col_name] = df[col_name].apply(lambda x: Point(x))
     return df
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def snapped_df(df, snap_col):
     """copy a true location dataframe and swap
@@ -1263,12 +1363,16 @@ def snapped_df(df, snap_col):
     df.geometry = df[snap_col]
     df.drop(snap_col, axis=1, inplace=True)
     return df
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def analytics_matrix(mdls):
     """create stylized dataframe visualization of
@@ -1317,12 +1421,16 @@ def analytics_matrix(mdls):
                     .background_gradient(axis=1, cmap=cm,
                                          subset=model_names)
     return df, style
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def selection_matrix(mdls):
     """create stylized dataframe visualization of
@@ -1367,7 +1475,12 @@ def selection_matrix(mdls):
                                           subset=['$\sum$',
                                                   '$\%$'])
     return df, style
+
 ```
+</div>
+
+</div>
+
 
 
 ---------------------------------
@@ -1376,61 +1489,90 @@ def selection_matrix(mdls):
 
 --------------------------
 
+
+
 # Instantiate a network, snap points to the nework, and calculate cost matrix
 
+
+
 ### In this example we will use an emprical network and synthetic, randomly generated points
+
+
 
 ### Streets as empirical data
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 streets = gpd.read_file(examples.get_path('streets.shp'))
 streets.crs = {'init':'epsg:2223'}
 streets = streets.to_crs(epsg=2762)
 streets.head()
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 add_to_plot = {'streets':streets}
 plotter(plot_aux=add_to_plot, title=title)
+
 ```
+</div>
+
+</div>
+
 
 
 ## Generate synthetic, random "houses" near the network
+
+
 
 ### Buffer streets
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 buff = 50
 streets_buffer = get_buffer(streets, buff=buff)
 streets_buffer
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 add_to_plot = {'streets':streets,
                'buffer':streets_buffer}
 plotter(plot_aux=add_to_plot, buffered=buff, title=title)
+
 ```
+</div>
+
+</div>
+
 
 
 ### Generate *n* synthetic client points and  *n* synthetic facility points
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 clients = simulated_geo_points(streets_buffer,
                                needed=client_count,
@@ -1438,21 +1580,29 @@ clients = simulated_geo_points(streets_buffer,
 facilities = simulated_geo_points(streets_buffer,
                                   needed=facility_count,
                                   seed=random_seeds['facility'])
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 clients['dv'] = ['x[%s]' % c for c in range(client_count)]
 facilities['dv'] = ['y[%s]' % c for c in range(facility_count)]
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 add_to_plot = {'streets':streets,
                'buffer':streets_buffer,
@@ -1460,71 +1610,107 @@ add_to_plot = {'streets':streets,
                'fac_tru': facilities}
 plotter(plot_aux=add_to_plot, buffered=buff,
         pt1_size=60)
+
 ```
+</div>
+
+</div>
+
 
 
 ------------------------------------
+
+
 
 ### Synthetic client demand (weights)
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 np.random.seed(1991)
 clients['weights'] = np.random.randint(1, 8, (client_count,1))
 clients.head()
+
 ```
+</div>
+
+</div>
+
 
 
 ### Create a network instance
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 ntw = spgh.Network(in_data=streets)
+
 ```
+</div>
+
+</div>
+
 
 
 ### Snap points to the network
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 ntw.snapobservations(clients, 'clients', attribute=True)
 ntw.snapobservations(facilities, 'facilities', attribute=True)
+
 ```
+</div>
+
+</div>
+
 
 
 ### `map` snapped coordinates the each dataframe
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 clients = map_coords(clients, col_name='snapped_coords',
                      coords=ntw.pointpatterns['clients'].snapped_coordinates)
 facilities = map_coords(facilities, col_name='snapped_coords',
                         coords=ntw.pointpatterns['facilities'].snapped_coordinates)
+
 ```
+</div>
+
+</div>
+
 
 
 ### Instaniate a `snapped` dataframe for each point set
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 clients_snapped = snapped_df(clients, 'snapped_coords')
 facilities_snapped = snapped_df(facilities, 'snapped_coords')
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 add_to_plot = {'streets':streets,
                'buffer':streets_buffer,
@@ -1534,159 +1720,237 @@ add_to_plot = {'streets':streets,
                'fac_snp': facilities_snapped,}
 plotter(plot_aux=add_to_plot, buffered=buff,
         pt1_size=60, pt2_size=25)
+
 ```
+</div>
+
+</div>
+
 
 
 ## Calculate distance matrix from all clients to all candidate facilities
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 cost_matrix = ntw.allneighbordistances(sourcepattern=ntw.pointpatterns['clients'],
                                        destpattern=ntw.pointpatterns['facilities'])
 cost_matrix[:3,:3]
+
 ```
+</div>
+
+</div>
+
 
 
 ----------------------------
 
+
+
 # Optimal Facility Location
+
+
 
 ## Location Set Covering Problem
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 lscp = FacilityLocationModel('lscp', cij=cost_matrix, s=max_coverage)
 clients, facilities = add_results(lscp, clients, facilities)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 aux_to_plot = {'streets': streets, 'fac_tru': facilities}
 res_to_plot = {'cli_var': clients, 'fac_var': facilities}
 plotter(plot_aux=aux_to_plot, plot_res=res_to_plot,
         pt1_size=300, pt2_size=60, model=lscp, title=title)
+
 ```
+</div>
+
+</div>
+
 
 
 ## *p*-median Problem
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pmp = FacilityLocationModel('pmp', ai=clients["weights"],
                             cij=cost_matrix, p=p_facilities)
 clients, facilities = add_results(pmp, clients, facilities)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 aux_to_plot = {'streets': streets, 'fac_tru': facilities}
 res_to_plot = {'cli_var': clients, 'fac_var': facilities}
 plotter(plot_aux=aux_to_plot, plot_res=res_to_plot,
         pt1_size=300, pt2_size=60, model=pmp, title=title)
+
 ```
+</div>
+
+</div>
+
 
 
 ## *p*-center Problem
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pcp = FacilityLocationModel('pcp', cij=cost_matrix, p=p_facilities)
 clients, facilities = add_results(pcp, clients, facilities)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 aux_to_plot = {'streets': streets, 'fac_tru': facilities}
 res_to_plot = {'cli_var': clients, 'fac_var': facilities}
 plotter(plot_aux=aux_to_plot, plot_res=res_to_plot,
         pt1_size=300, pt2_size=60, model=pcp, title=title)
+
 ```
+</div>
+
+</div>
+
 
 
 ## Maximal Covering Location Problem
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 mclp = FacilityLocationModel('mclp', ai=clients["weights"],
                              cij=cost_matrix, p=p_facilities,
                              s=min_coverage)
 clients, facilities = add_results(mclp, clients, facilities)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 aux_to_plot = {'streets': streets, 'cli_tru': clients, 'fac_tru': facilities}
 res_to_plot = {'cli_var': clients, 'fac_var': facilities}
 plotter(plot_aux=aux_to_plot, plot_res=res_to_plot,
         pt1_size=300, pt2_size=60, model=mclp, title=title)
+
 ```
+</div>
+
+</div>
+
 
 
 -----------------------------------
 -----------------------------------------
 ----------------------------
 
+
+
 ### Solved models objects
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 models = [lscp, pmp, pcp, mclp]
+
 ```
+</div>
+
+</div>
+
 
 
 ### Distance analytics matrix
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 analytics_df, analytics_display = analytics_matrix(models)
 analytics_display
+
 ```
+</div>
+
+</div>
+
 
 
 #### While it appears the `mclp` performs most optimally with the least distance per stastistic, we have to remember that the `mclp` is leaving {{mclp.n_cli_uncov}} clients uncovered. Therefore, it may generally give lower maximum and average travel costs due to the uncovered client travel costs being excluded.
+
+
 
 ### Selection matrix
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 selection_df, selection_display = selection_matrix(models)
 selection_display
+
 ```
+</div>
+
+</div>
+
 
 
 ### All solutions spatial comparision
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 # facility variable-to-times selected lookup
 fac2selectcount = dict(selection_df['$\sum$'].astype(int))
@@ -1694,14 +1958,23 @@ aux_to_plot = {'streets': streets, 'cli_tru': clients}
 res_to_plot = {'cli_var': clients, 'fac_var': facilities}
 multi_plotter(models, plot_aux=aux_to_plot, title=title,
               plot_res=res_to_plot, select=fac2selectcount)
+
 ```
+</div>
+
+</div>
+
 
 
 ---------------------
 
+
+
 $\Longrightarrow$ Results may vary due to the random seed being set on local machines $\Longleftarrow$
 
 $\Longrightarrow$ Manually run the following cell to expose variables $\Longleftarrow$
+
+
 
 # Dr. Minimax recommendation:
 
@@ -1710,9 +1983,14 @@ $\Longrightarrow$ Manually run the following cell to expose variables $\Longleft
 
 * This configuration results in an absolute maximum distance from any household to its assigned Little Free Library of `{{analytics_df.loc[(analytics_df['stats'] == 'abs_max'), 'pcp'].squeeze()}}` meters, which is slightly more than the `{{max_coverage}}` meter maximum distance stipulation put forth by the committee. Dr. Minimax believes this to be the most equitable and feasible solution for the residents of Neighbor X. However..., the Neighborhood X Planning Committee turned out to be corrupt and merely chose locations for the Little Free Libraries nearest to their respective houses....
 
+
+
 ----------------------
 
 
 # Which model do you think would suit the community's needs best?
 
+
+
 --------------------------
+

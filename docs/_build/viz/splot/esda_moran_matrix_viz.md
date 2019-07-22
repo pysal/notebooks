@@ -2,60 +2,82 @@
 redirect_from:
   - "/viz/splot/esda-moran-matrix-viz"
 interact_link: content/viz/splot/esda_moran_matrix_viz.ipynb
+kernel_name: python3
+has_widgets: false
 title: 'esda_moran_matrix_viz'
 prev_page:
-  url: /viz/splot/moran_bv_test
-  title: 'moran_bv_test'
+  url: /viz/splot/intro
+  title: 'splot'
 next_page:
   url: /viz/splot/libpysal_non_planar_joins_viz
   title: 'libpysal_non_planar_joins_viz'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
+
 # Visualising the `esda` Moran Matrix with `splot`
 
-`esda.moran.Moran_BV_matrix` offers you a tool to assess the relationship between multiple input variables over space. `Moran_BV_matrix` returns a dictionary of `Moran_BV` objects which can be displayed and further analysed. In case you are not familiar with Moran Statistics, have a look at `splot`'s `esda_morans_viz.ipynb` notebook. 
+
+
+`esda.moran.Moran_BV_matrix` offers you a tool to assess the relationship between multiple input variables and over space as bivariate and univariate Moran's I Statistics. `Moran_BV_matrix` returns a dictionary of `Moran_BV` objects which can be displayed and further analysed. In case you are not familiar with Moran Statistics, have a look at `splot`'s `esda_morans_viz.ipynb` notebook. 
+
+
 
 ## Contents
 
-* Needed imports
-* Example 1: Use a list as input
-* Example 2: Use a gdf as input
+* What to import?
+* Example 1: Working with arrays 
+* Example 2: Working with a [geopandas.GeoDataFrame](http://geopandas.org/reference/geopandas.GeoDataFrame.html)
+
+
 
 ## Imports
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-from libpysal.weights.contiguity import Queen
-from libpysal import examples
-import libpysal as lp
+from pysal.lib.weights.contiguity import Queen
+from pysal.lib import examples
+import pysal.lib as lp
 import geopandas as gpd
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
-% matplotlib inline
+%matplotlib inline
+
 ```
+</div>
 
-
-## Example 1: define your varnames in a list
-
-There are generally two ways in which a `Moran_BV_matrix` and a `splot.esda.moran_facet` can be generated. The first of the two options is to use `np.arrays` of variables and additionally a list of names describing each variable. In this example, we know that we would like to examine all values in the columns `varnames = ['SIDR74',  'SIDR79',  'NWR74',  'NWR79']` and can pass in a list of column names. From these names we can create separate `np.arrays` containign the values of each individual variable/ column with `vars = [np.array(f.by_col[var]) for var in varnames]`:
+</div>
 
 
 
-{:.input_area}
+## Example 1: Working with arrays
+
+
+
+There are generally two ways in which a `Moran_BV_matrix` and a `splot.esda.moran_facet` can be generated. The first of the two options is to use `np.arrays` representing the attributes of different variables and adding a list of variable names. This first option is a great choice in case you needed to calculate your weights separately with `pysal.lib.weights` and already have your values stored in an array. The second and more popular option is ot directly load a DataFrame. If you are unsure in how to work with `numpy` arrays or you already have your variables stored in a dataframe, we would recommend to use Example 2.
+
+In this example we will look at visualizing your results stored as a `np.array`. We know that we would like to examine all values for the variables named: `varnames = ['SIDR74',  'SIDR79',  'NWR74',  'NWR79']`. We can pass in a list of these variable names separately with `varnames=varnames`. Additionally, we need to create an `np.array` containing the values of each individual variable separately with `vars = [np.array(f.by_col[var]) for var in varnames]`:
+
+
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 f = gpd.read_file(examples.get_path("sids2.dbf"))
 
 varnames = ['SIDR74',  'SIDR79',  'NWR74',  'NWR79']
 varnames
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -64,17 +86,23 @@ varnames
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 variable = [np.array(f[variable]) for variable in varnames]
 variable[0]
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -99,25 +127,38 @@ array([0.91659 , 0.      , 1.568381, 1.968504, 6.333568, 4.820937,
 ```
 
 
+</div>
+</div>
+</div>
 
-Next, we can open a file containing pre calculated spatial weights for "sids2.dbf". In case you don't have spatial weights, check out `libpysal.weights` which will provide you with many options calculating your own.
+
+
+Next, we can open a file containing pre calculated spatial weights for "sids2.dbf". In case you don't have spatial weights, check out `pysal.lib.weights` which will provide you with many options calculating your own.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 w = lp.io.open(examples.get_path("sids2.gal")).read()
 w
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
-<libpysal.weights.weights.W at 0x116722ef0>
+<pysal.lib.weights.weights.W at 0x1a1f854160>
 ```
+
+
+</div>
+</div>
+</div>
 
 
 
@@ -125,81 +166,111 @@ Now we are ready to import and generate our `Moran_BV_matrix`:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-from esda.moran import Moran_BV_matrix
+from pysal.explore.esda.moran import Moran_BV_matrix
 
 matrix = Moran_BV_matrix(variable, w, varnames = varnames)
 matrix
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
-{(0, 1): <esda.moran.Moran_BV at 0x1167142b0>,
- (1, 0): <esda.moran.Moran_BV at 0x116722da0>,
- (0, 2): <esda.moran.Moran_BV at 0x116722e10>,
- (2, 0): <esda.moran.Moran_BV at 0x116722cc0>,
- (0, 3): <esda.moran.Moran_BV at 0x116722dd8>,
- (3, 0): <esda.moran.Moran_BV at 0x1167252e8>,
- (1, 2): <esda.moran.Moran_BV at 0x1167253c8>,
- (2, 1): <esda.moran.Moran_BV at 0x116725390>,
- (1, 3): <esda.moran.Moran_BV at 0x116729908>,
- (3, 1): <esda.moran.Moran_BV at 0x116729b38>,
- (2, 3): <esda.moran.Moran_BV at 0x116729b00>,
- (3, 2): <esda.moran.Moran_BV at 0x116729ac8>}
+{(0, 1): <esda.moran.Moran_BV at 0x1047ff5f8>,
+ (1, 0): <esda.moran.Moran_BV at 0x1047ff940>,
+ (0, 2): <esda.moran.Moran_BV at 0x1047ff2e8>,
+ (2, 0): <esda.moran.Moran_BV at 0x1a1f854080>,
+ (0, 3): <esda.moran.Moran_BV at 0x1a1f842748>,
+ (3, 0): <esda.moran.Moran_BV at 0x1a1f8555c0>,
+ (1, 2): <esda.moran.Moran_BV at 0x1a1f854048>,
+ (2, 1): <esda.moran.Moran_BV at 0x1a1f8546a0>,
+ (1, 3): <esda.moran.Moran_BV at 0x1a1f85c8d0>,
+ (3, 1): <esda.moran.Moran_BV at 0x1a1f85cb70>,
+ (2, 3): <esda.moran.Moran_BV at 0x1a1f85cb38>,
+ (3, 2): <esda.moran.Moran_BV at 0x1a1f85cb00>}
 ```
 
 
+</div>
+</div>
+</div>
 
-Let's visualise our matrix with `splot.esda.moran_facet()`. You will see Univariate Moran objects with a grey background, surrounded by all possible combinations of your input dataset:
+
+
+Let's visualise our matrix with `splot.esda.moran_facet()`. You will see Univariate Moran objects with a grey background, surrounded by all possible bivariate combinations of your input dataset:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-from splot.esda import moran_facet
+from pysal.viz.splot.esda import moran_facet
 
 moran_facet(matrix)
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/viz/splot/esda_moran_matrix_viz_14_0.png)
+
+</div>
+</div>
+</div>
+
 
 
 ## Example 2: insert a DataFrame
+
+
 
 Additionally, it is possible to generte your `Moran_BV_matrix` and a `moran_facet` using a `pandas` or `geopandas` DataFrame as input. Let's have a look at a simple example examining `columbus.shp` example data:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 path = examples.get_path('columbus.shp')
 gdf = gpd.read_file(path)
+
 ```
+</div>
+
+</div>
+
 
 
 In order for `moran_facet` to generate sensible results, it is recommended to extract all columns you would specifically like to analyse and generate a new GeoDataFrame:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 variables2 = gdf[['HOVAL', 'CRIME', 'INC', 'EW']]
 variables2.head()
+
 ```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 
-
-
-<div markdown="0">
+<div markdown="0" class="output output_html">
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -266,16 +337,22 @@ variables2.head()
 </div>
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 variables2.shape
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -284,55 +361,76 @@ variables2.shape
 ```
 
 
+</div>
+</div>
+</div>
 
-We will now generate our own spatial weights leveraging `libpysal` and create a second `matrix2` from our GeoDataFrame. Note that there is no list of `varnames` needed, this list will be automatically extracted from teh first row of your `gdf`:
+
+
+We will now generate our own spatial weights leveraging `pysal.lib` and create a second `matrix2` from our GeoDataFrame. Note that there is no list of `varnames` needed, this list will be automatically extracted from teh first row of your `gdf`:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 w2 = Queen.from_shapefile(path)
 w2
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
-<libpysal.weights.contiguity.Queen at 0x11986bda0>
+<pysal.lib.weights.contiguity.Queen at 0x1a1f82ac50>
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
+from pysal.explore.esda.moran import Moran_BV_matrix
+
 matrix2 = Moran_BV_matrix(variables2, w2)
 matrix2
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
-{(0, 1): <esda.moran.Moran_BV at 0x11993ba90>,
- (1, 0): <esda.moran.Moran_BV at 0x119887668>,
- (0, 2): <esda.moran.Moran_BV at 0x11993b400>,
- (2, 0): <esda.moran.Moran_BV at 0x11993be80>,
- (0, 3): <esda.moran.Moran_BV at 0x11993b7f0>,
- (3, 0): <esda.moran.Moran_BV at 0x11993beb8>,
- (1, 2): <esda.moran.Moran_BV at 0x11993bc18>,
- (2, 1): <esda.moran.Moran_BV at 0x11993b780>,
- (1, 3): <esda.moran.Moran_BV at 0x11993be10>,
- (3, 1): <esda.moran.Moran_BV at 0x11993b6d8>,
- (2, 3): <esda.moran.Moran_BV at 0x11993b668>,
- (3, 2): <esda.moran.Moran_BV at 0x11993b6a0>}
+{(0, 1): <esda.moran.Moran_BV at 0x1a20ddbcc0>,
+ (1, 0): <esda.moran.Moran_BV at 0x1a20ddbb38>,
+ (0, 2): <esda.moran.Moran_BV at 0x1a20ddbb00>,
+ (2, 0): <esda.moran.Moran_BV at 0x1a20ddbc50>,
+ (0, 3): <esda.moran.Moran_BV at 0x1a20bf2828>,
+ (3, 0): <esda.moran.Moran_BV at 0x1a20c14390>,
+ (1, 2): <esda.moran.Moran_BV at 0x1a20ddb160>,
+ (2, 1): <esda.moran.Moran_BV at 0x1a20ddbfd0>,
+ (1, 3): <esda.moran.Moran_BV at 0x1a20ddbf98>,
+ (3, 1): <esda.moran.Moran_BV at 0x1a20ddbf60>,
+ (2, 3): <esda.moran.Moran_BV at 0x1037e02b0>,
+ (3, 2): <esda.moran.Moran_BV at 0x1037e0198>}
 ```
+
+
+</div>
+</div>
+</div>
 
 
 
@@ -340,13 +438,24 @@ Like in the first example we can now plot our data with a simple `splot` call:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-moran_facet(matrix)
+from pysal.viz.splot.esda import moran_facet
+
+moran_facet(matrix2)
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
+{:.output_png}
 ![png](../../images/viz/splot/esda_moran_matrix_viz_25_0.png)
+
+</div>
+</div>
+</div>
 

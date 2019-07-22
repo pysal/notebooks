@@ -1,7 +1,7 @@
 ---
-redirect_from:
-  - "/explore/pointpats/pointpattern"
 interact_link: content/explore/pointpats/pointpattern.ipynb
+kernel_name: python3
+has_widgets: false
 title: 'pointpattern'
 prev_page:
   url: /explore/pointpats/marks
@@ -11,6 +11,7 @@ next_page:
   title: 'process'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+
 
 # Planar Point Patterns in PySAL
 
@@ -24,6 +25,8 @@ This notebook introduces the basic PointPattern class in PySAL and covers the fo
 * [Atributes of Point Patterns](#Attributes-of-PySAL-Point-Patterns)
 * [Intensity Estimates](#Intensity-Estimates)
 * [Next steps](#Next-steps)
+
+
 
 ## What is a point pattern?
 
@@ -76,6 +79,8 @@ The second channel by which departures from CSR can arise is through interaction
 When a pattern departs from expectation under CSR, this is suggestive that the underlying process may have some spatial structure that merits further investigation. Thus methods for detection of deviations from CSR and testing for alternative processes have given rise to a large literature in point pattern statistics.
 
 
+
+
 ### Methods of Point Pattern Analysis in PySAL
 
 The points module in PySAL implements basic methods of point pattern analysis organized into the following groups:
@@ -89,15 +94,23 @@ In the remainder of this notebook we shall focus on point processing.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-import libpysal as ps
+import pysal.lib as ps
 import numpy as np
-from pointpats import PointPattern
+from pysal.explore.pointpats import PointPattern
+
 ```
+</div>
+
+</div>
+
 
 
 ## Creating Point Patterns
+
+
 
 ### From lists
 
@@ -105,25 +118,32 @@ We can build a point pattern by using Python lists of coordinate pairs $(s_0, s_
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 points = [[66.22, 32.54], [22.52, 22.39], [31.01, 81.21],
           [9.47, 31.02],  [30.78, 60.10], [75.21, 58.93],
           [79.26,  7.68], [8.23, 39.93],  [98.73, 77.17],
           [89.78, 42.53], [65.19, 92.08], [54.46, 8.48]]
 p1 = PointPattern(points)
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 p1.mbb
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -132,17 +152,26 @@ array([ 8.23,  7.68, 98.73, 92.08])
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Thus $s_0 = (66.22, 32.54), \ s_{11}=(54.46, 8.48)$.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 p1.summary()
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point Pattern
@@ -156,18 +185,23 @@ Intensity estimate for window: 0.0015710507711240865
 2  31.01  81.21
 3   9.47  31.02
 4  30.78  60.10
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 type(p1.points)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -176,16 +210,22 @@ pandas.core.frame.DataFrame
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 np.asarray(p1.points)
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -205,16 +245,22 @@ array([[66.22, 32.54],
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 p1.mbb
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -223,19 +269,27 @@ array([ 8.23,  7.68, 98.73, 92.08])
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 ### From numpy arrays
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 points = np.asarray(points)
 points
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -255,16 +309,23 @@ array([[66.22, 32.54],
 ```
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 p1_np = PointPattern(points)
 p1_np.summary()
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point Pattern
@@ -278,8 +339,12 @@ Intensity estimate for window: 0.0015710507711240865
 2  31.01  81.21
 3   9.47  31.02
 4  30.78  60.10
-
 ```
+</div>
+</div>
+</div>
+
+
 
 ### From shapefiles
 
@@ -287,16 +352,20 @@ This example uses 200 randomly distributed points within the counties of Virgini
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 f = ps.examples.get_path('vautm17n_points.shp')
 fo = ps.io.open(f)
 pp_va = PointPattern(np.asarray([pnt for pnt in fo]))
 fo.close()
 pp_va.summary()
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point Pattern
@@ -310,19 +379,27 @@ Intensity estimate for window: 9.223156295311261e-10
 2  308048.692232  4.054700e+06
 3  670711.529980  4.258864e+06
 4  666254.475614  4.256514e+06
-
 ```
+</div>
+</div>
+</div>
+
+
 
 ## Attributes of PySAL Point Patterns
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_va.summary()
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 Point Pattern
@@ -336,21 +413,27 @@ Intensity estimate for window: 9.223156295311261e-10
 2  308048.692232  4.054700e+06
 3  670711.529980  4.258864e+06
 4  666254.475614  4.256514e+06
-
 ```
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_va.points
+
 ```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 
-
-
-<div markdown="0">
+<div markdown="0" class="output output_html">
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -686,19 +769,26 @@ pp_va.points
 </div>
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_va.head()
+
 ```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 
-
-
-<div markdown="0">
+<div markdown="0" class="output output_html">
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -753,19 +843,26 @@ pp_va.head()
 </div>
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_va.tail()
+
 ```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 
-
-
-<div markdown="0">
+<div markdown="0" class="output output_html">
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -820,8 +917,15 @@ pp_va.tail()
 </div>
 
 
+</div>
+</div>
+</div>
+
+
 
 ### Intensity Estimates
+
+
 
 The intensity of a point process at point $s_i$ can be defined as:
 
@@ -835,12 +939,18 @@ The intensity is the mean number of event points per unit of area at point $s_j$
 
 Recall that one of the implications of CSR is that the intensity of the point process is constant in our study area $\Re$. In other words $\lambda(s_j) = \lambda(s_{j+1}) = \ldots = \lambda(s_n) = \lambda \ \forall s_j \in \Re$. Thus, if the area of $\Re$ = $|\Re|$ the expected number of event points in the study region is: $E(Y(\Re)) = \lambda |\Re|.$
 
+
+
 In PySAL, the intensity is estimated by using a geometric object to encode the study region. We refer to this as the window, $W$. The reason for distinguishing between $\Re$ and $W$ is that the latter permits alternative definitions of the bounding object.
+
+
 
 **Intensity estimates are based on the following:**
 $$\hat{\lambda} = \frac{n}{|W|}$$
 
 where $n$ is the number of points in the *window* $W$, and $|W|$ is the area of $W$.
+
+
 
 **Intensity based on minimum bounding box:**
 $$\hat{\lambda}_{mbb} = \frac{n}{|W_{mbb}|}$$
@@ -849,19 +959,27 @@ where $W_{mbb}$ is the minimum bounding box for the point pattern.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_va.lambda_mbb
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
 ```
 9.223156295311263e-10
 ```
+
+
+</div>
+</div>
+</div>
 
 
 
@@ -872,13 +990,16 @@ where $W_{hull}$ is the convex hull for the point pattern.
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 pp_va.lambda_hull
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -887,8 +1008,15 @@ pp_va.lambda_hull
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 ## Next steps
+
+
 
 
 There is more to learn about point patterns in PySAL. 
@@ -903,5 +1031,6 @@ To test if your point pattern departs from complete spatial randomness see the [
 To simulate different types of point processes in various windows see [process notebook](process.ipynb).
 
 If you have point pattern data with additional attributes associated with each point see how to handle this in the [marks notebook](marks.ipynb).
+
 
 

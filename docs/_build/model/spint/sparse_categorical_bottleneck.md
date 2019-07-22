@@ -2,6 +2,8 @@
 redirect_from:
   - "/model/spint/sparse-categorical-bottleneck"
 interact_link: content/model/spint/sparse_categorical_bottleneck.ipynb
+kernel_name: python2
+has_widgets: false
 title: 'sparse_categorical_bottleneck'
 prev_page:
   url: /model/spint/sparse_grav
@@ -13,8 +15,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 from scipy import sparse as sp
 import numpy as np
@@ -51,5 +53,9 @@ def spcategorical(n_cat_ids):
 #origin/destination ids are not integers but are strings a speed-up may be possible by alterign the algorithm
 #so that the index is build in chunks (say each origin/destination) rather than for each row of of the n x 1
 #n_cat_ids array as is done in creating the index variable.
+
 ```
+</div>
+
+</div>
 

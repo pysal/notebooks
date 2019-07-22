@@ -1,14 +1,11 @@
 ---
-redirect_from:
-  - "/intro"
-  - "/"
 title: 'Home'
 prev_page:
   url: 
   title: ''
 next_page:
-  url: /dynamics/giddy/intro
-  title: 'giddy'
+  url: /explore/esda/intro
+  title: 'esda'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 # `PySAL` Notebooks Book

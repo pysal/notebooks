@@ -1,0 +1,3061 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+
+  <title>marks</title>
+  <meta name="description" content="Marked Point Pattern">
+
+  <link rel="canonical" href="http://0.0.0.0:4000/notebooks/explore/pointpats/marks.html">
+  <link rel="alternate" type="application/rss+xml" title="PySAL Notebooks" href="http://0.0.0.0:4000/notebooks/feed.xml">
+
+  <meta property="og:url"         content="http://0.0.0.0:4000/notebooks/explore/pointpats/marks.html" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="marks" />
+<meta property="og:description" content="Marked Point Pattern" />
+<meta property="og:image"       content="" />
+
+
+  <script type="application/ld+json">
+  {
+  "@context": "http://schema.org",
+  "@type": "NewsArticle",
+  "mainEntityOfPage":
+    "http://0.0.0.0:4000/notebooks/explore/pointpats/marks.html",
+  "headline":
+    "marks",
+  "datePublished":
+    "2019-07-22T16:47:05+00:00",
+  "dateModified":
+    "2019-07-22T16:47:05+00:00",
+  "description":
+    "Marked Point Pattern",
+  "author": {
+    "@type": "Person",
+    "name": "PySAL Developers"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Data 100 at UC Berkeley",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://0.0.0.0:4000/notebooks",
+      "width": 60,
+      "height": 60
+    }
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "http://0.0.0.0:4000/notebooks",
+    "height": 60,
+    "width": 60
+  }
+}
+
+  </script>
+  <link rel="stylesheet" href="/notebooks/assets/css/styles.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css ">
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+
+  <!-- <link rel="manifest" href="/manifest.json"> -->
+  <!-- <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#efae0a"> -->
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+  <meta name="theme-color" content="#233947">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/notebooks/assets/images/pysal_favicon.ico">
+
+  <!-- MathJax Config -->
+  <!-- Allow inline math using $ and automatically break long math lines -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true,
+        processEnvironments: true
+    },
+    CommonHTML: {
+        linebreaks: {
+            automatic: true,
+        },
+    },
+});
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML' async></script>
+
+  <!-- DOM updating function -->
+  <script>
+const runWhenDOMLoaded = cb => {
+  if (document.readyState != 'loading') {
+    cb()
+  } else if (document.addEventListener) {
+    document.addEventListener('DOMContentLoaded', cb)
+  } else {
+    document.attachEvent('onreadystatechange', function() {
+      if (document.readyState == 'complete') cb()
+    })
+  }
+}
+
+// Helper function to init things quickly
+initFunction = function(myfunc) {
+  runWhenDOMLoaded(myfunc);
+  document.addEventListener('turbolinks:load', myfunc);
+};
+</script>
+
+  <!-- Define some javascript variables that will be useful in other javascript -->
+  <script>
+    const site_basename = '/notebooks';
+  </script>
+
+  <!-- Add AnchorJS to let headers be linked -->
+  <script src="/notebooks/assets/js/anchor.min.js"  type="text/javascript"></script>
+  <script>
+
+initFunction(function () {
+    anchors.add("main h1, main h2, main h3, main h4")
+});
+
+</script>
+
+  <!-- Include Turbolinks to make page loads fast -->
+  <!-- https://github.com/turbolinks/turbolinks -->
+  <script src="/notebooks/assets/js/turbolinks.js" async></script>
+  <meta name="turbolinks-cache-control" content="no-cache">
+
+  <!-- Load nbinteract for widgets -->
+  
+
+  <!-- Load Thebelab for interactive widgets -->
+  <!-- Include Thebelab for interactive code if it's enabled -->
+
+
+
+  <!-- Load the auto-generating TOC -->
+  <script src="/notebooks/assets/js/tocbot.min.js"  type="text/javascript"></script>
+  <script>
+var initToc = function () {
+  tocbot.init({
+    tocSelector: 'nav.onthispage',
+    contentSelector: '.c-textbook__content',
+    headingSelector: 'h2, h3',
+    orderedList: false,
+    collapseDepth: 6,
+    listClass: 'toc__menu',
+    activeListItemClass: "",  // Not using
+    activeLinkClass: "", // Not using
+  });
+  tocbot.refresh();
+}
+initFunction(initToc);
+</script>
+
+  <!-- Google analytics -->
+  <script src="/notebooks/assets/js/ga.js" async></script>
+
+  <!-- Clipboard copy button -->
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" async></script>
+
+  <!-- Load JS that depends on site variables -->
+  <script>
+/**
+ * Set up copy/paste for code blocks
+ */
+const codeCellId = index => `codecell${index}`
+
+const clipboardButton = id =>
+  `<a id="copy-button-${id}" class="btn copybtn o-tooltip--left" data-tooltip="Copy" data-clipboard-target="#${id}">
+    <img src="/notebooks/assets/images/copy-button.svg" alt="Copy to clipboard">
+  </a>`
+
+// Clears selected text since ClipboardJS will select the text when copying
+const clearSelection = () => {
+  if (window.getSelection) {
+    window.getSelection().removeAllRanges()
+  } else if (document.selection) {
+    document.selection.empty()
+  }
+}
+
+// Changes tooltip text for two seconds, then changes it back
+const temporarilyChangeTooltip = (el, newText) => {
+  const oldText = el.getAttribute('data-tooltip')
+  el.setAttribute('data-tooltip', newText)
+  setTimeout(() => el.setAttribute('data-tooltip', oldText), 2000)
+}
+
+const addCopyButtonToCodeCells = () => {
+  // If ClipboardJS hasn't loaded, wait a bit and try again. This
+  // happens because we load ClipboardJS asynchronously.
+  if (window.ClipboardJS === undefined) {
+    setTimeout(addCopyButtonToCodeCells, 250)
+    return
+  }
+
+  const codeCells = document.querySelectorAll('div.c-textbook__content > div.highlighter-rouge > div.highlight > pre, div.input_area pre')
+  codeCells.forEach((codeCell, index) => {
+    const id = codeCellId(index)
+    codeCell.setAttribute('id', id)
+    if (document.getElementById("copy-button" + id) == null) {
+      codeCell.insertAdjacentHTML('afterend', clipboardButton(id));
+    }
+  })
+
+  const clipboard = new ClipboardJS('.copybtn')
+  clipboard.on('success', event => {
+    clearSelection()
+    temporarilyChangeTooltip(event.trigger, 'Copied!')
+  })
+
+  clipboard.on('error', event => {
+    temporarilyChangeTooltip(event.trigger, 'Failed to copy')
+  })
+
+  // Get rid of clipboard before the next page visit to avoid memory leak
+  document.addEventListener('turbolinks:before-visit', () =>
+    clipboard.destroy()
+  )
+}
+
+initFunction(addCopyButtonToCodeCells);
+</script>
+
+
+  <!-- Hide cell code -->
+  <script>
+    /**
+    Add buttons to hide code cells
+    */
+
+
+    var setCodeCellVisibility = function (inputField, kind) {
+        // Update the image and class for hidden
+        var id = inputField.getAttribute('data-id');
+        var codeCell = document.querySelector(`#${id} div.highlight`);
+
+        if (kind === "visible") {
+            codeCell.classList.remove('hidden');
+            inputField.checked = true;
+        } else {
+            codeCell.classList.add('hidden');
+            inputField.checked = false;
+        }
+    }
+
+    var toggleCodeCellVisibility = function (event) {
+        // The label is clicked, and now we decide what to do based on the input field's clicked status
+        if (event.target.tagName === "LABEL") {
+            var inputField = event.target.previousElementSibling;
+        } else {
+            // It is the span inside the target
+            var inputField = event.target.parentElement.previousElementSibling;
+        }
+
+        if (inputField.checked === true) {
+            setCodeCellVisibility(inputField, "visible");
+        } else {
+            setCodeCellVisibility(inputField, "hidden");
+        }
+    }
+
+
+    // Button constructor
+    const hideCodeButton = id => `<input class="hidebtn" type="checkbox" id="hidebtn${id}" data-id="${id}"><label title="Toggle cell" for="hidebtn${id}" class="plusminus"><span class="pm_h"></span><span class="pm_v"></span></label>`
+
+    var addHideButton = function () {
+        // If a hide button is already added, don't add another
+        if (document.querySelector('div.hidecode input') !== null) {
+            return;
+        }
+
+        // Find the input cells and add a hide button
+        document.querySelectorAll('div.input_area').forEach(function (item, index) {
+            if (!item.classList.contains("hidecode")) {
+                // Skip the cell if it doesn't have a hidecode class
+                return;
+            }
+
+            const id = codeCellId(index)
+            item.setAttribute('id', id);
+            // Insert the button just inside the end of the next div
+            item.querySelector('div').insertAdjacentHTML('beforeend', hideCodeButton(id))
+
+            // Set up the visibility toggle
+            hideLink = document.querySelector(`#${id} div.highlight + input + label`);
+            hideLink.addEventListener('click', toggleCodeCellVisibility)
+        });
+    }
+
+
+    // Initialize the hide buttos
+    var initHiddenCells = function () {
+        // Add hide buttons to the cells
+        addHideButton();
+
+        // Toggle the code cells that should be hidden
+        document.querySelectorAll('div.hidecode input').forEach(function (item) {
+            setCodeCellVisibility(item, 'hidden');
+            item.checked = true;
+        })
+    }
+
+    initFunction(initHiddenCells);
+
+</script>
+
+  <!-- Load custom website scripts -->
+  <script src="/notebooks/assets/js/scripts.js" async></script>
+
+  <!-- Load custom user CSS and JS  -->
+  <script src="/notebooks/assets/custom/custom.js" async></script>
+  <link rel="stylesheet" href="/notebooks/assets/custom/custom.css">
+
+  <!-- Update interact links w/ REST param, is defined in includes so we can use templates -->
+  
+<script>
+/**
+  * To auto-embed hub URLs in interact links if given in a RESTful fashion
+ */
+
+function getJsonFromUrl(url) {
+  var query = url.split('?');
+  if (query.length < 2) {
+    // No queries so just return false
+    return false;
+  }
+  query = query[1];
+  // Collect REST params into a dictionary
+  var result = {};
+  query.split("&").forEach(function(part) {
+    var item = part.split("=");
+    result[item[0]] = decodeURIComponent(item[1]);
+  });
+  return result;
+}
+    
+function dict2param(dict) {
+    params = Object.keys(dict).map(function(k) {
+        return encodeURIComponent(k) + '=' + encodeURIComponent(dict[k])
+    });
+    return params.join('&')
+}
+
+// Parse a Binder URL, converting it to the string needed for JupyterHub
+function binder2Jupyterhub(url) {
+  newUrl = {};
+  parts = url.split('v2/gh/')[1];
+  // Grab the base repo information
+  repoinfo = parts.split('?')[0];
+  var [org, repo, ref] = repoinfo.split('/');
+  newUrl['repo'] = ['https://github.com', org, repo].join('/');
+  newUrl['branch'] = ref
+  // Grab extra parameters passed
+  params = getJsonFromUrl(url);
+  if (params['filepath'] !== undefined) {
+    newUrl['subPath'] = params['filepath']
+  }
+  return dict2param(newUrl);
+}
+
+// Filter out potentially unsafe characters to prevent xss
+function safeUrl(url)
+{
+   return String(encodeURIComponent(url))
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+}
+
+function addParamToInternalLinks(hub) {
+  var links = document.querySelectorAll("a").forEach(function(link) {
+    var href = link.href;
+    // If the link is an internal link...
+    if (href.search("http://0.0.0.0:4000") !== -1 || href.startsWith('/') || href.search("127.0.0.1:") !== -1) {
+      // Assume we're an internal link, add the hub param to it
+      var params = getJsonFromUrl(href);
+      if (params !== false) {
+        // We have REST params, so append a new one
+        params['jupyterhub'] = hub;
+      } else {
+        // Create the REST params
+        params = {'jupyterhub': hub};
+      }
+      // Update the link
+      var newHref = href.split('?')[0] + '?' + dict2param(params);
+      link.setAttribute('href', decodeURIComponent(newHref));
+    }
+  });
+  return false;
+}
+
+
+// Update interact links
+function updateInteractLink() {
+    // hack to make this work since it expects a ? in the URL
+    rest = getJsonFromUrl("?" + location.search.substr(1));
+    jupyterHubUrl = rest['jupyterhub'];
+    var hubType = null;
+    var hubUrl = null;
+    if (jupyterHubUrl !== undefined) {
+      hubType = 'jupyterhub';
+      hubUrl = jupyterHubUrl;
+    }
+
+    if (hubType !== null) {
+      // Sanitize the hubUrl
+      hubUrl = safeUrl(hubUrl);
+
+      // Add HTTP text if omitted
+      if (hubUrl.indexOf('http') < 0) {hubUrl = 'http://' + hubUrl;}
+      var interactButtons = document.querySelectorAll("button.interact-button")
+      var lastButton = interactButtons[interactButtons.length-1];
+      var link = lastButton.parentElement;
+
+      // If we've already run this, skip the link updating
+      if (link.nextElementSibling !== null) {
+        return;
+      }
+
+      // Update the link and add context div
+      var href = link.getAttribute('href');
+      if (lastButton.id === 'interact-button-binder') {
+        // If binder links exist, we need to re-work them for jupyterhub
+        if (hubUrl.indexOf('http%3A%2F%2Flocalhost') > -1) {
+          // If localhost, assume we're working from a local Jupyter server and remove `/hub`
+          first = [hubUrl, 'git-sync'].join('/')
+        } else {
+          first = [hubUrl, 'hub', 'user-redirect', 'git-sync'].join('/')
+        }
+        href = first + '?' + binder2Jupyterhub(href);
+      } else {
+        // If interact button isn't binderhub, assume it's jupyterhub
+        // If JupyterHub links, we only need to replace the hub url
+        href = href.replace("", hubUrl);
+        if (hubUrl.indexOf('http%3A%2F%2Flocalhost') > -1) {
+          // Assume we're working from a local Jupyter server and remove `/hub`
+          href = href.replace("/hub/user-redirect", "");
+        }
+      }
+      link.setAttribute('href', decodeURIComponent(href));
+
+      // Add text after interact link saying where we're launching
+      hubUrlNoHttp = decodeURIComponent(hubUrl).replace('http://', '').replace('https://', '');
+      link.insertAdjacentHTML('afterend', '<div class="interact-context">on ' + hubUrlNoHttp + '</div>');
+
+      // Update internal links so we retain the hub url
+      addParamToInternalLinks(hubUrl);
+    }
+}
+
+runWhenDOMLoaded(updateInteractLink)
+document.addEventListener('turbolinks:load', updateInteractLink)
+</script>
+
+
+  <!-- Lunr search code - will only be executed on the /search page -->
+  <script src="/notebooks/assets/js/lunr/lunr.min.js" type="text/javascript"></script>
+  <script>var initQuery = function() {
+  // See if we have a search box
+  var searchInput = document.querySelector('input#lunr_search');
+  if (searchInput === null) {
+    return;
+  }
+
+  // Function to parse our lunr cache
+  var idx = lunr(function () {
+    this.field('title')
+    this.field('excerpt')
+    this.field('categories')
+    this.field('tags')
+    this.ref('id')
+
+    this.pipeline.remove(lunr.trimmer)
+
+    for (var item in store) {
+      this.add({
+        title: store[item].title,
+        excerpt: store[item].excerpt,
+        categories: store[item].categories,
+        tags: store[item].tags,
+        id: item
+      })
+    }
+  });
+
+  // Run search upon keyup
+  searchInput.addEventListener('keyup', function () {
+    var resultdiv = document.querySelector('#results');
+    var query = document.querySelector("input#lunr_search").value.toLowerCase();
+    var result =
+      idx.query(function (q) {
+        query.split(lunr.tokenizer.separator).forEach(function (term) {
+          q.term(term, { boost: 100 })
+          if(query.lastIndexOf(" ") != query.length-1){
+            q.term(term, {  usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 10 })
+          }
+          if (term != ""){
+            q.term(term, {  usePipeline: false, editDistance: 1, boost: 1 })
+          }
+        })
+      });
+
+      // Empty the results div
+      while (resultdiv.firstChild) {
+        resultdiv.removeChild(resultdiv.firstChild);
+      }
+
+    resultdiv.insertAdjacentHTML('afterbegin', '<p class="results__found">'+result.length+' Result(s) found</p>');
+    for (var item in result) {
+      var ref = result[item].ref;
+      if(store[ref].teaser){
+        var searchitem =
+          '<div class="list__item">'+
+            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="archive__item-title" itemprop="headline">'+
+                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+              '</h2>'+
+              '<div class="archive__item-teaser">'+
+                '<img src="'+store[ref].teaser+'" alt="">'+
+              '</div>'+
+              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
+            '</article>'+
+          '</div>';
+      }
+      else{
+    	  var searchitem =
+          '<div class="list__item">'+
+            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="archive__item-title" itemprop="headline">'+
+                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+              '</h2>'+
+              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
+            '</article>'+
+          '</div>';
+      }
+      resultdiv.insertAdjacentHTML('beforeend', searchitem);
+    }
+  });
+};
+
+initFunction(initQuery);
+</script>
+</head>
+
+  <body>
+    <!-- .js-show-sidebar shows sidebar by default -->
+    <div id="js-textbook" class="c-textbook js-show-sidebar">
+      
+
+
+
+<nav id="js-sidebar" class="c-textbook__sidebar">
+  <a href="https://pysal.org/notebooks/"><img src="/notebooks/assets/images/logo.png" class="textbook_logo" id="sidebar-logo" data-turbolinks-permanent/></a>
+  <h2 class="c-sidebar__title">PySAL Notebooks</h2>
+  <ul class="c-sidebar__chapters">
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/intro.html"
+        >
+          
+          Home
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">Explore</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/esda/intro.html"
+        >
+          
+          esda
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data.html"
+                >
+                  
+                  Spatial_Autocorrelation_for_Areal_Unit_Data
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/giddy/intro.html"
+        >
+          
+          giddy
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/Rank_based_Methods.html"
+                >
+                  
+                  Rank_based_Methods
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/directional.html"
+                >
+                  
+                  directional
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/Rank_Markov.html"
+                >
+                  
+                  Rank_Markov
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/Mobility_measures.html"
+                >
+                  
+                  Mobility_measures
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/giddy/Markov_Based_Methods.html"
+                >
+                  
+                  Markov_Based_Methods
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/pointpats/intro.html"
+        >
+          
+          pointpats
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/distance_statistics.html"
+                >
+                  
+                  distance_statistics
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/centrography.html"
+                >
+                  
+                  centrography
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/Minimum_bounding_circle.html"
+                >
+                  
+                  Minimum_bounding_circle
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/Quadrat_statistics.html"
+                >
+                  
+                  Quadrat_statistics
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/window.html"
+                >
+                  
+                  window
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry c-sidebar__entry--active"
+                  href="/notebooks/explore/pointpats/marks.html"
+                >
+                  
+                  marks
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/pointpattern.html"
+                >
+                  
+                  pointpattern
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/pointpats/process.html"
+                >
+                  
+                  process
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/spaghetti/intro.html"
+        >
+          
+          spaghetti
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/spaghetti/Spaghetti_Pointpatterns_Empirical.html"
+                >
+                  
+                  Spaghetti_Pointpatterns_Empirical
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/spaghetti/Facility_Location.html"
+                >
+                  
+                  Facility_Location
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/spaghetti/Snapping_Demonstration.html"
+                >
+                  
+                  Snapping_Demonstration
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/spaghetti/Network_Usage.html"
+                >
+                  
+                  Network_Usage
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/segregation/intro.html"
+        >
+          
+          segregation
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/profile_wrappers_example.html"
+                >
+                  
+                  profile_wrappers_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/decomposition_wrapper_example.html"
+                >
+                  
+                  decomposition_wrapper_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/inference_wrappers_example.html"
+                >
+                  
+                  inference_wrappers_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/nonspatial_examples.html"
+                >
+                  
+                  nonspatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/spatial_examples.html"
+                >
+                  
+                  spatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/explore/inequality/intro.html"
+        >
+          
+          inequality
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/inequality/gini.html"
+                >
+                  
+                  gini
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">Viz</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/viz/mapclassify/intro.html"
+        >
+          
+          mapclassify
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/mapclassify/plot.html"
+                >
+                  
+                  plot
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/mapclassify/deprecate.html"
+                >
+                  
+                  deprecate
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/mapclassify/south.html"
+                >
+                  
+                  south
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/mapclassify/maximum_breaks.html"
+                >
+                  
+                  maximum_breaks
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/viz/splot/intro.html"
+        >
+          
+          splot
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/esda_moran_matrix_viz.html"
+                >
+                  
+                  esda_moran_matrix_viz
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/libpysal_non_planar_joins_viz.html"
+                >
+                  
+                  libpysal_non_planar_joins_viz
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/esda_morans_viz.html"
+                >
+                  
+                  esda_morans_viz
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/giddy_space_time.html"
+                >
+                  
+                  giddy_space_time
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/viz/splot/mapping_vba.html"
+                >
+                  
+                  mapping_vba
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">Model</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/model/spvcm/intro.html"
+        >
+          
+          spvcm
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spvcm/spatially-varying-coefficients.html"
+                >
+                  
+                  spatially-varying-coefficients
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spvcm/using_the_sampler.html"
+                >
+                  
+                  using_the_sampler
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/model/spint/intro.html"
+        >
+          
+          spint
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_vs_dense_grav.html"
+                >
+                  
+                  sparse_vs_dense_grav
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/Example_NYCBikes_AllFeatures.html"
+                >
+                  
+                  Example_NYCBikes_AllFeatures
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/New_DistanceBand.html"
+                >
+                  
+                  New_DistanceBand
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_scipy_optim.html"
+                >
+                  
+                  sparse_scipy_optim
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/local_SI.html"
+                >
+                  
+                  local_SI
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/validate_gravity.html"
+                >
+                  
+                  validate_gravity
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/dispersion_test.html"
+                >
+                  
+                  dispersion_test
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/netW.html"
+                >
+                  
+                  netW
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_categorical.html"
+                >
+                  
+                  sparse_categorical
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/test_grav.html"
+                >
+                  
+                  test_grav
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_grav.html"
+                >
+                  
+                  sparse_grav
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_categorical_bottleneck.html"
+                >
+                  
+                  sparse_categorical_bottleneck
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/OD_weights.html"
+                >
+                  
+                  OD_weights
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/sparse_categorical_speed.html"
+                >
+                  
+                  sparse_categorical_speed
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/ODW_example.html"
+                >
+                  
+                  ODW_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/autograd_test.html"
+                >
+                  
+                  autograd_test
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/NYC_Bike_Example.html"
+                >
+                  
+                  NYC_Bike_Example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spint/4d_distance.html"
+                >
+                  
+                  4d_distance
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/model/spglm/intro.html"
+        >
+          
+          spglm
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spglm/Poisson_GLM.html"
+                >
+                  
+                  Poisson_GLM
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spglm/Gaussian_GLM.html"
+                >
+                  
+                  Gaussian_GLM
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/spglm/Binomial_GLM.html"
+                >
+                  
+                  Binomial_GLM
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/model/mgwr/intro.html"
+        >
+          
+          mgwr
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_Georgia_example.html"
+                >
+                  
+                  GWR_Georgia_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_prediction_example.html"
+                >
+                  
+                  GWR_prediction_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_MGWR_example.html"
+                >
+                  
+                  GWR_MGWR_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/MGWR_Georgia_example.html"
+                >
+                  
+                  MGWR_Georgia_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">Lib</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/notebooks/lib/libpysal/intro.html"
+        >
+          
+          libpysal
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/lib/libpysal/io.html"
+                >
+                  
+                  io
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/lib/libpysal/weights.html"
+                >
+                  
+                  weights
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/lib/libpysal/voronoi.html"
+                >
+                  
+                  voronoi
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+  </ul>
+  <p class="sidebar_footer">Powered by <a href="https://github.com/jupyter/jupyter-book">Jupyter Book</a></p>
+</nav>
+
+      
+      <!-- Empty sidebar placeholder that we'll auto-fill with javascript -->
+      <aside class="sidebar__right">
+          <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
+          <nav class="onthispage">
+          </nav>
+      </aside>
+      
+      <main class="c-textbook__page" tabindex="-1">
+          <div class="o-wrapper">
+            <div class="c-sidebar-toggle">
+  <!-- We show the sidebar by default so we use .is-active -->
+  <button
+    id="js-sidebar-toggle"
+    class="hamburger hamburger--arrowalt is-active"
+  >
+    <span class="hamburger-box">
+      <span class="hamburger-inner"></span>
+    </span>
+    <span class="c-sidebar-toggle__label">Toggle Sidebar</span>
+  </button>
+</div>
+
+            
+<div class="buttons">
+<a href="/notebooks/content/explore/pointpats/marks.ipynb" download>
+<button id="interact-button-download" class="interact-button">Download</button>
+</a>
+
+
+
+
+
+
+
+
+
+
+<a href="https://mybinder.org/v2/gh/pysal/pysal/master?urlpath=lab/tree/content%2Fexplore%2Fpointpats%2Fmarks.ipynb"><button class="interact-button" id="interact-button-binder"><img class="interact-button-logo" src="/notebooks/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
+
+
+</div>
+
+
+            <div class="c-textbook__content">
+              <h1 id="marked-point-pattern">Marked Point Pattern</h1>
+
+<p>In addition to the <a href="pointpattern.ipynb">unmarked point pattern</a>, non-binary attributes might be associated with each point, leading to the so-called marked point pattern. The charactertistics of a marked point pattern are:</p>
+
+<ul>
+  <li>Location pattern of the events are of interest</li>
+  <li>Stochastic attribute attached to the events is of interest</li>
+</ul>
+
+<p>Unmarked point pattern can be modified to be a marked point pattern using the method <strong>add_marks</strong> while the method <strong>explode</strong> could decompose a marked point pattern into a sequence of unmarked point patterns. Both methods belong to the class <strong>PointPattern</strong>.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.pointpats</span> <span class="kn">import</span> <span class="n">PoissonPointProcess</span><span class="p">,</span> <span class="n">PoissonClusterPointProcess</span><span class="p">,</span> <span class="n">Window</span><span class="p">,</span> <span class="n">poly_from_bbox</span><span class="p">,</span> <span class="n">PointPattern</span>
+<span class="kn">import</span> <span class="nn">pysal.lib</span> <span class="k">as</span> <span class="n">ps</span>
+<span class="kn">from</span> <span class="nn">pysal.lib.cg</span> <span class="kn">import</span> <span class="n">shapely_ext</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># open the virginia polygon shapefile</span>
+<span class="n">va</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="nb">open</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s">"virginia.shp"</span><span class="p">))</span>
+<span class="n">polys</span> <span class="o">=</span> <span class="p">[</span><span class="n">shp</span> <span class="k">for</span> <span class="n">shp</span> <span class="ow">in</span> <span class="n">va</span><span class="p">]</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create the exterior polygons for VA from the union of the county shapes</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">shapely_ext</span><span class="o">.</span><span class="n">cascaded_union</span><span class="p">(</span><span class="n">polys</span><span class="p">)</span>
+<span class="c"># create window from virginia state boundary</span>
+<span class="n">window</span> <span class="o">=</span> <span class="n">Window</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">parts</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">window</span><span class="o">.</span><span class="n">bbox</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[-83.67526245117188, 36.541481018066406, -75.24258422851562, 39.45690155029297]
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">window</span><span class="o">.</span><span class="n">centroid</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(-78.85183583334933, 37.51851209850039)
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">samples</span> <span class="o">=</span> <span class="n">PoissonPointProcess</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">conditioning</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">asPP</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">csr</span> <span class="o">=</span> <span class="n">PointPattern</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">realizations</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">centroid</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cx</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-78.85183583334933
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cy</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>37.51851209850039
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">west</span> <span class="o">=</span> <span class="n">csr</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">cx</span>
+<span class="n">south</span> <span class="o">=</span> <span class="n">csr</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">cy</span>
+<span class="n">east</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">west</span>
+<span class="n">north</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">south</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<h4 id="create-an-attribute-named-quad-which-has-a-value-for-each-event">Create an attribute named quad which has a value for each event.</h4>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">quad</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">east</span> <span class="o">*</span> <span class="n">north</span> <span class="o">+</span>  <span class="mi">2</span> <span class="o">*</span> <span class="n">west</span> <span class="o">*</span> <span class="n">north</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">west</span> <span class="o">*</span> <span class="n">south</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">east</span> <span class="o">*</span> <span class="n">south</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">type</span><span class="p">(</span><span class="n">quad</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pandas.core.series.Series
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">quad</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0      2
+1      3
+2      3
+3      4
+4      1
+5      3
+6      1
+7      4
+8      2
+9      3
+10     4
+11     4
+12     3
+13     1
+14     1
+15     1
+16     4
+17     1
+18     1
+19     3
+20     4
+21     3
+22     1
+23     3
+24     1
+25     1
+26     4
+27     1
+28     3
+29     3
+      ..
+170    2
+171    2
+172    3
+173    3
+174    1
+175    4
+176    3
+177    3
+178    4
+179    1
+180    1
+181    3
+182    3
+183    1
+184    2
+185    3
+186    1
+187    2
+188    4
+189    1
+190    4
+191    1
+192    3
+193    3
+194    4
+195    3
+196    1
+197    1
+198    4
+199    4
+Length: 200, dtype: int64
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<h4 id="attach-the-attribute-quad-to-the-point-pattern">Attach the attribute quad to the point pattern</h4>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">csr</span><span class="o">.</span><span class="n">add_marks</span><span class="p">([</span><span class="n">quad</span><span class="p">],</span> <span class="n">mark_names</span><span class="o">=</span><span class="p">[</span><span class="s">'quad'</span><span class="p">])</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">csr</span><span class="o">.</span><span class="n">df</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output output_html">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x</th>
+      <th>y</th>
+      <th>quad</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-79.603948</td>
+      <td>37.791190</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-80.079205</td>
+      <td>37.396681</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-79.464397</td>
+      <td>36.625981</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-76.437205</td>
+      <td>36.884895</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-78.545956</td>
+      <td>37.992603</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>-80.241928</td>
+      <td>36.991135</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>-77.898430</td>
+      <td>37.716846</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>-76.498353</td>
+      <td>37.321863</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>-79.900184</td>
+      <td>37.854658</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>-81.102672</td>
+      <td>36.633735</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>-77.281811</td>
+      <td>36.976553</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>-77.083152</td>
+      <td>37.303132</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>-83.035154</td>
+      <td>36.618248</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>-77.997824</td>
+      <td>38.483939</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>-76.576682</td>
+      <td>37.932985</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>-77.048965</td>
+      <td>37.697935</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>-78.330254</td>
+      <td>37.421786</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>-78.420495</td>
+      <td>38.125428</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>-77.379883</td>
+      <td>38.801099</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>-82.102351</td>
+      <td>36.838275</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>-77.139652</td>
+      <td>36.681456</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>-81.411197</td>
+      <td>37.009286</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>-78.377109</td>
+      <td>38.110156</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>-82.348030</td>
+      <td>37.260970</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>-78.540305</td>
+      <td>37.759264</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>-78.708559</td>
+      <td>38.778273</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>-77.119341</td>
+      <td>37.441159</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>-77.532402</td>
+      <td>37.827257</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>-81.025392</td>
+      <td>36.963752</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>-81.234484</td>
+      <td>37.187202</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>170</th>
+      <td>-79.175687</td>
+      <td>38.412747</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>171</th>
+      <td>-79.466336</td>
+      <td>37.677601</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>172</th>
+      <td>-80.503082</td>
+      <td>36.784620</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>173</th>
+      <td>-79.654007</td>
+      <td>36.620456</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>174</th>
+      <td>-78.283744</td>
+      <td>38.436626</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>175</th>
+      <td>-76.917112</td>
+      <td>36.713404</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>176</th>
+      <td>-82.234255</td>
+      <td>36.978863</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>177</th>
+      <td>-81.012936</td>
+      <td>37.186895</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>178</th>
+      <td>-77.979839</td>
+      <td>36.758554</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>179</th>
+      <td>-77.979268</td>
+      <td>38.366633</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>180</th>
+      <td>-75.550882</td>
+      <td>37.940486</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>181</th>
+      <td>-81.031949</td>
+      <td>37.194569</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>182</th>
+      <td>-80.957128</td>
+      <td>37.150309</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>183</th>
+      <td>-77.766785</td>
+      <td>37.647643</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>184</th>
+      <td>-79.411096</td>
+      <td>37.705193</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>185</th>
+      <td>-80.691844</td>
+      <td>36.673324</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>186</th>
+      <td>-78.752009</td>
+      <td>38.137110</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>187</th>
+      <td>-79.160647</td>
+      <td>38.047687</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>188</th>
+      <td>-78.244262</td>
+      <td>37.137316</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>189</th>
+      <td>-77.641999</td>
+      <td>38.612349</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>190</th>
+      <td>-77.961376</td>
+      <td>37.257348</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>191</th>
+      <td>-77.664101</td>
+      <td>37.612087</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>192</th>
+      <td>-82.073349</td>
+      <td>37.151563</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>193</th>
+      <td>-80.029721</td>
+      <td>36.650720</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>194</th>
+      <td>-77.015099</td>
+      <td>36.892940</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>195</th>
+      <td>-81.938727</td>
+      <td>36.759000</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>196</th>
+      <td>-78.653617</td>
+      <td>38.637913</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>197</th>
+      <td>-78.353159</td>
+      <td>38.009389</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>198</th>
+      <td>-76.652473</td>
+      <td>36.918815</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>199</th>
+      <td>-76.806542</td>
+      <td>37.477773</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+<p>200 rows × 3 columns</p>
+</div>
+</div>
+
+    </div>
+  </div>
+</div>
+
+<h4 id="explode-a-marked-point-pattern-into-a-sequence-of-individual-point-patterns-since-the-mark-quad-has-4-unique-values-the-sequence-will-be-of-length-4">Explode a marked point pattern into a sequence of individual point patterns. Since the mark quad has 4 unique values, the sequence will be of length 4.</h4>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">csr_q</span> <span class="o">=</span> <span class="n">csr</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="s">'quad'</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">len</span><span class="p">(</span><span class="n">csr_q</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">csr</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pointpats.pointpattern.PointPattern at 0x1b2058a320&gt;
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">csr</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Point Pattern
+200 points
+Bounding rectangle [(-83.5775552379073,36.58477411642467), (-75.55088173741038,39.23835955804836)]
+Area of window: 21.299463945585302
+Intensity estimate for window: 9.389907676125041
+           x          y  quad
+0 -79.603948  37.791190     2
+1 -80.079205  37.396681     3
+2 -79.464397  36.625981     3
+3 -76.437205  36.884895     4
+4 -78.545956  37.992603     1
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<h4 id="plot-the-4-individual-sequences">Plot the 4 individual sequences</h4>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="err">?</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">ppn</span> <span class="ow">in</span> <span class="n">csr_q</span><span class="p">:</span>
+    <span class="n">ppn</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/pointpats/marks_26_0.png" alt="png" /></p>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/pointpats/marks_26_1.png" alt="png" /></p>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/pointpats/marks_26_2.png" alt="png" /></p>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/pointpats/marks_26_3.png" alt="png" /></p>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/pointpats/marks_26_4.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<h4 id="plot-the-4-unmarked-point-patterns-using-the-same-axes-for-a-convenient-comparison-of-locations">Plot the 4 unmarked point patterns using the same axes for a convenient comparison of locations</h4>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">csr</span><span class="o">.</span><span class="n">mbb</span>
+<span class="n">ylim</span> <span class="o">=</span> <span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+<span class="n">xlim</span> <span class="o">=</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">ppn</span> <span class="ow">in</span> <span class="n">csr_q</span><span class="p">:</span>
+    <span class="n">ppn</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/pointpats/marks_29_0.png" alt="png" /></p>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/pointpats/marks_29_1.png" alt="png" /></p>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/pointpats/marks_29_2.png" alt="png" /></p>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../../images/explore/pointpats/marks_29_3.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+
+              <nav class="c-page__nav">
+  
+    
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/notebooks/explore/pointpats/window">
+      〈 <span class="u-margin-right-tiny"></span> window
+    </a>
+  
+
+  
+    
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/notebooks/explore/pointpats/pointpattern">
+      pointpattern <span class="u-margin-right-tiny"></span> 〉
+    </a>
+  
+</nav>
+
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+  </body>
+</html>

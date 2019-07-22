@@ -2,6 +2,8 @@
 redirect_from:
   - "/viz/splot/libpysal-non-planar-joins-viz"
 interact_link: content/viz/splot/libpysal_non_planar_joins_viz.ipynb
+kernel_name: python3
+has_widgets: false
 title: 'libpysal_non_planar_joins_viz'
 prev_page:
   url: /viz/splot/esda_moran_matrix_viz
@@ -12,42 +14,71 @@ next_page:
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-# splot.libpysal: assessing neigbors & spatial weights
 
-### Imports
-
+# splot.pysal.lib: assessing neigbors & spatial weights
 
 
-{:.input_area}
+
+In spatial analysis workflows it is often important and necessary to asses the relationships of neighbouring polygons. `pysal.lib` and `splot` can help you to inspect if two neighbouring polygons share an edge or not. 
+
+**Content**:
+* Imports
+* Data Preparation
+* Plotting
+
+
+
+## Imports
+
+
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-from libpysal.weights.contiguity import Queen
-import libpysal
-from libpysal import examples
+from pysal.lib.weights.contiguity import Queen
+import pysal.lib
+from pysal.lib import examples
 import matplotlib.pyplot as plt
 import geopandas as gpd
 %matplotlib inline
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-from splot.libpysal import plot_spatial_weights
+from pysal.viz.splot.pysal.lib import plot_spatial_weights
+
 ```
+</div>
+
+</div>
+
 
 
 ## Data Preparation
 
 
 
-{:.input_area}
+Let's first have a look at the dataset with `pysal.lib.examples.explain`
+
+
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 examples.explain('rio_grande_do_sul')
+
 ```
+</div>
 
-
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 {:.output_data_text}
@@ -68,22 +99,31 @@ examples.explain('rio_grande_do_sul')
 ```
 
 
+</div>
+</div>
+</div>
+
+
 
 Load data into a `geopandas` geodataframe
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 gdf = gpd.read_file(examples.get_path('map_RS_BR.shp'))
 gdf.head()
+
 ```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 
 
-
-
-<div markdown="0">
+<div markdown="0" class="output output_html">
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -144,59 +184,96 @@ gdf.head()
 </div>
 
 
+</div>
+</div>
+</div>
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 weights = Queen.from_dataframe(gdf)
+
 ```
+</div>
+
+</div>
+
 
 
 This warning tells us that our dataset contains islands. Islands are polygons that do not share edges and nodes with adjacent polygones. This can for example be the case if polygones are truly not neighbouring, eg. when two land parcels are seperated by a river. However, these islands often stems from human error when digitizing features into polygons. 
 
-This unwanted error can be assessed using `splot.libpysal` `plot_spatial_weights` functionality:
+This unwanted error can be assessed using `splot.pysal.lib` `plot_spatial_weights` functionality:
+
+
 
 ### Plotting
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 plot_spatial_weights(weights, gdf)
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../../images/viz/splot/libpysal_non_planar_joins_viz_13_0.png)
 
-![png](../../images/viz/splot/libpysal_non_planar_joins_viz_11_0.png)
+</div>
+</div>
+</div>
+
 
 
 This visualisation depicts the spatial weights network, a network of connections of the centroid of each polygon to the centroid of its neighbour. As we can see, there are many polygons in the south and west of this map, that are not connected to it's neighbors. This stems from digitization errors and needs to be corrected before we can start our statistical analysis. 
 
-`libpysal` offers a tool to correct this error by 'snapping' incorrectly separated neighbours back together:
+`pysal.lib` offers a tool to correct this error by 'snapping' incorrectly separated neighbours back together:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
-wnp = libpysal.weights.util.nonplanar_neighbors(weights, gdf)
+wnp = pysal.lib.weights.util.nonplanar_neighbors(weights, gdf)
+
 ```
+</div>
+
+</div>
+
 
 
 We can now visualise if the `nonplanar_neighbors` tool adjusted all errors correctly:
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 plot_spatial_weights(wnp, gdf)
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../../images/viz/splot/libpysal_non_planar_joins_viz_17_0.png)
 
-![png](../../images/viz/splot/libpysal_non_planar_joins_viz_15_0.png)
+</div>
+</div>
+</div>
+
 
 
 The visualization shows that all erroneous islands are now stored as neighbors in our new weights object, depicted by the new joins displayed in orange.
@@ -205,13 +282,22 @@ We can now adapt our visualization to show all joins in the same color, by using
 
 
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 plot_spatial_weights(wnp, gdf, nonplanar_edge_kws=dict(color='#4393c3'))
 plt.show()
+
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../../images/viz/splot/libpysal_non_planar_joins_viz_19_0.png)
 
-![png](../../images/viz/splot/libpysal_non_planar_joins_viz_17_0.png)
+</div>
+</div>
+</div>
 

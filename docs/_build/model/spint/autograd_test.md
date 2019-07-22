@@ -2,6 +2,8 @@
 redirect_from:
   - "/model/spint/autograd-test"
 interact_link: content/model/spint/autograd_test.ipynb
+kernel_name: python3
+has_widgets: false
 title: 'autograd_test'
 prev_page:
   url: /model/spint/ODW_example
@@ -13,8 +15,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 import pandas as pd
 import scipy.optimize as sc
@@ -22,12 +24,16 @@ import autograd.numpy as np
 import autograd
 from autograd.convenience_wrappers import multigrad
 import scipy.sparse
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 austria = pd.read_csv('http://dl.dropbox.com/u/8649795/AT_Austria.csv')
 austria = austria[austria['Origin'] != austria['Destination']]
@@ -40,12 +46,16 @@ d_vars = np.reshape(austria['Dj2007'].values, (-1,1))
 dij = np.reshape(austria['Dij'].values, (-1,1))
 o_vars = np.reshape(austria['Oi2007'].values, (-1,1))
 d_vars = np.reshape(austria['Dj2007'].values, (-1,1))
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 def newton(f, x0):
     # wrap scipy.optimize.newton with our automatic derivatives
@@ -66,12 +76,16 @@ def fit_maxlike(x, inputs, mu_guess, o_guess, d_guess):
     prime = lambda p: multigrad(poiss_loglike, argnums=[0,1,2])(p[0], p[1], p[2], x, inputs)
     params = newton(prime, (mu_guess, o_guess, d_guess))
     return params
+
 ```
+</div>
+
+</div>
 
 
 
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```python
 if __name__ == "__main__":
     
@@ -82,12 +96,18 @@ if __name__ == "__main__":
     
     prime = lambda p: multigrad(poiss_loglike, argnums=[0,1,2])(p[0], p[1], p[2], x, inputs)
     print(prime(params))
+
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
 [-1.14993102  0.69084953  0.68523832]
 (-2.7430635540781623e-10, -2.5915536383536164e-10, -4.730811298259141e-10)
-
 ```
+</div>
+</div>
+</div>
+
