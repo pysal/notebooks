@@ -77,7 +77,7 @@ y = georgia['PctBach'].values.reshape((-1,1))
 X = georgia[['PctFB', 'PctBlack', 'PctRural']].values
 u = georgia['X']
 v = georgia['Y']
-coords = np.array(list(zip(u,v)))
+coords = list(zip(u,v))
 
 np.random.seed(908)
 sample = np.random.choice(range(159), 10)

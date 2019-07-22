@@ -29,9 +29,9 @@
   "headline":
     "spatial_examples",
   "datePublished":
-    "2019-07-22T16:47:05+00:00",
+    "2019-07-22T19:46:09+00:00",
   "dateModified":
-    "2019-07-22T16:47:05+00:00",
+    "2019-07-22T19:46:09+00:00",
   "description":
     "PySAL segregation module for spatial indexes",
   "author": {
@@ -1069,10 +1069,10 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/notebooks/explore/segregation/profile_wrappers_example.html"
+                  href="/notebooks/explore/segregation/aspatial_examples.html"
                 >
                   
-                  profile_wrappers_example
+                  aspatial_examples
                 </a>
 
                 
@@ -1120,10 +1120,61 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/notebooks/explore/segregation/nonspatial_examples.html"
+                  href="/notebooks/explore/segregation/multiscalar_segregation_profiles.html"
                 >
                   
-                  nonspatial_examples
+                  multiscalar_segregation_profiles
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/multigroup_aspatial_examples.html"
+                >
+                  
+                  multigroup_aspatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/compute_all_example.html"
+                >
+                  
+                  compute_all_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/network_measures.html"
+                >
+                  
+                  network_measures
                 </a>
 
                 
@@ -1141,6 +1192,23 @@ initFunction(initQuery);
                 >
                   
                   spatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/local_measures_example.html"
+                >
+                  
+                  local_measures_example
                 </a>
 
                 
@@ -2025,6 +2093,23 @@ initFunction(initQuery);
               </li>
               
             
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_MGWR_Parallel_Example.html"
+                >
+                  
+                  GWR_MGWR_Parallel_Example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
           </ul>
         
       </li>
@@ -2165,7 +2250,7 @@ initFunction(initQuery);
 
 
 
-<a href="https://mybinder.org/v2/gh/pysal/pysal/master?urlpath=lab/tree/content%2Fexplore%2Fsegregation%2Fspatial_examples.ipynb"><button class="interact-button" id="interact-button-binder"><img class="interact-button-logo" src="/notebooks/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
+<a href="https://mybinder.org/v2/gh/pysal/notebooks/master?urlpath=lab/tree/content%2Fexplore%2Fsegregation%2Fspatial_examples.ipynb"><button class="interact-button" id="interact-button-binder"><img class="interact-button-logo" src="/notebooks/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
 
 
 </div>
@@ -2247,7 +2332,7 @@ initFunction(initQuery);
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x283e365e1d0&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x13db31ae5c0&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -2285,8 +2370,8 @@ SD = D-\frac{\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\left | \tilde{s}<em>{ij}^{i_1}-\ti
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Spatial_Dissim</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">Spatial_Dissim</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">SpatialDissim</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">SpatialDissim</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
 </code></pre></div>    </div>
@@ -2295,7 +2380,7 @@ SD = D-\frac{\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\left | \tilde{s}<em>{ij}^{i_1}-\ti
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial_indexes.Spatial_Dissim
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial.spatial_indexes.SpatialDissim
 </code></pre></div>      </div>
 
     </div>
@@ -2339,8 +2424,8 @@ BSD = D - \frac{1}{2}{\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}w_{i_1i_2} \left | \tilde{
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Boundary_Spatial_Dissim</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">Boundary_Spatial_Dissim</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">BoundarySpatialDissim</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">BoundarySpatialDissim</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
 </code></pre></div>    </div>
@@ -2349,7 +2434,7 @@ BSD = D - \frac{1}{2}{\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}w_{i_1i_2} \left | \tilde{
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial_indexes.Boundary_Spatial_Dissim
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial.spatial_indexes.BoundarySpatialDissim
 </code></pre></div>      </div>
 
     </div>
@@ -2387,8 +2472,8 @@ BSD = D - \frac{1}{2}{\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}w_{i_1i_2} \left | \tilde{
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Perimeter_Area_Ratio_Spatial_Dissim</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">Perimeter_Area_Ratio_Spatial_Dissim</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">PerimeterAreaRatioSpatialDissim</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">PerimeterAreaRatioSpatialDissim</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
 </code></pre></div>    </div>
@@ -2397,7 +2482,7 @@ BSD = D - \frac{1}{2}{\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}w_{i_1i_2} \left | \tilde{
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial_indexes.Perimeter_Area_Ratio_Spatial_Dissim
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial.spatial_indexes.PerimeterAreaRatioSpatialDissim
 </code></pre></div>      </div>
 
     </div>
@@ -2414,7 +2499,7 @@ BSD = D - \frac{1}{2}{\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}w_{i_1i_2} \left | \tilde{
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.3165091834802075
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.3111718061947464
 </code></pre></div>      </div>
 
     </div>
@@ -2451,8 +2536,8 @@ SPP=\frac{\frac{n_{.j}}{n_{..}}-\left ( \int_{t=0}^{\frac{n_{.j}}{n_{..}}}\eta_t
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Spatial_Prox_Prof</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">Spatial_Prox_Prof</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">SpatialProxProf</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">SpatialProxProf</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
 </code></pre></div>    </div>
@@ -2461,7 +2546,7 @@ SPP=\frac{\frac{n_{.j}}{n_{..}}-\left ( \int_{t=0}^{\frac{n_{.j}}{n_{..}}}\eta_t
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial_indexes.Spatial_Prox_Prof
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial.spatial_indexes.SpatialProxProf
 </code></pre></div>      </div>
 
     </div>
@@ -2497,7 +2582,7 @@ SPP=\frac{\frac{n_{.j}}{n_{..}}-\left ( \int_{t=0}^{\frac{n_{.j}}{n_{..}}}\eta_t
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.collections.PathCollection at 0x283e367fcc0&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.collections.PathCollection at 0x13db3212ef0&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -2543,8 +2628,8 @@ P_{tt} = \sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\frac{n_{i_1.}n_{i_2.}\zeta_{i_1i_2}}{n
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Spatial_Proximity</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">Spatial_Proximity</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">SpatialProximity</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">SpatialProximity</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
 </code></pre></div>    </div>
@@ -2553,7 +2638,7 @@ P_{tt} = \sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\frac{n_{i_1.}n_{i_2.}\zeta_{i_1i_2}}{n
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial_indexes.Spatial_Proximity
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial.spatial_indexes.SpatialProximity
 </code></pre></div>      </div>
 
     </div>
@@ -2570,7 +2655,53 @@ P_{tt} = \sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\frac{n_{i_1.}n_{i_2.}\zeta_{i_1i_2}}{n
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.0026623464135092
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.002662346413506
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<h3 id="absolute-clustering">Absolute Clustering</h3>
+
+<p>The Absolute Clustering Measure (ACL) is given by:</p>
+
+<p>\begin{equation}
+ACL = \frac{\left (\sum_{i_1=1}^{I}\left ( \frac{x_{i_1}}{X} \right )\sum_{i_2=1}^{I}\zeta_{i_1i_2}x_{i_2}  \right ) - \left ( \frac{X}{n^2}\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\zeta_{i_1i_2} \right )}{\left (\sum_{i_1=1}^{I}\left ( \frac{x_{i_1}}{X} \right )\sum_{i_2=1}^{I}\zeta_{i_1i_2}t_{i_2}  \right ) - \left ( \frac{X}{n^2}\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\zeta_{i_1i_2} \right )}
+\end{equation}</p>
+
+<p>The index is fitted below (note you can choose alpha and beta):</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">AbsoluteClustering</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">AbsoluteClustering</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial.spatial_indexes.AbsoluteClustering
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">index</span><span class="o">.</span><span class="n">statistic</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.005189287311960139
 </code></pre></div>      </div>
 
     </div>
@@ -2589,8 +2720,8 @@ RCL = \frac{P_{xx}}{P_{yy}} - 1
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Relative_Clustering</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">Relative_Clustering</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">RelativeClustering</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">RelativeClustering</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
 </code></pre></div>    </div>
@@ -2599,7 +2730,7 @@ RCL = \frac{P_{xx}}{P_{yy}} - 1
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial_indexes.Relative_Clustering
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial.spatial_indexes.RelativeClustering
 </code></pre></div>      </div>
 
     </div>
@@ -2616,19 +2747,19 @@ RCL = \frac{P_{xx}}{P_{yy}} - 1
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.009095632468738568
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.009095632468772541
 </code></pre></div>      </div>
 
     </div>
   </div>
 </div>
 
-<h3 id="spatial-isolation">Spatial Isolation</h3>
+<h3 id="distance-decay-isolation">Distance Decay Isolation</h3>
 
-<p>The Spatial Isolation (SxPx), also known as Distance-Decay Isolation, is given by:</p>
+<p>The Distance Decay Isolation (DDxPx) is given by:</p>
 
 <p>\begin{equation}
-SxPx=\sum_{i_1=1}^{I}\left ( \hat{s}<em>{i_1x} \right )\left (\sum</em>{i_2=1}^{I}P_{i_1i_2} \left (\tilde{s}_{i_1x}\right ) \right )
+DDxPx=\sum_{i_1=1}^{I}\left ( \hat{s}<em>{i_1x} \right )\left (\sum</em>{i_2=1}^{I}P_{i_1i_2} \left (\tilde{s}_{i_1x}\right ) \right )
 \end{equation}</p>
 
 <p>where</p>
@@ -2649,8 +2780,8 @@ P_{i_1i_2} = \frac{\zeta_{i_1i_2}n_{i_2.}}{\sum_{i_2=1}^{I}\zeta_{i_1i_2}n_{i_2.
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Spatial_Isolation</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">Spatial_Isolation</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">DistanceDecayIsolation</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">DistanceDecayIsolation</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
 </code></pre></div>    </div>
@@ -2659,7 +2790,7 @@ P_{i_1i_2} = \frac{\zeta_{i_1i_2}n_{i_2.}}{\sum_{i_2=1}^{I}\zeta_{i_1i_2}n_{i_2.
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial_indexes.Spatial_Isolation
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial.spatial_indexes.DistanceDecayIsolation
 </code></pre></div>      </div>
 
     </div>
@@ -2676,19 +2807,19 @@ P_{i_1i_2} = \frac{\zeta_{i_1i_2}n_{i_2.}}{\sum_{i_2=1}^{I}\zeta_{i_1i_2}n_{i_2.
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.1562162475606278
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.15621624756062663
 </code></pre></div>      </div>
 
     </div>
   </div>
 </div>
 
-<h3 id="spatial-exposure">Spatial Exposure</h3>
+<h3 id="distance-decay-exposure">Distance Decay Exposure</h3>
 
-<p>The Spatial Exposure (SxPy), also known as Distance-Decay Exposure, is given by:</p>
+<p>The Distance Decay Exposure (DDxPy) is given by:</p>
 
 <p>\begin{equation}
-SxPy=\sum_{i_1=1}^{I}\left ( \hat{s}<em>{i_1x} \right )\left (\sum</em>{i_2=1}^{I}P_{i_1i_2} \left (\tilde{s}_{i_1y}\right ) \right )
+DDxPy=\sum_{i_1=1}^{I}\left ( \hat{s}<em>{i_1x} \right )\left (\sum</em>{i_2=1}^{I}P_{i_1i_2} \left (\tilde{s}_{i_1y}\right ) \right )
 \end{equation}</p>
 
 <p>where $P_{i_1i_2}$ is defined as before.</p>
@@ -2697,8 +2828,8 @@ SxPy=\sum_{i_1=1}^{I}\left ( \hat{s}<em>{i_1x} \right )\left (\sum</em>{i_2=1}^{
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Spatial_Exposure</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">Spatial_Exposure</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">DistanceDecayExposure</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">DistanceDecayExposure</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
 </code></pre></div>    </div>
@@ -2707,7 +2838,7 @@ SxPy=\sum_{i_1=1}^{I}\left ( \hat{s}<em>{i_1x} \right )\left (\sum</em>{i_2=1}^{
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial_indexes.Spatial_Exposure
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial.spatial_indexes.DistanceDecayExposure
 </code></pre></div>      </div>
 
     </div>
@@ -2724,7 +2855,7 @@ SxPy=\sum_{i_1=1}^{I}\left ( \hat{s}<em>{i_1x} \right )\left (\sum</em>{i_2=1}^{
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.8396583368412371
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.8396583368412553
 </code></pre></div>      </div>
 
     </div>
@@ -2745,7 +2876,7 @@ DEL = \frac{1}{2}\sum_{i=1}^{I}\left | \hat{s}_{ij} - \frac{a_i}{A} \right |
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Delta</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">Delta</span>
 <span class="n">index</span> <span class="o">=</span> <span class="n">Delta</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
@@ -2755,7 +2886,7 @@ DEL = \frac{1}{2}\sum_{i=1}^{I}\left | \hat{s}_{ij} - \frac{a_i}{A} \right |
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial_indexes.Delta
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial.spatial_indexes.Delta
 </code></pre></div>      </div>
 
     </div>
@@ -2804,8 +2935,8 @@ T_2 = \sum_{i=n_2}^{n}n_{i.}
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Absolute_Concentration</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">Absolute_Concentration</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">AbsoluteConcentration</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">AbsoluteConcentration</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
 </code></pre></div>    </div>
@@ -2814,7 +2945,7 @@ T_2 = \sum_{i=n_2}^{n}n_{i.}
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial_indexes.Absolute_Concentration
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial.spatial_indexes.AbsoluteConcentration
 </code></pre></div>      </div>
 
     </div>
@@ -2831,7 +2962,7 @@ T_2 = \sum_{i=n_2}^{n}n_{i.}
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.21496583971774408
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.8512824549657465
 </code></pre></div>      </div>
 
     </div>
@@ -2853,8 +2984,8 @@ RCO = \frac{\frac{\sum_{i=1}^{I}\left ( \frac{n_{ix}a_i}{n_{.x}} \right )}{\sum_
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Relative_Concentration</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">Relative_Concentration</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">RelativeConcentration</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">RelativeConcentration</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
 </code></pre></div>    </div>
@@ -2863,7 +2994,7 @@ RCO = \frac{\frac{\sum_{i=1}^{I}\left ( \frac{n_{ix}a_i}{n_{.x}} \right )}{\sum_
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial_indexes.Relative_Concentration
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial.spatial_indexes.RelativeConcentration
 </code></pre></div>      </div>
 
     </div>
@@ -2880,7 +3011,7 @@ RCO = \frac{\frac{\sum_{i=1}^{I}\left ( \frac{n_{ix}a_i}{n_{.x}} \right )}{\sum_
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.13102848628073688
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.12733820870675222
 </code></pre></div>      </div>
 
     </div>
@@ -2899,14 +3030,14 @@ ACE=\left ( \sum_{i=2}^{I}X_{i-1}A_i \right ) - \left ( \sum_{i=2}^{I}X_{i}A_{i-
 RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-1} \right )
 \end{equation}</p>
 
-<p>where $A_i$ is the cumulative area proportion through unit $i$, $X_i$ is the cumulative frequency proportion through unit $i$ of group $x$ and $Y_i$ is the analogous for group $y$. In this measure, the area units are ordered by increasing distances from the central business district, which we assume being located in the average latitude and average longitude among all centroid.</p>
+<p>where $A_i$ is the cumulative area proportion through unit $i$, $X_i$ is the cumulative frequency proportion through unit $i$ of group $x$ and $Y_i$ is the analogous for group $y$. In this measure, the area units are ordered by increasing distances from the central business district, which could be modified with the <code class="highlighter-rouge">center</code> argument.</p>
 
 <p>The ACE is fitted below:</p>
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Absolute_Centralization</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">Absolute_Centralization</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">AbsoluteCentralization</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">AbsoluteCentralization</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
 </code></pre></div>    </div>
@@ -2915,7 +3046,7 @@ RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial_indexes.Absolute_Centralization
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial.spatial_indexes.AbsoluteCentralization
 </code></pre></div>      </div>
 
     </div>
@@ -2943,8 +3074,8 @@ RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Relative_Centralization</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">Relative_Centralization</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">RelativeCentralization</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">RelativeCentralization</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
 </code></pre></div>    </div>
@@ -2953,7 +3084,7 @@ RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial_indexes.Relative_Centralization
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial.spatial_indexes.RelativeCentralization
 </code></pre></div>      </div>
 
     </div>
@@ -2977,71 +3108,19 @@ RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-
   </div>
 </div>
 
-<h3 id="spatial-information-theory">Spatial Information Theory</h3>
-
-<p>The Spatial Information Theory (SIT), inspired by <em>Reardon, Sean F., and David O’Sullivan. “Measures of spatial segregation.” Sociological methodology 34.1 (2004): 121-162.</em> takes into consideration the local environment of each spatial unit. The spatially weighted entropy of unit $i$ is given by</p>
-
-<p><script type="math/tex">\tilde{E}_i = \sum_{j}\frac{\tilde{n_{ij}}}{\tilde{n_{i.}}} \times \log_2\left ( \frac{\tilde{n_{ij}}}{\tilde{n_{i.}}} \right )</script>
-where $\tilde{n_{ij}}$ is the population frequency of unit $i$ of group $j$ around the local environment of $i$ and $\tilde{n_{i.}}$ is the total population of the local environment of $i$.</p>
-
-<p>The overall regional entropy of the total population given by</p>
-
-<script type="math/tex; mode=display">E = \sum_{j}\frac{n_{.j}}{n_{..}} \times \log_2\left ( \frac{n_{.j}}{n_{..}} \right )</script>
-
-<p>and the SIT is given by</p>
-
-<p><script type="math/tex">SIT = 1 - \frac{1}{TE}\sum_{i = 1}^{I}\tau_i\tilde{E}_i</script>
-where $\tau_i$ is the population density at the unit $i$.</p>
-
-<div class="cell code_cell">
-  <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Spatial_Information_Theory</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">Spatial_Information_Theory</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
-<span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
-
-</code></pre></div>    </div>
-  </div>
-
-  <div class="output_wrapper">
-    <div class="output_subarea">
-
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>segregation.spatial_indexes.Spatial_Information_Theory
-</code></pre></div>      </div>
-
-    </div>
-  </div>
-</div>
-
-<div class="cell code_cell">
-  <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">index</span><span class="o">.</span><span class="n">statistic</span>
-
-</code></pre></div>    </div>
-  </div>
-
-  <div class="output_wrapper">
-    <div class="output_subarea">
-
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.778177518074913
-</code></pre></div>      </div>
-
-    </div>
-  </div>
-</div>
-
 
               <nav class="c-page__nav">
   
     
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/notebooks/explore/segregation/nonspatial_examples">
-      〈 <span class="u-margin-right-tiny"></span> nonspatial_examples
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/notebooks/explore/segregation/network_measures">
+      〈 <span class="u-margin-right-tiny"></span> network_measures
     </a>
   
 
   
     
-    <a id="js-page__nav__next" class="c-page__nav__next" href="/notebooks/explore/inequality/intro">
-      inequality <span class="u-margin-right-tiny"></span> 〉
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/notebooks/explore/segregation/local_measures_example">
+      local_measures_example <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>

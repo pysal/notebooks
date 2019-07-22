@@ -9,8 +9,8 @@ prev_page:
   url: /explore/segregation/decomposition_wrapper_example
   title: 'decomposition_wrapper_example'
 next_page:
-  url: /explore/segregation/nonspatial_examples
-  title: 'nonspatial_examples'
+  url: /explore/segregation/multiscalar_segregation_profiles
+  title: 'multiscalar_segregation_profiles'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
@@ -25,8 +25,8 @@ The summary of the inference wrappers is presented in the following Table:
 
 | **Inference Type** | **Class/Function**   |                 **Function main Inputs**                 |         **Function Outputs**         |
 | :----------------- | :------------------- | :------------------------------------------------------: | :----------------------------------: |
-| Single Value       | Infer\_Segregation   |   seg\_class, iterations\_under\_null, null\_approach, two\_tailed    |    p\_value, est\_sim, statistic     |
-| Two Value          | Compare\_Segregation | seg\_class\_1, seg\_class\_2, iterations\_under\_null, null\_approach | p\_value, est\_sim, est\_point\_diff |
+| Single Value       | SingleValueTest   |   seg\_class, iterations\_under\_null, null\_approach, two\_tailed    |    p\_value, est\_sim, statistic     |
+| Two Value          | TwoValueTest | seg\_class\_1, seg\_class\_2, iterations\_under\_null, null\_approach | p\_value, est\_sim, est\_point\_diff |
 
 
 
@@ -45,7 +45,7 @@ import pysal.lib
 import pandas as pd
 import numpy as np
 
-from pysal.explore.segregation.inference_wrappers import Infer_Segregation, Compare_Segregation
+from pysal.explore.segregation.inference import SingleValueTest, TwoValueTest
 
 ```
 </div>
@@ -128,7 +128,7 @@ gdf.plot(column = 'composition',
 
 {:.output_data_text}
 ```
-<matplotlib.axes._subplots.AxesSubplot at 0x2151c13b550>
+<matplotlib.axes._subplots.AxesSubplot at 0x2b483cda5c0>
 ```
 
 
@@ -150,14 +150,14 @@ gdf.plot(column = 'composition',
 
 ### Dissimilarity
 
-The **Infer\_Segregation** function expect to receive a pre-fitted segregation class and then it uses the underlying data to iterate over the null hypothesis and comparing the results with point estimation of the index. Thus, we need to firstly estimate some measure. We can fit the classic Dissimilarity index:
+The **SingleValueTest** function expect to receive a pre-fitted segregation class and then it uses the underlying data to iterate over the null hypothesis and comparing the results with point estimation of the index. Thus, we need to firstly estimate some measure. We can fit the classic Dissimilarity index:
 
 
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.non_spatial_indexes import Dissim
+from pysal.explore.segregation.aspatial import Dissim
 D = Dissim(gdf, 'HISP_', 'TOT_POP')
 D.statistic
 
@@ -187,11 +187,19 @@ The question that may rise is "Is this value of 0.32 statistically significant u
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-infer_D_eve = Infer_Segregation(D, iterations_under_null = 1000, null_approach = "evenness", two_tailed = True)
+infer_D_eve = SingleValueTest(D, iterations_under_null = 1000, null_approach = "evenness", two_tailed = True)
 
 ```
 </div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+Processed 1000 iterations out of 1000.
+```
+</div>
+</div>
 </div>
 
 
@@ -238,7 +246,7 @@ infer_D_eve.est_sim.mean()
 
 {:.output_data_text}
 ```
-0.016081626483495783
+0.016104442562906662
 ```
 
 
@@ -290,11 +298,19 @@ You can also test under different approaches for the null hypothesis:
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-infer_D_sys = Infer_Segregation(D, iterations_under_null = 10000, null_approach = "systematic", two_tailed = True)
+infer_D_sys = SingleValueTest(D, iterations_under_null = 5000, null_approach = "systematic", two_tailed = True)
 
 ```
 </div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+Processed 5000 iterations out of 5000.
+```
+</div>
+</div>
 </div>
 
 
@@ -334,8 +350,8 @@ The **Infer_Segregation** wrapper can handle any class of the PySAL segregation 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Relative_Concentration
-RCO = Relative_Concentration(gdf, 'HISP_', 'TOT_POP')
+from pysal.explore.segregation.spatial import RelativeConcentration
+RCO = RelativeConcentration(gdf, 'HISP_', 'TOT_POP')
 
 ```
 </div>
@@ -351,11 +367,19 @@ Since RCO is an spatial index (i.e. depends on the spatial context), it makes se
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-infer_RCO_per = Infer_Segregation(RCO, iterations_under_null = 1000, null_approach = "permutation", two_tailed = True)
+infer_RCO_per = SingleValueTest(RCO, iterations_under_null = 1000, null_approach = "permutation", two_tailed = True)
 
 ```
 </div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+Processed 1000 iterations out of 1000.
+```
+</div>
+</div>
 </div>
 
 
@@ -394,7 +418,7 @@ infer_RCO_per.p_value
 
 {:.output_data_text}
 ```
-0.446
+0.436
 ```
 
 
@@ -415,7 +439,7 @@ Additionaly, it is possible to combine the null approaches establishing, for exa
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-infer_RCO_eve_per = Infer_Segregation(RCO, iterations_under_null = 1000, null_approach = "even_permutation", two_tailed = True)
+infer_RCO_eve_per = SingleValueTest(RCO, iterations_under_null = 1000, null_approach = "even_permutation", two_tailed = True)
 infer_RCO_eve_per.plot()
 
 ```
@@ -423,9 +447,17 @@ infer_RCO_eve_per.plot()
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+Processed 1000 iterations out of 1000.
+```
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../../images/explore/segregation/inference_wrappers_example_32_0.png)
+![png](../../images/explore/segregation/inference_wrappers_example_32_1.png)
 
 </div>
 </div>
@@ -444,13 +476,21 @@ Using the same *permutation* approach for the Relative Centralization (RCE) segr
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Relative_Centralization
-RCE = Relative_Centralization(gdf, 'HISP_', 'TOT_POP')
-infer_RCE_per = Infer_Segregation(RCE, iterations_under_null = 1000, null_approach = "permutation", two_tailed = True)
+from pysal.explore.segregation.spatial import RelativeCentralization
+RCE = RelativeCentralization(gdf, 'HISP_', 'TOT_POP')
+infer_RCE_per = SingleValueTest(RCE, iterations_under_null = 1000, null_approach = "permutation", two_tailed = True)
 
 ```
 </div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+Processed 1000 iterations out of 1000.
+```
+</div>
+</div>
 </div>
 
 
@@ -485,7 +525,7 @@ The conclusion is that the hispanic group is negatively significantly (as the po
 
 
 
-To compare two different values, the user can rely on the **Compare\_Segregation** function. Similar to the previous function, the user needs to pass two segregation SM classes to be compared, establish the number of iterations under null hypothesis with *iterations_under_null*, specify which type of null hypothesis the inference will iterate with *null_approach* argument and, also, can pass additional parameters for each segregation estimation.
+To compare two different values, the user can rely on the **TwoValueTest** function. Similar to the previous function, the user needs to pass two segregation SM classes to be compared, establish the number of iterations under null hypothesis with *iterations_under_null*, specify which type of null hypothesis the inference will iterate with *null_approach* argument and, also, can pass additional parameters for each segregation estimation.
 
 Obs.: in this case, each measure has to be the same class as it would not make much sense to compare, for example, a Gini index with a Delta index
 
@@ -513,12 +553,15 @@ import os
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from geosnap.data import read_ltdb
+import geosnap
+from geosnap.data.data import read_ltdb
 
 sample = "LTDB_Std_All_Sample.zip"
 full = "LTDB_Std_All_fullcount.zip"
 
-df_pre = read_ltdb(sample = sample, fullcount = full)
+read_ltdb(sample = sample, fullcount = full)
+
+df_pre = geosnap.data.db.ltdb
 
 ```
 </div>
@@ -570,9 +613,9 @@ df_pre.head()
       <th>n_hispanic_over_60</th>
       <th>n_native_over_60</th>
       <th>...</th>
-      <th>n_widowed_divorced</th>
       <th>n_white_persons</th>
       <th>year</th>
+      <th>n_total_housing_units_sample</th>
       <th>p_nonhisp_white_persons</th>
       <th>p_white_over_60</th>
       <th>p_black_over_60</th>
@@ -610,126 +653,126 @@ df_pre.head()
     <tr>
       <th>01001020500</th>
       <td>NaN</td>
-      <td>1.0</td>
+      <td>1.121662</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>2.0</td>
-      <td>3.0</td>
+      <td>1.802740</td>
+      <td>3.284181</td>
       <td>NaN</td>
-      <td>0.0</td>
+      <td>0.301098</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>...</td>
-      <td>1.0</td>
-      <td>6.0</td>
+      <td>5.794934</td>
       <td>1970</td>
+      <td>2.166366</td>
       <td>NaN</td>
-      <td>6.0</td>
-      <td>4.0</td>
+      <td>6.433142</td>
+      <td>3.514090</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>5.0</td>
+      <td>4.737847</td>
     </tr>
     <tr>
       <th>01003010100</th>
       <td>NaN</td>
-      <td>609.0</td>
+      <td>609.000000</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>639.0</td>
-      <td>1407.0</td>
+      <td>639.000000</td>
+      <td>1407.000000</td>
       <td>NaN</td>
-      <td>221.0</td>
+      <td>221.000000</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>...</td>
-      <td>324.0</td>
-      <td>2004.0</td>
+      <td>2003.999981</td>
       <td>1970</td>
+      <td>1106.000000</td>
       <td>NaN</td>
-      <td>8.0</td>
-      <td>6.0</td>
+      <td>8.299712</td>
+      <td>6.368876</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>6.0</td>
+      <td>5.821326</td>
     </tr>
     <tr>
       <th>01003010200</th>
       <td>NaN</td>
-      <td>38.0</td>
+      <td>37.567365</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>564.0</td>
-      <td>687.0</td>
+      <td>564.014945</td>
+      <td>686.748041</td>
       <td>NaN</td>
-      <td>28.0</td>
+      <td>27.861793</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>...</td>
-      <td>175.0</td>
-      <td>1758.0</td>
+      <td>1757.910752</td>
       <td>1970</td>
+      <td>619.433984</td>
       <td>NaN</td>
-      <td>13.0</td>
-      <td>1.0</td>
+      <td>13.313281</td>
+      <td>1.480888</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>6.0</td>
+      <td>6.248800</td>
     </tr>
     <tr>
       <th>01003010300</th>
       <td>NaN</td>
-      <td>375.0</td>
+      <td>374.853457</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>982.0</td>
-      <td>1524.0</td>
+      <td>981.543199</td>
+      <td>1523.971872</td>
       <td>NaN</td>
-      <td>104.0</td>
+      <td>103.848314</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>...</td>
-      <td>292.0</td>
-      <td>2835.0</td>
+      <td>2835.404427</td>
       <td>1970</td>
+      <td>1025.805309</td>
       <td>NaN</td>
-      <td>8.0</td>
-      <td>3.0</td>
+      <td>8.023381</td>
+      <td>2.788906</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>7.0</td>
+      <td>7.214156</td>
     </tr>
     <tr>
       <th>01003010400</th>
       <td>NaN</td>
-      <td>113.0</td>
+      <td>113.203816</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>797.0</td>
-      <td>1030.0</td>
+      <td>796.944763</td>
+      <td>1029.919527</td>
       <td>NaN</td>
-      <td>37.0</td>
+      <td>37.127235</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>...</td>
-      <td>183.0</td>
-      <td>2323.0</td>
+      <td>2323.133371</td>
       <td>1970</td>
+      <td>780.370269</td>
       <td>NaN</td>
-      <td>11.0</td>
-      <td>1.0</td>
+      <td>11.072073</td>
+      <td>1.427952</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>11.0</td>
+      <td>11.205555</td>
     </tr>
   </tbody>
 </table>
-<p>5 rows × 191 columns</p>
+<p>5 rows × 192 columns</p>
 </div>
 </div>
 
@@ -802,7 +845,7 @@ df.head()
     <tr>
       <th>01001020500</th>
       <td>NaN</td>
-      <td>9.0</td>
+      <td>8.568306</td>
       <td>1970</td>
       <td>01001020500</td>
       <td>01</td>
@@ -811,7 +854,7 @@ df.head()
     <tr>
       <th>01003010100</th>
       <td>NaN</td>
-      <td>3470.0</td>
+      <td>3469.999968</td>
       <td>1970</td>
       <td>01003010100</td>
       <td>01</td>
@@ -820,7 +863,7 @@ df.head()
     <tr>
       <th>01003010200</th>
       <td>NaN</td>
-      <td>1881.0</td>
+      <td>1881.424759</td>
       <td>1970</td>
       <td>01003010200</td>
       <td>01</td>
@@ -829,7 +872,7 @@ df.head()
     <tr>
       <th>01003010300</th>
       <td>NaN</td>
-      <td>3724.0</td>
+      <td>3723.622031</td>
       <td>1970</td>
       <td>01003010300</td>
       <td>01</td>
@@ -838,7 +881,7 @@ df.head()
     <tr>
       <th>01003010400</th>
       <td>NaN</td>
-      <td>2600.0</td>
+      <td>2600.033045</td>
       <td>1970</td>
       <td>01003010400</td>
       <td>01</td>
@@ -913,8 +956,8 @@ df_riv.head()
   <tbody>
     <tr>
       <th>06065030101</th>
-      <td>59.0</td>
-      <td>852.0</td>
+      <td>58.832932</td>
+      <td>851.999976</td>
       <td>2000</td>
       <td>06065030101</td>
       <td>06</td>
@@ -922,8 +965,8 @@ df_riv.head()
     </tr>
     <tr>
       <th>06065030103</th>
-      <td>120.0</td>
-      <td>1740.0</td>
+      <td>120.151764</td>
+      <td>1739.999973</td>
       <td>2000</td>
       <td>06065030103</td>
       <td>06</td>
@@ -931,8 +974,8 @@ df_riv.head()
     </tr>
     <tr>
       <th>06065030104</th>
-      <td>367.0</td>
-      <td>5315.0</td>
+      <td>367.015289</td>
+      <td>5314.999815</td>
       <td>2000</td>
       <td>06065030104</td>
       <td>06</td>
@@ -940,8 +983,8 @@ df_riv.head()
     </tr>
     <tr>
       <th>06065030200</th>
-      <td>348.0</td>
-      <td>4682.0</td>
+      <td>348.001105</td>
+      <td>4682.007896</td>
       <td>2000</td>
       <td>06065030200</td>
       <td>06</td>
@@ -949,8 +992,8 @@ df_riv.head()
     </tr>
     <tr>
       <th>06065030300</th>
-      <td>678.0</td>
-      <td>4845.0</td>
+      <td>677.998901</td>
+      <td>4844.992203</td>
       <td>2000</td>
       <td>06065030300</td>
       <td>06</td>
@@ -1033,42 +1076,42 @@ gdf.head()
     <tr>
       <th>0</th>
       <td>POLYGON ((-117.319414 33.902109, -117.322528 3...</td>
-      <td>234.0</td>
-      <td>2537.0</td>
+      <td>233.824879</td>
+      <td>2537.096784</td>
       <td>2000</td>
-      <td>0.092235</td>
+      <td>0.092162</td>
     </tr>
     <tr>
       <th>1</th>
       <td>POLYGON ((-117.319414 33.902109, -117.322528 3...</td>
-      <td>568.0</td>
-      <td>6556.0</td>
+      <td>568.000000</td>
+      <td>6556.000000</td>
       <td>2010</td>
       <td>0.086638</td>
     </tr>
     <tr>
       <th>2</th>
       <td>POLYGON ((-117.504056 33.800257, -117.502758 3...</td>
-      <td>283.0</td>
-      <td>3511.0</td>
+      <td>283.439545</td>
+      <td>3510.681010</td>
       <td>2000</td>
-      <td>0.080604</td>
+      <td>0.080736</td>
     </tr>
     <tr>
       <th>3</th>
       <td>POLYGON ((-117.504056 33.800257, -117.502758 3...</td>
-      <td>754.0</td>
-      <td>10921.0</td>
+      <td>754.000000</td>
+      <td>10921.000000</td>
       <td>2010</td>
       <td>0.069041</td>
     </tr>
     <tr>
       <th>4</th>
       <td>POLYGON ((-117.472451 33.762031, -117.475661 3...</td>
-      <td>274.0</td>
-      <td>3388.0</td>
+      <td>273.560455</td>
+      <td>3388.318990</td>
       <td>2000</td>
-      <td>0.080874</td>
+      <td>0.080736</td>
     </tr>
   </tbody>
 </table>
@@ -1116,7 +1159,7 @@ gdf_2000.plot(column = 'composition',
 
 {:.output_data_text}
 ```
-<matplotlib.axes._subplots.AxesSubplot at 0x21547a13780>
+<matplotlib.axes._subplots.AxesSubplot at 0x2b4c0812358>
 ```
 
 
@@ -1155,7 +1198,7 @@ gdf_2010.plot(column = 'composition',
 
 {:.output_data_text}
 ```
-<matplotlib.axes._subplots.AxesSubplot at 0x2151fd3a7b8>
+<matplotlib.axes._subplots.AxesSubplot at 0x2b48c35f550>
 ```
 
 
@@ -1199,7 +1242,7 @@ D_2000.statistic - D_2010.statistic
 
 {:.output_data_text}
 ```
-0.02366612529047213
+0.023696202305264924
 ```
 
 
@@ -1216,16 +1259,24 @@ We can see that Riverside was more segregated in 2000 than in 2010. But, was thi
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-compare_D_fit = Compare_Segregation(D_2000, D_2010, iterations_under_null = 1000, null_approach = "random_label")
+compare_D_fit = TwoValueTest(D_2000, D_2010, iterations_under_null = 1000, null_approach = "random_label")
 
 ```
 </div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+Processed 1000 iterations out of 1000.
+```
+</div>
+</div>
 </div>
 
 
 
-The **Compare_Segregation** class also has a plotting method:
+The **TwoValueTest** class also has a plotting method:
 
 
 
@@ -1267,7 +1318,7 @@ compare_D_fit.p_value
 
 {:.output_data_text}
 ```
-0.246
+0.26
 ```
 
 
@@ -1292,10 +1343,10 @@ Analogously, the same steps can be made for the Gini segregation index.
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.non_spatial_indexes import Gini_Seg
-G_2000 = Gini_Seg(gdf_2000, 'n_nonhisp_black_persons', 'n_total_pop')
-G_2010 = Gini_Seg(gdf_2010, 'n_nonhisp_black_persons', 'n_total_pop')
-compare_G_fit = Compare_Segregation(G_2000, G_2010, iterations_under_null = 1000, null_approach = "random_label")
+from pysal.explore.segregation.aspatial import GiniSeg
+G_2000 = GiniSeg(gdf_2000, 'n_nonhisp_black_persons', 'n_total_pop')
+G_2010 = GiniSeg(gdf_2010, 'n_nonhisp_black_persons', 'n_total_pop')
+compare_G_fit = TwoValueTest(G_2000, G_2010, iterations_under_null = 1000, null_approach = "random_label")
 compare_G_fit.plot()
 
 ```
@@ -1303,9 +1354,17 @@ compare_G_fit.plot()
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+Processed 1000 iterations out of 1000.
+```
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../../images/explore/segregation/inference_wrappers_example_68_0.png)
+![png](../../images/explore/segregation/inference_wrappers_example_68_1.png)
 
 </div>
 </div>
@@ -1330,10 +1389,10 @@ In this framework, the population of the group of interest in each unit is rando
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Spatial_Dissim
-SD_2000 = Spatial_Dissim(gdf_2000, 'n_nonhisp_black_persons', 'n_total_pop')
-SD_2010 = Spatial_Dissim(gdf_2010, 'n_nonhisp_black_persons', 'n_total_pop')
-compare_SD_fit = Compare_Segregation(SD_2000, SD_2010, iterations_under_null = 500, null_approach = "counterfactual_composition")
+from pysal.explore.segregation.spatial import SpatialDissim
+SD_2000 = SpatialDissim(gdf_2000, 'n_nonhisp_black_persons', 'n_total_pop')
+SD_2010 = SpatialDissim(gdf_2010, 'n_nonhisp_black_persons', 'n_total_pop')
+compare_SD_fit = TwoValueTest(SD_2000, SD_2010, iterations_under_null = 500, null_approach = "counterfactual_composition")
 compare_SD_fit.plot()
 
 ```
@@ -1341,9 +1400,17 @@ compare_SD_fit.plot()
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+Processed 500 iterations out of 500.
+```
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../../images/explore/segregation/inference_wrappers_example_72_0.png)
+![png](../../images/explore/segregation/inference_wrappers_example_72_1.png)
 
 </div>
 </div>

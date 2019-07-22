@@ -6,8 +6,8 @@ kernel_name: python3
 has_widgets: false
 title: 'decomposition_wrapper_example'
 prev_page:
-  url: /explore/segregation/profile_wrappers_example
-  title: 'profile_wrappers_example'
+  url: /explore/segregation/aspatial_examples
+  title: 'aspatial_examples'
 next_page:
   url: /explore/segregation/inference_wrappers_example
   title: 'inference_wrappers_example'
@@ -32,7 +32,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from pysal.explore import segregation
-from pysal.explore.segregation.decompose_segregation import Decompose_Segregation
+from pysal.explore.segregation.decomposition import DecomposeSegregation
 
 ```
 </div>
@@ -48,7 +48,7 @@ In this example, we are going to use census data that the user must download its
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-#filepath = '~/std_2010_fullcount.csv'
+#filepath = '~/LTDB_Std_2010_fullcount.csv'
 
 ```
 </div>
@@ -85,7 +85,7 @@ with open('data/tracts_US.pkl', 'rb') as input:
     map_gpd = pickle.load(input)
     
 map_gpd['INTGEOID10'] = pd.to_numeric(map_gpd["GEOID10"])
-gdf_pre = map_gpd.merge(df, left_on = 'INTGEOID10', right_on = 'trtid10')
+gdf_pre = map_gpd.merge(df, left_on = 'INTGEOID10', right_on = 'tractid')
 gdf = gdf_pre[['GEOID10', 'geometry', 'pop10', 'nhblk10']]
 
 ```
@@ -343,10 +343,10 @@ We first compare the Gini index of both cities. Let's import the `Gini_Seg` clas
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.non_spatial_indexes import Gini_Seg
+from pysal.explore.segregation.aspatial import GiniSeg
 
-G_la = Gini_Seg(la_2010, 'nhblk10', 'pop10')
-G_ny = Gini_Seg(ny_2010, 'nhblk10', 'pop10')
+G_la = GiniSeg(la_2010, 'nhblk10', 'pop10')
+G_ny = GiniSeg(ny_2010, 'nhblk10', 'pop10')
 
 G_la.statistic - G_ny.statistic
 
@@ -376,7 +376,7 @@ Let's decompose these difference according to *Rey, S. et al "Comparative Spatia
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-help(Decompose_Segregation)
+help(DecomposeSegregation)
 
 ```
 </div>
@@ -385,9 +385,9 @@ help(Decompose_Segregation)
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Help on class Decompose_Segregation in module segregation.decompose_segregation:
+Help on class DecomposeSegregation in module segregation.decomposition.decompose_segregation:
 
-class Decompose_Segregation(builtins.object)
+class DecomposeSegregation(builtins.object)
  |  Decompose segregation differences into spatial and attribute components.
  |  
  |  Given two segregation indices of the same type, use Shapley decomposition
@@ -422,6 +422,10 @@ class Decompose_Segregation(builtins.object)
  |      
  |      'cdfs' : visualize the cumulative distribution functions of the compositions/shares
  |      'maps' : visualize the spatial distributions for original data and counterfactuals generated and Shapley's components (only available for GeoDataFrames)
+ |  
+ |  Examples
+ |  --------
+ |  Several examples can be found at https://github.com/pysal/segregation/blob/master/notebooks/decomposition_wrapper_example.ipynb.
  |  
  |  Methods defined here:
  |  
@@ -458,7 +462,7 @@ The difference of -0.10653 fitted previously, can be decomposed into two compone
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-DS_composition = Decompose_Segregation(G_la, G_ny)
+DS_composition = DecomposeSegregation(G_la, G_ny)
 DS_composition.c_s
 
 ```
@@ -573,7 +577,7 @@ The share approach takes into consideration the share of each group in each city
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-DS_share = Decompose_Segregation(G_la, G_ny, counterfactual_approach = 'share')
+DS_share = DecomposeSegregation(G_la, G_ny, counterfactual_approach = 'share')
 DS_share.plot(plot_type = 'cdfs')
 
 ```
@@ -628,7 +632,7 @@ The `dual_composition` approach is similar to the composition approach. However,
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-DS_dual = Decompose_Segregation(G_la, G_ny, counterfactual_approach = 'dual_composition')
+DS_dual = DecomposeSegregation(G_la, G_ny, counterfactual_approach = 'dual_composition')
 DS_dual.plot(plot_type = 'cdfs')
 
 ```
@@ -681,10 +685,10 @@ The counterfactual distributions are virtually the same (but not equal) as the o
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Relative_Concentration
+from pysal.explore.segregation.spatial import RelativeConcentration
 
-RCO_la = Relative_Concentration(la_2010, 'nhblk10', 'pop10')
-RCO_ny = Relative_Concentration(ny_2010, 'nhblk10', 'pop10')
+RCO_la = RelativeConcentration(la_2010, 'nhblk10', 'pop10')
+RCO_ny = RelativeConcentration(ny_2010, 'nhblk10', 'pop10')
 
 RCO_la.statistic - RCO_ny.statistic
 
@@ -697,7 +701,7 @@ RCO_la.statistic - RCO_ny.statistic
 
 {:.output_data_text}
 ```
--0.4251693177385222
+-0.4252237137424809
 ```
 
 
@@ -710,7 +714,7 @@ RCO_la.statistic - RCO_ny.statistic
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-RCO_DS_composition = Decompose_Segregation(RCO_la, RCO_ny)
+RCO_DS_composition = DecomposeSegregation(RCO_la, RCO_ny)
 RCO_DS_composition.c_s
 
 ```
@@ -722,7 +726,7 @@ RCO_DS_composition.c_s
 
 {:.output_data_text}
 ```
--0.37581968640142394
+-0.37586237172215886
 ```
 
 
@@ -746,7 +750,7 @@ RCO_DS_composition.c_a
 
 {:.output_data_text}
 ```
--0.0493496313370983
+-0.049361342020322
 ```
 
 

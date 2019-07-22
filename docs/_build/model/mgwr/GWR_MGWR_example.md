@@ -19,13 +19,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <div class="input_area" markdown="1">
 ```python
 import numpy as np
-# import scipy as sp
 from pysal.model.mgwr.sel_bw import Sel_BW
-# from pysal.model.mgwr.gwr import GWR, MGWR
+from pysal.model.mgwr.gwr import GWR, MGWR
 import pandas as pd
 import pysal.lib as ps
-# import pickle as pk
-# import os
 
 ```
 </div>
@@ -84,29 +81,9 @@ print('sigma2:', gwr_results.sigma2)
 {:.output_stream}
 ```
 bw: 117.0
-```
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-{:.output_traceback_line}
-```
-
-    ---------------------------------------------------------------------------
-
-    NameError                                 Traceback (most recent call last)
-
-    <ipython-input-3-2da488ac544f> in <module>
-          9 bw = sel.search()
-         10 print('bw:', bw)
-    ---> 11 gwr = GWR(coords, y, X, bw)
-         12 gwr_results = gwr.fit()
-         13 print('aicc:', gwr_results.aicc)
-
-
-    NameError: name 'GWR' is not defined
-
-
+aicc: 299.0508086830288
+ENP: 11.804769716730096
+sigma2: 0.3477435474978281
 ```
 </div>
 </div>
@@ -154,5 +131,112 @@ print('critical_t(rural):', critical_ts[3])
 ```
 </div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+bw(intercept): 92.0
+bw(foreign): 101.0
+bw(african_amer): 136.0
+bw(rural): 158.0
+aicc: 297.12013812258783
+sigma2: 0.34477258292171475
+ENP(model): 11.368250872698306
+adj_alpha(model): 0.017592855949398054
+critical_t(model): 2.399257840857394
+ENP(intercept): 3.8446710802641415
+adj_alpha(intercept): 0.013005013681577368
+critical_t(intercept): 2.512107491068591
+ENP(foreign): 3.5137708051516503
+adj_alpha(foreign): 0.01422972719982004
+critical_t(foreign): 2.4788879239423856
+ENP(african_amer): 2.258052527889825
+adj_alpha(african_amer): 0.022142974701622888
+critical_t(african_amer): 2.3106911297007184
+ENP(rural): 1.7517564593926895
+adj_alpha(rural): 0.02854278043726143
+critical_t(rural): 2.210001836555586
+```
+</div>
+</div>
+</div>
+
+
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+mgwr_results.summary()
+
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+===========================================================================
+Model type                                                         Gaussian
+Number of observations:                                                 159
+Number of covariates:                                                     4
+
+Global Regression Results
+---------------------------------------------------------------------------
+Residual sum of squares:                                             71.793
+Log-likelihood:                                                    -162.399
+AIC:                                                                332.798
+AICc:                                                               335.191
+BIC:                                                               -713.887
+R2:                                                                   0.548
+Adj. R2:                                                              0.540
+
+Variable                              Est.         SE  t(Est/SE)    p-value
+------------------------------- ---------- ---------- ---------- ----------
+X0                                  -0.000      0.054     -0.000      1.000
+X1                                   0.458      0.066      6.988      0.000
+X2                                  -0.084      0.055     -1.525      0.127
+X3                                  -0.374      0.065     -5.734      0.000
+
+Multi-Scale Geographically Weighted Regression (MGWR) Results
+---------------------------------------------------------------------------
+Spatial kernel:                                           Adaptive bisquare
+Criterion for optimal bandwidth:                                       AICc
+Score of Change (SOC) type:                                     Smoothing f
+Termination criterion for MGWR:                                       1e-05
+
+MGWR bandwidths
+---------------------------------------------------------------------------
+Variable             Bandwidth      ENP_j   Adj t-val(95%)   Adj alpha(95%)
+X0                      92.000      3.845            2.512            0.013
+X1                     101.000      3.514            2.479            0.014
+X2                     136.000      2.258            2.311            0.022
+X3                     158.000      1.752            2.210            0.029
+
+Diagnostic information
+---------------------------------------------------------------------------
+Residual sum of squares:                                             50.899
+Effective number of parameters (trace(S)):                           11.368
+Degree of freedom (n - trace(S)):                                   147.632
+Sigma estimate:                                                       0.587
+Log-likelihood:                                                    -135.056
+AIC:                                                                294.849
+AICc:                                                               297.120
+BIC:                                                                332.806
+R2                                                                    0.680
+Adjusted R2                                                           0.655
+
+Summary Statistics For MGWR Parameter Estimates
+---------------------------------------------------------------------------
+Variable                   Mean        STD        Min     Median        Max
+-------------------- ---------- ---------- ---------- ---------- ----------
+X0                        0.017      0.171     -0.260      0.058      0.271
+X1                        0.479      0.216      0.117      0.500      0.722
+X2                       -0.069      0.036     -0.146     -0.064     -0.014
+X3                       -0.304      0.019     -0.347     -0.302     -0.266
+===========================================================================
+
+```
+</div>
+</div>
 </div>
 

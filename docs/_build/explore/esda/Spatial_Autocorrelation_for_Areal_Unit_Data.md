@@ -85,92 +85,6 @@ df.head()
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-
-<div markdown="0" class="output output_html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>neighbourh</th>
-      <th>neighbou_1</th>
-      <th>price_x</th>
-      <th>price_y</th>
-      <th>median_pri</th>
-      <th>geometry</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Blankenfelde/Niederschönhausen</td>
-      <td>Pankow</td>
-      <td>37.5</td>
-      <td>37.5</td>
-      <td>37.5</td>
-      <td>POLYGON ((1493006.880445722 6912074.798336806,...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Helmholtzplatz</td>
-      <td>Pankow</td>
-      <td>58.0</td>
-      <td>58.0</td>
-      <td>58.0</td>
-      <td>POLYGON ((1493245.549433984 6900059.695978194,...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Wiesbadener Straße</td>
-      <td>Charlottenburg-Wilm.</td>
-      <td>50.0</td>
-      <td>50.0</td>
-      <td>50.0</td>
-      <td>POLYGON ((1481381.45206371 6885170.697768607, ...</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Schmöckwitz/Karolinenhof/Rauchfangswerder</td>
-      <td>Treptow - Köpenick</td>
-      <td>99.0</td>
-      <td>99.0</td>
-      <td>99.0</td>
-      <td>POLYGON ((1526159.828554794 6872101.0436049, 1...</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Müggelheim</td>
-      <td>Treptow - Köpenick</td>
-      <td>25.0</td>
-      <td>25.0</td>
-      <td>25.0</td>
-      <td>POLYGON ((1529265.085750472 6874326.842288786,...</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-
-</div>
-</div>
 </div>
 
 
@@ -187,18 +101,6 @@ pd.isnull(df['median_pri']).sum()
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-1
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -225,26 +127,6 @@ df.plot(column='median_pri')
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-<matplotlib.axes._subplots.AxesSubplot at 0x7f3f1dcf0438>
-```
-
-
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-{:.output_png}
-![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_9_1.png)
-
-</div>
-</div>
 </div>
 
 
@@ -260,26 +142,6 @@ df.plot(column='median_pri', scheme='Quantiles', k=5, cmap='GnBu', legend=True, 
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-<matplotlib.axes._subplots.AxesSubplot at 0x7f3f1d9b9a20>
-```
-
-
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-{:.output_png}
-![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_10_1.png)
-
-</div>
-</div>
 </div>
 
 
@@ -360,45 +222,6 @@ ylag
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-array([45.2       , 52.625     , 45.75      , 32.5       , 63.5       ,
-       42.        , 45.625     , 44.14285714, 43.33333333, 38.75      ,
-       41.5       , 50.8       , 36.6875    , 54.36363636, 54.375     ,
-       38.92857143, 38.125     , 50.9       , 35.6875    , 59.66666667,
-       46.875     , 46.92857143, 49.58333333, 47.25      , 53.25      ,
-       40.57142857, 37.66666667, 37.14285714, 40.75      , 41.5       ,
-       45.9       , 35.3       , 47.9375    , 47.33333333, 40.        ,
-       44.        , 58.3       , 53.16666667, 41.1459854 , 43.75      ,
-       51.625     , 52.3       , 50.5       , 46.91666667, 47.        ,
-       38.125     , 35.33333333, 48.83333333, 46.6       , 43.125     ,
-       39.95498783, 41.33333333, 42.        , 44.43248175, 55.66666667,
-       46.2       , 47.33333333, 49.84124088, 47.93248175, 42.92857143,
-       43.4       , 40.78571429, 37.42857143, 32.75      , 45.57142857,
-       51.25      , 44.        , 33.33333333, 33.25      , 42.        ,
-       40.        , 34.8       , 43.57142857, 41.75      , 43.85714286,
-       39.14285714, 42.25      , 47.21428571, 46.        , 51.2       ,
-       36.66666667, 39.875     , 35.375     , 44.8       , 42.25      ,
-       36.6       , 38.66666667, 41.11111111, 40.2       , 38.33333333,
-       39.625     , 43.5       , 39.1       , 40.9       , 40.625     ,
-       48.625     , 49.5       , 50.02554745, 37.42857143, 39.83333333,
-       51.58333333, 48.6875    , 50.5       , 38.5       , 41.5       ,
-       44.04545455, 36.33333333, 45.1875    , 40.85714286, 55.875     ,
-       58.        , 47.14285714, 38.16666667, 44.7       , 44.1       ,
-       45.5       , 50.83333333, 44.83333333, 40.25      , 40.        ,
-       42.66666667, 44.125     , 37.6       , 39.25      , 34.25      ,
-       30.33333333, 36.14285714, 38.75      , 42.16666667, 39.        ,
-       38.92857143, 36.75      , 34.        , 41.375     , 36.5       ,
-       38.        , 35.91666667, 36.        ])
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -431,14 +254,6 @@ plt.show()
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-{:.output_png}
-![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_17_0.png)
-
-</div>
-</div>
 </div>
 
 
@@ -468,14 +283,6 @@ plt.show()
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-{:.output_png}
-![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_19_0.png)
-
-</div>
-</div>
 </div>
 
 
@@ -509,18 +316,6 @@ y.median()
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-42.0
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -534,18 +329,6 @@ sum(yb)
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-68
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -584,26 +367,6 @@ df.plot(column='yb', cmap='binary', edgecolor='grey', legend=True, ax=ax)
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-<matplotlib.axes._subplots.AxesSubplot at 0x7f3f1c34f2e8>
-```
-
-
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-{:.output_png}
-![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_26_1.png)
-
-</div>
-</div>
 </div>
 
 
@@ -660,18 +423,6 @@ jc.bb
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-121.0
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -684,18 +435,6 @@ jc.ww
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-114.0
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -708,18 +447,6 @@ jc.bw
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-150.0
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -736,18 +463,6 @@ jc.bb + jc.ww + jc.bw
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-385.0
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -764,18 +479,6 @@ wq.s0 / 2
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-385.0
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -794,18 +497,6 @@ jc.bb
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-121.0
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -830,18 +521,6 @@ jc.mean_bb
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-92.65365365365365
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -864,26 +543,6 @@ plt.xlabel('BB Counts')
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-Text(0.5,0,'BB Counts')
-```
-
-
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-{:.output_png}
-![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_42_1.png)
-
-</div>
-</div>
 </div>
 
 
@@ -904,18 +563,6 @@ jc.p_sim_bb
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-0.001
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -975,18 +622,6 @@ mi.I
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-0.09715984916381672
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -1010,26 +645,6 @@ plt.xlabel("Moran's I")
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-Text(0.5,0,"Moran's I")
-```
-
-
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-{:.output_png}
-![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_51_1.png)
-
-</div>
-</div>
 </div>
 
 
@@ -1047,18 +662,6 @@ mi.p_sim
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-0.02
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -1123,14 +726,6 @@ plt.show()
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-{:.output_png}
-![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_57_0.png)
-
-</div>
-</div>
 </div>
 
 
@@ -1161,24 +756,6 @@ li.q
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-array([2, 1, 1, 4, 2, 3, 2, 1, 3, 4, 3, 1, 3, 1, 1, 3, 3, 2, 3, 1, 1, 1,
-       1, 2, 2, 3, 4, 4, 3, 4, 2, 3, 1, 1, 3, 1, 1, 1, 4, 1, 1, 1, 1, 1,
-       2, 3, 3, 2, 2, 4, 3, 3, 3, 2, 1, 1, 1, 1, 1, 3, 3, 3, 3, 4, 2, 2,
-       2, 4, 4, 3, 3, 4, 3, 4, 2, 4, 4, 1, 2, 1, 4, 3, 4, 2, 3, 3, 3, 3,
-       3, 3, 4, 3, 4, 3, 4, 1, 1, 1, 3, 3, 1, 1, 1, 3, 4, 1, 4, 2, 3, 1,
-       1, 2, 4, 2, 2, 2, 1, 1, 3, 3, 4, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-       3, 3, 4, 3, 3, 3])
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -1196,18 +773,6 @@ conditional random permutations (different distributions for each focal location
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-24
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -1262,14 +827,6 @@ plt.show()
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-{:.output_png}
-![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_66_0.png)
-
-</div>
-</div>
 </div>
 
 
@@ -1303,14 +860,6 @@ plt.show()
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-{:.output_png}
-![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_68_0.png)
-
-</div>
-</div>
 </div>
 
 
@@ -1344,14 +893,6 @@ plt.show()
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-{:.output_png}
-![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_70_0.png)
-
-</div>
-</div>
 </div>
 
 
@@ -1385,14 +926,6 @@ plt.show()
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-{:.output_png}
-![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_72_0.png)
-
-</div>
-</div>
 </div>
 
 
@@ -1411,24 +944,6 @@ spots
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-array([0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3, 1, 0, 0, 0, 0, 3, 1, 0, 0,
-       0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0,
-       0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0,
-       0, 4, 4, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0,
-       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 1,
-       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 3, 3, 3, 0, 0, 0, 0, 0,
-       3, 0, 0, 0, 3, 0])
-```
-
-
-</div>
-</div>
 </div>
 
 
@@ -1462,13 +977,133 @@ plt.show()
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
+</div>
 
-{:.output_png}
-![png](../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_75_0.png)
+
+
+## S-maup: Statistical test to measure the sensitivity to the modifiable areal unit problem
+
+This is a nonparametric statistical test to measure the sensitivity of a spatially intensive variable to the effects of the Modifiable Areal Unit Problem (MAUP). The S-maup statistic can be used to find the maximum level of spatial aggregation (k) that preserves the distributional characteristics of the spatial variable before being aggregated.
+
+**H0**: The variable y **is not** significantly affected by the MAUP.
+
+**H1**: The variable y **is** significantly affected by the MAUP.
+
+**Citation**: Duque JC, Laniado H, Polo A (2018) S-maup: Statistical test to measure the sensitivity to the modifiable areal unit problem. PLoS ONE 13(11): e0207377. https://doi.org/10.1371/journal.pone.0207377
+
+https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0207377
+
+
+
+Let's find the maximum number of regions (k) in which we can aggregate (n) areas before having the negative consequences of the MAUP
+
+
+
+### 1. load the map
+
+
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+#import pysal.lib
+#from pysal.explore.esda.moran import Moran
+#from pysal.explore.esda.smaup import Smaup
+
+```
+</div>
 
 </div>
+
+
+
+### 2. select the variable to analyze
+
+
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+#f = pysal.lib.io.open(pysal.lib.examples.get_path("stl_hom.txt"))
+#y = np.array(f.by_col['HR8893'])
+
+```
 </div>
+
+</div>
+
+
+
+### 3. calculate the level of spatial autocorrelation
+
+
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+#w = pysal.lib.io.open(pysal.lib.examples.get_path("stl.gal")).read()
+#rho = Moran(y,  w).I
+
+```
+</div>
+
+</div>
+
+
+
+### 4. calculate the number of areas (n)
+
+
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+#n = len(y)
+
+```
+</div>
+
+</div>
+
+
+
+### 5. let's begin with the minimum level of aggregation which is the number of areas minus one
+
+
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+'''
+k = len(y)-1
+crit_val0_05 = np.inf
+smaup = -np.inf
+#the reduce k until H0 is rejected 
+while smaup < crit_val0_05:
+    s = Smaup(n,k,rho)
+    smaup = s.smaup
+    crit_val0_05 = s.critical_05
+    k -= 1
+'''
+
+```
+</div>
+
+</div>
+
+
+
+### 6. maximum number of regions (k) is...
+
+
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+#print(k+1)
+
+```
+</div>
+
 </div>
 

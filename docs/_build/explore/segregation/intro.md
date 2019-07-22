@@ -4,8 +4,8 @@ prev_page:
   url: /explore/spaghetti/Network_Usage
   title: 'Network_Usage'
 next_page:
-  url: /explore/segregation/profile_wrappers_example
-  title: 'profile_wrappers_example'
+  url: /explore/segregation/aspatial_examples
+  title: 'aspatial_examples'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 # Segregation Analysis, Inference, and Decomposition with PySAL

@@ -277,7 +277,7 @@ plt.legend(numpoints=1)
 
 {:.output_data_text}
 ```
-<matplotlib.legend.Legend at 0x1b2302ba58>
+<matplotlib.legend.Legend at 0x7f55e52433c8>
 ```
 
 
@@ -371,7 +371,7 @@ plt.legend(numpoints=1)
 
 {:.output_data_text}
 ```
-<matplotlib.legend.Legend at 0x1b230f3ba8>
+<matplotlib.legend.Legend at 0x7f55e51b3d30>
 ```
 
 
@@ -393,9 +393,9 @@ plt.legend(numpoints=1)
 
 $$min  f(x_{mm},y_{mm})= \sum^n_{i=1}(|x_i-x_{mm}|+|y_i-y_{mm}|)$$
 
-Manhattan median is the location which minimized the absolute distance to all the event points. It is an extension of the median measure in one-dimensional space to two-dimensional space. Since in one-dimensional space, a median is the number separating the higher half of a dataset from the lower half, we define the Manhattan median as a tuple whose first element is the median of $x$ coordinates and second element is the median of $y$ coordinates.
+The Manhattan median is the location which minimizes the absolute distance to all the event points. It is an extension of the median measure in one-dimensional space to two-dimensional space. Since in one-dimensional space, a median is the number separating the higher half of a dataset from the lower half, we define the Manhattan median as a tuple whose first element is the median of $x$ coordinates and second element is the median of $y$ coordinates.
 
-Though Manhattan median can be found very quickly, it is not unique if you have even number of points. In this case, pysal handle the Manhattan median the same way as numpy.median: return the average of the two middle values.
+Though Manhattan median can be found very quickly, it is not unique if you have even number of points. In this case, pysal handles the Manhattan median the same way as numpy.median: return the average of the two middle values.
 
 
 
@@ -468,7 +468,7 @@ plt.legend(numpoints=1)
 
 {:.output_data_text}
 ```
-<matplotlib.legend.Legend at 0x1b235c5e80>
+<matplotlib.legend.Legend at 0x7f55e5133898>
 ```
 
 
@@ -490,7 +490,7 @@ plt.legend(numpoints=1)
 
 $$min  f(x_{em},y_{em})= \sum^n_{i=1} \sqrt{(x_i-x_{em})^2+(y_i-y_{em})^2}$$
 
-Euclidean Median is the location from which the sum of the Euclidean distances to all points in a distribution is a minimum. It is an optimization problem and very important for more general location allocation problems. There is no closed form solution. We can use first iterative algorithm (Kuhn and Kuenne, 1962) to approximate Euclidean Median. 
+The Euclidean Median is the location from which the sum of the Euclidean distances to all points in a distribution is a minimum. It is an optimization problem and very important for more general location allocation problems. There is no closed form solution. We can use first iterative algorithm (Kuhn and Kuenne, 1962) to approximate Euclidean Median. 
 
 
 
@@ -638,7 +638,7 @@ plt.legend(numpoints=1)
 
 {:.output_data_text}
 ```
-<matplotlib.legend.Legend at 0x1b236a1b70>
+<matplotlib.legend.Legend at 0x7f55e50afa90>
 ```
 
 
@@ -662,7 +662,7 @@ plt.legend(numpoints=1)
 
 $$SD = \displaystyle \sqrt{\frac{\sum^n_{i=1}(x_i-x_{m})^2}{n} + \frac{\sum^n_{i=1}(y_i-y_{m})^2}{n}}$$
 
-Standard distance is obviously closely related to the usual definition of the standard deviation of a data set, and it provides a measure of how dispersed the events are around their mean center $(x_m,y_m)$.  Taken together, these measurements can be used to plot a summary circle (standard distance circle) for the point pattern, centered at $(x_m,y_m)$ with radius $SD$, as shown below.
+The Standard distance is  closely related to the usual definition of the standard deviation of a data set, and it provides a measure of how dispersed the events are around their mean center $(x_m,y_m)$.  Taken together, these measurements can be used to plot a summary circle (standard distance circle) for the point pattern, centered at $(x_m,y_m)$ with radius $SD$, as shown below.
 
 
 
@@ -714,7 +714,7 @@ plt.legend(numpoints=1)
 
 {:.output_data_text}
 ```
-<matplotlib.legend.Legend at 0x1b2370ee48>
+<matplotlib.legend.Legend at 0x7f55e53060f0>
 ```
 
 
@@ -918,7 +918,7 @@ plt.legend(numpoints=1)
 
 {:.output_data_text}
 ```
-<matplotlib.legend.Legend at 0x1b238d4128>
+<matplotlib.legend.Legend at 0x7f55e4f9aeb8>
 ```
 
 
@@ -991,7 +991,7 @@ plt.legend(numpoints=1)
 
 {:.output_data_text}
 ```
-<matplotlib.legend.Legend at 0x1b239b10b8>
+<matplotlib.legend.Legend at 0x7f55e4f95e80>
 ```
 
 
@@ -1028,7 +1028,7 @@ plt.legend(numpoints=1)
 
 {:.output_data_text}
 ```
-<matplotlib.legend.Legend at 0x1b23a89278>
+<matplotlib.legend.Legend at 0x7f55e4f10e48>
 ```
 
 
@@ -1069,7 +1069,7 @@ plt.legend(numpoints=1)
 
 {:.output_data_text}
 ```
-<matplotlib.legend.Legend at 0x1b23af6828>
+<matplotlib.legend.Legend at 0x7f55e4e8bba8>
 ```
 
 
@@ -1089,7 +1089,7 @@ plt.legend(numpoints=1)
 
 ## Another Example
 
-We apply the above centragraphy statistics and visualization to 2 simulated random datasets.
+We apply the  centrography statistics and visualization to 2 simulated random datasets.
 
 
 
@@ -1183,7 +1183,7 @@ plt.legend(numpoints=1)
 
 {:.output_data_text}
 ```
-<matplotlib.legend.Legend at 0x1b24216ef0>
+<matplotlib.legend.Legend at 0x7f55e4c22ac8>
 ```
 
 
@@ -1216,7 +1216,7 @@ from pylab import figure, show,rand
 fig = figure()
 #ax = fig.add_subplot(111, aspect='equal')
 e = Ellipse(xy=mean_center(pp.points), width=sx*2, height=sy*2, angle=-theta_degree)
-ax = pp.plot(get_ax=True, title='Standard Distance Circle')
+ax = pp.plot(get_ax=True, title='Standard Deviational Ellipse')
 ax.add_artist(e)
 e.set_clip_box(ax.bbox)
 e.set_facecolor([0.8,0,0])
@@ -1318,7 +1318,7 @@ plt.legend(numpoints=1)
 
 {:.output_data_text}
 ```
-<matplotlib.legend.Legend at 0x1b238a1630>
+<matplotlib.legend.Legend at 0x7f55e4e62588>
 ```
 
 
@@ -1347,7 +1347,7 @@ from pylab import figure, show,rand
 fig = figure()
 #ax = fig.add_subplot(111, aspect='equal')
 e = Ellipse(xy=mean_center(pp.points), width=sx*2, height=sy*2, angle=-theta_degree)
-ax = pp.plot(get_ax=True, title='Standard Distance Circle')
+ax = pp.plot(get_ax=True, title='Standard Deviational Ellipse')
 ax.add_artist(e)
 e.set_clip_box(ax.bbox)
 e.set_facecolor([0.8,0,0])
@@ -1402,8 +1402,8 @@ print(dtot(mc, pp.points) > dtot(em, pp.points))
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-74214411.72342663
-73835502.40107813
+73007071.24620631
+72780262.40401942
 True
 ```
 </div>

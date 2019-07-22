@@ -85,16 +85,24 @@
   url: /explore/segregation/intro
   not_numbered: true
   sections:
-  - title: profile_wrappers_example
-    url: /explore/segregation/profile_wrappers_example
+  - title: aspatial_examples
+    url: /explore/segregation/aspatial_examples
   - title: decomposition_wrapper_example
     url: /explore/segregation/decomposition_wrapper_example
   - title: inference_wrappers_example
     url: /explore/segregation/inference_wrappers_example
-  - title: nonspatial_examples
-    url: /explore/segregation/nonspatial_examples
+  - title: multiscalar_segregation_profiles
+    url: /explore/segregation/multiscalar_segregation_profiles
+  - title: multigroup_aspatial_examples
+    url: /explore/segregation/multigroup_aspatial_examples
+  - title: compute_all_example
+    url: /explore/segregation/compute_all_example
+  - title: network_measures
+    url: /explore/segregation/network_measures
   - title: spatial_examples
     url: /explore/segregation/spatial_examples
+  - title: local_measures_example
+    url: /explore/segregation/local_measures_example
   
 - title: inequality
   url: /explore/inequality/intro
@@ -210,6 +218,8 @@
     url: /model/mgwr/GWR_MGWR_example
   - title: MGWR_Georgia_example
     url: /model/mgwr/MGWR_Georgia_example
+  - title: GWR_MGWR_Parallel_Example
+    url: /model/mgwr/GWR_MGWR_Parallel_Example
   
 - divider: true
 - header: Lib

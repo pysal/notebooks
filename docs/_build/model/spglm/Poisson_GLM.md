@@ -2,7 +2,7 @@
 redirect_from:
   - "/model/spglm/poisson-glm"
 interact_link: content/model/spglm/Poisson_GLM.ipynb
-kernel_name: python3
+kernel_name: Python [Root]
 has_widgets: false
 title: 'Poisson_GLM'
 prev_page:

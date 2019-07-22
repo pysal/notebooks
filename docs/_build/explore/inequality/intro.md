@@ -1,8 +1,8 @@
 ---
 title: 'inequality'
 prev_page:
-  url: /explore/segregation/spatial_examples
-  title: 'spatial_examples'
+  url: /explore/segregation/local_measures_example
+  title: 'local_measures_example'
 next_page:
   url: /explore/inequality/gini
   title: 'gini'

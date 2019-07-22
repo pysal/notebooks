@@ -29,9 +29,9 @@
   "headline":
     "Search the site",
   "datePublished":
-    "2019-07-22T16:47:05+00:00",
+    "2019-07-22T19:46:09+00:00",
   "dateModified":
-    "2019-07-22T16:47:05+00:00",
+    "2019-07-22T19:46:09+00:00",
   "description":
     "Example notebooks from the PySAL federation.",
   "author": {
@@ -1069,10 +1069,10 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/notebooks/explore/segregation/profile_wrappers_example.html"
+                  href="/notebooks/explore/segregation/aspatial_examples.html"
                 >
                   
-                  profile_wrappers_example
+                  aspatial_examples
                 </a>
 
                 
@@ -1120,10 +1120,61 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/notebooks/explore/segregation/nonspatial_examples.html"
+                  href="/notebooks/explore/segregation/multiscalar_segregation_profiles.html"
                 >
                   
-                  nonspatial_examples
+                  multiscalar_segregation_profiles
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/multigroup_aspatial_examples.html"
+                >
+                  
+                  multigroup_aspatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/compute_all_example.html"
+                >
+                  
+                  compute_all_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/network_measures.html"
+                >
+                  
+                  network_measures
                 </a>
 
                 
@@ -1141,6 +1192,23 @@ initFunction(initQuery);
                 >
                   
                   spatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/local_measures_example.html"
+                >
+                  
+                  local_measures_example
                 </a>
 
                 
@@ -2025,6 +2093,23 @@ initFunction(initQuery);
               </li>
               
             
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_MGWR_Parallel_Example.html"
+                >
+                  
+                  GWR_MGWR_Parallel_Example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
           </ul>
         
       </li>
@@ -2306,10 +2391,26 @@ initFunction(initQuery);
         "tags": [],
         "url": "http://0.0.0.0:4000/notebooks/explore/pointpats/window.html",
         "teaser":null},{
+        "title": "aspatial_examples",
+        
+        "excerpt":
+            "PySAL segregation module for aspatial indexes This is an example notebook of functionalities for aspatial indexes of the segregation module. Firstly, we need to import the packages we need. %matplotlib inline import geopandas as gpd from pysal.explore import segregation import pysal.lib Then it’s time to load some data to estimate segregation. We use the data of 2000 Census Tract Data for the metropolitan area of Sacramento, CA, USA. We use a geopandas dataframe available in PySAL examples repository. We highlight that for nonspatial segregation measures only a pandas dataframe would also work to estimate. For more information about the data:...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/segregation/aspatial_examples.html",
+        "teaser":null},{
+        "title": "compute_all_example",
+        
+        "excerpt":
+            "Example of use of computing several measures of the PySAL segregation module: using ComputeAll classes The Compute_All classes comprises simple and quick functions to assess multiple segregation measures at once in a dataset. It uses all the default parameters and returns an object that has an attribute (.computed) of a dictionary with summary of all values fitted. The wrappers have currently three classes: ComputeAllAspatialSegregation, ComputeAllSpatialSegregation and ComputeAllSegregation which comprises all the measures available. Firstly, we need to import the libraries and functions to be used. %matplotlib inline import geopandas as gpd from pysal.explore import segregation import pysal.lib from pysal.explore.segregation.compute_all import...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/segregation/compute_all_example.html",
+        "teaser":null},{
         "title": "decomposition_wrapper_example",
         
         "excerpt":
-            "Decomposition framework of the PySAL segregation module This is a notebook that explains a step-by-step procedure to perform decomposition on comparative segregation measures. First, let’s import all the needed libraries. import pandas as pd import pickle import numpy as np import matplotlib.pyplot as plt from pysal.explore import segregation from pysal.explore.segregation.decompose_segregation import Decompose_Segregation In this example, we are going to use census data that the user must download its own copy, following similar guidelines explained in https://github.com/spatialucr/geosnap/tree/master/geosnap/data where you should download the full type file of 2010. The zipped file download will have a name that looks like LTDB_Std_All_fullcount.zip. After extracting...",
+            "Decomposition framework of the PySAL segregation module This is a notebook that explains a step-by-step procedure to perform decomposition on comparative segregation measures. First, let’s import all the needed libraries. import pandas as pd import pickle import numpy as np import matplotlib.pyplot as plt from pysal.explore import segregation from pysal.explore.segregation.decomposition import DecomposeSegregation In this example, we are going to use census data that the user must download its own copy, following similar guidelines explained in https://github.com/spatialucr/geosnap/tree/master/geosnap/data where you should download the full type file of 2010. The zipped file download will have a name that looks like LTDB_Std_All_fullcount.zip. After extracting...",
         "categories": [],
         "tags": [],
         "url": "http://0.0.0.0:4000/notebooks/explore/segregation/decomposition_wrapper_example.html",
@@ -2317,7 +2418,7 @@ initFunction(initQuery);
         "title": "inference_wrappers_example",
         
         "excerpt":
-            "Inference Wrappers use cases This is an example of the PySAL segregation framework to perform inference on a single value and comparative inference using simulations under the null hypothesis. Once the segregation classes are fitted, the user can perform inference to shed light for statistical significance in regional analysis. Currently, it is possible to make inference for a single measure or for two values of the same measure. The summary of the inference wrappers is presented in the following Table: Inference Type Class/Function Function main Inputs Function Outputs Single Value Infer_Segregation seg_class, iterations_under_null, null_approach, two_tailed p_value, est_sim, statistic Two Value...",
+            "Inference Wrappers use cases This is an example of the PySAL segregation framework to perform inference on a single value and comparative inference using simulations under the null hypothesis. Once the segregation classes are fitted, the user can perform inference to shed light for statistical significance in regional analysis. Currently, it is possible to make inference for a single measure or for two values of the same measure. The summary of the inference wrappers is presented in the following Table: Inference Type Class/Function Function main Inputs Function Outputs Single Value SingleValueTest seg_class, iterations_under_null, null_approach, two_tailed p_value, est_sim, statistic Two Value...",
         "categories": [],
         "tags": [],
         "url": "http://0.0.0.0:4000/notebooks/explore/segregation/inference_wrappers_example.html",
@@ -2330,21 +2431,37 @@ initFunction(initQuery);
         "tags": [],
         "url": "http://0.0.0.0:4000/notebooks/explore/segregation/intro.html",
         "teaser":null},{
-        "title": "nonspatial_examples",
+        "title": "local_measures_example",
         
         "excerpt":
-            "PySAL segregation module for nonspatial indexes This is an example notebook of functionalities for nonspatial indexes of the segregation module. Firstly, we need to import the packages we need. %matplotlib inline import geopandas as gpd from pysal.explore import segregation import pysal.lib Then it’s time to load some data to estimate segregation. We use the data of 2000 Census Tract Data for the metropolitan area of Sacramento, CA, USA. We use a geopandas dataframe available in PySAL examples repository. We highlight that for nonspatial segregation measures only a pandas dataframe would also work to estimate. For more information about the data:...",
+            "Local Measures of segregation This is an example notebook of functionalities for local measures of the segregation module. Firstly, we need to import the packages and functions we need: import pysal.lib from pysal.explore import segregation import geopandas as gpd import matplotlib.pyplot as plt from pysal.explore.segregation.local import MultiLocationQuotient, MultiLocalDiversity, MultiLocalEntropy, MultiLocalSimpsonInteraction, MultiLocalSimpsonConcentration, LocalRelativeCentralization Then it’s time to load some data to estimate segregation. We use the data of 2000 Census Tract Data for the metropolitan area of Sacramento, CA, USA. We use a geopandas dataframe available in PySAL examples repository. For more information about the data: https://github.com/pysal/pysal.lib/tree/master/pysal.lib/examples/sacramento2 input_df = gpd.read_file(pysal.lib.examples.get_path(\"sacramentot2.shp\")) input_df.columns...",
         "categories": [],
         "tags": [],
-        "url": "http://0.0.0.0:4000/notebooks/explore/segregation/nonspatial_examples.html",
+        "url": "http://0.0.0.0:4000/notebooks/explore/segregation/local_measures_example.html",
         "teaser":null},{
-        "title": "profile_wrappers_example",
+        "title": "multigroup_aspatial_examples",
         
         "excerpt":
-            "Example of use of the Profile Wrappers of the PySAL segregation module The Profile Wrappers comprises simple and quick functions to assess multiple segregation measures at once in a dataset. It uses all the default parameters and returns an object that has an attribute (.profile) of a dictionary with summary of all values fitted. The wrappers have currently three classes: nonspatial profiles, spatial profiles and the overall profile which comprises all the measures available. Firstly, we need to import the libraries and functions to be used. %matplotlib inline import geopandas as gpd from pysal.explore import segregation import pysal.lib from pysal.explore.segregation.profile_wrappers...",
+            "Multigroup aspatial indexes of segregation This is an example notebook of functionalities for multigroup aspatial indexes of the segregation module. Firstly, we need to import the packages we need: %%capture import pysal.lib from pysal.explore import segregation import geopandas as gpd Then it’s time to load some data to estimate segregation. We use the data of 2000 Census Tract Data for the metropolitan area of Sacramento, CA, USA. We use a geopandas dataframe available in PySAL examples repository. For more information about the data: https://github.com/pysal/pysal.lib/tree/master/pysal.lib/examples/sacramento2 input_df = gpd.read_file(pysal.lib.examples.get_path(\"sacramentot2.shp\")) input_df.columns Index(['FIPS', 'MSA', 'TOT_POP', 'POP_16', 'POP_65', 'WHITE_', 'BLACK_', 'ASIAN_', 'HISP_', 'MULTI_RA', 'MALES', 'FEMALES',...",
         "categories": [],
         "tags": [],
-        "url": "http://0.0.0.0:4000/notebooks/explore/segregation/profile_wrappers_example.html",
+        "url": "http://0.0.0.0:4000/notebooks/explore/segregation/multigroup_aspatial_examples.html",
+        "teaser":null},{
+        "title": "multiscalar_segregation_profiles",
+        
+        "excerpt":
+            "Multiscalar Segregation Profiles on Urban Street Networks This notebook examines how different definitions of urban space can affect observed measures of segregation. Using the spatial information theory index (H), we look at how different definitions of the local environment affect values of H for the same study area and population groups. Next, we calculate multiscalar segregation profiles introduced by Reardon et al to examine differences between macro and micro segregation. Finally, we examine how these segregation profiles differ when we measure distance in the local environment as a straight line, versus along a pedestrian transport network Note I highly recommend...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/segregation/multiscalar_segregation_profiles.html",
+        "teaser":null},{
+        "title": "network_measures",
+        
+        "excerpt":
+            "Network-based Spatial Information Theory Index from scratch What if you want to calculate the best segregation measure starting with no data? We’ve got you covered This notebook uses functionality found in the cenpy.products module, which will be released officially in July. If you want to replicate this notebook prior to cenpy’s 1.0 release, you can install the development version of with pip install git+https://github.com/ljwolf/cenpy.git@product Further, the notebook leverages a function from contextily that has not yet been released. Similar to above, you can use the most recent github version of the library to replicated the functionality in this notebook with...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/explore/segregation/network_measures.html",
         "teaser":null},{
         "title": "spatial_examples",
         
@@ -2437,15 +2554,23 @@ initFunction(initQuery);
         "title": "GWR_Georgia_example",
         
         "excerpt":
-            "import numpy as np import pysal.lib as ps from pysal.model.mgwr.gwr import GWR, MGWR from pysal.model.mgwr.sel_bw import Sel_BW import geopandas as gp import matplotlib.pyplot as plt import matplotlib as mpl import pandas as pd #Load Georgia dataset and generate plot of Georgia counties (figure 1) georgia_data = pd.read_csv(ps.examples.get_path('GData_utm.csv')) georgia_shp = gp.read_file(ps.examples.get_path('G_utm.shp')) fig, ax = plt.subplots(figsize=(10,10)) georgia_shp.plot(ax=ax, **{'edgecolor':'black', 'facecolor':'white'}) georgia_shp.centroid.plot(ax=ax, c='black') &lt;matplotlib.axes._subplots.AxesSubplot at 0x1a1d336588&gt; #Prepare Georgia dataset inputs g_y = georgia_data['PctBach'].values.reshape((-1,1)) g_X = georgia_data[['PctFB', 'PctBlack', 'PctRural']].values u = georgia_data['X'] v = georgia_data['Y'] g_coords = list(zip(u,v)) g_X = (g_X - g_X.mean(axis=0)) / g_X.std(axis=0) g_y = g_y.reshape((-1,1)) g_y = (g_y - g_y.mean(axis=0)) / g_y.std(axis=0)...",
+            "import numpy as np import pysal.lib as ps from pysal.model.mgwr.gwr import GWR, MGWR from pysal.model.mgwr.sel_bw import Sel_BW import geopandas as gp import matplotlib.pyplot as plt import matplotlib as mpl import pandas as pd #Load Georgia dataset and generate plot of Georgia counties (figure 1) georgia_data = pd.read_csv(ps.examples.get_path('GData_utm.csv')) georgia_shp = gp.read_file(ps.examples.get_path('G_utm.shp')) fig, ax = plt.subplots(figsize=(10,10)) georgia_shp.plot(ax=ax, **{'edgecolor':'black', 'facecolor':'white'}) georgia_shp.centroid.plot(ax=ax, c='black') &lt;matplotlib.axes._subplots.AxesSubplot at 0x1a2624ef60&gt; #Prepare Georgia dataset inputs g_y = georgia_data['PctBach'].values.reshape((-1,1)) g_X = georgia_data[['PctFB', 'PctBlack', 'PctRural']].values u = georgia_data['X'] v = georgia_data['Y'] g_coords = list(zip(u,v)) g_X = (g_X - g_X.mean(axis=0)) / g_X.std(axis=0) g_y = g_y.reshape((-1,1)) g_y = (g_y - g_y.mean(axis=0)) / g_y.std(axis=0)...",
         "categories": [],
         "tags": [],
         "url": "http://0.0.0.0:4000/notebooks/model/mgwr/GWR_Georgia_example.html",
         "teaser":null},{
+        "title": "GWR_MGWR_Parallel_Example",
+        
+        "excerpt":
+            "import numpy as np import geopandas as gp import multiprocessing as mp import pysal.lib as ps import sys sys.path.append('/Users/Ziqi/Desktop/mgwr/') from pysal.model.mgwr.gwr import GWR,MGWR from pysal.model.mgwr.sel_bw import Sel_BW #Load Berlin example prenz = gp.read_file(ps.examples.get_path('prenzlauer.zip')) b_y = np.log(prenz['price'].values.reshape((-1, 1))) b_X = prenz[['review_sco','accommodat','bathrooms']].values b_X = (b_X - b_X.mean(axis=0)) / b_X.std(axis=0) b_y = (b_y - b_y.mean(axis=0)) / b_y.std(axis=0) u = prenz['X'] v = prenz['Y'] b_coords = list(zip(u, v)) #This might be needed to turn off the OpenMP multi-threading %env OMP_NUM_THREADS = 1 env: OMP_NUM_THREADS=1 GWR No Parallel %%time gwr_selector = Sel_BW(b_coords, b_y, b_X) gwr_bw = gwr_selector.search() print(gwr_bw) gwr_results = GWR(b_coords, b_y, b_X, gwr_bw).fit() 192.0...",
+        "categories": [],
+        "tags": [],
+        "url": "http://0.0.0.0:4000/notebooks/model/mgwr/GWR_MGWR_Parallel_Example.html",
+        "teaser":null},{
         "title": "GWR_MGWR_example",
         
         "excerpt":
-            "import numpy as np # import scipy as sp from pysal.model.mgwr.sel_bw import Sel_BW # from pysal.model.mgwr.gwr import GWR, MGWR import pandas as pd import pysal.lib as ps # import pickle as pk # import os data = ps.io.open(ps.examples.get_path('GData_utm.csv')) coords = list(zip(data.by_col('X'), data.by_col('Y'))) y = np.array(data.by_col('PctBach')).reshape((-1,1)) rural = np.array(data.by_col('PctRural')).reshape((-1,1)) pov = np.array(data.by_col('PctPov')).reshape((-1,1)) black = np.array(data.by_col('PctBlack')).reshape((-1,1)) fb = np.array(data.by_col('PctFB')).reshape((-1,1)) pop = np.array(data.by_col('TotPop90')).reshape((-1,1)) X = np.hstack([fb, black, rural]) X = (X - X.mean(axis=0)) / X.std(axis=0) y = y.reshape((-1,1)) y = (y - y.mean(axis=0)) / y.std(axis=0) sel = Sel_BW(coords, y, X) bw = sel.search() print('bw:', bw) gwr = GWR(coords, y, X, bw) gwr_results =...",
+            "import numpy as np from pysal.model.mgwr.sel_bw import Sel_BW from pysal.model.mgwr.gwr import GWR, MGWR import pandas as pd import pysal.lib as ps data = ps.io.open(ps.examples.get_path('GData_utm.csv')) coords = list(zip(data.by_col('X'), data.by_col('Y'))) y = np.array(data.by_col('PctBach')).reshape((-1,1)) rural = np.array(data.by_col('PctRural')).reshape((-1,1)) pov = np.array(data.by_col('PctPov')).reshape((-1,1)) black = np.array(data.by_col('PctBlack')).reshape((-1,1)) fb = np.array(data.by_col('PctFB')).reshape((-1,1)) pop = np.array(data.by_col('TotPop90')).reshape((-1,1)) X = np.hstack([fb, black, rural]) X = (X - X.mean(axis=0)) / X.std(axis=0) y = y.reshape((-1,1)) y = (y - y.mean(axis=0)) / y.std(axis=0) sel = Sel_BW(coords, y, X) bw = sel.search() print('bw:', bw) gwr = GWR(coords, y, X, bw) gwr_results = gwr.fit() print('aicc:', gwr_results.aicc) print('ENP:', gwr_results.ENP) print('sigma2:', gwr_results.sigma2) bw: 117.0 aicc: 299.0508086830288 ENP: 11.804769716730096 sigma2:...",
         "categories": [],
         "tags": [],
         "url": "http://0.0.0.0:4000/notebooks/model/mgwr/GWR_MGWR_example.html",
@@ -2453,7 +2578,7 @@ initFunction(initQuery);
         "title": "GWR_prediction_example",
         
         "excerpt":
-            "import numpy as np import pysal.lib as ps from pysal.model.mgwr.gwr import GWR, MGWR from pysal.model.mgwr.sel_bw import Sel_BW import geopandas as gp import matplotlib.pyplot as plt import matplotlib as mpl #Load Georgia dataset and generate plot of Georgia counties (figure 1) georgia = gp.read_file(ps.examples.get_path('G_utm.shp')) fig, ax = plt.subplots(figsize=(10,10)) georgia.plot(ax=ax, **{'edgecolor':'black', 'facecolor':'white'}) georgia.centroid.plot(ax=ax, c='black') &lt;matplotlib.axes._subplots.AxesSubplot at 0x1a2028dcc0&gt; #Prepare Georgia dataset inputs y = georgia['PctBach'].values.reshape((-1,1)) X = georgia[['PctFB', 'PctBlack', 'PctRural']].values u = georgia['X'] v = georgia['Y'] coords = np.array(list(zip(u,v))) np.random.seed(908) sample = np.random.choice(range(159), 10) mask = np.ones_like(y,dtype=bool).flatten() mask[sample] = False cal_coords = coords[mask] cal_y = y[mask] cal_X = X[mask] pred_coords = coords[~mask] pred_y...",
+            "import numpy as np import pysal.lib as ps from pysal.model.mgwr.gwr import GWR, MGWR from pysal.model.mgwr.sel_bw import Sel_BW import geopandas as gp import matplotlib.pyplot as plt import matplotlib as mpl #Load Georgia dataset and generate plot of Georgia counties (figure 1) georgia = gp.read_file(ps.examples.get_path('G_utm.shp')) fig, ax = plt.subplots(figsize=(10,10)) georgia.plot(ax=ax, **{'edgecolor':'black', 'facecolor':'white'}) georgia.centroid.plot(ax=ax, c='black') &lt;matplotlib.axes._subplots.AxesSubplot at 0x1a2028dcc0&gt; #Prepare Georgia dataset inputs y = georgia['PctBach'].values.reshape((-1,1)) X = georgia[['PctFB', 'PctBlack', 'PctRural']].values u = georgia['X'] v = georgia['Y'] coords = list(zip(u,v)) np.random.seed(908) sample = np.random.choice(range(159), 10) mask = np.ones_like(y,dtype=bool).flatten() mask[sample] = False cal_coords = coords[mask] cal_y = y[mask] cal_X = X[mask] pred_coords = coords[~mask] pred_y...",
         "categories": [],
         "tags": [],
         "url": "http://0.0.0.0:4000/notebooks/model/mgwr/GWR_prediction_example.html",
@@ -2461,7 +2586,7 @@ initFunction(initQuery);
         "title": "MGWR_Georgia_example",
         
         "excerpt":
-            "Anaconda install instructions as of mgwr 1.0.2 and Conda 4.5: conda update conda conda update anaconda conda update scipy conda install pysal pip install pysal.lib conda install mgwr conda install geopandas import numpy as np import pysal.lib as ps from pysal.model.mgwr.gwr import GWR, MGWR from pysal.model.mgwr.sel_bw import Sel_BW from pysal.model.mgwr.utils import shift_colormap, truncate_colormap import geopandas as gp import matplotlib.pyplot as plt import matplotlib as mpl import pandas as pd #Load Georgia dataset and generate plot of Georgia counties (figure 1) georgia_data = pd.read_csv(ps.examples.get_path('GData_utm.csv')) georgia_shp = gp.read_file(ps.examples.get_path('G_utm.shp')) fig, ax = plt.subplots(figsize=(10,10)) georgia_shp.plot(ax=ax, **{'edgecolor':'black', 'facecolor':'white'}) georgia_shp.centroid.plot(ax=ax, c='black') &lt;matplotlib.axes._subplots.AxesSubplot at 0x121ee56a0&gt; #Prepare Georgia...",
+            "Anaconda install instructions as of mgwr 1.0.2 and Conda 4.5: conda update conda conda update anaconda conda update scipy conda install pysal pip install pysal.lib conda install mgwr conda install geopandas import numpy as np import pysal.lib as ps from pysal.model.mgwr.gwr import GWR, MGWR from pysal.model.mgwr.sel_bw import Sel_BW from pysal.model.mgwr.utils import shift_colormap, truncate_colormap import geopandas as gp import matplotlib.pyplot as plt import matplotlib as mpl import pandas as pd #Load Georgia dataset and generate plot of Georgia counties (figure 1) georgia_data = pd.read_csv(ps.examples.get_path('GData_utm.csv')) georgia_shp = gp.read_file(ps.examples.get_path('G_utm.shp')) fig, ax = plt.subplots(figsize=(10,10)) georgia_shp.plot(ax=ax, **{'edgecolor':'black', 'facecolor':'white'}) georgia_shp.centroid.plot(ax=ax, c='black') &lt;matplotlib.axes._subplots.AxesSubplot at 0x1a18c0b6a0&gt; #Prepare Georgia...",
         "categories": [],
         "tags": [],
         "url": "http://0.0.0.0:4000/notebooks/model/mgwr/MGWR_Georgia_example.html",
