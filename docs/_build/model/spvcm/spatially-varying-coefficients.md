@@ -1,6 +1,6 @@
 ---
 interact_link: content/model/spvcm/spatially-varying-coefficients.ipynb
-kernel_name: python3
+kernel_name: ana
 has_widgets: false
 title: 'spatially-varying-coefficients'
 prev_page:

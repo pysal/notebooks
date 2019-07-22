@@ -29,9 +29,9 @@
   "headline":
     "centrography",
   "datePublished":
-    "2019-07-22T16:47:05+00:00",
+    "2019-07-22T19:46:09+00:00",
   "dateModified":
-    "2019-07-22T16:47:05+00:00",
+    "2019-07-22T19:46:09+00:00",
   "description":
     "Centrography of Point Patterns",
   "author": {
@@ -1069,10 +1069,10 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/notebooks/explore/segregation/profile_wrappers_example.html"
+                  href="/notebooks/explore/segregation/aspatial_examples.html"
                 >
                   
-                  profile_wrappers_example
+                  aspatial_examples
                 </a>
 
                 
@@ -1120,10 +1120,61 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/notebooks/explore/segregation/nonspatial_examples.html"
+                  href="/notebooks/explore/segregation/multiscalar_segregation_profiles.html"
                 >
                   
-                  nonspatial_examples
+                  multiscalar_segregation_profiles
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/multigroup_aspatial_examples.html"
+                >
+                  
+                  multigroup_aspatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/compute_all_example.html"
+                >
+                  
+                  compute_all_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/network_measures.html"
+                >
+                  
+                  network_measures
                 </a>
 
                 
@@ -1141,6 +1192,23 @@ initFunction(initQuery);
                 >
                   
                   spatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/local_measures_example.html"
+                >
+                  
+                  local_measures_example
                 </a>
 
                 
@@ -2025,6 +2093,23 @@ initFunction(initQuery);
               </li>
               
             
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_MGWR_Parallel_Example.html"
+                >
+                  
+                  GWR_MGWR_Parallel_Example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
           </ul>
         
       </li>
@@ -2165,7 +2250,7 @@ initFunction(initQuery);
 
 
 
-<a href="https://mybinder.org/v2/gh/pysal/pysal/master?urlpath=lab/tree/content%2Fexplore%2Fpointpats%2Fcentrography.ipynb"><button class="interact-button" id="interact-button-binder"><img class="interact-button-logo" src="/notebooks/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
+<a href="https://mybinder.org/v2/gh/pysal/notebooks/master?urlpath=lab/tree/content%2Fexplore%2Fpointpats%2Fcentrography.ipynb"><button class="interact-button" id="interact-button-binder"><img class="interact-button-logo" src="/notebooks/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
 
 
 </div>
@@ -2410,7 +2495,7 @@ initFunction(initQuery);
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x1b2302ba58&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x7f55e52433c8&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -2480,7 +2565,7 @@ initFunction(initQuery);
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x1b230f3ba8&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x7f55e51b3d30&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -2498,9 +2583,9 @@ initFunction(initQuery);
 
 <script type="math/tex; mode=display">min  f(x_{mm},y_{mm})= \sum^n_{i=1}(|x_i-x_{mm}|+|y_i-y_{mm}|)</script>
 
-<p>Manhattan median is the location which minimized the absolute distance to all the event points. It is an extension of the median measure in one-dimensional space to two-dimensional space. Since in one-dimensional space, a median is the number separating the higher half of a dataset from the lower half, we define the Manhattan median as a tuple whose first element is the median of $x$ coordinates and second element is the median of $y$ coordinates.</p>
+<p>The Manhattan median is the location which minimizes the absolute distance to all the event points. It is an extension of the median measure in one-dimensional space to two-dimensional space. Since in one-dimensional space, a median is the number separating the higher half of a dataset from the lower half, we define the Manhattan median as a tuple whose first element is the median of $x$ coordinates and second element is the median of $y$ coordinates.</p>
 
-<p>Though Manhattan median can be found very quickly, it is not unique if you have even number of points. In this case, pysal handle the Manhattan median the same way as numpy.median: return the average of the two middle values.</p>
+<p>Though Manhattan median can be found very quickly, it is not unique if you have even number of points. In this case, pysal handles the Manhattan median the same way as numpy.median: return the average of the two middle values.</p>
 
 <div class="cell code_cell">
   <div class="input_area">
@@ -2553,7 +2638,7 @@ initFunction(initQuery);
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x1b235c5e80&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x7f55e5133898&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -2571,7 +2656,7 @@ initFunction(initQuery);
 
 <script type="math/tex; mode=display">min  f(x_{em},y_{em})= \sum^n_{i=1} \sqrt{(x_i-x_{em})^2+(y_i-y_{em})^2}</script>
 
-<p>Euclidean Median is the location from which the sum of the Euclidean distances to all points in a distribution is a minimum. It is an optimization problem and very important for more general location allocation problems. There is no closed form solution. We can use first iterative algorithm (Kuhn and Kuenne, 1962) to approximate Euclidean Median.</p>
+<p>The Euclidean Median is the location from which the sum of the Euclidean distances to all points in a distribution is a minimum. It is an optimization problem and very important for more general location allocation problems. There is no closed form solution. We can use first iterative algorithm (Kuhn and Kuenne, 1962) to approximate Euclidean Median.</p>
 
 <p>Below, we define a function named median_center with the first argument <strong>points</strong> a series of $(x,y)$ coordinates and the second argument <strong>crit</strong> the convergence criterion.</p>
 
@@ -2686,7 +2771,7 @@ initFunction(initQuery);
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x1b236a1b70&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x7f55e50afa90&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -2706,7 +2791,7 @@ initFunction(initQuery);
 
 <script type="math/tex; mode=display">SD = \displaystyle \sqrt{\frac{\sum^n_{i=1}(x_i-x_{m})^2}{n} + \frac{\sum^n_{i=1}(y_i-y_{m})^2}{n}}</script>
 
-<p>Standard distance is obviously closely related to the usual definition of the standard deviation of a data set, and it provides a measure of how dispersed the events are around their mean center $(x_m,y_m)$.  Taken together, these measurements can be used to plot a summary circle (standard distance circle) for the point pattern, centered at $(x_m,y_m)$ with radius $SD$, as shown below.</p>
+<p>The Standard distance is  closely related to the usual definition of the standard deviation of a data set, and it provides a measure of how dispersed the events are around their mean center $(x_m,y_m)$.  Taken together, these measurements can be used to plot a summary circle (standard distance circle) for the point pattern, centered at $(x_m,y_m)$ with radius $SD$, as shown below.</p>
 
 <div class="cell code_cell">
   <div class="input_area">
@@ -2743,7 +2828,7 @@ initFunction(initQuery);
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x1b2370ee48&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x7f55e53060f0&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -2905,7 +2990,7 @@ initFunction(initQuery);
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x1b238d4128&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x7f55e4f9aeb8&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -2959,7 +3044,7 @@ initFunction(initQuery);
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x1b239b10b8&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x7f55e4f95e80&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -2988,7 +3073,7 @@ initFunction(initQuery);
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x1b23a89278&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x7f55e4f10e48&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -3019,7 +3104,7 @@ initFunction(initQuery);
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x1b23af6828&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x7f55e4e8bba8&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -3035,7 +3120,7 @@ initFunction(initQuery);
 
 <h2 id="another-example">Another Example</h2>
 
-<p>We apply the above centragraphy statistics and visualization to 2 simulated random datasets.</p>
+<p>We apply the  centrography statistics and visualization to 2 simulated random datasets.</p>
 
 <div class="cell code_cell">
   <div class="input_area">
@@ -3110,7 +3195,7 @@ initFunction(initQuery);
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x1b24216ef0&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x7f55e4c22ac8&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -3136,7 +3221,7 @@ initFunction(initQuery);
 <span class="n">fig</span> <span class="o">=</span> <span class="n">figure</span><span class="p">()</span>
 <span class="c">#ax = fig.add_subplot(111, aspect='equal')</span>
 <span class="n">e</span> <span class="o">=</span> <span class="n">Ellipse</span><span class="p">(</span><span class="n">xy</span><span class="o">=</span><span class="n">mean_center</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">points</span><span class="p">),</span> <span class="n">width</span><span class="o">=</span><span class="n">sx</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">sy</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">angle</span><span class="o">=-</span><span class="n">theta_degree</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">get_ax</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">'Standard Distance Circle'</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">get_ax</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">'Standard Deviational Ellipse'</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 <span class="n">e</span><span class="o">.</span><span class="n">set_clip_box</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">bbox</span><span class="p">)</span>
 <span class="n">e</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
@@ -3219,7 +3304,7 @@ initFunction(initQuery);
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x1b238a1630&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x7f55e4e62588&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -3243,7 +3328,7 @@ initFunction(initQuery);
 <span class="n">fig</span> <span class="o">=</span> <span class="n">figure</span><span class="p">()</span>
 <span class="c">#ax = fig.add_subplot(111, aspect='equal')</span>
 <span class="n">e</span> <span class="o">=</span> <span class="n">Ellipse</span><span class="p">(</span><span class="n">xy</span><span class="o">=</span><span class="n">mean_center</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">points</span><span class="p">),</span> <span class="n">width</span><span class="o">=</span><span class="n">sx</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">sy</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">angle</span><span class="o">=-</span><span class="n">theta_degree</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">get_ax</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">'Standard Distance Circle'</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">get_ax</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">'Standard Deviational Ellipse'</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 <span class="n">e</span><span class="o">.</span><span class="n">set_clip_box</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">bbox</span><span class="p">)</span>
 <span class="n">e</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
@@ -3288,8 +3373,8 @@ initFunction(initQuery);
 
   <div class="output_wrapper">
     <div class="output_subarea">
-      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>74214411.72342663
-73835502.40107813
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>73007071.24620631
+72780262.40401942
 True
 </code></pre></div>      </div>
     </div>

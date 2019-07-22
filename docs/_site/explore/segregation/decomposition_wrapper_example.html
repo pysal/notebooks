@@ -29,9 +29,9 @@
   "headline":
     "decomposition_wrapper_example",
   "datePublished":
-    "2019-07-22T16:47:05+00:00",
+    "2019-07-22T19:46:09+00:00",
   "dateModified":
-    "2019-07-22T16:47:05+00:00",
+    "2019-07-22T19:46:09+00:00",
   "description":
     "Decomposition framework of the PySAL segregation module",
   "author": {
@@ -1069,10 +1069,10 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/notebooks/explore/segregation/profile_wrappers_example.html"
+                  href="/notebooks/explore/segregation/aspatial_examples.html"
                 >
                   
-                  profile_wrappers_example
+                  aspatial_examples
                 </a>
 
                 
@@ -1120,10 +1120,61 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/notebooks/explore/segregation/nonspatial_examples.html"
+                  href="/notebooks/explore/segregation/multiscalar_segregation_profiles.html"
                 >
                   
-                  nonspatial_examples
+                  multiscalar_segregation_profiles
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/multigroup_aspatial_examples.html"
+                >
+                  
+                  multigroup_aspatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/compute_all_example.html"
+                >
+                  
+                  compute_all_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/network_measures.html"
+                >
+                  
+                  network_measures
                 </a>
 
                 
@@ -1141,6 +1192,23 @@ initFunction(initQuery);
                 >
                   
                   spatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/local_measures_example.html"
+                >
+                  
+                  local_measures_example
                 </a>
 
                 
@@ -2025,6 +2093,23 @@ initFunction(initQuery);
               </li>
               
             
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_MGWR_Parallel_Example.html"
+                >
+                  
+                  GWR_MGWR_Parallel_Example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
           </ul>
         
       </li>
@@ -2165,7 +2250,7 @@ initFunction(initQuery);
 
 
 
-<a href="https://mybinder.org/v2/gh/pysal/pysal/master?urlpath=lab/tree/content%2Fexplore%2Fsegregation%2Fdecomposition_wrapper_example.ipynb"><button class="interact-button" id="interact-button-binder"><img class="interact-button-logo" src="/notebooks/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
+<a href="https://mybinder.org/v2/gh/pysal/notebooks/master?urlpath=lab/tree/content%2Fexplore%2Fsegregation%2Fdecomposition_wrapper_example.ipynb"><button class="interact-button" id="interact-button-binder"><img class="interact-button-logo" src="/notebooks/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
 
 
 </div>
@@ -2186,7 +2271,7 @@ initFunction(initQuery);
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
 <span class="kn">from</span> <span class="nn">pysal.explore</span> <span class="kn">import</span> <span class="n">segregation</span>
-<span class="kn">from</span> <span class="nn">pysal.explore.segregation.decompose_segregation</span> <span class="kn">import</span> <span class="n">Decompose_Segregation</span>
+<span class="kn">from</span> <span class="nn">pysal.explore.segregation.decomposition</span> <span class="kn">import</span> <span class="n">DecomposeSegregation</span>
 
 </code></pre></div>    </div>
   </div>
@@ -2197,7 +2282,7 @@ initFunction(initQuery);
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#filepath = '~/std_2010_fullcount.csv'</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#filepath = '~/LTDB_Std_2010_fullcount.csv'</span>
 
 </code></pre></div>    </div>
   </div>
@@ -2224,7 +2309,7 @@ initFunction(initQuery);
     <span class="n">map_gpd</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
     
 <span class="n">map_gpd</span><span class="p">[</span><span class="s">'INTGEOID10'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">map_gpd</span><span class="p">[</span><span class="s">"GEOID10"</span><span class="p">])</span>
-<span class="n">gdf_pre</span> <span class="o">=</span> <span class="n">map_gpd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">left_on</span> <span class="o">=</span> <span class="s">'INTGEOID10'</span><span class="p">,</span> <span class="n">right_on</span> <span class="o">=</span> <span class="s">'trtid10'</span><span class="p">)</span>
+<span class="n">gdf_pre</span> <span class="o">=</span> <span class="n">map_gpd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">left_on</span> <span class="o">=</span> <span class="s">'INTGEOID10'</span><span class="p">,</span> <span class="n">right_on</span> <span class="o">=</span> <span class="s">'tractid'</span><span class="p">)</span>
 <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf_pre</span><span class="p">[[</span><span class="s">'GEOID10'</span><span class="p">,</span> <span class="s">'geometry'</span><span class="p">,</span> <span class="s">'pop10'</span><span class="p">,</span> <span class="s">'nhblk10'</span><span class="p">]]</span>
 
 </code></pre></div>    </div>
@@ -2437,10 +2522,10 @@ initFunction(initQuery);
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.non_spatial_indexes</span> <span class="kn">import</span> <span class="n">Gini_Seg</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.aspatial</span> <span class="kn">import</span> <span class="n">GiniSeg</span>
 
-<span class="n">G_la</span> <span class="o">=</span> <span class="n">Gini_Seg</span><span class="p">(</span><span class="n">la_2010</span><span class="p">,</span> <span class="s">'nhblk10'</span><span class="p">,</span> <span class="s">'pop10'</span><span class="p">)</span>
-<span class="n">G_ny</span> <span class="o">=</span> <span class="n">Gini_Seg</span><span class="p">(</span><span class="n">ny_2010</span><span class="p">,</span> <span class="s">'nhblk10'</span><span class="p">,</span> <span class="s">'pop10'</span><span class="p">)</span>
+<span class="n">G_la</span> <span class="o">=</span> <span class="n">GiniSeg</span><span class="p">(</span><span class="n">la_2010</span><span class="p">,</span> <span class="s">'nhblk10'</span><span class="p">,</span> <span class="s">'pop10'</span><span class="p">)</span>
+<span class="n">G_ny</span> <span class="o">=</span> <span class="n">GiniSeg</span><span class="p">(</span><span class="n">ny_2010</span><span class="p">,</span> <span class="s">'nhblk10'</span><span class="p">,</span> <span class="s">'pop10'</span><span class="p">)</span>
 
 <span class="n">G_la</span><span class="o">.</span><span class="n">statistic</span> <span class="o">-</span> <span class="n">G_ny</span><span class="o">.</span><span class="n">statistic</span>
 
@@ -2461,16 +2546,16 @@ initFunction(initQuery);
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">help</span><span class="p">(</span><span class="n">Decompose_Segregation</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">help</span><span class="p">(</span><span class="n">DecomposeSegregation</span><span class="p">)</span>
 
 </code></pre></div>    </div>
   </div>
 
   <div class="output_wrapper">
     <div class="output_subarea">
-      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Help on class Decompose_Segregation in module segregation.decompose_segregation:
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Help on class DecomposeSegregation in module segregation.decomposition.decompose_segregation:
 
-class Decompose_Segregation(builtins.object)
+class DecomposeSegregation(builtins.object)
  |  Decompose segregation differences into spatial and attribute components.
  |  
  |  Given two segregation indices of the same type, use Shapley decomposition
@@ -2506,6 +2591,10 @@ class Decompose_Segregation(builtins.object)
  |      'cdfs' : visualize the cumulative distribution functions of the compositions/shares
  |      'maps' : visualize the spatial distributions for original data and counterfactuals generated and Shapley's components (only available for GeoDataFrames)
  |  
+ |  Examples
+ |  --------
+ |  Several examples can be found at https://github.com/pysal/segregation/blob/master/notebooks/decomposition_wrapper_example.ipynb.
+ |  
  |  Methods defined here:
  |  
  |  __init__(self, index1, index2, counterfactual_approach='composition')
@@ -2534,7 +2623,7 @@ class Decompose_Segregation(builtins.object)
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DS_composition</span> <span class="o">=</span> <span class="n">Decompose_Segregation</span><span class="p">(</span><span class="n">G_la</span><span class="p">,</span> <span class="n">G_ny</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DS_composition</span> <span class="o">=</span> <span class="n">DecomposeSegregation</span><span class="p">(</span><span class="n">G_la</span><span class="p">,</span> <span class="n">G_ny</span><span class="p">)</span>
 <span class="n">DS_composition</span><span class="o">.</span><span class="n">c_s</span>
 
 </code></pre></div>    </div>
@@ -2617,7 +2706,7 @@ class Decompose_Segregation(builtins.object)
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DS_share</span> <span class="o">=</span> <span class="n">Decompose_Segregation</span><span class="p">(</span><span class="n">G_la</span><span class="p">,</span> <span class="n">G_ny</span><span class="p">,</span> <span class="n">counterfactual_approach</span> <span class="o">=</span> <span class="s">'share'</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DS_share</span> <span class="o">=</span> <span class="n">DecomposeSegregation</span><span class="p">(</span><span class="n">G_la</span><span class="p">,</span> <span class="n">G_ny</span><span class="p">,</span> <span class="n">counterfactual_approach</span> <span class="o">=</span> <span class="s">'share'</span><span class="p">)</span>
 <span class="n">DS_share</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_type</span> <span class="o">=</span> <span class="s">'cdfs'</span><span class="p">)</span>
 
 </code></pre></div>    </div>
@@ -2658,7 +2747,7 @@ class Decompose_Segregation(builtins.object)
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DS_dual</span> <span class="o">=</span> <span class="n">Decompose_Segregation</span><span class="p">(</span><span class="n">G_la</span><span class="p">,</span> <span class="n">G_ny</span><span class="p">,</span> <span class="n">counterfactual_approach</span> <span class="o">=</span> <span class="s">'dual_composition'</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DS_dual</span> <span class="o">=</span> <span class="n">DecomposeSegregation</span><span class="p">(</span><span class="n">G_la</span><span class="p">,</span> <span class="n">G_ny</span><span class="p">,</span> <span class="n">counterfactual_approach</span> <span class="o">=</span> <span class="s">'dual_composition'</span><span class="p">)</span>
 <span class="n">DS_dual</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_type</span> <span class="o">=</span> <span class="s">'cdfs'</span><span class="p">)</span>
 
 </code></pre></div>    </div>
@@ -2697,10 +2786,10 @@ class Decompose_Segregation(builtins.object)
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Relative_Concentration</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">RelativeConcentration</span>
 
-<span class="n">RCO_la</span> <span class="o">=</span> <span class="n">Relative_Concentration</span><span class="p">(</span><span class="n">la_2010</span><span class="p">,</span> <span class="s">'nhblk10'</span><span class="p">,</span> <span class="s">'pop10'</span><span class="p">)</span>
-<span class="n">RCO_ny</span> <span class="o">=</span> <span class="n">Relative_Concentration</span><span class="p">(</span><span class="n">ny_2010</span><span class="p">,</span> <span class="s">'nhblk10'</span><span class="p">,</span> <span class="s">'pop10'</span><span class="p">)</span>
+<span class="n">RCO_la</span> <span class="o">=</span> <span class="n">RelativeConcentration</span><span class="p">(</span><span class="n">la_2010</span><span class="p">,</span> <span class="s">'nhblk10'</span><span class="p">,</span> <span class="s">'pop10'</span><span class="p">)</span>
+<span class="n">RCO_ny</span> <span class="o">=</span> <span class="n">RelativeConcentration</span><span class="p">(</span><span class="n">ny_2010</span><span class="p">,</span> <span class="s">'nhblk10'</span><span class="p">,</span> <span class="s">'pop10'</span><span class="p">)</span>
 
 <span class="n">RCO_la</span><span class="o">.</span><span class="n">statistic</span> <span class="o">-</span> <span class="n">RCO_ny</span><span class="o">.</span><span class="n">statistic</span>
 
@@ -2710,7 +2799,7 @@ class Decompose_Segregation(builtins.object)
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-0.4251693177385222
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-0.4252237137424809
 </code></pre></div>      </div>
 
     </div>
@@ -2719,7 +2808,7 @@ class Decompose_Segregation(builtins.object)
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">RCO_DS_composition</span> <span class="o">=</span> <span class="n">Decompose_Segregation</span><span class="p">(</span><span class="n">RCO_la</span><span class="p">,</span> <span class="n">RCO_ny</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">RCO_DS_composition</span> <span class="o">=</span> <span class="n">DecomposeSegregation</span><span class="p">(</span><span class="n">RCO_la</span><span class="p">,</span> <span class="n">RCO_ny</span><span class="p">)</span>
 <span class="n">RCO_DS_composition</span><span class="o">.</span><span class="n">c_s</span>
 
 </code></pre></div>    </div>
@@ -2728,7 +2817,7 @@ class Decompose_Segregation(builtins.object)
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-0.37581968640142394
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-0.37586237172215886
 </code></pre></div>      </div>
 
     </div>
@@ -2745,7 +2834,7 @@ class Decompose_Segregation(builtins.object)
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-0.0493496313370983
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-0.049361342020322
 </code></pre></div>      </div>
 
     </div>
@@ -2758,8 +2847,8 @@ class Decompose_Segregation(builtins.object)
               <nav class="c-page__nav">
   
     
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/notebooks/explore/segregation/profile_wrappers_example">
-      〈 <span class="u-margin-right-tiny"></span> profile_wrappers_example
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/notebooks/explore/segregation/aspatial_examples">
+      〈 <span class="u-margin-right-tiny"></span> aspatial_examples
     </a>
   
 

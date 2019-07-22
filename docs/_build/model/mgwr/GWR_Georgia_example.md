@@ -53,7 +53,7 @@ georgia_shp.centroid.plot(ax=ax, c='black')
 
 {:.output_data_text}
 ```
-<matplotlib.axes._subplots.AxesSubplot at 0x1a1d336588>
+<matplotlib.axes._subplots.AxesSubplot at 0x1a2624ef60>
 ```
 
 
@@ -174,6 +174,77 @@ array([[0.55932878],
 ```
 
 
+</div>
+</div>
+</div>
+
+
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+gwr_results.summary()
+
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+===========================================================================
+Model type                                                         Gaussian
+Number of observations:                                                 159
+Number of covariates:                                                     4
+
+Global Regression Results
+---------------------------------------------------------------------------
+Residual sum of squares:                                             71.793
+Log-likelihood:                                                    -162.399
+AIC:                                                                332.798
+AICc:                                                               335.191
+BIC:                                                               -713.887
+R2:                                                                   0.548
+Adj. R2:                                                              0.540
+
+Variable                              Est.         SE  t(Est/SE)    p-value
+------------------------------- ---------- ---------- ---------- ----------
+X0                                   0.000      0.054      0.000      1.000
+X1                                   0.458      0.066      6.988      0.000
+X2                                  -0.084      0.055     -1.525      0.127
+X3                                  -0.374      0.065     -5.734      0.000
+
+Geographically Weighted Regression (GWR) Results
+---------------------------------------------------------------------------
+Spatial kernel:                                           Adaptive bisquare
+Bandwidth used:                                                     117.000
+
+Diagnostic information
+---------------------------------------------------------------------------
+Residual sum of squares:                                             51.186
+Effective number of parameters (trace(S)):                           11.805
+Degree of freedom (n - trace(S)):                                   147.195
+Sigma estimate:                                                       0.590
+Log-likelihood:                                                    -135.503
+AIC:                                                                296.616
+AICc:                                                               299.051
+BIC:                                                                335.913
+R2:                                                                   0.678
+Adjusted R2:                                                          0.652
+Adj. alpha (95%):                                                     0.017
+Adj. critical t value (95%):                                          2.414
+
+Summary Statistics For GWR Parameter Estimates
+---------------------------------------------------------------------------
+Variable                   Mean        STD        Min     Median        Max
+-------------------- ---------- ---------- ---------- ---------- ----------
+X0                       -0.004      0.180     -0.296      0.111      0.208
+X1                        0.477      0.234      0.123      0.556      0.741
+X2                       -0.043      0.083     -0.170     -0.053      0.100
+X3                       -0.328      0.060     -0.464     -0.308     -0.241
+===========================================================================
+
+```
 </div>
 </div>
 </div>

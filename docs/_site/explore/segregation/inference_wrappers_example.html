@@ -29,9 +29,9 @@
   "headline":
     "inference_wrappers_example",
   "datePublished":
-    "2019-07-22T16:47:05+00:00",
+    "2019-07-22T19:46:09+00:00",
   "dateModified":
-    "2019-07-22T16:47:05+00:00",
+    "2019-07-22T19:46:09+00:00",
   "description":
     "Inference Wrappers use cases",
   "author": {
@@ -1069,10 +1069,10 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/notebooks/explore/segregation/profile_wrappers_example.html"
+                  href="/notebooks/explore/segregation/aspatial_examples.html"
                 >
                   
-                  profile_wrappers_example
+                  aspatial_examples
                 </a>
 
                 
@@ -1120,10 +1120,61 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/notebooks/explore/segregation/nonspatial_examples.html"
+                  href="/notebooks/explore/segregation/multiscalar_segregation_profiles.html"
                 >
                   
-                  nonspatial_examples
+                  multiscalar_segregation_profiles
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/multigroup_aspatial_examples.html"
+                >
+                  
+                  multigroup_aspatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/compute_all_example.html"
+                >
+                  
+                  compute_all_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/network_measures.html"
+                >
+                  
+                  network_measures
                 </a>
 
                 
@@ -1141,6 +1192,23 @@ initFunction(initQuery);
                 >
                   
                   spatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/local_measures_example.html"
+                >
+                  
+                  local_measures_example
                 </a>
 
                 
@@ -2025,6 +2093,23 @@ initFunction(initQuery);
               </li>
               
             
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_MGWR_Parallel_Example.html"
+                >
+                  
+                  GWR_MGWR_Parallel_Example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
           </ul>
         
       </li>
@@ -2165,7 +2250,7 @@ initFunction(initQuery);
 
 
 
-<a href="https://mybinder.org/v2/gh/pysal/pysal/master?urlpath=lab/tree/content%2Fexplore%2Fsegregation%2Finference_wrappers_example.ipynb"><button class="interact-button" id="interact-button-binder"><img class="interact-button-logo" src="/notebooks/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
+<a href="https://mybinder.org/v2/gh/pysal/notebooks/master?urlpath=lab/tree/content%2Fexplore%2Fsegregation%2Finference_wrappers_example.ipynb"><button class="interact-button" id="interact-button-binder"><img class="interact-button-logo" src="/notebooks/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
 
 
 </div>
@@ -2190,13 +2275,13 @@ initFunction(initQuery);
   <tbody>
     <tr>
       <td style="text-align: left">Single Value</td>
-      <td style="text-align: left">Infer_Segregation</td>
+      <td style="text-align: left">SingleValueTest</td>
       <td style="text-align: center">seg_class, iterations_under_null, null_approach, two_tailed</td>
       <td style="text-align: center">p_value, est_sim, statistic</td>
     </tr>
     <tr>
       <td style="text-align: left">Two Value</td>
-      <td style="text-align: left">Compare_Segregation</td>
+      <td style="text-align: left">TwoValueTest</td>
       <td style="text-align: center">seg_class_1, seg_class_2, iterations_under_null, null_approach</td>
       <td style="text-align: center">p_value, est_sim, est_point_diff</td>
     </tr>
@@ -2215,7 +2300,7 @@ initFunction(initQuery);
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
 
-<span class="kn">from</span> <span class="nn">pysal.explore.segregation.inference_wrappers</span> <span class="kn">import</span> <span class="n">Infer_Segregation</span><span class="p">,</span> <span class="n">Compare_Segregation</span>
+<span class="kn">from</span> <span class="nn">pysal.explore.segregation.inference</span> <span class="kn">import</span> <span class="n">SingleValueTest</span><span class="p">,</span> <span class="n">TwoValueTest</span>
 
 </code></pre></div>    </div>
   </div>
@@ -2278,7 +2363,7 @@ initFunction(initQuery);
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x2151c13b550&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x2b483cda5c0&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -2296,11 +2381,11 @@ initFunction(initQuery);
 
 <h3 id="dissimilarity">Dissimilarity</h3>
 
-<p>The <strong>Infer_Segregation</strong> function expect to receive a pre-fitted segregation class and then it uses the underlying data to iterate over the null hypothesis and comparing the results with point estimation of the index. Thus, we need to firstly estimate some measure. We can fit the classic Dissimilarity index:</p>
+<p>The <strong>SingleValueTest</strong> function expect to receive a pre-fitted segregation class and then it uses the underlying data to iterate over the null hypothesis and comparing the results with point estimation of the index. Thus, we need to firstly estimate some measure. We can fit the classic Dissimilarity index:</p>
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.non_spatial_indexes</span> <span class="kn">import</span> <span class="n">Dissim</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.aspatial</span> <span class="kn">import</span> <span class="n">Dissim</span>
 <span class="n">D</span> <span class="o">=</span> <span class="n">Dissim</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
 <span class="n">D</span><span class="o">.</span><span class="n">statistic</span>
 
@@ -2321,11 +2406,17 @@ initFunction(initQuery);
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">infer_D_eve</span> <span class="o">=</span> <span class="n">Infer_Segregation</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s">"evenness"</span><span class="p">,</span> <span class="n">two_tailed</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">infer_D_eve</span> <span class="o">=</span> <span class="n">SingleValueTest</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s">"evenness"</span><span class="p">,</span> <span class="n">two_tailed</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
 
 </code></pre></div>    </div>
   </div>
 
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Processed 1000 iterations out of 1000.
+</code></pre></div>      </div>
+    </div>
+  </div>
 </div>
 
 <p>This class has a quick plotting method to inspect the generated distribution with the estimated value from the sample (vertical red line):</p>
@@ -2358,7 +2449,7 @@ initFunction(initQuery);
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.016081626483495783
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.016104442562906662
 </code></pre></div>      </div>
 
     </div>
@@ -2395,11 +2486,17 @@ initFunction(initQuery);
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">infer_D_sys</span> <span class="o">=</span> <span class="n">Infer_Segregation</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s">"systematic"</span><span class="p">,</span> <span class="n">two_tailed</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">infer_D_sys</span> <span class="o">=</span> <span class="n">SingleValueTest</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s">"systematic"</span><span class="p">,</span> <span class="n">two_tailed</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
 
 </code></pre></div>    </div>
   </div>
 
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Processed 5000 iterations out of 5000.
+</code></pre></div>      </div>
+    </div>
+  </div>
 </div>
 
 <div class="cell code_cell">
@@ -2426,8 +2523,8 @@ initFunction(initQuery);
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Relative_Concentration</span>
-<span class="n">RCO</span> <span class="o">=</span> <span class="n">Relative_Concentration</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">RelativeConcentration</span>
+<span class="n">RCO</span> <span class="o">=</span> <span class="n">RelativeConcentration</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
 
 </code></pre></div>    </div>
   </div>
@@ -2438,11 +2535,17 @@ initFunction(initQuery);
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">infer_RCO_per</span> <span class="o">=</span> <span class="n">Infer_Segregation</span><span class="p">(</span><span class="n">RCO</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s">"permutation"</span><span class="p">,</span> <span class="n">two_tailed</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">infer_RCO_per</span> <span class="o">=</span> <span class="n">SingleValueTest</span><span class="p">(</span><span class="n">RCO</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s">"permutation"</span><span class="p">,</span> <span class="n">two_tailed</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
 
 </code></pre></div>    </div>
   </div>
 
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Processed 1000 iterations out of 1000.
+</code></pre></div>      </div>
+    </div>
+  </div>
 </div>
 
 <div class="cell code_cell">
@@ -2471,7 +2574,7 @@ initFunction(initQuery);
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.446
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.436
 </code></pre></div>      </div>
 
     </div>
@@ -2484,7 +2587,7 @@ initFunction(initQuery);
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">infer_RCO_eve_per</span> <span class="o">=</span> <span class="n">Infer_Segregation</span><span class="p">(</span><span class="n">RCO</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s">"even_permutation"</span><span class="p">,</span> <span class="n">two_tailed</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">infer_RCO_eve_per</span> <span class="o">=</span> <span class="n">SingleValueTest</span><span class="p">(</span><span class="n">RCO</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s">"even_permutation"</span><span class="p">,</span> <span class="n">two_tailed</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
 <span class="n">infer_RCO_eve_per</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 
 </code></pre></div>    </div>
@@ -2492,8 +2595,14 @@ initFunction(initQuery);
 
   <div class="output_wrapper">
     <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Processed 1000 iterations out of 1000.
+</code></pre></div>      </div>
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
 
-      <p class="output_png"><img src="../../images/explore/segregation/inference_wrappers_example_32_0.png" alt="png" /></p>
+      <p class="output_png"><img src="../../images/explore/segregation/inference_wrappers_example_32_1.png" alt="png" /></p>
 
     </div>
   </div>
@@ -2505,13 +2614,19 @@ initFunction(initQuery);
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Relative_Centralization</span>
-<span class="n">RCE</span> <span class="o">=</span> <span class="n">Relative_Centralization</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
-<span class="n">infer_RCE_per</span> <span class="o">=</span> <span class="n">Infer_Segregation</span><span class="p">(</span><span class="n">RCE</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s">"permutation"</span><span class="p">,</span> <span class="n">two_tailed</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">RelativeCentralization</span>
+<span class="n">RCE</span> <span class="o">=</span> <span class="n">RelativeCentralization</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s">'HISP_'</span><span class="p">,</span> <span class="s">'TOT_POP'</span><span class="p">)</span>
+<span class="n">infer_RCE_per</span> <span class="o">=</span> <span class="n">SingleValueTest</span><span class="p">(</span><span class="n">RCE</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s">"permutation"</span><span class="p">,</span> <span class="n">two_tailed</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
 
 </code></pre></div>    </div>
   </div>
 
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Processed 1000 iterations out of 1000.
+</code></pre></div>      </div>
+    </div>
+  </div>
 </div>
 
 <div class="cell code_cell">
@@ -2536,7 +2651,7 @@ initFunction(initQuery);
 
 <h2 id="comparative-inference">Comparative Inference</h2>
 
-<p>To compare two different values, the user can rely on the <strong>Compare_Segregation</strong> function. Similar to the previous function, the user needs to pass two segregation SM classes to be compared, establish the number of iterations under null hypothesis with <em>iterations_under_null</em>, specify which type of null hypothesis the inference will iterate with <em>null_approach</em> argument and, also, can pass additional parameters for each segregation estimation.</p>
+<p>To compare two different values, the user can rely on the <strong>TwoValueTest</strong> function. Similar to the previous function, the user needs to pass two segregation SM classes to be compared, establish the number of iterations under null hypothesis with <em>iterations_under_null</em>, specify which type of null hypothesis the inference will iterate with <em>null_approach</em> argument and, also, can pass additional parameters for each segregation estimation.</p>
 
 <p>Obs.: in this case, each measure has to be the same class as it would not make much sense to compare, for example, a Gini index with a Delta index</p>
 
@@ -2556,12 +2671,15 @@ After the user download the zip files, you must provide the path to these files.
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">geosnap.data</span> <span class="kn">import</span> <span class="n">read_ltdb</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">geosnap</span>
+<span class="kn">from</span> <span class="nn">geosnap.data.data</span> <span class="kn">import</span> <span class="n">read_ltdb</span>
 
 <span class="n">sample</span> <span class="o">=</span> <span class="s">"LTDB_Std_All_Sample.zip"</span>
 <span class="n">full</span> <span class="o">=</span> <span class="s">"LTDB_Std_All_fullcount.zip"</span>
 
-<span class="n">df_pre</span> <span class="o">=</span> <span class="n">read_ltdb</span><span class="p">(</span><span class="n">sample</span> <span class="o">=</span> <span class="n">sample</span><span class="p">,</span> <span class="n">fullcount</span> <span class="o">=</span> <span class="n">full</span><span class="p">)</span>
+<span class="n">read_ltdb</span><span class="p">(</span><span class="n">sample</span> <span class="o">=</span> <span class="n">sample</span><span class="p">,</span> <span class="n">fullcount</span> <span class="o">=</span> <span class="n">full</span><span class="p">)</span>
+
+<span class="n">df_pre</span> <span class="o">=</span> <span class="n">geosnap</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">ltdb</span>
 
 </code></pre></div>    </div>
   </div>
@@ -2608,9 +2726,9 @@ After the user download the zip files, you must provide the path to these files.
       <th>n_hispanic_over_60</th>
       <th>n_native_over_60</th>
       <th>...</th>
-      <th>n_widowed_divorced</th>
       <th>n_white_persons</th>
       <th>year</th>
+      <th>n_total_housing_units_sample</th>
       <th>p_nonhisp_white_persons</th>
       <th>p_white_over_60</th>
       <th>p_black_over_60</th>
@@ -2648,126 +2766,126 @@ After the user download the zip files, you must provide the path to these files.
     <tr>
       <th>01001020500</th>
       <td>NaN</td>
-      <td>1.0</td>
+      <td>1.121662</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>2.0</td>
-      <td>3.0</td>
+      <td>1.802740</td>
+      <td>3.284181</td>
       <td>NaN</td>
-      <td>0.0</td>
+      <td>0.301098</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>...</td>
-      <td>1.0</td>
-      <td>6.0</td>
+      <td>5.794934</td>
       <td>1970</td>
+      <td>2.166366</td>
       <td>NaN</td>
-      <td>6.0</td>
-      <td>4.0</td>
+      <td>6.433142</td>
+      <td>3.514090</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>5.0</td>
+      <td>4.737847</td>
     </tr>
     <tr>
       <th>01003010100</th>
       <td>NaN</td>
-      <td>609.0</td>
+      <td>609.000000</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>639.0</td>
-      <td>1407.0</td>
+      <td>639.000000</td>
+      <td>1407.000000</td>
       <td>NaN</td>
-      <td>221.0</td>
+      <td>221.000000</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>...</td>
-      <td>324.0</td>
-      <td>2004.0</td>
+      <td>2003.999981</td>
       <td>1970</td>
+      <td>1106.000000</td>
       <td>NaN</td>
-      <td>8.0</td>
-      <td>6.0</td>
+      <td>8.299712</td>
+      <td>6.368876</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>6.0</td>
+      <td>5.821326</td>
     </tr>
     <tr>
       <th>01003010200</th>
       <td>NaN</td>
-      <td>38.0</td>
+      <td>37.567365</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>564.0</td>
-      <td>687.0</td>
+      <td>564.014945</td>
+      <td>686.748041</td>
       <td>NaN</td>
-      <td>28.0</td>
+      <td>27.861793</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>...</td>
-      <td>175.0</td>
-      <td>1758.0</td>
+      <td>1757.910752</td>
       <td>1970</td>
+      <td>619.433984</td>
       <td>NaN</td>
-      <td>13.0</td>
-      <td>1.0</td>
+      <td>13.313281</td>
+      <td>1.480888</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>6.0</td>
+      <td>6.248800</td>
     </tr>
     <tr>
       <th>01003010300</th>
       <td>NaN</td>
-      <td>375.0</td>
+      <td>374.853457</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>982.0</td>
-      <td>1524.0</td>
+      <td>981.543199</td>
+      <td>1523.971872</td>
       <td>NaN</td>
-      <td>104.0</td>
+      <td>103.848314</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>...</td>
-      <td>292.0</td>
-      <td>2835.0</td>
+      <td>2835.404427</td>
       <td>1970</td>
+      <td>1025.805309</td>
       <td>NaN</td>
-      <td>8.0</td>
-      <td>3.0</td>
+      <td>8.023381</td>
+      <td>2.788906</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>7.0</td>
+      <td>7.214156</td>
     </tr>
     <tr>
       <th>01003010400</th>
       <td>NaN</td>
-      <td>113.0</td>
+      <td>113.203816</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>797.0</td>
-      <td>1030.0</td>
+      <td>796.944763</td>
+      <td>1029.919527</td>
       <td>NaN</td>
-      <td>37.0</td>
+      <td>37.127235</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>...</td>
-      <td>183.0</td>
-      <td>2323.0</td>
+      <td>2323.133371</td>
       <td>1970</td>
+      <td>780.370269</td>
       <td>NaN</td>
-      <td>11.0</td>
-      <td>1.0</td>
+      <td>11.072073</td>
+      <td>1.427952</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>11.0</td>
+      <td>11.205555</td>
     </tr>
   </tbody>
 </table>
-<p>5 rows × 191 columns</p>
+<p>5 rows × 192 columns</p>
 </div>
 </div>
 
@@ -2832,7 +2950,7 @@ After the user download the zip files, you must provide the path to these files.
     <tr>
       <th>01001020500</th>
       <td>NaN</td>
-      <td>9.0</td>
+      <td>8.568306</td>
       <td>1970</td>
       <td>01001020500</td>
       <td>01</td>
@@ -2841,7 +2959,7 @@ After the user download the zip files, you must provide the path to these files.
     <tr>
       <th>01003010100</th>
       <td>NaN</td>
-      <td>3470.0</td>
+      <td>3469.999968</td>
       <td>1970</td>
       <td>01003010100</td>
       <td>01</td>
@@ -2850,7 +2968,7 @@ After the user download the zip files, you must provide the path to these files.
     <tr>
       <th>01003010200</th>
       <td>NaN</td>
-      <td>1881.0</td>
+      <td>1881.424759</td>
       <td>1970</td>
       <td>01003010200</td>
       <td>01</td>
@@ -2859,7 +2977,7 @@ After the user download the zip files, you must provide the path to these files.
     <tr>
       <th>01003010300</th>
       <td>NaN</td>
-      <td>3724.0</td>
+      <td>3723.622031</td>
       <td>1970</td>
       <td>01003010300</td>
       <td>01</td>
@@ -2868,7 +2986,7 @@ After the user download the zip files, you must provide the path to these files.
     <tr>
       <th>01003010400</th>
       <td>NaN</td>
-      <td>2600.0</td>
+      <td>2600.033045</td>
       <td>1970</td>
       <td>01003010400</td>
       <td>01</td>
@@ -2935,8 +3053,8 @@ After the user download the zip files, you must provide the path to these files.
   <tbody>
     <tr>
       <th>06065030101</th>
-      <td>59.0</td>
-      <td>852.0</td>
+      <td>58.832932</td>
+      <td>851.999976</td>
       <td>2000</td>
       <td>06065030101</td>
       <td>06</td>
@@ -2944,8 +3062,8 @@ After the user download the zip files, you must provide the path to these files.
     </tr>
     <tr>
       <th>06065030103</th>
-      <td>120.0</td>
-      <td>1740.0</td>
+      <td>120.151764</td>
+      <td>1739.999973</td>
       <td>2000</td>
       <td>06065030103</td>
       <td>06</td>
@@ -2953,8 +3071,8 @@ After the user download the zip files, you must provide the path to these files.
     </tr>
     <tr>
       <th>06065030104</th>
-      <td>367.0</td>
-      <td>5315.0</td>
+      <td>367.015289</td>
+      <td>5314.999815</td>
       <td>2000</td>
       <td>06065030104</td>
       <td>06</td>
@@ -2962,8 +3080,8 @@ After the user download the zip files, you must provide the path to these files.
     </tr>
     <tr>
       <th>06065030200</th>
-      <td>348.0</td>
-      <td>4682.0</td>
+      <td>348.001105</td>
+      <td>4682.007896</td>
       <td>2000</td>
       <td>06065030200</td>
       <td>06</td>
@@ -2971,8 +3089,8 @@ After the user download the zip files, you must provide the path to these files.
     </tr>
     <tr>
       <th>06065030300</th>
-      <td>678.0</td>
-      <td>4845.0</td>
+      <td>677.998901</td>
+      <td>4844.992203</td>
       <td>2000</td>
       <td>06065030300</td>
       <td>06</td>
@@ -3044,42 +3162,42 @@ After the user download the zip files, you must provide the path to these files.
     <tr>
       <th>0</th>
       <td>POLYGON ((-117.319414 33.902109, -117.322528 3...</td>
-      <td>234.0</td>
-      <td>2537.0</td>
+      <td>233.824879</td>
+      <td>2537.096784</td>
       <td>2000</td>
-      <td>0.092235</td>
+      <td>0.092162</td>
     </tr>
     <tr>
       <th>1</th>
       <td>POLYGON ((-117.319414 33.902109, -117.322528 3...</td>
-      <td>568.0</td>
-      <td>6556.0</td>
+      <td>568.000000</td>
+      <td>6556.000000</td>
       <td>2010</td>
       <td>0.086638</td>
     </tr>
     <tr>
       <th>2</th>
       <td>POLYGON ((-117.504056 33.800257, -117.502758 3...</td>
-      <td>283.0</td>
-      <td>3511.0</td>
+      <td>283.439545</td>
+      <td>3510.681010</td>
       <td>2000</td>
-      <td>0.080604</td>
+      <td>0.080736</td>
     </tr>
     <tr>
       <th>3</th>
       <td>POLYGON ((-117.504056 33.800257, -117.502758 3...</td>
-      <td>754.0</td>
-      <td>10921.0</td>
+      <td>754.000000</td>
+      <td>10921.000000</td>
       <td>2010</td>
       <td>0.069041</td>
     </tr>
     <tr>
       <th>4</th>
       <td>POLYGON ((-117.472451 33.762031, -117.475661 3...</td>
-      <td>274.0</td>
-      <td>3388.0</td>
+      <td>273.560455</td>
+      <td>3388.318990</td>
       <td>2000</td>
-      <td>0.080874</td>
+      <td>0.080736</td>
     </tr>
   </tbody>
 </table>
@@ -3115,7 +3233,7 @@ After the user download the zip files, you must provide the path to these files.
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x21547a13780&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x2b4c0812358&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -3144,7 +3262,7 @@ After the user download the zip files, you must provide the path to these files.
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x2151fd3a7b8&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x2b48c35f550&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -3176,7 +3294,7 @@ After the user download the zip files, you must provide the path to these files.
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.02366612529047213
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.023696202305264924
 </code></pre></div>      </div>
 
     </div>
@@ -3187,14 +3305,20 @@ After the user download the zip files, you must provide the path to these files.
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">compare_D_fit</span> <span class="o">=</span> <span class="n">Compare_Segregation</span><span class="p">(</span><span class="n">D_2000</span><span class="p">,</span> <span class="n">D_2010</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s">"random_label"</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">compare_D_fit</span> <span class="o">=</span> <span class="n">TwoValueTest</span><span class="p">(</span><span class="n">D_2000</span><span class="p">,</span> <span class="n">D_2010</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s">"random_label"</span><span class="p">)</span>
 
 </code></pre></div>    </div>
   </div>
 
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Processed 1000 iterations out of 1000.
+</code></pre></div>      </div>
+    </div>
+  </div>
 </div>
 
-<p>The <strong>Compare_Segregation</strong> class also has a plotting method:</p>
+<p>The <strong>TwoValueTest</strong> class also has a plotting method:</p>
 
 <div class="cell code_cell">
   <div class="input_area">
@@ -3224,7 +3348,7 @@ After the user download the zip files, you must provide the path to these files.
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.246
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.26
 </code></pre></div>      </div>
 
     </div>
@@ -3239,10 +3363,10 @@ After the user download the zip files, you must provide the path to these files.
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.non_spatial_indexes</span> <span class="kn">import</span> <span class="n">Gini_Seg</span>
-<span class="n">G_2000</span> <span class="o">=</span> <span class="n">Gini_Seg</span><span class="p">(</span><span class="n">gdf_2000</span><span class="p">,</span> <span class="s">'n_nonhisp_black_persons'</span><span class="p">,</span> <span class="s">'n_total_pop'</span><span class="p">)</span>
-<span class="n">G_2010</span> <span class="o">=</span> <span class="n">Gini_Seg</span><span class="p">(</span><span class="n">gdf_2010</span><span class="p">,</span> <span class="s">'n_nonhisp_black_persons'</span><span class="p">,</span> <span class="s">'n_total_pop'</span><span class="p">)</span>
-<span class="n">compare_G_fit</span> <span class="o">=</span> <span class="n">Compare_Segregation</span><span class="p">(</span><span class="n">G_2000</span><span class="p">,</span> <span class="n">G_2010</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s">"random_label"</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.aspatial</span> <span class="kn">import</span> <span class="n">GiniSeg</span>
+<span class="n">G_2000</span> <span class="o">=</span> <span class="n">GiniSeg</span><span class="p">(</span><span class="n">gdf_2000</span><span class="p">,</span> <span class="s">'n_nonhisp_black_persons'</span><span class="p">,</span> <span class="s">'n_total_pop'</span><span class="p">)</span>
+<span class="n">G_2010</span> <span class="o">=</span> <span class="n">GiniSeg</span><span class="p">(</span><span class="n">gdf_2010</span><span class="p">,</span> <span class="s">'n_nonhisp_black_persons'</span><span class="p">,</span> <span class="s">'n_total_pop'</span><span class="p">)</span>
+<span class="n">compare_G_fit</span> <span class="o">=</span> <span class="n">TwoValueTest</span><span class="p">(</span><span class="n">G_2000</span><span class="p">,</span> <span class="n">G_2010</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s">"random_label"</span><span class="p">)</span>
 <span class="n">compare_G_fit</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 
 </code></pre></div>    </div>
@@ -3250,8 +3374,14 @@ After the user download the zip files, you must provide the path to these files.
 
   <div class="output_wrapper">
     <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Processed 1000 iterations out of 1000.
+</code></pre></div>      </div>
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
 
-      <p class="output_png"><img src="../../images/explore/segregation/inference_wrappers_example_68_0.png" alt="png" /></p>
+      <p class="output_png"><img src="../../images/explore/segregation/inference_wrappers_example_68_1.png" alt="png" /></p>
 
     </div>
   </div>
@@ -3267,10 +3397,10 @@ After the user download the zip files, you must provide the path to these files.
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial_indexes</span> <span class="kn">import</span> <span class="n">Spatial_Dissim</span>
-<span class="n">SD_2000</span> <span class="o">=</span> <span class="n">Spatial_Dissim</span><span class="p">(</span><span class="n">gdf_2000</span><span class="p">,</span> <span class="s">'n_nonhisp_black_persons'</span><span class="p">,</span> <span class="s">'n_total_pop'</span><span class="p">)</span>
-<span class="n">SD_2010</span> <span class="o">=</span> <span class="n">Spatial_Dissim</span><span class="p">(</span><span class="n">gdf_2010</span><span class="p">,</span> <span class="s">'n_nonhisp_black_persons'</span><span class="p">,</span> <span class="s">'n_total_pop'</span><span class="p">)</span>
-<span class="n">compare_SD_fit</span> <span class="o">=</span> <span class="n">Compare_Segregation</span><span class="p">(</span><span class="n">SD_2000</span><span class="p">,</span> <span class="n">SD_2010</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s">"counterfactual_composition"</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="kn">import</span> <span class="n">SpatialDissim</span>
+<span class="n">SD_2000</span> <span class="o">=</span> <span class="n">SpatialDissim</span><span class="p">(</span><span class="n">gdf_2000</span><span class="p">,</span> <span class="s">'n_nonhisp_black_persons'</span><span class="p">,</span> <span class="s">'n_total_pop'</span><span class="p">)</span>
+<span class="n">SD_2010</span> <span class="o">=</span> <span class="n">SpatialDissim</span><span class="p">(</span><span class="n">gdf_2010</span><span class="p">,</span> <span class="s">'n_nonhisp_black_persons'</span><span class="p">,</span> <span class="s">'n_total_pop'</span><span class="p">)</span>
+<span class="n">compare_SD_fit</span> <span class="o">=</span> <span class="n">TwoValueTest</span><span class="p">(</span><span class="n">SD_2000</span><span class="p">,</span> <span class="n">SD_2010</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s">"counterfactual_composition"</span><span class="p">)</span>
 <span class="n">compare_SD_fit</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 
 </code></pre></div>    </div>
@@ -3278,8 +3408,14 @@ After the user download the zip files, you must provide the path to these files.
 
   <div class="output_wrapper">
     <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Processed 500 iterations out of 500.
+</code></pre></div>      </div>
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
 
-      <p class="output_png"><img src="../../images/explore/segregation/inference_wrappers_example_72_0.png" alt="png" /></p>
+      <p class="output_png"><img src="../../images/explore/segregation/inference_wrappers_example_72_1.png" alt="png" /></p>
 
     </div>
   </div>
@@ -3298,8 +3434,8 @@ After the user download the zip files, you must provide the path to these files.
 
   
     
-    <a id="js-page__nav__next" class="c-page__nav__next" href="/notebooks/explore/segregation/nonspatial_examples">
-      nonspatial_examples <span class="u-margin-right-tiny"></span> 〉
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/notebooks/explore/segregation/multiscalar_segregation_profiles">
+      multiscalar_segregation_profiles <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>

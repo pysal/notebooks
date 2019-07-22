@@ -6,11 +6,11 @@ kernel_name: python3
 has_widgets: false
 title: 'spatial_examples'
 prev_page:
-  url: /explore/segregation/nonspatial_examples
-  title: 'nonspatial_examples'
+  url: /explore/segregation/network_measures
+  title: 'network_measures'
 next_page:
-  url: /explore/inequality/intro
-  title: 'inequality'
+  url: /explore/segregation/local_measures_example
+  title: 'local_measures_example'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
@@ -117,7 +117,7 @@ gdf.plot(column = 'composition',
 
 {:.output_data_text}
 ```
-<matplotlib.axes._subplots.AxesSubplot at 0x283e365e1d0>
+<matplotlib.axes._subplots.AxesSubplot at 0x13db31ae5c0>
 ```
 
 
@@ -166,8 +166,8 @@ The index is fitted below:
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Spatial_Dissim
-index = Spatial_Dissim(gdf, 'HISP_', 'TOT_POP')
+from pysal.explore.segregation.spatial import SpatialDissim
+index = SpatialDissim(gdf, 'HISP_', 'TOT_POP')
 type(index)
 
 ```
@@ -179,7 +179,7 @@ type(index)
 
 {:.output_data_text}
 ```
-segregation.spatial_indexes.Spatial_Dissim
+segregation.spatial.spatial_indexes.SpatialDissim
 ```
 
 
@@ -240,8 +240,8 @@ The index is fitted below:
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Boundary_Spatial_Dissim
-index = Boundary_Spatial_Dissim(gdf, 'HISP_', 'TOT_POP')
+from pysal.explore.segregation.spatial import BoundarySpatialDissim
+index = BoundarySpatialDissim(gdf, 'HISP_', 'TOT_POP')
 type(index)
 
 ```
@@ -253,7 +253,7 @@ type(index)
 
 {:.output_data_text}
 ```
-segregation.spatial_indexes.Boundary_Spatial_Dissim
+segregation.spatial.spatial_indexes.BoundarySpatialDissim
 ```
 
 
@@ -306,8 +306,8 @@ The index is fitted below:
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Perimeter_Area_Ratio_Spatial_Dissim
-index = Perimeter_Area_Ratio_Spatial_Dissim(gdf, 'HISP_', 'TOT_POP')
+from pysal.explore.segregation.spatial import PerimeterAreaRatioSpatialDissim
+index = PerimeterAreaRatioSpatialDissim(gdf, 'HISP_', 'TOT_POP')
 type(index)
 
 ```
@@ -319,7 +319,7 @@ type(index)
 
 {:.output_data_text}
 ```
-segregation.spatial_indexes.Perimeter_Area_Ratio_Spatial_Dissim
+segregation.spatial.spatial_indexes.PerimeterAreaRatioSpatialDissim
 ```
 
 
@@ -343,7 +343,7 @@ index.statistic
 
 {:.output_data_text}
 ```
-0.3165091834802075
+0.3111718061947464
 ```
 
 
@@ -388,8 +388,8 @@ The index is fitted below:
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Spatial_Prox_Prof
-index = Spatial_Prox_Prof(gdf, 'HISP_', 'TOT_POP')
+from pysal.explore.segregation.spatial import SpatialProxProf
+index = SpatialProxProf(gdf, 'HISP_', 'TOT_POP')
 type(index)
 
 ```
@@ -401,7 +401,7 @@ type(index)
 
 {:.output_data_text}
 ```
-segregation.spatial_indexes.Spatial_Prox_Prof
+segregation.spatial.spatial_indexes.SpatialProxProf
 ```
 
 
@@ -453,7 +453,7 @@ index.plot()
 
 {:.output_data_text}
 ```
-<matplotlib.collections.PathCollection at 0x283e367fcc0>
+<matplotlib.collections.PathCollection at 0x13db3212ef0>
 ```
 
 
@@ -508,8 +508,8 @@ The index is fitted below (note you can choose alpha and beta):
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Spatial_Proximity
-index = Spatial_Proximity(gdf, 'HISP_', 'TOT_POP', alpha = 0.6, beta = 0.5)
+from pysal.explore.segregation.spatial import SpatialProximity
+index = SpatialProximity(gdf, 'HISP_', 'TOT_POP', alpha = 0.6, beta = 0.5)
 type(index)
 
 ```
@@ -521,7 +521,7 @@ type(index)
 
 {:.output_data_text}
 ```
-segregation.spatial_indexes.Spatial_Proximity
+segregation.spatial.spatial_indexes.SpatialProximity
 ```
 
 
@@ -545,7 +545,71 @@ index.statistic
 
 {:.output_data_text}
 ```
-1.0026623464135092
+1.002662346413506
+```
+
+
+</div>
+</div>
+</div>
+
+
+
+### Absolute Clustering
+
+The Absolute Clustering Measure (ACL) is given by:
+
+\begin{equation}
+ACL = \frac{\left (\sum_{i_1=1}^{I}\left ( \frac{x_{i_1}}{X} \right )\sum_{i_2=1}^{I}\zeta_{i_1i_2}x_{i_2}  \right ) - \left ( \frac{X}{n^2}\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\zeta_{i_1i_2} \right )}{\left (\sum_{i_1=1}^{I}\left ( \frac{x_{i_1}}{X} \right )\sum_{i_2=1}^{I}\zeta_{i_1i_2}t_{i_2}  \right ) - \left ( \frac{X}{n^2}\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\zeta_{i_1i_2} \right )}
+\end{equation}
+
+
+
+The index is fitted below (note you can choose alpha and beta):
+
+
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+from pysal.explore.segregation.spatial import AbsoluteClustering
+index = AbsoluteClustering(gdf, 'HISP_', 'TOT_POP', alpha = 0.6, beta = 0.5)
+type(index)
+
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+segregation.spatial.spatial_indexes.AbsoluteClustering
+```
+
+
+</div>
+</div>
+</div>
+
+
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+index.statistic
+
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+0.005189287311960139
 ```
 
 
@@ -572,8 +636,8 @@ The index is fitted below (note you can choose alpha and beta):
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Relative_Clustering
-index = Relative_Clustering(gdf, 'HISP_', 'TOT_POP', alpha = 0.6, beta = 0.5)
+from pysal.explore.segregation.spatial import RelativeClustering
+index = RelativeClustering(gdf, 'HISP_', 'TOT_POP', alpha = 0.6, beta = 0.5)
 type(index)
 
 ```
@@ -585,7 +649,7 @@ type(index)
 
 {:.output_data_text}
 ```
-segregation.spatial_indexes.Relative_Clustering
+segregation.spatial.spatial_indexes.RelativeClustering
 ```
 
 
@@ -609,7 +673,7 @@ index.statistic
 
 {:.output_data_text}
 ```
-0.009095632468738568
+0.009095632468772541
 ```
 
 
@@ -619,12 +683,12 @@ index.statistic
 
 
 
-### Spatial Isolation
+### Distance Decay Isolation
 
-The Spatial Isolation (SxPx), also known as Distance-Decay Isolation, is given by:
+The Distance Decay Isolation (DDxPx) is given by:
 
 \begin{equation}
-SxPx=\sum_{i_1=1}^{I}\left ( \hat{s}_{i_1x} \right )\left (\sum_{i_2=1}^{I}P_{i_1i_2} \left (\tilde{s}_{i_1x}\right ) \right )
+DDxPx=\sum_{i_1=1}^{I}\left ( \hat{s}_{i_1x} \right )\left (\sum_{i_2=1}^{I}P_{i_1i_2} \left (\tilde{s}_{i_1x}\right ) \right )
 \end{equation}
 
 where
@@ -650,8 +714,8 @@ The index is fitted below (note you can choose alpha and beta):
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Spatial_Isolation
-index = Spatial_Isolation(gdf, 'HISP_', 'TOT_POP', alpha = 0.6, beta = 0.5)
+from pysal.explore.segregation.spatial import DistanceDecayIsolation
+index = DistanceDecayIsolation(gdf, 'HISP_', 'TOT_POP', alpha = 0.6, beta = 0.5)
 type(index)
 
 ```
@@ -663,7 +727,7 @@ type(index)
 
 {:.output_data_text}
 ```
-segregation.spatial_indexes.Spatial_Isolation
+segregation.spatial.spatial_indexes.DistanceDecayIsolation
 ```
 
 
@@ -687,7 +751,7 @@ index.statistic
 
 {:.output_data_text}
 ```
-0.1562162475606278
+0.15621624756062663
 ```
 
 
@@ -697,12 +761,12 @@ index.statistic
 
 
 
-### Spatial Exposure
+### Distance Decay Exposure
 
-The Spatial Exposure (SxPy), also known as Distance-Decay Exposure, is given by:
+The Distance Decay Exposure (DDxPy) is given by:
 
 \begin{equation}
-SxPy=\sum_{i_1=1}^{I}\left ( \hat{s}_{i_1x} \right )\left (\sum_{i_2=1}^{I}P_{i_1i_2} \left (\tilde{s}_{i_1y}\right ) \right )
+DDxPy=\sum_{i_1=1}^{I}\left ( \hat{s}_{i_1x} \right )\left (\sum_{i_2=1}^{I}P_{i_1i_2} \left (\tilde{s}_{i_1y}\right ) \right )
 \end{equation}
 
 where $P_{i_1i_2}$ is defined as before.
@@ -716,8 +780,8 @@ The index is fitted below (note you can choose alpha and beta):
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Spatial_Exposure
-index = Spatial_Exposure(gdf, 'HISP_', 'TOT_POP', alpha = 0.6, beta = 0.5)
+from pysal.explore.segregation.spatial import DistanceDecayExposure
+index = DistanceDecayExposure(gdf, 'HISP_', 'TOT_POP', alpha = 0.6, beta = 0.5)
 type(index)
 
 ```
@@ -729,7 +793,7 @@ type(index)
 
 {:.output_data_text}
 ```
-segregation.spatial_indexes.Spatial_Exposure
+segregation.spatial.spatial_indexes.DistanceDecayExposure
 ```
 
 
@@ -753,7 +817,7 @@ index.statistic
 
 {:.output_data_text}
 ```
-0.8396583368412371
+0.8396583368412553
 ```
 
 
@@ -782,7 +846,7 @@ The index is fitted below:
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Delta
+from pysal.explore.segregation.spatial import Delta
 index = Delta(gdf, 'HISP_', 'TOT_POP')
 type(index)
 
@@ -795,7 +859,7 @@ type(index)
 
 {:.output_data_text}
 ```
-segregation.spatial_indexes.Delta
+segregation.spatial.spatial_indexes.Delta
 ```
 
 
@@ -859,8 +923,8 @@ The index is fitted below:
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Absolute_Concentration
-index = Absolute_Concentration(gdf, 'HISP_', 'TOT_POP')
+from pysal.explore.segregation.spatial import AbsoluteConcentration
+index = AbsoluteConcentration(gdf, 'HISP_', 'TOT_POP')
 type(index)
 
 ```
@@ -872,7 +936,7 @@ type(index)
 
 {:.output_data_text}
 ```
-segregation.spatial_indexes.Absolute_Concentration
+segregation.spatial.spatial_indexes.AbsoluteConcentration
 ```
 
 
@@ -896,7 +960,7 @@ index.statistic
 
 {:.output_data_text}
 ```
-0.21496583971774408
+0.8512824549657465
 ```
 
 
@@ -926,8 +990,8 @@ The index is fitted below:
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Relative_Concentration
-index = Relative_Concentration(gdf, 'HISP_', 'TOT_POP')
+from pysal.explore.segregation.spatial import RelativeConcentration
+index = RelativeConcentration(gdf, 'HISP_', 'TOT_POP')
 type(index)
 
 ```
@@ -939,7 +1003,7 @@ type(index)
 
 {:.output_data_text}
 ```
-segregation.spatial_indexes.Relative_Concentration
+segregation.spatial.spatial_indexes.RelativeConcentration
 ```
 
 
@@ -963,7 +1027,7 @@ index.statistic
 
 {:.output_data_text}
 ```
-0.13102848628073688
+0.12733820870675222
 ```
 
 
@@ -985,7 +1049,7 @@ ACE=\left ( \sum_{i=2}^{I}X_{i-1}A_i \right ) - \left ( \sum_{i=2}^{I}X_{i}A_{i-
 RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-1} \right )
 \end{equation}
 
-where $A_i$ is the cumulative area proportion through unit $i$, $X_i$ is the cumulative frequency proportion through unit $i$ of group $x$ and $Y_i$ is the analogous for group $y$. In this measure, the area units are ordered by increasing distances from the central business district, which we assume being located in the average latitude and average longitude among all centroid.
+where $A_i$ is the cumulative area proportion through unit $i$, $X_i$ is the cumulative frequency proportion through unit $i$ of group $x$ and $Y_i$ is the analogous for group $y$. In this measure, the area units are ordered by increasing distances from the central business district, which could be modified with the `center` argument.
 
 
 
@@ -996,8 +1060,8 @@ The ACE is fitted below:
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Absolute_Centralization
-index = Absolute_Centralization(gdf, 'HISP_', 'TOT_POP')
+from pysal.explore.segregation.spatial import AbsoluteCentralization
+index = AbsoluteCentralization(gdf, 'HISP_', 'TOT_POP')
 type(index)
 
 ```
@@ -1009,7 +1073,7 @@ type(index)
 
 {:.output_data_text}
 ```
-segregation.spatial_indexes.Absolute_Centralization
+segregation.spatial.spatial_indexes.AbsoluteCentralization
 ```
 
 
@@ -1050,8 +1114,8 @@ The RCE is fitted below:
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from pysal.explore.segregation.spatial_indexes import Relative_Centralization
-index = Relative_Centralization(gdf, 'HISP_', 'TOT_POP')
+from pysal.explore.segregation.spatial import RelativeCentralization
+index = RelativeCentralization(gdf, 'HISP_', 'TOT_POP')
 type(index)
 
 ```
@@ -1063,7 +1127,7 @@ type(index)
 
 {:.output_data_text}
 ```
-segregation.spatial_indexes.Relative_Centralization
+segregation.spatial.spatial_indexes.RelativeCentralization
 ```
 
 
@@ -1088,74 +1152,6 @@ index.statistic
 {:.output_data_text}
 ```
 -0.11194177550430595
-```
-
-
-</div>
-</div>
-</div>
-
-
-
-### Spatial Information Theory
-
-The Spatial Information Theory (SIT), inspired by *Reardon, Sean F., and David O’Sullivan. "Measures of spatial segregation." Sociological methodology 34.1 (2004): 121-162.* takes into consideration the local environment of each spatial unit. The spatially weighted entropy of unit $i$ is given by
-
-$$\tilde{E}_i = \sum_{j}\frac{\tilde{n_{ij}}}{\tilde{n_{i.}}} \times \log_2\left ( \frac{\tilde{n_{ij}}}{\tilde{n_{i.}}} \right )$$
-where $\tilde{n_{ij}}$ is the population frequency of unit $i$ of group $j$ around the local environment of $i$ and $\tilde{n_{i.}}$ is the total population of the local environment of $i$.
-
-The overall regional entropy of the total population given by
-
-$$E = \sum_{j}\frac{n_{.j}}{n_{..}} \times \log_2\left ( \frac{n_{.j}}{n_{..}} \right )$$
-
-and the SIT is given by
-
-$$SIT = 1 - \frac{1}{TE}\sum_{i = 1}^{I}\tau_i\tilde{E}_i$$
-where $\tau_i$ is the population density at the unit $i$.
-
-
-
-<div markdown="1" class="cell code_cell">
-<div class="input_area" markdown="1">
-```python
-from pysal.explore.segregation.spatial_indexes import Spatial_Information_Theory
-index = Spatial_Information_Theory(gdf, 'HISP_', 'TOT_POP')
-type(index)
-
-```
-</div>
-
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-segregation.spatial_indexes.Spatial_Information_Theory
-```
-
-
-</div>
-</div>
-</div>
-
-
-
-<div markdown="1" class="cell code_cell">
-<div class="input_area" markdown="1">
-```python
-index.statistic
-
-```
-</div>
-
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-0.778177518074913
 ```
 
 

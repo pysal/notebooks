@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
   <title>GWR_MGWR_example</title>
-  <meta name="description" content="      ```pythonimport numpy as np    import scipy as sp    from pysal.model.mgwr.sel_bw import Sel_BW    from pysal.model.mgwr.gwr import GWR, MGWR    import...">
+  <meta name="description" content="      ```pythonimport numpy as npfrom pysal.model.mgwr.sel_bw import Sel_BWfrom pysal.model.mgwr.gwr import GWR, MGWRimport pandas as pdimport pysal.lib as ps  ">
 
   <link rel="canonical" href="http://0.0.0.0:4000/notebooks/model/mgwr/GWR_MGWR_example.html">
   <link rel="alternate" type="application/rss+xml" title="PySAL Notebooks" href="http://0.0.0.0:4000/notebooks/feed.xml">
@@ -16,7 +16,7 @@
   <meta property="og:url"         content="http://0.0.0.0:4000/notebooks/model/mgwr/GWR_MGWR_example.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="GWR_MGWR_example" />
-<meta property="og:description" content="      ```pythonimport numpy as np    import scipy as sp    from pysal.model.mgwr.sel_bw import Sel_BW    from pysal.model.mgwr.gwr import GWR, MGWR    import..." />
+<meta property="og:description" content="      ```pythonimport numpy as npfrom pysal.model.mgwr.sel_bw import Sel_BWfrom pysal.model.mgwr.gwr import GWR, MGWRimport pandas as pdimport pysal.lib as ps  " />
 <meta property="og:image"       content="" />
 
 
@@ -29,11 +29,11 @@
   "headline":
     "GWR_MGWR_example",
   "datePublished":
-    "2019-07-22T16:47:05+00:00",
+    "2019-07-22T19:46:09+00:00",
   "dateModified":
-    "2019-07-22T16:47:05+00:00",
+    "2019-07-22T19:46:09+00:00",
   "description":
-    "      ```pythonimport numpy as np    import scipy as sp    from pysal.model.mgwr.sel_bw import Sel_BW    from pysal.model.mgwr.gwr import GWR, MGWR    import...",
+    "      ```pythonimport numpy as npfrom pysal.model.mgwr.sel_bw import Sel_BWfrom pysal.model.mgwr.gwr import GWR, MGWRimport pandas as pdimport pysal.lib as ps  ",
   "author": {
     "@type": "Person",
     "name": "PySAL Developers"
@@ -1069,10 +1069,10 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/notebooks/explore/segregation/profile_wrappers_example.html"
+                  href="/notebooks/explore/segregation/aspatial_examples.html"
                 >
                   
-                  profile_wrappers_example
+                  aspatial_examples
                 </a>
 
                 
@@ -1120,10 +1120,61 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/notebooks/explore/segregation/nonspatial_examples.html"
+                  href="/notebooks/explore/segregation/multiscalar_segregation_profiles.html"
                 >
                   
-                  nonspatial_examples
+                  multiscalar_segregation_profiles
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/multigroup_aspatial_examples.html"
+                >
+                  
+                  multigroup_aspatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/compute_all_example.html"
+                >
+                  
+                  compute_all_example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/network_measures.html"
+                >
+                  
+                  network_measures
                 </a>
 
                 
@@ -1141,6 +1192,23 @@ initFunction(initQuery);
                 >
                   
                   spatial_examples
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/explore/segregation/local_measures_example.html"
+                >
+                  
+                  local_measures_example
                 </a>
 
                 
@@ -2025,6 +2093,23 @@ initFunction(initQuery);
               </li>
               
             
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/notebooks/model/mgwr/GWR_MGWR_Parallel_Example.html"
+                >
+                  
+                  GWR_MGWR_Parallel_Example
+                </a>
+
+                
+                
+
+              </li>
+              
+            
           </ul>
         
       </li>
@@ -2165,7 +2250,7 @@ initFunction(initQuery);
 
 
 
-<a href="https://mybinder.org/v2/gh/pysal/pysal/master?urlpath=lab/tree/content%2Fmodel%2Fmgwr%2FGWR_MGWR_example.ipynb"><button class="interact-button" id="interact-button-binder"><img class="interact-button-logo" src="/notebooks/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
+<a href="https://mybinder.org/v2/gh/pysal/notebooks/master?urlpath=lab/tree/content%2Fmodel%2Fmgwr%2FGWR_MGWR_example.ipynb"><button class="interact-button" id="interact-button-binder"><img class="interact-button-logo" src="/notebooks/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
 
 
 </div>
@@ -2175,13 +2260,10 @@ initFunction(initQuery);
               <div class="cell code_cell">
   <div class="input_area">
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="c"># import scipy as sp</span>
 <span class="kn">from</span> <span class="nn">pysal.model.mgwr.sel_bw</span> <span class="kn">import</span> <span class="n">Sel_BW</span>
-<span class="c"># from pysal.model.mgwr.gwr import GWR, MGWR</span>
+<span class="kn">from</span> <span class="nn">pysal.model.mgwr.gwr</span> <span class="kn">import</span> <span class="n">GWR</span><span class="p">,</span> <span class="n">MGWR</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
 <span class="kn">import</span> <span class="nn">pysal.lib</span> <span class="k">as</span> <span class="n">ps</span>
-<span class="c"># import pickle as pk</span>
-<span class="c"># import os</span>
 
 </code></pre></div>    </div>
   </div>
@@ -2232,27 +2314,9 @@ initFunction(initQuery);
   <div class="output_wrapper">
     <div class="output_subarea">
       <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bw: 117.0
-</code></pre></div>      </div>
-    </div>
-  </div>
-  <div class="output_wrapper">
-    <div class="output_subarea">
-      <div class="output_traceback_line highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-    ---------------------------------------------------------------------------
-
-    NameError                                 Traceback (most recent call last)
-
-    &lt;ipython-input-3-2da488ac544f&gt; in &lt;module&gt;
-          9 bw = sel.search()
-         10 print('bw:', bw)
-    ---&gt; 11 gwr = GWR(coords, y, X, bw)
-         12 gwr_results = gwr.fit()
-         13 print('aicc:', gwr_results.aicc)
-
-
-    NameError: name 'GWR' is not defined
-
-
+aicc: 299.0508086830288
+ENP: 11.804769716730096
+sigma2: 0.3477435474978281
 </code></pre></div>      </div>
     </div>
   </div>
@@ -2297,6 +2361,106 @@ initFunction(initQuery);
 </code></pre></div>    </div>
   </div>
 
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bw(intercept): 92.0
+bw(foreign): 101.0
+bw(african_amer): 136.0
+bw(rural): 158.0
+aicc: 297.12013812258783
+sigma2: 0.34477258292171475
+ENP(model): 11.368250872698306
+adj_alpha(model): 0.017592855949398054
+critical_t(model): 2.399257840857394
+ENP(intercept): 3.8446710802641415
+adj_alpha(intercept): 0.013005013681577368
+critical_t(intercept): 2.512107491068591
+ENP(foreign): 3.5137708051516503
+adj_alpha(foreign): 0.01422972719982004
+critical_t(foreign): 2.4788879239423856
+ENP(african_amer): 2.258052527889825
+adj_alpha(african_amer): 0.022142974701622888
+critical_t(african_amer): 2.3106911297007184
+ENP(rural): 1.7517564593926895
+adj_alpha(rural): 0.02854278043726143
+critical_t(rural): 2.210001836555586
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mgwr_results</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>===========================================================================
+Model type                                                         Gaussian
+Number of observations:                                                 159
+Number of covariates:                                                     4
+
+Global Regression Results
+---------------------------------------------------------------------------
+Residual sum of squares:                                             71.793
+Log-likelihood:                                                    -162.399
+AIC:                                                                332.798
+AICc:                                                               335.191
+BIC:                                                               -713.887
+R2:                                                                   0.548
+Adj. R2:                                                              0.540
+
+Variable                              Est.         SE  t(Est/SE)    p-value
+------------------------------- ---------- ---------- ---------- ----------
+X0                                  -0.000      0.054     -0.000      1.000
+X1                                   0.458      0.066      6.988      0.000
+X2                                  -0.084      0.055     -1.525      0.127
+X3                                  -0.374      0.065     -5.734      0.000
+
+Multi-Scale Geographically Weighted Regression (MGWR) Results
+---------------------------------------------------------------------------
+Spatial kernel:                                           Adaptive bisquare
+Criterion for optimal bandwidth:                                       AICc
+Score of Change (SOC) type:                                     Smoothing f
+Termination criterion for MGWR:                                       1e-05
+
+MGWR bandwidths
+---------------------------------------------------------------------------
+Variable             Bandwidth      ENP_j   Adj t-val(95%)   Adj alpha(95%)
+X0                      92.000      3.845            2.512            0.013
+X1                     101.000      3.514            2.479            0.014
+X2                     136.000      2.258            2.311            0.022
+X3                     158.000      1.752            2.210            0.029
+
+Diagnostic information
+---------------------------------------------------------------------------
+Residual sum of squares:                                             50.899
+Effective number of parameters (trace(S)):                           11.368
+Degree of freedom (n - trace(S)):                                   147.632
+Sigma estimate:                                                       0.587
+Log-likelihood:                                                    -135.056
+AIC:                                                                294.849
+AICc:                                                               297.120
+BIC:                                                                332.806
+R2                                                                    0.680
+Adjusted R2                                                           0.655
+
+Summary Statistics For MGWR Parameter Estimates
+---------------------------------------------------------------------------
+Variable                   Mean        STD        Min     Median        Max
+-------------------- ---------- ---------- ---------- ---------- ----------
+X0                        0.017      0.171     -0.260      0.058      0.271
+X1                        0.479      0.216      0.117      0.500      0.722
+X2                       -0.069      0.036     -0.146     -0.064     -0.014
+X3                       -0.304      0.019     -0.347     -0.302     -0.266
+===========================================================================
+
+</code></pre></div>      </div>
+    </div>
+  </div>
 </div>
 
 

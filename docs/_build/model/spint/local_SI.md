@@ -2,7 +2,7 @@
 redirect_from:
   - "/model/spint/local-si"
 interact_link: content/model/spint/local_SI.ipynb
-kernel_name: python3
+kernel_name: python2
 has_widgets: false
 title: 'local_SI'
 prev_page:

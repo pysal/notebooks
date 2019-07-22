@@ -2,7 +2,7 @@
 redirect_from:
   - "/model/spvcm/using-the-sampler"
 interact_link: content/model/spvcm/using_the_sampler.ipynb
-kernel_name: python3
+kernel_name: ana
 has_widgets: false
 title: 'using_the_sampler'
 prev_page:

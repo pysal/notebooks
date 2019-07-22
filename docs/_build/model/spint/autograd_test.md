@@ -2,7 +2,7 @@
 redirect_from:
   - "/model/spint/autograd-test"
 interact_link: content/model/spint/autograd_test.ipynb
-kernel_name: python3
+kernel_name: python2
 has_widgets: false
 title: 'autograd_test'
 prev_page:

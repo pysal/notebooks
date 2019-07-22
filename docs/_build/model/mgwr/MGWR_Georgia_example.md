@@ -9,8 +9,8 @@ prev_page:
   url: /model/mgwr/GWR_MGWR_example
   title: 'GWR_MGWR_example'
 next_page:
-  url: /lib/libpysal/intro
-  title: 'libpysal'
+  url: /model/mgwr/GWR_MGWR_Parallel_Example
+  title: 'GWR_MGWR_Parallel_Example'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
@@ -68,9 +68,17 @@ georgia_shp.centroid.plot(ax=ax, c='black')
 
 {:.output_data_text}
 ```
-<matplotlib.axes._subplots.AxesSubplot at 0x121ee56a0>
+<matplotlib.axes._subplots.AxesSubplot at 0x1a18c0b6a0>
 ```
 
+
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+{:.output_png}
+![png](../../images/model/mgwr/MGWR_Georgia_example_2_1.png)
 
 </div>
 </div>
@@ -143,7 +151,86 @@ mgwr_results = MGWR(g_coords, g_y, g_X, mgwr_selector).fit()
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-[92.0, 101.0, 136.0, 158.0]
+[ 92. 101. 136. 158.]
+```
+</div>
+</div>
+</div>
+
+
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+mgwr_results.summary()
+
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+===========================================================================
+Model type                                                         Gaussian
+Number of observations:                                                 159
+Number of covariates:                                                     4
+
+Global Regression Results
+---------------------------------------------------------------------------
+Residual sum of squares:                                             71.793
+Log-likelihood:                                                    -162.399
+AIC:                                                                332.798
+AICc:                                                               335.191
+BIC:                                                               -713.887
+R2:                                                                   0.548
+Adj. R2:                                                              0.540
+
+Variable                              Est.         SE  t(Est/SE)    p-value
+------------------------------- ---------- ---------- ---------- ----------
+X0                                   0.000      0.054      0.000      1.000
+X1                                   0.458      0.066      6.988      0.000
+X2                                  -0.084      0.055     -1.525      0.127
+X3                                  -0.374      0.065     -5.734      0.000
+
+Multi-Scale Geographically Weighted Regression (MGWR) Results
+---------------------------------------------------------------------------
+Spatial kernel:                                           Adaptive bisquare
+Criterion for optimal bandwidth:                                       AICc
+Score of Change (SOC) type:                                     Smoothing f
+Termination criterion for MGWR:                                       1e-05
+
+MGWR bandwidths
+---------------------------------------------------------------------------
+Variable             Bandwidth      ENP_j   Adj t-val(95%)   Adj alpha(95%)
+X0                      92.000      3.845            2.512            0.013
+X1                     101.000      3.514            2.479            0.014
+X2                     136.000      2.258            2.311            0.022
+X3                     158.000      1.752            2.210            0.029
+
+Diagnostic information
+---------------------------------------------------------------------------
+Residual sum of squares:                                             50.899
+Effective number of parameters (trace(S)):                           11.368
+Degree of freedom (n - trace(S)):                                   147.632
+Sigma estimate:                                                       0.587
+Log-likelihood:                                                    -135.056
+AIC:                                                                294.849
+AICc:                                                               297.120
+BIC:                                                                332.806
+R2                                                                    0.680
+Adjusted R2                                                           0.655
+
+Summary Statistics For MGWR Parameter Estimates
+---------------------------------------------------------------------------
+Variable                   Mean        STD        Min     Median        Max
+-------------------- ---------- ---------- ---------- ---------- ----------
+X0                        0.017      0.171     -0.260      0.058      0.271
+X1                        0.479      0.216      0.117      0.500      0.722
+X2                       -0.069      0.036     -0.146     -0.064     -0.014
+X3                       -0.304      0.019     -0.347     -0.302     -0.266
+===========================================================================
+
 ```
 </div>
 </div>
@@ -261,15 +348,7 @@ plt.show()
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../../images/model/mgwr/MGWR_Georgia_example_8_0.png)
-
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-{:.output_png}
-![png](../../images/model/mgwr/MGWR_Georgia_example_8_1.png)
+![png](../../images/model/mgwr/MGWR_Georgia_example_9_0.png)
 
 </div>
 </div>
@@ -329,7 +408,7 @@ plt.show()
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../../images/model/mgwr/MGWR_Georgia_example_9_0.png)
+![png](../../images/model/mgwr/MGWR_Georgia_example_10_0.png)
 
 </div>
 </div>
@@ -389,7 +468,7 @@ plt.show()
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../../images/model/mgwr/MGWR_Georgia_example_10_0.png)
+![png](../../images/model/mgwr/MGWR_Georgia_example_11_0.png)
 
 </div>
 </div>
@@ -449,7 +528,7 @@ plt.show()
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../../images/model/mgwr/MGWR_Georgia_example_11_0.png)
+![png](../../images/model/mgwr/MGWR_Georgia_example_12_0.png)
 
 </div>
 </div>
