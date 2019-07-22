@@ -94,13 +94,6 @@ def test_notebooks(nbs_folder=NBS_FOLDER, execute=True):
         pr(cmd)
     return None
 
-def test_convert(nbs_folder=NBS_FOLDER):
-    all_ipynbs = list(Path(nbs_folder).rglob("*.ipynb"))
-    for nb in all_ipynbs:
-        nb = str(nb)
-        pr(f"jupyter nbconvert --to markdown --stdout {nb}")
-    return None
-
 def setup_book(bk_folder=BOOK_FOLDER, nbs_folder=NBS_FOLDER):
     '''
     Create a new directory, move required files from template, move notebooks
@@ -220,10 +213,20 @@ if __name__ == '__main__':
     parser.add_argument('--build', 
                         help='Build book',
                         action="store_true")
+    parser.add_argument('--test_no_run',
+                        help='Test notebook conversion without executing notebooks',
+                        action="store_true")
+    parser.add_argument('--test_run',
+                        help='Test notebook conversion executing notebooks',
+                        action="store_true")
     args = parser.parse_args()
 
     if args.pull:
-        pull_src_notebooks()
+        pull_notebooks()
     if args.build:
         toc = setup_book()
+    if args.test_no_run:
+        test_notebooks(execute=False)
+    if args.test_run:
+        test_notebooks(execute=True)
 
