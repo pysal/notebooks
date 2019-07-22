@@ -1,16 +1,28 @@
-import time
-import yaml
 import os
+import time
+import requests
 import argparse
+import subprocess
+from pathlib import Path
 
 NBS_FOLDER = './notebooks'
 BOOK_FOLDER = './docs'
-BASE_TOC = './lib/base_toc.yml'
-TEMPLATE_FOLDER = './lib/jupyter-book-master'
+TEMPLATE_FOLDER = './lib/template_data'
 
 def pr(cmd):
     print(cmd)
-    os.system(cmd)
+    #os.system(cmd)
+    op = subprocess.run(cmd, capture_output=True, shell=True)
+    if op.stderr:
+        print('\n### Log Msg. ###')
+        print(op.stderr.decode())
+        print('\n')
+    return None
+
+def wr(content, path):
+    fo = open(path, 'w')
+    fo.write(content)
+    fo.close()
     return None
 
 def pull_notebooks(tgt_folder=NBS_FOLDER,
@@ -33,37 +45,100 @@ def pull_notebooks(tgt_folder=NBS_FOLDER,
     '''
     t0 = time.time()
     # Clean start
-    pr(f'rm -rf {tmp} && mkdir {tmp}')
-    pr(f'rm -rf {tgt_folder} && mkdir {tgt_folder}')
+    pr(f'rm -rf {tmp}')
+    pr(f'mkdir {tmp}')
+    pr(f'rm -rf {tgt_folder}')
+    pr(f'mkdir {tgt_folder}')
     # Grab latest meta package
     cmd = (f'git clone https://github.com/pysal/pysal.git '\
            f'{tmp}/dls/')
     pr(cmd)
+    # Pre-process file names
+    all_ipynbs = list(Path(f"{tmp}/dls/notebooks").rglob("*.ipynb"))
+    for nb in all_ipynbs:
+        nb = str(nb)
+        if nb != nb.replace(' ', '_'):
+            print(f"Renaming {nb}")
+            wr(open(nb).read(), nb.replace(' ', '_'))
+            nb_f = nb.replace(' ', '\ ')
+            os.system(f"rm {nb_f}")
     # Copy notebooks to tgt_folder
     cmd = f'mv {tmp}/dls/notebooks/* {tgt_folder}/'
     pr(cmd)
+    # Clean up
+    pr(f"rm -r {tmp}")
     t1 = time.time()
     print(f"\nNew notebooks collected in {round(t1-t0)} seconds")
+    return None
+
+def test_notebooks(nbs_folder=NBS_FOLDER, execute=True):
+    '''
+    Execute notebooks in `nbs_folder`
+    ...
+
+    Arguments
+    ---------
+    nbs_folder  : str
+    execute     : Boolean
+
+    Returns
+    -------
+    None
+    '''
+    all_ipynbs = list(Path(nbs_folder).rglob("*.ipynb"))
+    for nb in all_ipynbs:
+        nb = str(nb)
+        cmd = f"jupyter nbconvert --to markdown --stdout {nb}"
+        if execute:
+            cmd += ' --execute'
+        pr(cmd)
+    return None
+
+def test_convert(nbs_folder=NBS_FOLDER):
+    all_ipynbs = list(Path(nbs_folder).rglob("*.ipynb"))
+    for nb in all_ipynbs:
+        nb = str(nb)
+        pr(f"jupyter nbconvert --to markdown --stdout {nb}")
     return None
 
 def setup_book(bk_folder=BOOK_FOLDER, nbs_folder=NBS_FOLDER):
     '''
     Create a new directory, move required files from template, move notebooks
-    in
+    in and build book
+    ...
+
+    Arguments
+    ---------
+    bk_folder   : str
+    nbs_folder  : str
+
+    Return
+    ------
+    None
     '''
     # Clean slate
     pr(f'rm -rf {bk_folder}')
     # Create book
-    pr((f'jupyter-book create {bk_folder} '\
+    pr((f'jupyter-book create '\
         f'--content-folder {nbs_folder} '\
-        f'--verbose yes'))
+        f'--verbose '\
+        f'{bk_folder}'))
     # Build TOC + write into book
-    toc = build_toc(BASE_TOC)
-    fo = open(f'{bk_folder}/_data/toc.yml', 'w')
-    fo.write(toc)
-    fo.close()
+    toc = build_toc(f"{TEMPLATE_FOLDER}/base_toc.yml")
+    wr(toc, f'{bk_folder}/_data/toc.yml')
+    # Intro
+    pr(f'cp {TEMPLATE_FOLDER}/intro.md {bk_folder}/content/intro.md')
+    # Package intros
+    intro_paths = parse_toc_intro(toc, f"{bk_folder}/content")
+    for pkg in intro_paths:
+        _ = write_pkg_intro(pkg, intro_paths[pkg])
+    # Config, logo, favicon
+    pr(f'cp {TEMPLATE_FOLDER}/_config.yml {bk_folder}/_config.yml')
+    pr(f'cp {TEMPLATE_FOLDER}/logo.png {bk_folder}/assets/images/logo.png')
+    pr(f'cp {TEMPLATE_FOLDER}/pysal_favicon.ico {bk_folder}/assets/images/pysal_favicon.ico')
+    # Build book
     pr(f'jupyter-book build {bk_folder}')
-    return toc
+    return None
 
 def build_toc(base_toc, nbs_folder=NBS_FOLDER):
     '''
@@ -74,13 +149,16 @@ def build_toc(base_toc, nbs_folder=NBS_FOLDER):
     fo.close()
     toc += '\n# Built Automatically #\n'
 
-    folders = os.listdir(nbs_folder)
+    folders = [i for i in os.listdir(nbs_folder) if \
+                os.path.isdir(f"{nbs_folder}/{i}")]
     for folder in folders:
         # Add Separator
         sec_title = folder[0].upper() + folder[1:]
         toc += build_entry(divider=True, header=sec_title)
         # Add line for every notebook
-        for pkg in os.listdir(nbs_folder+'/'+folder):
+        pkgs = [i for i in os.listdir(nbs_folder+'/'+folder) if \
+                os.path.isdir(f"{nbs_folder}/{folder}/{i}")]
+        for pkg in pkgs:
             nbs = [i for i in os.listdir(f'{nbs_folder}/{folder}/{pkg}') \
                    if i[-6:]=='.ipynb']
             sections = ''
@@ -114,6 +192,24 @@ def build_entry(title=None, url=None, clas=None, sections=None, not_numbered=Fal
     if header:
         entry += f'- header: {header}\n'
     return entry
+
+def parse_toc_intro(toc, base_path):
+    lines = toc.split('\n')
+    intros = {}
+    for line in lines:
+        if ('/intro' in line) and ('url: /intro' not in line):
+            dom, pkg = line.replace('  url: /', '')\
+                           .replace('/intro', '')\
+                           .split('/')
+            intros[pkg] = f"{base_path}/{dom}/{pkg}/intro.md"
+    return intros
+
+def write_pkg_intro(pkg, path):
+    url = f"https://raw.githubusercontent.com/pysal/{pkg}/master/README.md"
+    print(f"\tGetting {url} into\n\t\t{path}")
+    wr(requests.get(url).content.decode(), path)
+    return path
+
 
 if __name__ == '__main__':
 
