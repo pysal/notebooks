@@ -11,6 +11,7 @@ federation. The result is available at:
 If you want to access the built book, simply head over to the URL above. If
 you want to build the book locally, you will need the following:
 
+* A recent version of `jupyter-book`
 * Unix OS: the builder relies on a few shell commands (`rm`, `mkdir`, `cp`, `mv`, `cd`)
 * `pandoc` (for `.rst` to `.md` conversion)
 * `git`
@@ -27,6 +28,14 @@ The current build process involves two main steps:
 
    This will generate a `notebooks` folder that contains all the files
    required to build the book.
+1. Test all the `.ipynb` files are well-formated and can be converted:
+
+    `> python lib/build.py --test_no_run`
+
+1. Execute all the `.ipynb` files:
+
+    `> python lib/build.py --test_run`
+
 1. Build the book from the downloaded notebooks. This can be  done by running
    the following command from the root folder:
 
