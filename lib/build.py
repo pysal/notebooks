@@ -238,11 +238,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.pull:
-        pull_notebooks()
+        _ = pull_notebooks()
     if args.build:
         toc = setup_book()
     if args.test_no_run:
-        test_notebooks(execute=False)
+        _ = test_notebooks(execute=False)
     if args.test_run:
-        test_notebooks(execute=True)
+        _ = test_notebooks(execute=True)
 
