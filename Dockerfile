@@ -7,7 +7,7 @@ RUN pip install --no-deps git+https://github.com/pysal/pysal.git
 RUN rm -R work/
 COPY ./docs/content/intro.md ${HOME}/README.md
 RUN mkdir ${HOME}/content
-COPY ./docs/content/* ${HOME}/content/
+COPY ./docs/content/ ${HOME}/content/
 RUN rm ${HOME}/content/intro.md
 # Fix permissions
 USER root
