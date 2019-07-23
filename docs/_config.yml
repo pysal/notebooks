@@ -45,7 +45,7 @@ search_max_words_in_content: 100   # In the search function, use at most this ma
 # Interact link settings
 
 # General interact settings
-use_jupyterlab: true                     # If 'true', interact links will use JupyterLab as the interface
+use_jupyterlab: false                     # If 'true', interact links will use JupyterLab as the interface
 
 # Jupyterhub link settings
 use_jupyterhub_button: false              # If 'true', display a button that will direct users to a JupyterHub (that you provide)
