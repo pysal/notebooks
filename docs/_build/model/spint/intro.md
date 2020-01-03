@@ -1,11 +1,11 @@
 ---
 title: 'spint'
 prev_page:
-  url: /model/spvcm/using_the_sampler
-  title: 'using_the_sampler'
+  url: /model/spglm/Poisson_GLM.html
+  title: 'Poisson_GLM'
 next_page:
-  url: /model/spint/sparse_vs_dense_grav
-  title: 'sparse_vs_dense_grav'
+  url: /model/spint/4d_distance.html
+  title: '4d_distance'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 Spatial Interaction Modeling Package

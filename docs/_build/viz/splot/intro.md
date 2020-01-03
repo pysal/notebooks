@@ -1,18 +1,18 @@
 ---
 title: 'splot'
 prev_page:
-  url: /viz/mapclassify/maximum_breaks
-  title: 'maximum_breaks'
+  url: /viz/mapclassify/south.html
+  title: 'south'
 next_page:
-  url: /viz/splot/esda_moran_matrix_viz
-  title: 'esda_moran_matrix_viz'
+  url: /viz/splot/esda_morans_viz.html
+  title: 'esda_morans_viz'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 # splot
 
 [![Build Status](https://travis-ci.org/pysal/splot.svg?branch=master)](https://travis-ci.org/pysal/splot)
 [![Coverage Status](https://coveralls.io/repos/github/pysal/splot/badge.svg?branch=master)](https://coveralls.io/github/pysal/splot?branch=master)
-[![Documentation Status](https://readthedocs.org/projects/pip/badge/?version=stable)](http://pip.pypa.io/en/stable/?badge=stable)
+[![Documentation Status](https://readthedocs.org/projects/splot/badge/?version=latest)](https://splot.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/splot.svg)](https://badge.fury.io/py/splot)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3258810.svg)](https://doi.org/10.5281/zenodo.3258810)
 

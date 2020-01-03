@@ -1,11 +1,11 @@
 ---
 title: 'pointpats'
 prev_page:
-  url: /explore/giddy/Markov_Based_Methods
-  title: 'Markov_Based_Methods'
+  url: /explore/inequality/gini.html
+  title: 'gini'
 next_page:
-  url: /explore/pointpats/distance_statistics
-  title: 'distance_statistics'
+  url: /explore/pointpats/centrography.html
+  title: 'centrography'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 pointpats: Point Pattern Analysis in PySAL

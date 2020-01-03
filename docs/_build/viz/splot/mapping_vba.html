@@ -1,0 +1,802 @@
+---
+redirect_from:
+  - "/viz/splot/mapping-vba"
+interact_link: content/viz/splot/mapping_vba.ipynb
+kernel_name: python3
+has_widgets: false
+title: 'mapping_vba'
+prev_page:
+  url: /viz/splot/libpysal_non_planar_joins_viz.html
+  title: 'libpysal_non_planar_joins_viz'
+next_page:
+  url: 
+  title: ''
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Mapping-with-splot-and-PySAL">Mapping with <code>splot</code> and <code>PySAL</code><a class="anchor-link" href="#Mapping-with-splot-and-PySAL"> </a></h1>
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Imports">Imports<a class="anchor-link" href="#Imports"> </a></h3>
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pysal.lib</span> <span class="k">as</span> <span class="nn">lp</span>
+<span class="kn">from</span> <span class="nn">pysal.lib</span> <span class="k">import</span> <span class="n">examples</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Data-Preparation">Data Preparation<a class="anchor-link" href="#Data-Preparation"> </a></h3>
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Load example data into a <code>geopandas.GeoDataFrame</code> and inspect column names. In this example we will use the <code>columbus.shp</code> file containing neighborhood crime data of 1980.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">link_to_data</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;columbus.shp&#39;</span><span class="p">)</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">link_to_data</span><span class="p">)</span>
+<span class="n">gdf</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Index([&#39;AREA&#39;, &#39;PERIMETER&#39;, &#39;COLUMBUS_&#39;, &#39;COLUMBUS_I&#39;, &#39;POLYID&#39;, &#39;NEIG&#39;,
+       &#39;HOVAL&#39;, &#39;INC&#39;, &#39;CRIME&#39;, &#39;OPEN&#39;, &#39;PLUMB&#39;, &#39;DISCBD&#39;, &#39;X&#39;, &#39;Y&#39;, &#39;NSA&#39;,
+       &#39;NSB&#39;, &#39;EW&#39;, &#39;CP&#39;, &#39;THOUS&#39;, &#39;NEIGNO&#39;, &#39;geometry&#39;],
+      dtype=&#39;object&#39;)</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We extract two arrays <code>x</code> (housing value (in $1,000)) and <code>y</code> (residential burglaries and vehicle thefts per 1000 households).</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;HOVAL&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;CRIME&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Create-Value-by-Alpha-Choropleths-using-the-splot.mapping-functionality">Create Value-by-Alpha Choropleths using the <code>splot.mapping</code> functionality<a class="anchor-link" href="#Create-Value-by-Alpha-Choropleths-using-the-splot.mapping-functionality"> </a></h1>
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="What-is-a-Value-by-Alpha-choropleth?">What is a Value by Alpha choropleth?<a class="anchor-link" href="#What-is-a-Value-by-Alpha-choropleth?"> </a></h3>
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In a nutshell, a Value-by-Alpha Choropleth is a bivariate choropleth that uses the values of the second input variable <code>y</code> as a transparency mask, determining how much of the choropleth displaying the values of a first variable <code>x</code> is shown. In comparison to a cartogram, Value-By-Alpha choropleths will not distort shapes and sizes but modify the alpha channel (transparency) of polygons according to the second input variable <code>y</code>.</p>
+<p>Let's look at a couple of examples generated with <code>splot</code>.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.viz.splot.mapping</span> <span class="k">import</span> <span class="n">vba_choropleth</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can create a value by alpha map using <code>splot</code>'s <code>vba_choropleth</code> functionality.</p>
+<p>We will plot a Value-by-Alpha Choropleth with <code>x</code> defining the rgb values and <code>y</code> defining the alpha value. For comparison we plot a choropleth of <code>x</code> with <code>gdf.plot()</code>:</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create new figure</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># use gdf.plot() to create regular choropleth</span>
+<span class="n">gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;HOVAL&#39;</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># use vba_choropleth to create Value-by-Alpha Choropleth</span>
+<span class="n">vba_choropleth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">rgb_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">),</span>
+               <span class="n">alpha_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">),</span>
+               <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># set figure style</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;normal Choropleth&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Value-by-Alpha Choropleth&#39;</span><span class="p">)</span>
+
+<span class="c1"># plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Create new figure</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># create a vba_choropleth</span>
+<span class="n">vba_choropleth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">rgb_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">),</span>
+               <span class="n">alpha_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">),</span>
+               <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="n">revert_alpha</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># set revert_alpha argument to True</span>
+<span class="n">vba_choropleth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">rgb_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">),</span>
+               <span class="n">alpha_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">),</span>
+               <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+               <span class="n">revert_alpha</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># set figure style</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;divergent = False&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;divergent = True&#39;</span><span class="p">)</span>
+
+<span class="c1"># plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/viz/splot/mapping_vba_13_0.png"
+>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/viz/splot/mapping_vba_13_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can see the original choropleth is fading into transparency wherever there is a high <code>y</code> value.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can use the option to bin or classify your <code>x</code> and <code>y</code> values. <code>splot</code> uses mapclassify to bin your data and displays the new color and alpha ranges:</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create new figure</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># classifier quantiles</span>
+<span class="n">vba_choropleth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+               <span class="n">rgb_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span> 
+               <span class="n">alpha_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="c1"># classifier natural_breaks</span>
+<span class="n">vba_choropleth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+               <span class="n">rgb_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;natural_breaks&#39;</span><span class="p">),</span> 
+               <span class="n">alpha_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;natural_breaks&#39;</span><span class="p">))</span>
+
+<span class="c1"># classifier std_mean</span>
+<span class="n">vba_choropleth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+               <span class="n">rgb_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;std_mean&#39;</span><span class="p">),</span> 
+               <span class="n">alpha_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;std_mean&#39;</span><span class="p">))</span>
+
+<span class="c1"># classifier fisher_jenks</span>
+<span class="n">vba_choropleth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+               <span class="n">rgb_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;fisher_jenks&#39;</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span> 
+               <span class="n">alpha_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;fisher_jenks&#39;</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/viz/splot/mapping_vba_16_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Instead of using a colormap you can also pass a list of colors:</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">color_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#a1dab4&#39;</span><span class="p">,</span><span class="s1">&#39;#41b6c4&#39;</span><span class="p">,</span><span class="s1">&#39;#225ea8&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vba_choropleth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">color_list</span><span class="p">,</span>
+               <span class="n">rgb_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span> 
+               <span class="n">alpha_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/viz/splot/mapping_vba_19_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Sometimes it is important in geospatial analysis to actually see the high values and let the small values fade out. With the <code>revert_alpha = True</code> argument, you can revert the transparency of the <code>y</code> values.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create new figure</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># create a vba_choropleth</span>
+<span class="n">vba_choropleth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">rgb_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">),</span>
+               <span class="n">alpha_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">),</span>
+               <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="n">revert_alpha</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># set revert_alpha argument to True</span>
+<span class="n">vba_choropleth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">rgb_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">),</span>
+               <span class="n">alpha_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">),</span>
+               <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+               <span class="n">revert_alpha</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># set figure style</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;divergent = False&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;divergent = True&#39;</span><span class="p">)</span>
+
+<span class="c1"># plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/viz/splot/mapping_vba_21_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can use the <code>divergent</code> argument to display divergent alpha values. This means values at the extremes of your data range will be displayed with an alpha value of 1. Values towards the middle of your data range will be mapped more and more invisible towards an alpha value of 0.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create new figure</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># create a vba_choropleth</span>
+<span class="n">vba_choropleth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span>
+               <span class="n">divergent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># set divergent to True</span>
+<span class="n">vba_choropleth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span>
+               <span class="n">divergent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># set figure style</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;revert_alpha = False&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;revert_alpha = True&#39;</span><span class="p">)</span>
+
+<span class="c1"># plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/viz/splot/mapping_vba_23_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Create-your-own-cmap-for-plotting">Create your own cmap for plotting<a class="anchor-link" href="#Create-your-own-cmap-for-plotting"> </a></h1>
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Sometimes you need to display divergent values with a natural midpoint not overlapping with he median of your data. For example if you measure the temperature over a country ranging from -2 to 10 degrees Celsius. Or if you need to assess wether a certain threshold is reached.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For cases like this <code>splot</code> provides a utility function to shift your colormap.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.viz.splot._viz_utils</span> <span class="k">import</span> <span class="n">shift_colormap</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># shift the midpoint to the 80st percentile of your datarange</span>
+<span class="n">mid08</span> <span class="o">=</span> <span class="n">shift_colormap</span><span class="p">(</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span> <span class="n">midpoint</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+
+<span class="c1"># shift the midpoint to the 20st percentile of your datarange</span>
+<span class="n">mid02</span> <span class="o">=</span> <span class="n">shift_colormap</span><span class="p">(</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span> <span class="n">midpoint</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create new figure</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># vba_choropleth with cmap mid08</span>
+<span class="n">vba_choropleth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">mid08</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">divergent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># vba_choropleth with cmap mid02</span>
+<span class="n">vba_choropleth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">mid02</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">divergent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/viz/splot/mapping_vba_29_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Add-a-legend">Add a legend<a class="anchor-link" href="#Add-a-legend"> </a></h1>
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If your values are classified, you have the option to add a legend to your map.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">vba_choropleth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span>
+               <span class="n">alpha_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+               <span class="n">rgb_mapclassify</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">classifier</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+               <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/viz/splot/mapping_vba_32_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+ 
+

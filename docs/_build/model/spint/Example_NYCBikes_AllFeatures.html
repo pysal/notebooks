@@ -1,0 +1,1191 @@
+---
+redirect_from:
+  - "/model/spint/example-nycbikes-allfeatures"
+interact_link: content/model/spint/Example_NYCBikes_AllFeatures.ipynb
+kernel_name: Python [spint]
+has_widgets: false
+title: 'Example_NYCBikes_AllFeatures'
+prev_page:
+  url: /model/spint/dispersion_test.html
+  title: 'dispersion_test'
+next_page:
+  url: /model/spint/local_SI.html
+  title: 'local_SI'
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.contrib.spint.gravity</span> <span class="kn">import</span>  <span class="n">BaseGravity</span><span class="p">,</span> <span class="n">Gravity</span><span class="p">,</span> <span class="n">Production</span><span class="p">,</span> <span class="n">Attraction</span><span class="p">,</span> <span class="n">Doubly</span>
+<span class="kn">from</span> <span class="nn">pysal.contrib.spint.dispersion</span> <span class="kn">import</span> <span class="n">phi_disp</span>
+<span class="kn">from</span> <span class="nn">pysal.contrib.spint.vec_SA</span> <span class="kn">import</span> <span class="n">VecMoran</span>
+<span class="kn">import</span> <span class="nn">pysal</span> <span class="kn">as</span> <span class="nn">ps</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="kn">as</span> <span class="nn">gp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sb</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">pylab</span> inline
+<span class="kn">from</span> <span class="nn">descartes</span> <span class="kn">import</span> <span class="n">PolygonPatch</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="kn">as</span> <span class="nn">mpl</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.basemap</span> <span class="kn">import</span> <span class="n">Basemap</span>
+<span class="kn">import</span> <span class="nn">pyproj</span> <span class="kn">as</span> <span class="nn">pj</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Polygon</span><span class="p">,</span> <span class="n">Point</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Populating the interactive namespace from numpy and matplotlib
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Load NYC bike data - trips between census tract centroids</span>
+<span class="n">bikes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;nyc_bikes_ct.csv&#39;</span><span class="p">))</span>
+<span class="n">bikes</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>index</th>
+      <th>count</th>
+      <th>d_cap</th>
+      <th>d_tract</th>
+      <th>distance</th>
+      <th>end station latitude</th>
+      <th>end station longitude</th>
+      <th>o_cap</th>
+      <th>o_tract</th>
+      <th>...</th>
+      <th>weighted</th>
+      <th>total_out</th>
+      <th>total_in</th>
+      <th>o_hub</th>
+      <th>d_hub</th>
+      <th>od_hub</th>
+      <th>SX</th>
+      <th>SY</th>
+      <th>EX</th>
+      <th>EY</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>5709</td>
+      <td>255.0</td>
+      <td>600</td>
+      <td>NaN</td>
+      <td>40.712899</td>
+      <td>-73.989865</td>
+      <td>162.0</td>
+      <td>202</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>56352</td>
+      <td>69165</td>
+      <td>hub</td>
+      <td>hub</td>
+      <td>hub</td>
+      <td>585995.353038</td>
+      <td>4.507417e+06</td>
+      <td>585322.159723</td>
+      <td>4.507378e+06</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+      <td>4010</td>
+      <td>595.0</td>
+      <td>600</td>
+      <td>NaN</td>
+      <td>40.712899</td>
+      <td>-73.989865</td>
+      <td>774.0</td>
+      <td>700</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>160040</td>
+      <td>69165</td>
+      <td>hub</td>
+      <td>hub</td>
+      <td>hub</td>
+      <td>583785.918305</td>
+      <td>4.506573e+06</td>
+      <td>585322.159723</td>
+      <td>4.507378e+06</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>2</td>
+      <td>1906</td>
+      <td>170.0</td>
+      <td>600</td>
+      <td>NaN</td>
+      <td>40.712899</td>
+      <td>-73.989865</td>
+      <td>141.0</td>
+      <td>800</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>34254</td>
+      <td>69165</td>
+      <td>hub</td>
+      <td>hub</td>
+      <td>non_hub</td>
+      <td>585018.109713</td>
+      <td>4.507320e+06</td>
+      <td>585322.159723</td>
+      <td>4.507378e+06</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>3</td>
+      <td>1192</td>
+      <td>255.0</td>
+      <td>600</td>
+      <td>NaN</td>
+      <td>40.712899</td>
+      <td>-73.989865</td>
+      <td>291.0</td>
+      <td>900</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>46446</td>
+      <td>69165</td>
+      <td>hub</td>
+      <td>hub</td>
+      <td>non_hub</td>
+      <td>583444.520998</td>
+      <td>4.506199e+06</td>
+      <td>585322.159723</td>
+      <td>4.507378e+06</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>4</td>
+      <td>484</td>
+      <td>85.0</td>
+      <td>600</td>
+      <td>NaN</td>
+      <td>40.712899</td>
+      <td>-73.989865</td>
+      <td>57.0</td>
+      <td>1002</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>15916</td>
+      <td>69165</td>
+      <td>hub</td>
+      <td>hub</td>
+      <td>non_hub</td>
+      <td>586462.456350</td>
+      <td>4.507937e+06</td>
+      <td>585322.159723</td>
+      <td>4.507378e+06</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 35 columns</p>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Process data</span>
+
+<span class="c1">#Remove intrazonal flows</span>
+<span class="n">bikes</span> <span class="o">=</span> <span class="n">bikes</span><span class="p">[</span><span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;o_tract&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;d_tract&#39;</span><span class="p">]]</span>
+
+<span class="c1">#Set zero attirbute values to a small constant</span>
+<span class="n">bikes</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">bikes</span><span class="o">.</span><span class="n">o_sq_foot</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;o_sq_foot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">bikes</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">bikes</span><span class="o">.</span><span class="n">d_sq_foot</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;d_sq_foot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">bikes</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">bikes</span><span class="o">.</span><span class="n">o_cap</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;o_cap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">bikes</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">bikes</span><span class="o">.</span><span class="n">d_cap</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;d_cap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">bikes</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">bikes</span><span class="o">.</span><span class="n">o_housing</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;o_housing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">bikes</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">bikes</span><span class="o">.</span><span class="n">d_housing</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;d_housing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1">#Flows between tracts</span>
+<span class="n">flows</span> <span class="o">=</span> <span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="c1">#Origin variables: square footage of buildings, housing units, total station capacity</span>
+<span class="n">o_vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;o_sq_foot&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;o_housing&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;o_cap&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))])</span>
+
+<span class="c1">#Destination variables: square footage of buildings, housing units, total station capacity</span>
+<span class="n">d_vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;d_sq_foot&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;d_housing&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;d_cap&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))])</span>
+
+<span class="c1">#Trip &quot;cost&quot; in time (seconds)</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;tripduration&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="c1">#Origin ids</span>
+<span class="n">o</span> <span class="o">=</span> <span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;o_tract&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="c1">#destination ids</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;d_tract&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">bikes</span><span class="p">),</span> <span class="s1">&#39; OD pairs between census tracts after filtering out intrazonal flows&#39;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>14042  OD pairs between census tracts after filtering out intrazonal flows
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#First we fit a basic gravity model and examine the parameters and model fit</span>
+
+<span class="n">grav</span><span class="o">=</span> <span class="n">Gravity</span><span class="p">(</span><span class="n">flows</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">grav</span><span class="o">.</span><span class="n">params</span>
+
+<span class="k">print</span> <span class="s1">&#39;Adjusted psuedo R2: &#39;</span><span class="p">,</span> <span class="n">grav</span><span class="o">.</span><span class="n">adj_pseudoR2</span>
+<span class="k">print</span> <span class="s1">&#39;Adjusted D2: &#39;</span><span class="p">,</span> <span class="n">grav</span><span class="o">.</span><span class="n">adj_D2</span>
+<span class="k">print</span> <span class="s1">&#39;SRMSE: &#39;</span><span class="p">,</span> <span class="n">grav</span><span class="o">.</span><span class="n">SRMSE</span>
+<span class="k">print</span> <span class="s1">&#39;Sorensen similarity index: &#39;</span><span class="p">,</span> <span class="n">grav</span><span class="o">.</span><span class="n">SSI</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[ 0.09898099  0.05748786  0.50319944  0.06920194  0.06408526  0.39371417
+ -0.00226671]
+Adjusted psuedo R2:  0.772607968896
+Adjusted D2:  0.77684235847
+SRMSE:  0.924994119459
+Sorensen similarity index:  0.746131903798
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Next we fit a production-constrained model</span>
+
+<span class="n">prod</span> <span class="o">=</span> <span class="n">Production</span><span class="p">(</span><span class="n">flows</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">prod</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span> <span class="c1">#truncate to exclude balancing factors/fixed effects</span>
+
+<span class="k">print</span> <span class="s1">&#39;Adjusted psuedo R2: &#39;</span><span class="p">,</span> <span class="n">prod</span><span class="o">.</span><span class="n">adj_pseudoR2</span>
+<span class="k">print</span> <span class="s1">&#39;Adjusted D2: &#39;</span><span class="p">,</span> <span class="n">prod</span><span class="o">.</span><span class="n">adj_D2</span>
+<span class="k">print</span> <span class="s1">&#39;SRMSE: &#39;</span><span class="p">,</span> <span class="n">prod</span><span class="o">.</span><span class="n">SRMSE</span>
+<span class="k">print</span> <span class="s1">&#39;Sorensen similarity index: &#39;</span><span class="p">,</span> <span class="n">prod</span><span class="o">.</span><span class="n">SSI</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[ 0.00437122  0.06794379  0.85720958 -0.00227555]
+Adjusted psuedo R2:  0.832399632692
+Adjusted D2:  0.836963213893
+SRMSE:  0.794147843751
+Sorensen similarity index:  0.777965361121
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Next we fit an attraction-constrained model</span>
+
+<span class="n">att</span> <span class="o">=</span> <span class="n">Attraction</span><span class="p">(</span><span class="n">flows</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">att</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span> <span class="c1">#truncate to exclude balancing factors/fixed effects</span>
+
+<span class="k">print</span> <span class="s1">&#39;Adjusted psuedo R2: &#39;</span><span class="p">,</span> <span class="n">att</span><span class="o">.</span><span class="n">adj_pseudoR2</span>
+<span class="k">print</span> <span class="s1">&#39;Adjusted D2: &#39;</span><span class="p">,</span> <span class="n">att</span><span class="o">.</span><span class="n">adj_D2</span>
+<span class="k">print</span> <span class="s1">&#39;SRMSE: &#39;</span><span class="p">,</span> <span class="n">att</span><span class="o">.</span><span class="n">SRMSE</span>
+<span class="k">print</span> <span class="s1">&#39;Sorensen similarity index: &#39;</span><span class="p">,</span> <span class="n">att</span><span class="o">.</span><span class="n">SSI</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[ 0.05281568  0.05689814  0.85161213 -0.00229343]
+Adjusted psuedo R2:  0.83252844463
+Adjusted D2:  0.83709408585
+SRMSE:  0.792604389867
+Sorensen similarity index:  0.777557481635
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Finally, we fit the doubly constrained model</span>
+
+<span class="n">doub</span> <span class="o">=</span> <span class="n">Doubly</span><span class="p">(</span><span class="n">flows</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">doub</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span> <span class="c1">#truncate to exclude balancing factors/fixed effects</span>
+
+<span class="k">print</span> <span class="s1">&#39;Adjusted psuedo R2: &#39;</span><span class="p">,</span> <span class="n">doub</span><span class="o">.</span><span class="n">adj_pseudoR2</span>
+<span class="k">print</span> <span class="s1">&#39;Adjusted D2: &#39;</span><span class="p">,</span> <span class="n">doub</span><span class="o">.</span><span class="n">adj_D2</span>
+<span class="k">print</span> <span class="s1">&#39;SRMSE: &#39;</span><span class="p">,</span> <span class="n">doub</span><span class="o">.</span><span class="n">SRMSE</span>
+<span class="k">print</span> <span class="s1">&#39;Sorensen similarity index: &#39;</span><span class="p">,</span> <span class="n">doub</span><span class="o">.</span><span class="n">SSI</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[-0.00232112]
+Adjusted psuedo R2:  0.895575966583
+Adjusted D2:  0.900342219279
+SRMSE:  0.627981455879
+Sorensen similarity index:  0.818294076455
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Next, we can test the models for violations of the equidispersion assumption of Poisson models</span>
+
+<span class="c1">#test the hypotehsis of equidispersion (var[mu] = mu) against that of QuasiPoisson (var[mu] = phi * mu)</span>
+<span class="c1">#Results = [phi, tvalue, pvalue]</span>
+<span class="k">print</span> <span class="n">phi_disp</span><span class="p">(</span><span class="n">grav</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">phi_disp</span><span class="p">(</span><span class="n">prod</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">phi_disp</span><span class="p">(</span><span class="n">att</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">phi_disp</span><span class="p">(</span><span class="n">doub</span><span class="p">)</span>
+
+<span class="c1">#We can see for all four models there is overdispersion (phi &gt;&gt; 0), </span>
+<span class="c1">#which are statistically significant according the tvalues (large)</span>
+<span class="c1">#and pvalues (essentially zero). It does however decrease as more </span>
+<span class="c1">#constraints are introduced and model fit increases</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[  2.99777896e+002   2.38580701e+001   4.17517731e-126]
+[  2.06092255e+002   2.60328203e+001   1.05289599e-149]
+[  2.07645243e+002   2.64229678e+001   3.73180682e-154]
+[  1.18261248e+002   2.96580921e+001   1.33362721e-193]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#As a result we can compare our standard errors and tvalues for a Poisson model to a QuasiPoisson</span>
+
+<span class="k">print</span> <span class="s1">&#39;Production-constrained Poisson model standard errors and tvalues&#39;</span>
+<span class="k">print</span> <span class="n">prod</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
+<span class="k">print</span> <span class="n">prod</span><span class="o">.</span><span class="n">std_err</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
+<span class="k">print</span> <span class="n">prod</span><span class="o">.</span><span class="n">tvalues</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
+
+<span class="c1">#Fit the same model using QuasiPoisson framework</span>
+<span class="n">Quasi</span> <span class="o">=</span> <span class="n">Production</span><span class="p">(</span><span class="n">flows</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">Quasi</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="s1">&#39;Production-constrained QuasiPoisson model standard errors and tvalues&#39;</span>
+<span class="k">print</span> <span class="n">Quasi</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
+<span class="k">print</span> <span class="n">Quasi</span><span class="o">.</span><span class="n">std_err</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
+<span class="k">print</span> <span class="n">Quasi</span><span class="o">.</span><span class="n">tvalues</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
+
+<span class="c1">#As we can see both models result in the same parameters (first line)</span>
+<span class="c1">#We also see the QuasiPoisson results in larger standard errors (middle line)</span>
+<span class="c1">#Which then results in smaller t-values (bottom line)</span>
+<span class="c1">#We would even consdier rejecting the statistical significant of of the </span>
+<span class="c1">#parameter estimate on destination building square footage because its abolsute </span>
+<span class="c1"># value is less than 1.96 (96% confidence level) </span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Production-constrained Poisson model standard errors and tvalues
+[ 0.00437122  0.06794379  0.85720958 -0.00227555]
+[  5.00039382e-04   3.52444295e-04   6.85493176e-04   1.00141356e-06]
+[    8.74174692   192.77880405  1250.5005361  -2272.33530432]
+Production-constrained QuasiPoisson model standard errors and tvalues
+[ 0.00437122  0.06794379  0.85720958 -0.00227555]
+[  7.21095039e-03   5.08251633e-03   9.88533597e-03   1.44411496e-05]
+[   0.60619162   13.36813995   86.71527071 -157.57383972]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#We can also estimate a local model which subsets the data</span>
+<span class="c1">#For a production constrained model this means each local model</span>
+<span class="c1">#is from one origin to all destinations. Since we get a set of </span>
+<span class="c1">#parameter estimates for each origin, we can then map them.</span>
+
+<span class="n">local_prod</span> <span class="o">=</span> <span class="n">prod</span><span class="o">.</span><span class="n">local</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#There is a set of local parameter estimates, tvalues, and pvalues for each covariate</span>
+<span class="c1">#And there is a set of local values for each diagnostic</span>
+
+<span class="n">local_prod</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;pvalue3&#39;,
+ &#39;pvalue2&#39;,
+ &#39;SRMSE&#39;,
+ &#39;pvalue0&#39;,
+ &#39;deviance&#39;,
+ &#39;adj_pseudoR2&#39;,
+ &#39;pvalue1&#39;,
+ &#39;tvalue0&#39;,
+ &#39;tvalue2&#39;,
+ &#39;tvalue3&#39;,
+ &#39;adj_D2&#39;,
+ &#39;tvalue1&#39;,
+ &#39;SSI&#39;,
+ &#39;aic&#39;,
+ &#39;param1&#39;,
+ &#39;param0&#39;,
+ &#39;param3&#39;,
+ &#39;D2&#39;,
+ &#39;pseudoR2&#39;,
+ &#39;param2&#39;]</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Prep geometry for plotting</span>
+
+<span class="c1">#Read in census tracts for NYC</span>
+<span class="n">crs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;datum&#39;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s1">&#39;proj&#39;</span><span class="p">:</span><span class="s1">&#39;longlat&#39;</span><span class="p">}</span>
+<span class="n">tracts</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;nyct2010.shp&#39;</span><span class="p">)</span>
+<span class="n">tracts</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">tracts</span><span class="p">)</span>
+<span class="n">tracts</span> <span class="o">=</span> <span class="n">tracts</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">)</span>
+
+<span class="c1">#subset manhattan tracts</span>
+<span class="n">man_tracts</span> <span class="o">=</span> <span class="n">tracts</span><span class="p">[</span><span class="n">tracts</span><span class="p">[</span><span class="s1">&#39;BoroCode&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">man_tracts</span><span class="p">[</span><span class="s1">&#39;CT2010S&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">man_tracts</span><span class="p">[</span><span class="s1">&#39;CT2010&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+<span class="c1">#Get tracts for which there are no onbservations</span>
+<span class="n">mt</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">man_tracts</span><span class="o">.</span><span class="n">CT2010S</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">lt</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mt</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">lt</span><span class="p">))</span>
+<span class="n">no_tracts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;no_tract&#39;</span><span class="p">:</span><span class="n">nt</span><span class="p">})</span>
+<span class="n">no_tracts</span> <span class="o">=</span> <span class="n">man_tracts</span><span class="p">[</span><span class="n">man_tracts</span><span class="o">.</span><span class="n">CT2010S</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">nt</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1">#Join local values to census tracts</span>
+<span class="n">local_vals</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;betas&#39;</span><span class="p">:</span> <span class="n">local_prod</span><span class="p">[</span><span class="s1">&#39;param3&#39;</span><span class="p">],</span> <span class="s1">&#39;tract&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">o</span><span class="p">)})</span>
+<span class="n">local_vals</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">local_vals</span><span class="p">,</span> <span class="n">man_tracts</span><span class="p">[[</span><span class="s1">&#39;CT2010S&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">]],</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;tract&#39;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;CT2010S&#39;</span><span class="p">)</span>
+<span class="n">local_vals</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">local_vals</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Plot local &quot;cost&quot; values: darker blue is stronger distance decay; grey is no data</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">local_vals</span><span class="p">[</span><span class="s1">&#39;inv_betas&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">local_vals</span><span class="p">[</span><span class="s1">&#39;betas&#39;</span><span class="p">]</span><span class="o">*-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">no_tracts</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">no_tracts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;copper&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">local_vals</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;inv_betas&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">74.02</span><span class="p">,</span> <span class="o">-</span><span class="mf">73.95</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">40.7</span><span class="p">,</span> <span class="mf">40.78</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(40.7, 40.78)</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/model/spint/Example_NYCBikes_AllFeatures_12_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Plot local estimates for destination capacity: darker red is larger effect; grey is no data</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">local_vals</span><span class="p">[</span><span class="s1">&#39;cap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">local_prod</span><span class="p">[</span><span class="s1">&#39;param3&#39;</span><span class="p">]</span>
+<span class="n">no_tracts</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">no_tracts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;copper&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">local_vals</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;cap&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Reds&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">74.02</span><span class="p">,</span> <span class="o">-</span><span class="mf">73.95</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">40.7</span><span class="p">,</span> <span class="mf">40.78</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(40.7, 40.78)</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/model/spint/Example_NYCBikes_AllFeatures_13_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Plot local estimates for # of housing units: darker red is larger effect; grey is no data</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">local_vals</span><span class="p">[</span><span class="s1">&#39;house&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">local_prod</span><span class="p">[</span><span class="s1">&#39;param2&#39;</span><span class="p">]</span>
+<span class="n">no_tracts</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">no_tracts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;copper&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">local_vals</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;house&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Reds&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">74.02</span><span class="p">,</span> <span class="o">-</span><span class="mf">73.95</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">40.7</span><span class="p">,</span> <span class="mf">40.78</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(40.7, 40.78)</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/model/spint/Example_NYCBikes_AllFeatures_14_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Plot local estimates for destination building sq footage: darker red is larger effect; grey is no data</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">local_vals</span><span class="p">[</span><span class="s1">&#39;foot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">local_prod</span><span class="p">[</span><span class="s1">&#39;param1&#39;</span><span class="p">]</span>
+<span class="n">no_tracts</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">no_tracts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;copper&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">local_vals</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;foot&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Reds&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">74.02</span><span class="p">,</span> <span class="o">-</span><span class="mf">73.95</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">40.7</span><span class="p">,</span> <span class="mf">40.78</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(40.7, 40.78)</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/model/spint/Example_NYCBikes_AllFeatures_15_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Drop NA values</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;start station longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;start station latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;end station longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;end station latitude&#39;</span><span class="p">]</span>
+<span class="n">bikes</span> <span class="o">=</span> <span class="n">bikes</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Prep OD data as vectors and then compute origin or destination focused distance-based weights</span>
+
+<span class="n">ids</span> <span class="o">=</span> <span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">origin_x</span> <span class="o">=</span> <span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;SX&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">origin_y</span> <span class="o">=</span> <span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;SY&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">dest_x</span> <span class="o">=</span> <span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;EX&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">dest_y</span> <span class="o">=</span> <span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;EY&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+
+<span class="n">vecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">ids</span><span class="p">,</span> <span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">,</span> <span class="n">dest_x</span><span class="p">,</span> <span class="n">dest_y</span><span class="p">])</span>
+<span class="n">origins</span> <span class="o">=</span> <span class="n">vecs</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">wo</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">DistanceBand</span><span class="p">(</span><span class="n">origins</span><span class="p">,</span> <span class="mi">999</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">build_sp</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">dests</span> <span class="o">=</span> <span class="n">vecs</span><span class="p">[:,</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">wd</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">DistanceBand</span><span class="p">(</span><span class="n">dests</span><span class="p">,</span> <span class="mi">999</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">build_sp</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Origin focused Moran&#39;s I of OD pairs as vectors in space</span>
+<span class="n">vmo</span> <span class="o">=</span> <span class="n">VecMoran</span><span class="p">(</span><span class="n">vecs</span><span class="p">,</span> <span class="n">wo</span><span class="p">,</span> <span class="n">permutations</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">vmo</span><span class="o">.</span><span class="n">I</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.15734115508365823</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Destination focused Moran&#39;s I of OD pairs as vectors in space</span>
+<span class="n">vmd</span> <span class="o">=</span> <span class="n">VecMoran</span><span class="p">(</span><span class="n">vecs</span><span class="p">,</span> <span class="n">wd</span><span class="p">,</span> <span class="n">permutations</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">vmd</span><span class="o">.</span><span class="n">I</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.21322002653342809</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#No substantial examples to show for spatial interaction weights</span>
+<span class="c1">#Will add them once there is a working SAR Lag spatial interaction</span>
+<span class="c1">#model implementation avaialble</span>
+<span class="c1">#from pysal.weights.spintW import vecW, netW, ODW</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+ 
+

@@ -1,0 +1,393 @@
+---
+redirect_from:
+  - "/model/mgwr/gwr-mgwr-parallel-example"
+interact_link: content/model/mgwr/GWR_MGWR_Parallel_Example.ipynb
+kernel_name: python3
+has_widgets: false
+title: 'GWR_MGWR_Parallel_Example'
+prev_page:
+  url: /model/mgwr/GWR_MGWR_example.html
+  title: 'GWR_MGWR_example'
+next_page:
+  url: /model/mgwr/GWR_prediction_example.html
+  title: 'GWR_prediction_example'
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gp</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+<span class="kn">import</span> <span class="nn">pysal.lib</span> <span class="k">as</span> <span class="nn">ps</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/Users/Ziqi/Desktop/mgwr/&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pysal.model.mgwr.gwr</span> <span class="k">import</span> <span class="n">GWR</span><span class="p">,</span><span class="n">MGWR</span>
+<span class="kn">from</span> <span class="nn">pysal.model.mgwr.sel_bw</span> <span class="k">import</span> <span class="n">Sel_BW</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Load Berlin example</span>
+<span class="n">prenz</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;prenzlauer.zip&#39;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">b_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">prenz</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="n">b_X</span> <span class="o">=</span> <span class="n">prenz</span><span class="p">[[</span><span class="s1">&#39;review_sco&#39;</span><span class="p">,</span><span class="s1">&#39;accommodat&#39;</span><span class="p">,</span><span class="s1">&#39;bathrooms&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span> 
+<span class="n">b_X</span> <span class="o">=</span> <span class="p">(</span><span class="n">b_X</span> <span class="o">-</span> <span class="n">b_X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">b_X</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">b_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">b_y</span> <span class="o">-</span> <span class="n">b_y</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">b_y</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">prenz</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">prenz</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span>
+<span class="n">b_coords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#This might be needed to turn off the OpenMP multi-threading</span>
+<span class="o">%</span><span class="k">env</span> OMP_NUM_THREADS = 1
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>env: OMP_NUM_THREADS=1
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="GWR-No-Parallel">GWR No Parallel<a class="anchor-link" href="#GWR-No-Parallel"> </a></h3>
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
+<span class="n">gwr_selector</span> <span class="o">=</span> <span class="n">Sel_BW</span><span class="p">(</span><span class="n">b_coords</span><span class="p">,</span> <span class="n">b_y</span><span class="p">,</span> <span class="n">b_X</span><span class="p">)</span>
+<span class="n">gwr_bw</span> <span class="o">=</span> <span class="n">gwr_selector</span><span class="o">.</span><span class="n">search</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">gwr_bw</span><span class="p">)</span>
+<span class="n">gwr_results</span> <span class="o">=</span> <span class="n">GWR</span><span class="p">(</span><span class="n">b_coords</span><span class="p">,</span> <span class="n">b_y</span><span class="p">,</span> <span class="n">b_X</span><span class="p">,</span> <span class="n">gwr_bw</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>192.0
+CPU times: user 13.9 s, sys: 116 ms, total: 14 s
+Wall time: 14.2 s
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="MGWR-No-Parallel">MGWR No Parallel<a class="anchor-link" href="#MGWR-No-Parallel"> </a></h3>
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
+<span class="n">mgwr_selector</span> <span class="o">=</span> <span class="n">Sel_BW</span><span class="p">(</span><span class="n">b_coords</span><span class="p">,</span> <span class="n">b_y</span><span class="p">,</span> <span class="n">b_X</span><span class="p">,</span> <span class="n">multi</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mgwr_bw</span> <span class="o">=</span> <span class="n">mgwr_selector</span><span class="o">.</span><span class="n">search</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mgwr_bw</span><span class="p">)</span>
+<span class="n">mgwr_results</span> <span class="o">=</span> <span class="n">MGWR</span><span class="p">(</span><span class="n">b_coords</span><span class="p">,</span> <span class="n">b_y</span><span class="p">,</span> <span class="n">b_X</span><span class="p">,</span> <span class="n">selector</span><span class="o">=</span><span class="n">mgwr_selector</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[ 191. 1279.   79. 2200.]
+CPU times: user 3min 37s, sys: 2.73 s, total: 3min 40s
+Wall time: 3min 18s
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Parrallelization is more favored when you your data are large and/or your machine have many many cores.</span>
+<span class="c1">#mgwr has soft dependency of numba, please install numba if you need better performance (pip install numba).</span>
+
+<span class="n">n_proc</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1">#two processors</span>
+<span class="n">pool</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">n_proc</span><span class="p">)</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="GWR-Parallel">GWR Parallel<a class="anchor-link" href="#GWR-Parallel"> </a></h3>
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
+<span class="n">gwr_selector</span> <span class="o">=</span> <span class="n">Sel_BW</span><span class="p">(</span><span class="n">b_coords</span><span class="p">,</span> <span class="n">b_y</span><span class="p">,</span> <span class="n">b_X</span><span class="p">)</span>
+<span class="n">gwr_bw</span> <span class="o">=</span> <span class="n">gwr_selector</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">)</span> <span class="c1">#add pool to Sel_BW.search</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">gwr_bw</span><span class="p">)</span>
+<span class="n">gwr_results</span> <span class="o">=</span> <span class="n">GWR</span><span class="p">(</span><span class="n">b_coords</span><span class="p">,</span> <span class="n">b_y</span><span class="p">,</span> <span class="n">b_X</span><span class="p">,</span> <span class="n">gwr_bw</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">)</span> <span class="c1">#add pool to GWR.fit</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>192.0
+CPU times: user 303 ms, sys: 42.3 ms, total: 346 ms
+Wall time: 7.05 s
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="MGWR-Parallel">MGWR Parallel<a class="anchor-link" href="#MGWR-Parallel"> </a></h3>
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
+<span class="n">mgwr_selector</span> <span class="o">=</span> <span class="n">Sel_BW</span><span class="p">(</span><span class="n">b_coords</span><span class="p">,</span> <span class="n">b_y</span><span class="p">,</span> <span class="n">b_X</span><span class="p">,</span> <span class="n">multi</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mgwr_bw</span> <span class="o">=</span> <span class="n">mgwr_selector</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">)</span> <span class="c1">#add pool to Sel_BW.search</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mgwr_bw</span><span class="p">)</span>
+<span class="n">mgwr_results</span> <span class="o">=</span> <span class="n">MGWR</span><span class="p">(</span><span class="n">b_coords</span><span class="p">,</span> <span class="n">b_y</span><span class="p">,</span> <span class="n">b_X</span><span class="p">,</span> <span class="n">selector</span><span class="o">=</span><span class="n">mgwr_selector</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">)</span> <span class="c1">#add pool to MGWR.fit</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[ 191. 1279.   79. 2200.]
+CPU times: user 5.08 s, sys: 388 ms, total: 5.46 s
+Wall time: 2min 2s
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> <span class="c1"># Close the pool when you finish</span>
+<span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+ 
+

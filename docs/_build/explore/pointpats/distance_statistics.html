@@ -1,0 +1,2076 @@
+---
+redirect_from:
+  - "/explore/pointpats/distance-statistics"
+interact_link: content/explore/pointpats/distance_statistics.ipynb
+kernel_name: python3
+has_widgets: false
+title: 'distance_statistics'
+prev_page:
+  url: /explore/pointpats/centrography.html
+  title: 'centrography'
+next_page:
+  url: /explore/pointpats/marks.html
+  title: 'marks'
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Distance-Based-Statistical-Method-for-Planar-Point-Patterns">Distance Based Statistical Method for Planar Point Patterns<a class="anchor-link" href="#Distance-Based-Statistical-Method-for-Planar-Point-Patterns"> </a></h1><p><strong>Authors: Serge Rey <a href="mailto:sjsrey@gmail.com">sjsrey@gmail.com</a> and Wei Kang <a href="mailto:weikang9009@gmail.com">weikang9009@gmail.com</a></strong></p>
+<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction"> </a></h2><p>Distance based methods for point patterns are of three types:</p>
+<ul>
+<li><a href="#Mean-Nearest-Neighbor-Distance-Statistics">Mean Nearest Neighbor Distance Statistics</a></li>
+<li><a href="#Nearest-Neighbor-Distance-Functions">Nearest Neighbor Distance Functions</a></li>
+<li><a href="#Interevent-Distance-Functions">Interevent Distance Functions</a></li>
+</ul>
+<p>In addition, we are going to introduce a computational technique <a href="#Simulation-Envelopes">Simulation Envelopes</a> to aid in making inferences about the data generating process. An <a href="#CSR-Example">example</a> is used to demonstrate how to use and interprete simulation envelopes.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">scipy.spatial</span>
+<span class="kn">import</span> <span class="nn">pysal.lib</span> <span class="k">as</span> <span class="nn">ps</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pysal.explore.pointpats</span> <span class="k">import</span> <span class="n">PointPattern</span><span class="p">,</span> <span class="n">PoissonPointProcess</span><span class="p">,</span> <span class="n">as_window</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">Genv</span><span class="p">,</span> <span class="n">Fenv</span><span class="p">,</span> <span class="n">Jenv</span><span class="p">,</span> <span class="n">Kenv</span><span class="p">,</span> <span class="n">Lenv</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Mean-Nearest-Neighbor-Distance-Statistics">Mean Nearest Neighbor Distance Statistics<a class="anchor-link" href="#Mean-Nearest-Neighbor-Distance-Statistics"> </a></h2><p>The nearest neighbor(s) for a point $u$ is the point(s) $N(u)$ which meet the condition
+$$d_{u,N(u)} \leq d_{u,j} \forall j \in S - u$$</p>
+<p>The distance between the nearest neighbor(s) $N(u)$ and the point $u$ is nearest neighbor distance for $u$. After searching for nearest neighbor(s) for all the points and calculating the corresponding distances, we are able to calculate mean nearest neighbor distance by averaging these distances.</p>
+<p>It was demonstrated by Clark and Evans(1954) that mean nearest neighbor distance statistics distribution is a normal distribution under null hypothesis (underlying spatial process is CSR). We can utilize the test statistics to determine whether the point pattern is the outcome of CSR. If not, is it the outcome of cluster or regular
+spatial process?</p>
+<p>Mean nearest neighbor distance statistic</p>
+$$\bar{d}_{min}=\frac{1}{n} \sum_{i=1}^n d_{min}(s_i)$$
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">points</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">66.22</span><span class="p">,</span> <span class="mf">32.54</span><span class="p">],</span> <span class="p">[</span><span class="mf">22.52</span><span class="p">,</span> <span class="mf">22.39</span><span class="p">],</span> <span class="p">[</span><span class="mf">31.01</span><span class="p">,</span> <span class="mf">81.21</span><span class="p">],</span>
+          <span class="p">[</span><span class="mf">9.47</span><span class="p">,</span> <span class="mf">31.02</span><span class="p">],</span>  <span class="p">[</span><span class="mf">30.78</span><span class="p">,</span> <span class="mf">60.10</span><span class="p">],</span> <span class="p">[</span><span class="mf">75.21</span><span class="p">,</span> <span class="mf">58.93</span><span class="p">],</span>
+          <span class="p">[</span><span class="mf">79.26</span><span class="p">,</span>  <span class="mf">7.68</span><span class="p">],</span> <span class="p">[</span><span class="mf">8.23</span><span class="p">,</span> <span class="mf">39.93</span><span class="p">],</span>  <span class="p">[</span><span class="mf">98.73</span><span class="p">,</span> <span class="mf">77.17</span><span class="p">],</span>
+          <span class="p">[</span><span class="mf">89.78</span><span class="p">,</span> <span class="mf">42.53</span><span class="p">],</span> <span class="p">[</span><span class="mf">65.19</span><span class="p">,</span> <span class="mf">92.08</span><span class="p">],</span> <span class="p">[</span><span class="mf">54.46</span><span class="p">,</span> <span class="mf">8.48</span><span class="p">]]</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="n">PointPattern</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pp</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Point Pattern
+12 points
+Bounding rectangle [(8.23,7.68), (98.73,92.08)]
+Area of window: 7638.200000000002
+Intensity estimate for window: 0.0015710507711240865
+       x      y
+0  66.22  32.54
+1  22.52  22.39
+2  31.01  81.21
+3   9.47  31.02
+4  30.78  60.10
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We may call the method <strong>knn</strong> in PointPattern class to find $k$ nearest neighbors for each point in the point pattern <em>pp</em>.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># one nearest neighbor (default)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">knn</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(array([[ 9],
+        [ 3],
+        [ 4],
+        [ 7],
+        [ 2],
+        [ 9],
+        [11],
+        [ 3],
+        [ 5],
+        [ 5],
+        [ 5],
+        [ 6]]), array([[25.59050019],
+        [15.64542745],
+        [21.11125292],
+        [ 8.99587128],
+        [21.11125292],
+        [21.93729473],
+        [24.81289987],
+        [ 8.99587128],
+        [29.76387072],
+        [21.93729473],
+        [34.63124168],
+        [24.81289987]]))</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The first array is the ids of the most nearest neighbor for each point, the second array is the distance between each point and its  most nearest neighbor.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># two nearest neighbors</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">knn</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(array([[ 9, 11],
+        [ 3,  7],
+        [ 4, 10],
+        [ 7,  1],
+        [ 2,  7],
+        [ 9,  0],
+        [11,  0],
+        [ 3,  1],
+        [ 5,  9],
+        [ 5,  0],
+        [ 5,  2],
+        [ 6,  0]]), array([[25.59050019, 26.78023898],
+        [15.64542745, 22.62422816],
+        [21.11125292, 35.86682729],
+        [ 8.99587128, 15.64542745],
+        [21.11125292, 30.2544443 ],
+        [21.93729473, 27.87924317],
+        [24.81289987, 28.07242775],
+        [ 8.99587128, 22.62422816],
+        [29.76387072, 35.77753625],
+        [21.93729473, 25.59050019],
+        [34.63124168, 35.86682729],
+        [24.81289987, 26.78023898]]))</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pp</span><span class="o">.</span><span class="n">max_nnd</span> <span class="c1"># Maximum nearest neighbor distance</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>34.63124167568931</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pp</span><span class="o">.</span><span class="n">min_nnd</span> <span class="c1"># Minimum nearest neighbor distance</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>8.995871275201752</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pp</span><span class="o">.</span><span class="n">mean_nnd</span> <span class="c1"># mean nearest neighbor distance</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>21.612139802089246</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pp</span><span class="o">.</span><span class="n">nnd</span> <span class="c1"># Nearest neighbor distances</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[25.59050019],
+       [15.64542745],
+       [21.11125292],
+       [ 8.99587128],
+       [21.11125292],
+       [21.93729473],
+       [24.81289987],
+       [ 8.99587128],
+       [29.76387072],
+       [21.93729473],
+       [34.63124168],
+       [24.81289987]])</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pp</span><span class="o">.</span><span class="n">nnd</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">pp</span><span class="o">.</span><span class="n">n</span> <span class="c1"># same as pp.mean_nnd</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>21.612139802089246</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_14_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Nearest-Neighbor-Distance-Functions">Nearest Neighbor Distance Functions<a class="anchor-link" href="#Nearest-Neighbor-Distance-Functions"> </a></h2><p>Nearest neighbour distance distribution functions (including the nearest “event-to-event” and “point-event” distance distribution functions) of a point process are cumulative distribution functions of several kinds -- $G, F, J$. By comparing the distance function of the observed point pattern with that of the point pattern from a CSR process, we are able to infer whether the underlying spatial process of the observed point pattern is CSR or not for a given confidence level.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="$G$-function---event-to-event">$G$ function - event-to-event<a class="anchor-link" href="#$G$-function---event-to-event"> </a></h4><p>The $G$ function is defined as follows: for a given distance $d$, $G(d)$ is the proportion of nearest neighbor distances that are less than $d$.
+$$G(d) = \sum_{i=1}^n \frac{ \phi_i^d}{n}$$</p>
+$$ 
+\phi_i^d =
+ \begin{cases}
+    1       &amp; \quad \text{if } d_{min}(s_i)&lt;d \\
+    0       &amp; \quad \text{otherwise } \\
+  \end{cases}
+$$<p>If the underlying point process is a CSR process, $G$ function has an expectation of:
+$$
+G(d) = 1-e(-\lambda \pi d^2)
+$$
+However, if the $G$ function plot is above the expectation this reflects clustering, while departures below expectation reflect dispersion.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gp1</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">gp1</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_17_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A slightly different visualization of the empirical function is the quantile-quantile plot:</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gp1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">qq</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_19_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>in the q-q plot the csr function is now a diagonal line which serves to make accessment of departures from csr visually easier.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It is obvious that the above $G$ increases very slowly at small distances and the line is below the expected value for a CSR process (green  line). We might think that the underlying spatial process is regular point process. However, this visual inspection is not enough for a final conclusion.  In <a href="#Simulation-Envelopes">Simulation Envelopes</a>, we are going to demonstrate how to simulate data under CSR many times and construct the $95\%$ simulation envelope for $G$.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gp1</span><span class="o">.</span><span class="n">d</span> <span class="c1"># distance domain sequence (corresponding to the x-axis)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 0.        ,  1.73156208,  3.46312417,  5.19468625,  6.92624834,
+        8.65781042, 10.3893725 , 12.12093459, 13.85249667, 15.58405875,
+       17.31562084, 19.04718292, 20.77874501, 22.51030709, 24.24186917,
+       25.97343126, 27.70499334, 29.43655542, 31.16811751, 32.89967959,
+       34.63124168, 36.36280376])</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gp1</span><span class="o">.</span><span class="n">G</span> <span class="c1">#cumulative nearest neighbor distance distribution over d (corresponding to the y-axis))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0.        , 0.        , 0.        , 0.        , 0.        ,
+       0.        , 0.16666667, 0.16666667, 0.16666667, 0.16666667,
+       0.25      , 0.25      , 0.25      , 0.58333333, 0.58333333,
+       0.83333333, 0.83333333, 0.83333333, 0.91666667, 0.91666667,
+       1.        , 1.        ])</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="$F$-function---&quot;point-event&quot;">$F$ function - "point-event"<a class="anchor-link" href="#$F$-function---&quot;point-event&quot;"> </a></h4><p>When the number of events in a point pattern is small, $G$ function is rough (see the $G$ function plot for the 12 size point pattern above). One way to get around this is to turn to $F$ funtion where a given number of randomly distributed points are generated in the domain and the nearest event neighbor distance is calculated for each point. The cumulative distribution of all nearest event neighbor distances is called $F$ function.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fp1</span> <span class="o">=</span> <span class="n">F</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span> <span class="c1"># The default is to randomly generate 100 points.</span>
+<span class="n">fp1</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_25_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fp1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">qq</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_26_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can increase the number of intervals to make $F$ more smooth.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fp1</span> <span class="o">=</span> <span class="n">F</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">fp1</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_28_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fp1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">qq</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_29_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$F$ function is more smooth than $G$ function.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="$J$-function---a-combination-of-&quot;event-event&quot;-and-&quot;point-event&quot;">$J$ function - a combination of "event-event" and "point-event"<a class="anchor-link" href="#$J$-function---a-combination-of-&quot;event-event&quot;-and-&quot;point-event&quot;"> </a></h4><p>$J$ function is defined as follows:</p>
+$$J(d) = \frac{1-G(d)}{1-F(d)}$$<p>If $J(d)&lt;1$, the underlying point process is a cluster point process; if $J(d)=1$, the underlying point process is a random point process; otherwise, it is a regular point process.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">jp1</span> <span class="o">=</span> <span class="n">J</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">jp1</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_32_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>From the above figure, we can observe that $J$ function is obviously above the $J(d)=1$ horizontal line. It is approaching infinity with nearest neighbor distance increasing. We might tend to conclude that the underlying point process is a regular one.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Interevent-Distance-Functions">Interevent Distance Functions<a class="anchor-link" href="#Interevent-Distance-Functions"> </a></h2><p>Nearest neighbor distance functions consider only the nearest neighbor distances, "event-event", "point-event" or the combination. Thus, distances to higer order neighbors are ignored, which might reveal important information regarding the point process. Interevent distance functions, including $K$ and $L$ functions, are proposed to consider distances between all pairs of event points. Similar to $G$, $F$ and $J$ functions, $K$ and $L$ functions are also cumulative distribution function.</p>
+<h4 id="$K$-function---&quot;interevent&quot;">$K$ function - "interevent"<a class="anchor-link" href="#$K$-function---&quot;interevent&quot;"> </a></h4><p>Given distance $d$, $K(d)$ is defined as:
+$$K(d) = \frac{\sum_{i=1}^n \sum_{j=1}^n \psi_{ij}(d)}{n \hat{\lambda}}$$</p>
+<p>where
+$$ 
+\psi_{ij}(d) =
+ \begin{cases}
+    1       &amp; \quad \text{if } d_{ij}&lt;d \\
+    0       &amp; \quad \text{otherwise } \\
+  \end{cases}
+$$</p>
+<p>$\sum_{j=1}^n \psi_{ij}(d)$ is the number of events within a circle of radius $d$ centered on event $s_i$ .</p>
+<p>Still, we use CSR as the benchmark (null hypothesis) and see how the $K$ funtion estimated from the observed point pattern deviate from that under CSR, which is $K(d)=\pi d^2$. $K(d)&lt;\pi d^2$ indicates that the underlying point process is a regular point process. $K(d)&gt;\pi d^2$ indicates that the underlying point process is a cluster point process.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">kp1</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
+<span class="n">kp1</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_35_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="$L$-function---&quot;interevent&quot;">$L$ function - "interevent"<a class="anchor-link" href="#$L$-function---&quot;interevent&quot;"> </a></h4><p>$L$ function is a scaled version of $K$ function, defined as:
+$$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lp1</span> <span class="o">=</span> <span class="n">L</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
+<span class="n">lp1</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_37_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Simulation-Envelopes">Simulation Envelopes<a class="anchor-link" href="#Simulation-Envelopes"> </a></h2><p>A <a href="http://www.esajournals.org/doi/pdf/10.1890/13-2042.1">Simulation envelope</a> is a computer intensive technique for inferring whether an observed pattern significantly deviates from what would be expected under a specific process. Here, we always use CSR as the benchmark. In order to construct a simulation envelope for a given function, we need to simulate CSR a lot of times, say $1000$ times. Then, we can calculate the function for each simulated point pattern. For every distance $d$, we sort the function values of the $1000$ simulated point patterns. Given a confidence level, say $95\%$, we can acquire the $25$th and $975$th value for every distance $d$. Thus, a simulation envelope is constructed.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Simulation-Envelope-for-G-function">Simulation Envelope for G function<a class="anchor-link" href="#Simulation-Envelope-for-G-function"> </a></h4><p><strong>Genv</strong> class in pysal.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">realizations</span> <span class="o">=</span> <span class="n">PoissonPointProcess</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="n">pp</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">asPP</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># simulate CSR 100 times</span>
+<span class="n">genv</span> <span class="o">=</span> <span class="n">Genv</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">realizations</span><span class="o">=</span><span class="n">realizations</span><span class="p">)</span> <span class="c1"># call Genv to generate simulation envelope</span>
+<span class="n">genv</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;pointpats.distance_statistics.Genv at 0x1b22d502b0&gt;</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">genv</span><span class="o">.</span><span class="n">observed</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[ 0.        ,  0.        ],
+       [ 1.73156208,  0.        ],
+       [ 3.46312417,  0.        ],
+       [ 5.19468625,  0.        ],
+       [ 6.92624834,  0.        ],
+       [ 8.65781042,  0.        ],
+       [10.3893725 ,  0.16666667],
+       [12.12093459,  0.16666667],
+       [13.85249667,  0.16666667],
+       [15.58405875,  0.16666667],
+       [17.31562084,  0.25      ],
+       [19.04718292,  0.25      ],
+       [20.77874501,  0.25      ],
+       [22.51030709,  0.58333333],
+       [24.24186917,  0.58333333],
+       [25.97343126,  0.83333333],
+       [27.70499334,  0.83333333],
+       [29.43655542,  0.83333333],
+       [31.16811751,  0.91666667],
+       [32.89967959,  0.91666667],
+       [34.63124168,  1.        ],
+       [36.36280376,  1.        ]])</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">genv</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_42_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the above figure, <strong>LB</strong> and <strong>UB</strong> comprise the simulation envelope. <strong>CSR</strong> is the mean function calculated from the simulated data. <strong>G</strong> is the function estimated from the observed point pattern. It is well below the simulation envelope. We can infer that the underlying point process is a regular one.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Simulation-Envelope-for-F-function">Simulation Envelope for F function<a class="anchor-link" href="#Simulation-Envelope-for-F-function"> </a></h4><p><strong>Fenv</strong> class in pysal.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fenv</span> <span class="o">=</span> <span class="n">Fenv</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">realizations</span><span class="o">=</span><span class="n">realizations</span><span class="p">)</span>
+<span class="n">fenv</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_45_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Simulation-Envelope-for-J-function">Simulation Envelope for J function<a class="anchor-link" href="#Simulation-Envelope-for-J-function"> </a></h4><p><strong>Jenv</strong> class in pysal.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">jenv</span> <span class="o">=</span> <span class="n">Jenv</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">realizations</span><span class="o">=</span><span class="n">realizations</span><span class="p">)</span>
+<span class="n">jenv</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_47_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Simulation-Envelope-for-K-function">Simulation Envelope for K function<a class="anchor-link" href="#Simulation-Envelope-for-K-function"> </a></h4><p><strong>Kenv</strong> class in pysal.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">kenv</span> <span class="o">=</span> <span class="n">Kenv</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">realizations</span><span class="o">=</span><span class="n">realizations</span><span class="p">)</span>
+<span class="n">kenv</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_49_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Simulation-Envelope-for-L-function">Simulation Envelope for L function<a class="anchor-link" href="#Simulation-Envelope-for-L-function"> </a></h4><p><strong>Lenv</strong> class in pysal.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lenv</span> <span class="o">=</span> <span class="n">Lenv</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">realizations</span><span class="o">=</span><span class="n">realizations</span><span class="p">)</span>
+<span class="n">lenv</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_51_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="CSR-Example">CSR Example<a class="anchor-link" href="#CSR-Example"> </a></h2><p>In this example, we are going to generate a point pattern as the "observed" point pattern. The data generating process is CSR. Then, we will simulate CSR in the same domain for 100 times and construct a simulation envelope for each function.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.lib.cg</span> <span class="k">import</span> <span class="n">shapely_ext</span>
+<span class="kn">from</span> <span class="nn">pysal.explore.pointpats</span> <span class="k">import</span> <span class="n">Window</span>
+<span class="kn">import</span> <span class="nn">pysal.lib</span> <span class="k">as</span> <span class="nn">ps</span>
+<span class="n">va</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;vautm17n.shp&quot;</span><span class="p">))</span>
+<span class="n">polys</span> <span class="o">=</span> <span class="p">[</span><span class="n">shp</span> <span class="k">for</span> <span class="n">shp</span> <span class="ow">in</span> <span class="n">va</span><span class="p">]</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">shapely_ext</span><span class="o">.</span><span class="n">cascaded_union</span><span class="p">(</span><span class="n">polys</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Generate the point pattern <strong>pp</strong> (size 100) from CSR as the "observed" point pattern.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
+<span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([list([1]), list([1, 2])], dtype=object)</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="n">PoissonPointProcess</span><span class="p">(</span><span class="n">Window</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">parts</span><span class="p">),</span> <span class="n">n</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">asPP</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">realizations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;pointpats.pointpattern.PointPattern at 0x1b22d31cf8&gt;</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pp</span><span class="o">.</span><span class="n">n</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>100</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Simulate CSR in the same domian for 100 times which would be used for constructing simulation envelope under the null hypothesis of CSR.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">csrs</span> <span class="o">=</span> <span class="n">PoissonPointProcess</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">asPP</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">csrs</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;pointpats.process.PoissonPointProcess at 0x1b22d31240&gt;</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Construct the simulation envelope for $G$ function.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">genv</span> <span class="o">=</span> <span class="n">Genv</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">realizations</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">realizations</span><span class="o">=</span><span class="n">csrs</span><span class="p">)</span>
+<span class="n">genv</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_61_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Since the "observed" $G$ is well contained by the simulation envelope, we infer that the underlying point process is a random process.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">genv</span><span class="o">.</span><span class="n">low</span> <span class="c1"># lower bound of the simulation envelope for G</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0.  , 0.  , 0.14, 0.32, 0.54, 0.69, 0.83, 0.87, 0.91, 0.95, 0.96,
+       0.97])</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">genv</span><span class="o">.</span><span class="n">high</span> <span class="c1"># higher bound of the simulation envelope for G</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0.  , 0.14, 0.36, 0.57, 0.74, 0.86, 0.93, 0.97, 0.99, 1.  , 1.  ,
+       1.  ])</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Construct the simulation envelope for $F$ function.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fenv</span> <span class="o">=</span> <span class="n">Fenv</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">realizations</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">realizations</span><span class="o">=</span><span class="n">csrs</span><span class="p">)</span>
+<span class="n">fenv</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_66_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Construct the simulation envelope for $J$ function.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">jenv</span> <span class="o">=</span> <span class="n">Jenv</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">realizations</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">realizations</span><span class="o">=</span><span class="n">csrs</span><span class="p">)</span>
+<span class="n">jenv</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_68_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Construct the simulation envelope for $K$ function.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">kenv</span> <span class="o">=</span> <span class="n">Kenv</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">realizations</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">realizations</span><span class="o">=</span><span class="n">csrs</span><span class="p">)</span>
+<span class="n">kenv</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_70_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Construct the simulation envelope for $L$ function.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lenv</span> <span class="o">=</span> <span class="n">Lenv</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">realizations</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">realizations</span><span class="o">=</span><span class="n">csrs</span><span class="p">)</span>
+<span class="n">lenv</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/pointpats/distance_statistics_72_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+ 
+

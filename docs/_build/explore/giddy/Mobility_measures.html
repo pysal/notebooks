@@ -1,0 +1,493 @@
+---
+redirect_from:
+  - "/explore/giddy/mobility-measures"
+interact_link: content/explore/giddy/Mobility_measures.ipynb
+kernel_name: python3
+has_widgets: false
+title: 'Mobility_measures'
+prev_page:
+  url: /explore/giddy/Markov_Based_Methods.html
+  title: 'Markov_Based_Methods'
+next_page:
+  url: /explore/giddy/Rank_based_Methods.html
+  title: 'Rank_based_Methods'
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Measures-of-Income-Mobility">Measures of Income Mobility<a class="anchor-link" href="#Measures-of-Income-Mobility"> </a></h1><p><strong>Author: Wei Kang <a href="mailto:weikang9009@gmail.com">weikang9009@gmail.com</a>, Serge Rey <a href="mailto:sjsrey@gmail.com">sjsrey@gmail.com</a></strong></p>
+<p>Income mobility could be viewed as a reranking pheonomenon where regions switch income positions while it could also be considered to be happening as long as regions move away from the previous income levels. The former is named absolute mobility and the latter relative mobility.</p>
+<p>This notebook introduces how to estimate income mobility measures from longitudinal income data using methods in <strong>giddy</strong>. Currently, five summary mobility estimators are implemented in <strong>giddy.mobility</strong>. All of them are Markov-based, meaning that they are closely related to the discrete Markov Chains methods introduced in <a href="Markov Based Methods.ipynb">Markov Based Methods notebook</a>. More specifically, each of them is derived from a transition probability matrix $P$. Whether the final estimate is absolute or reletive mobility depends on how the original continuous income data are discretized.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The five Markov-based summary measures of mobility (Formby et al., 2004) are listed below:</p>
+<table>
+<thead><tr>
+<th>Num</th>
+<th style="text-align:center">Measures</th>
+<th style="text-align:center">Symbol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td style="text-align:center">$M_P(P) = \frac{m-\sum_{i=1}^m p_{ii}}{m-1} $</td>
+<td style="text-align:center">P</td>
+</tr>
+<tr>
+<td>2</td>
+<td style="text-align:center">$M_D(P) = 1-</td>
+<td style="text-align:center">det(P)</td>
+<td>$</td>
+<td>D</td>
+</tr>
+<tr>
+<td>3</td>
+<td style="text-align:center">$M_{L2}(P)=1-</td>
+<td style="text-align:center">\lambda_2</td>
+<td>$</td>
+<td>L2</td>
+</tr>
+<tr>
+<td>4</td>
+<td style="text-align:center">$M_{B1}(P) = \frac{m-m \sum_{i=1}^m \pi_i P_{ii}}{m-1} $</td>
+<td style="text-align:center">B1</td>
+</tr>
+<tr>
+<td>5</td>
+<td style="text-align:center">$M<em>{B2}(P)=\frac{1}{m-1} \sum</em>{i=1}^m \sum_{j=1}^m \pi<em>i P</em>{ij}</td>
+<td style="text-align:center">i-j</td>
+<td>$</td>
+<td>B2</td>
+</tr>
+</tbody>
+</table>
+<p>$\pi$ is the inital income distribution. For any transition probability matrix with a quasi-maximal diagonal, all of these mobility measures take values on $[0,1]$. $0$ means immobility and $1$ perfect mobility. If the transition probability matrix takes the form of the identity matrix, every region is stuck in its current state implying complete immobility. On the contrary, when each row of $P$ is identical, current state is irrelevant to the probability of moving away to any class. Thus, the transition matrix with identical rows is considered perfect mobile. The larger the mobility estimate, the more mobile the regional income system is. However, it should be noted that these measures try to reveal mobility pattern from different aspects and are thus not comparable to each other. Actually the mean and variance of these measures are different.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We implemented all the above five summary mobility measures in a single method $markov\_mobility$. A parameter $measure$ could be specified to select which measure to calculate. By default, the mobility measure 'P' will be estimated.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">markov_mobility</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">measure</span> <span class="o">=</span> <span class="s2">&quot;P&quot;</span><span class="p">,</span><span class="n">ini</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.giddy</span> <span class="k">import</span> <span class="n">markov</span><span class="p">,</span><span class="n">mobility</span>
+mobility.markov_mobility<span class="o">?</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="US-income-mobility-example">US income mobility example<a class="anchor-link" href="#US-income-mobility-example"> </a></h3><p>Similar to <a href="Markov Based Methods.ipynb">Markov Based Methods notebook</a>, we will demonstrate the usage of the mobility methods by an application to data on per capita incomes observed annually from 1929 to 2009 for the lower 48 US states.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pysal.lib</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pysal.viz</span> <span class="k">import</span> <span class="n">mapclassify</span> <span class="k">as</span> <span class="n">mc</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">income_path</span> <span class="o">=</span> <span class="n">pysal</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;usjoin.csv&quot;</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">pysal</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">income_path</span><span class="p">)</span>
+<span class="n">pci</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="o">.</span><span class="n">by_col</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1929</span><span class="p">,</span> <span class="mi">2010</span><span class="p">)])</span> <span class="c1">#each column represents an state&#39;s income time series 1929-2010</span>
+<span class="n">q5</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">mc</span><span class="o">.</span><span class="n">Quantiles</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">yb</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">pci</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span> <span class="c1">#each row represents an state&#39;s income time series 1929-2010</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">markov</span><span class="o">.</span><span class="n">Markov</span><span class="p">(</span><span class="n">q5</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">p</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[0.91011236, 0.0886392 , 0.00124844, 0.        , 0.        ],
+       [0.09972299, 0.78531856, 0.11080332, 0.00415512, 0.        ],
+       [0.        , 0.10125   , 0.78875   , 0.1075    , 0.0025    ],
+       [0.        , 0.00417827, 0.11977716, 0.79805014, 0.07799443],
+       [0.        , 0.        , 0.00125156, 0.07133917, 0.92740926]])</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>After acquiring the estimate of transition probability matrix, we could call the method $markov\_mobility$ to estimate any of the five Markov-based summary mobility indice.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="1.-Shorrock1's-mobility-measure">1. Shorrock1's mobility measure<a class="anchor-link" href="#1.-Shorrock1's-mobility-measure"> </a></h3>$$M_{P} = \frac{m-\sum_{i=1}^m P_{ii}}{m-1}$$<div class="highlight"><pre><span></span><span class="n">measure</span> <span class="o">=</span> <span class="s2">&quot;P&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mobility</span><span class="o">.</span><span class="n">markov_mobility</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">measure</span><span class="o">=</span><span class="s2">&quot;P&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.19758992000997844</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="2.-Shorroks2's-mobility-measure">2. Shorroks2's mobility measure<a class="anchor-link" href="#2.-Shorroks2's-mobility-measure"> </a></h3>$$M_{D} = 1 - |\det(P)|$$<div class="highlight"><pre><span></span><span class="n">measure</span> <span class="o">=</span> <span class="s2">&quot;D&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mobility</span><span class="o">.</span><span class="n">markov_mobility</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">measure</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.6068485462369559</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.-Sommers-and-Conlisk's-mobility-measure">3. Sommers and Conlisk's mobility measure<a class="anchor-link" href="#3.-Sommers-and-Conlisk's-mobility-measure"> </a></h3>$$M_{L2} = 1  - |\lambda_2|$$<div class="highlight"><pre><span></span><span class="n">measure</span> <span class="o">=</span> <span class="s2">&quot;L2&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mobility</span><span class="o">.</span><span class="n">markov_mobility</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">measure</span> <span class="o">=</span> <span class="s2">&quot;L2&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.03978200230815965</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="4.-Bartholomew1's-mobility-measure">4. Bartholomew1's mobility measure<a class="anchor-link" href="#4.-Bartholomew1's-mobility-measure"> </a></h3>$$M_{B1} = \frac{m-m \sum_{i=1}^m \pi_i P_{ii}}{m-1}$$<p>$\pi$: the inital income distribution</p>
+<div class="highlight"><pre><span></span><span class="n">measure</span> <span class="o">=</span> <span class="s2">&quot;B1&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.1</span><span class="p">])</span>
+<span class="n">mobility</span><span class="o">.</span><span class="n">markov_mobility</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">measure</span> <span class="o">=</span> <span class="s2">&quot;B1&quot;</span><span class="p">,</span> <span class="n">ini</span><span class="o">=</span><span class="n">pi</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.2277675878319787</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="5.-Bartholomew2's-mobility-measure">5. Bartholomew2's mobility measure<a class="anchor-link" href="#5.-Bartholomew2's-mobility-measure"> </a></h3>$$M_{B2} = \frac{1}{m-1} \sum_{i=1}^m \sum_{j=1}^m \pi_i P_{ij} |i-j|$$<p>$\pi$: the inital income distribution</p>
+<div class="highlight"><pre><span></span><span class="n">measure</span> <span class="o">=</span> <span class="s2">&quot;B1&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.1</span><span class="p">])</span>
+<span class="n">mobility</span><span class="o">.</span><span class="n">markov_mobility</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">measure</span> <span class="o">=</span> <span class="s2">&quot;B2&quot;</span><span class="p">,</span> <span class="n">ini</span><span class="o">=</span><span class="n">pi</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.04636660119478926</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Next-steps">Next steps<a class="anchor-link" href="#Next-steps"> </a></h2><ul>
+<li>Markov-based partial mobility measures</li>
+<li>Other mobility measures:<ul>
+<li>Inequality reduction mobility measures (Trede, 1999)</li>
+</ul>
+</li>
+<li>Statistical inference for mobility measures</li>
+</ul>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">References<a class="anchor-link" href="#References"> </a></h2><ul>
+<li>Formby, J. P., W. J. Smith, and B. Zheng. 2004. “<a href="http://www.sciencedirect.com/science/article/pii/S0304407603002112">Mobility Measurement, Transition Matrices and Statistical Inference</a>.” Journal of Econometrics 120 (1). Elsevier: 181–205.</li>
+<li>Trede, Mark. 1999. “<a href="https://www.jstor.org/stable/23812388">Statistical Inference for Measures of Income Mobility / Statistische Inferenz Zur Messung Der Einkommensmobilität</a>.” Jahrbücher Für Nationalökonomie Und Statistik / Journal of Economics and Statistics 218 (3/4). Lucius &amp; Lucius Verlagsgesellschaft mbH: 473–90.</li>
+</ul>
+
+</div>
+</div>
+</div>
+
+ 
+

@@ -1,0 +1,255 @@
+---
+redirect_from:
+  - "/model/spglm/gaussian-glm"
+interact_link: content/model/spglm/Gaussian_GLM.ipynb
+kernel_name: Python [Root]
+has_widgets: false
+title: 'Gaussian_GLM'
+prev_page:
+  url: /model/spglm/Binomial_GLM.html
+  title: 'Binomial_GLM'
+next_page:
+  url: /model/spglm/Poisson_GLM.html
+  title: 'Poisson_GLM'
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.model.spglm.glm</span> <span class="kn">import</span> <span class="n">GLM</span>
+<span class="kn">import</span> <span class="nn">pysal.lib.api</span> <span class="kn">as</span> <span class="nn">ps</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Load sample dataset - columbus dataset </span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;columbus.dbf&#39;</span><span class="p">),</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+
+<span class="c1">#Set dependent variable</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">by_col</span><span class="p">(</span><span class="s2">&quot;HOVAL&quot;</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="p">(</span><span class="mi">49</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="c1">#Set indepdent varibLES</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">by_col</span><span class="p">(</span><span class="s2">&quot;INC&quot;</span><span class="p">))</span>
+<span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">by_col</span><span class="p">(</span><span class="s2">&quot;CRIME&quot;</span><span class="p">))</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Estimate Gaussian GLM</span>
+
+<span class="c1">#First instantiate a GLM model object</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GLM</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="c1">#Gaussian is the default family parameter so it doesn&#39;t need to be set</span>
+
+<span class="c1">#Then use the fit method to estimate coefficients and compute diagnostics</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Estimated prameters, intercept is always the first column on the left</span>
+<span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[46.42818268  0.62898397 -0.48488854]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Parameter standard errors</span>
+<span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">bse</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[13.19175703  0.53591045  0.18267291]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Parameter t-values</span>
+<span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">tvalues</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[ 3.51948437  1.17367365 -2.65440864]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Model AIC</span>
+<span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">aic</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>408.73548964604873
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+ 
+

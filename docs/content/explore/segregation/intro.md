@@ -79,8 +79,6 @@ Every class in **segregation** has a `statistic` and a `core_data` attributes.
 The first is a direct access to the point estimation of the specific segregation measure
 and the second attribute gives access to the main data that the module uses internally to
 perform the estimates.
-To see the estimated D in the first generic example above, the user would have just to run
-`index.statistic` to see the fitted value.
 
 ### Single group measures
 
@@ -88,14 +86,15 @@ If, for example, a user was studying income segregation and wanted to know wheth
 high-income residents tend to be more segregated from others.
 This user may want would want to fit a dissimilarity index (D) to a DataFrame called `df` to
 a specific group with columns like `"hi_income"`, `"med_income"` and `"low_income"` that store counts of people in each income
-bracket, and a total column called `"total_population"`
-
-a typical call would be something like this:
+bracket, and a total column called `"total_population"`. A typical call would be something like this:
 
 ```python
 from segregation.aspatial import Dissim
 d_index = Dissim(df, "hi_income", "total_population")
 ```
+
+To see the estimated D in the first generic example above, the user would have just to run
+`d_index.statistic` to see the fitted value.
 
 If a user would want to fit a *spatial* dissimilarity index (SD), the call would be nearly
 identical, save for the fact that the `DataFrame` now needs to be a `GeoDataFrame` with an appropriate `geometry` column
@@ -130,6 +129,7 @@ table:
 | Modified Gini (Gct)                               | ModifiedGiniSeg                 |      No      |       iterations               |
 | Bias-Corrected Dissimilarity (Dbc)                | BiasCorrectedDissim             |      No      |           B                    |
 | Density-Corrected Dissimilarity (Ddc)             | DensityCorrectedDissim          |      No      |          xtol                  |
+| Minimun-Maximum Index (MM)                        | MinMax                          |      No      |                                |
 | Spatial Proximity Profile (SPP)                   | SpatialProxProf                 |     Yes      |           m                    |
 | Spatial Dissimilarity (SD)                        | SpatialDissim                   |     Yes      |     w, standardize             |
 | Boundary Spatial Dissimilarity (BSD)              | BoundarySpatialDissim           |     Yes      |      standardize               |
@@ -144,6 +144,8 @@ table:
 | Relative Concentration (RCO)                      | RelativeConcentration           |     Yes      |           -                    |
 | Absolute Centralization (ACE)                     | AbsoluteCentralization          |     Yes      |           -                    |
 | Relative Centralization (RCE)                     | RelativeCentralization          |     Yes      |           -                    |
+| Relative Centralization (RCE)                     | RelativeCentralization          |     Yes      |           -                    |
+| Spatial Minimun-Maximum (SMM)                     | SpatialMinMax                   |     Yes      | network, w, decay, distance, precompute |
 
 ### Multigroup measures
 
@@ -238,7 +240,7 @@ PySAL-segregation is under active development and contributors are welcome.
 If you have any suggestion, feature request, or bug report, please open a new
 [issue](https://github.com/pysal/segregation/issues) on GitHub.
 To submit patches, please follow the PySAL development
-[guidelines](http://pysal.readthedocs.io/en/latest/developers/index.html) and open a
+[guidelines](https://github.com/pysal/pysal/wiki) and open a
 [pull request](https://github.com/pysal/segregation). Once your changes get merged, you’ll
 automatically be added to the
 [Contributors List](https://github.com/pysal/segregation/graphs/contributors).
