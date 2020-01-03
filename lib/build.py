@@ -1,8 +1,10 @@
 import os
 import time
+import zipfile
 import requests
 import argparse
 import subprocess
+from tqdm import tqdm
 from pathlib import Path
 
 NBS_FOLDER = './notebooks'
@@ -10,7 +12,7 @@ BOOK_FOLDER = './docs'
 TEMPLATE_FOLDER = './lib/template_data'
 
 
-def pr(cmd):
+def pr(cmd, throw_error=False):
     print(cmd)
     #os.system(cmd)
     op = subprocess.run(cmd, capture_output=True, shell=True)
@@ -18,6 +20,8 @@ def pr(cmd):
         print('\n### Log Msg. ###')
         print(op.stderr.decode())
         print('\n')
+        if throw_error:
+            raise
     return None
 
 
@@ -27,6 +31,29 @@ def wr(content, path):
     fo.close()
     return None
 
+def download_file_pb(url, f_path):
+    '''
+    Download a file using tqdm progressbar
+    ...
+    
+    NOTE: taken mostly from:
+    
+    > https://stackoverflow.com/questions/37573483/progress-bar-while-download-file-over-http-with-requests
+    '''
+    # Streaming, so we can iterate over the response.
+    r = requests.get(url, stream=True)
+    # Total size in bytes.
+    total_size = int(r.headers.get('Content-Length', 0))
+    block_size = 1024 #1 Kibibyte
+    t=tqdm(total=total_size, unit='iB', unit_scale=True)
+    with open(f_path, 'wb') as f:
+        for data in r.iter_content(block_size):
+            t.update(len(data))
+            f.write(data)
+    t.close()
+    if total_size != 0 and t.n != total_size:
+        raise ValueError("ERROR, something went wrong")
+    return None
 
 def pull_notebooks(tgt_folder=NBS_FOLDER, tmp='./tmp'):
     '''
@@ -52,11 +79,15 @@ def pull_notebooks(tgt_folder=NBS_FOLDER, tmp='./tmp'):
     pr(f'rm -rf {tgt_folder}')
     pr(f'mkdir {tgt_folder}')
     # Grab latest meta package
-    cmd = (f'git clone https://github.com/pysal/pysal.git '\
-           f'{tmp}/dls/')
-    pr(cmd)
+    url = "https://github.com/pysal/pysal/archive/master.zip"
+    z_file = f"{tmp}/master.zip"
+    print(f"Downloading {url}")
+    _ = download_file_pb(url, z_file)
+    zip_ref = zipfile.ZipFile(z_file, 'r')
+    zip_ref.extractall(f"{tmp}/dls/")
+    zip_ref.close()
     # Pre-process file names
-    all_ipynbs = list(Path(f"{tmp}/dls/notebooks").rglob("*.ipynb"))
+    all_ipynbs = list(Path(f"{tmp}/dls/pysal-master/notebooks").rglob("*.ipynb"))
     for nb in all_ipynbs:
         nb = str(nb)
         if nb != nb.replace(' ', '_'):
@@ -65,7 +96,7 @@ def pull_notebooks(tgt_folder=NBS_FOLDER, tmp='./tmp'):
             nb_f = nb.replace(' ', '\ ')
             os.system(f"rm {nb_f}")
     # Copy notebooks to tgt_folder
-    cmd = f'mv {tmp}/dls/notebooks/* {tgt_folder}/'
+    cmd = f'mv {tmp}/dls/pysal-master/notebooks/* {tgt_folder}/'
     pr(cmd)
     # Clean up
     pr(f"rm -r {tmp}")
