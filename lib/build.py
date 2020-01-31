@@ -57,8 +57,8 @@ def download_file_pb(url, f_path):
 
 def pull_notebooks(tgt_folder=NBS_FOLDER, tmp='./tmp'):
     '''
-    Download Master branch from meta package, extract notebooks and move to
-    target folder
+    Pull official list of versions, download Master branch from each package,
+    extract notebooks and move to target folder
     ...
 
     Arguments
@@ -78,6 +78,14 @@ def pull_notebooks(tgt_folder=NBS_FOLDER, tmp='./tmp'):
     pr(f'mkdir {tmp}')
     pr(f'rm -rf {tgt_folder}')
     pr(f'mkdir {tgt_folder}')
+    #---------------------------------------------------------#
+    # To Do: replace pull from pysal to:
+    #   - Pull package hierarchy from pysal
+    #   - Pull .zip of version for each federated pkg --> .zip
+    #   - Unzip into tmp/dls
+    #   - Create structure in NBS_FOLDER (lib, viz, explore, model)
+    #   - Move notebooks folder into NBS_FOLDER
+    #---------------------------------------------------------#
     # Grab latest meta package
     url = "https://github.com/pysal/pysal/archive/master.zip"
     z_file = f"{tmp}/master.zip"
@@ -86,8 +94,10 @@ def pull_notebooks(tgt_folder=NBS_FOLDER, tmp='./tmp'):
     zip_ref = zipfile.ZipFile(z_file, 'r')
     zip_ref.extractall(f"{tmp}/dls/")
     zip_ref.close()
+    #---------------------------------------------------------#
     # Pre-process file names
     all_ipynbs = list(Path(f"{tmp}/dls/pysal-master/notebooks").rglob("*.ipynb"))
+    #---------------------------------------------------------#
     for nb in all_ipynbs:
         nb = str(nb)
         if nb != nb.replace(' ', '_'):
