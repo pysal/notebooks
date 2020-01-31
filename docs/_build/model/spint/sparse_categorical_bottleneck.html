@@ -1,0 +1,74 @@
+---
+redirect_from:
+  - "/model/spint/sparse-categorical-bottleneck"
+interact_link: content/model/spint/sparse_categorical_bottleneck.ipynb
+kernel_name: python2
+has_widgets: false
+title: 'sparse_categorical_bottleneck'
+prev_page:
+  url: /model/spint/sparse_categorical.html
+  title: 'sparse_categorical'
+next_page:
+  url: /model/spint/sparse_categorical_speed.html
+  title: 'sparse_categorical_speed'
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">sparse</span> <span class="k">as</span> <span class="n">sp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">spcategorical</span><span class="p">(</span><span class="n">n_cat_ids</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns a dummy matrix given an array of categorical variables.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_cat_ids    : array</span>
+<span class="sd">                   A 1d vector of the categorical labels for n observations.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    dummy        : array</span>
+<span class="sd">                   A sparse matrix of dummy (indicator/binary) variables for the</span>
+<span class="sd">                   categorical data.  </span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">n_cat_ids</span><span class="p">)</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">cat_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">n_cat_ids</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">n_cat_ids</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cat_set</span> <span class="o">==</span> <span class="nb">id</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">n_cat_ids</span><span class="p">]</span> <span class="c1">#This list comprehension is likely </span>
+        <span class="k">print</span> <span class="n">index</span>                                                                    <span class="c1">#the most intense part of the algorithm</span>
+        <span class="n">indptr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span> 
+        <span class="k">return</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">index</span><span class="p">,</span> <span class="n">indptr</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;The index </span><span class="si">%s</span><span class="s2"> is not understood&quot;</span> <span class="o">%</span> <span class="n">col</span><span class="p">)</span>
+
+<span class="c1">#If the variable, n_cat_ids, is already composed of integers and the integers are the n x 1 vector of</span>
+<span class="c1">#origins or destinations in OD pairs for which w ewant to build fixed effects then there is no need to </span>
+<span class="c1">#create the index variable, which probably takes the most time within this function. Instead n_cat_ids can</span>
+<span class="c1">#passed directly to the csr matrix constructor and some speed-ups can be achieved. In the case where the</span>
+<span class="c1">#origin/destination ids are not integers but are strings a speed-up may be possible by alterign the algorithm</span>
+<span class="c1">#so that the index is build in chunks (say each origin/destination) rather than for each row of of the n x 1</span>
+<span class="c1">#n_cat_ids array as is done in creating the index variable.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+ 
+

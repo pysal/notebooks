@@ -1,10 +1,10 @@
 ---
 title: 'inequality'
 prev_page:
-  url: /explore/segregation/local_measures_example
-  title: 'local_measures_example'
+  url: /explore/giddy/Rank_Markov.html
+  title: 'Rank_Markov'
 next_page:
-  url: /explore/inequality/gini
+  url: /explore/inequality/gini.html
   title: 'gini'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---

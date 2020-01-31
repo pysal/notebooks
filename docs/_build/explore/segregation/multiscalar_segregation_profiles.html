@@ -1,0 +1,1367 @@
+---
+redirect_from:
+  - "/explore/segregation/multiscalar-segregation-profiles"
+interact_link: content/explore/segregation/multiscalar_segregation_profiles.ipynb
+kernel_name: python3
+has_widgets: false
+title: 'multiscalar_segregation_profiles'
+prev_page:
+  url: /explore/segregation/multigroup_aspatial_examples.html
+  title: 'multigroup_aspatial_examples'
+next_page:
+  url: /explore/segregation/network_measures.html
+  title: 'network_measures'
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Multiscalar-Segregation-Profiles-on-Urban-Street-Networks">Multiscalar Segregation Profiles on Urban Street Networks<a class="anchor-link" href="#Multiscalar-Segregation-Profiles-on-Urban-Street-Networks"> </a></h1>
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This notebook examines how different definitions of urban space can affect observed measures of segregation. Using the spatial information theory index (H), we look at how different definitions of the local environment affect values of H for the same study area and population groups. Next, we calculate multiscalar segregation profiles introduced by <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2831394/">Reardon et al</a> to examine differences between macro and micro segregation. Finally, we examine how these segregation profiles differ when we measure distance in the local environment as a straight line, versus along a pedestrian transport network</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Note</strong> I <em>highly</em> recommend installing <code>pandana</code> as a multithreaded library following <a href="http://udst.github.io/pandana/installation.html">these instructions</a>. The notebook will still run if you intall from pip or anaconda, but the network computations will take considerably longer</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">from</span> <span class="nn">pysal.explore.segregation.aspatial</span> <span class="k">import</span> <span class="n">Multi_Information_Theory</span>
+<span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">SpatialInformationTheory</span>
+<span class="kn">from</span> <span class="nn">pysal.explore.segregation.network</span> <span class="k">import</span> <span class="n">get_osm_network</span>
+<span class="kn">from</span> <span class="nn">pysal.explore.segregation.util</span> <span class="k">import</span> <span class="n">compute_segregation_profile</span>
+<span class="kn">from</span> <span class="nn">pysal.lib.weights</span> <span class="k">import</span> <span class="n">Queen</span><span class="p">,</span> <span class="n">Rook</span><span class="p">,</span> <span class="n">Kernel</span>
+<span class="kn">from</span> <span class="nn">geosnap.data</span> <span class="k">import</span> <span class="n">Community</span>
+<span class="kn">from</span> <span class="nn">geosnap.data.data</span> <span class="k">import</span> <span class="n">get_lehd</span>
+<span class="kn">from</span> <span class="nn">pandana.network</span> <span class="k">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">pysal.viz.splot.pysal.lib</span> <span class="k">import</span> <span class="n">plot_spatial_weights</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First, we'll get census 2010 data from <code>geosnap</code> and project into state plane (so we have planar units for the kernel weights constructor)</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dc</span> <span class="o">=</span> <span class="n">Community</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s1">&#39;ltdb&#39;</span><span class="p">,</span> <span class="n">statefips</span><span class="o">=</span><span class="s1">&#39;11&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">tracts</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">dc</span><span class="o">.</span><span class="n">census</span><span class="p">[</span><span class="n">dc</span><span class="o">.</span><span class="n">census</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">2010</span><span class="p">],</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;geoid&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">6487</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f4a16789f98&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/multiscalar_segregation_profiles_8_1.png"
+width=236
+height=250
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Note: there are likely to be some nontrivial edge effects since we're truncating the data artificially at the DC border</strong></p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>kernel weights operate on points, so we'll abstract each polygon to exist at its mathematical center</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_pts</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_pts</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_pts</span><span class="o">.</span><span class="n">centroid</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We define local environments using spatial weights matrices that encode relationships among our units of observations. Weights matrices can take many forms, so we can choose how to parameterize the environment. Here' we'll examine two contiguity weights, "queen" and "rook", which mean that the local environment of each census tract is the tract itself, and the adjacent tracts sharing either a vertex or side (queen) or just a side (rook). We'll also use kernel distance-based weights. This type of weights matrix considers the local environment to be all tracts that fall within a specified distance of the focal tract, but applies a distance decay function so that tracts further away have a smaller affect than tracts nearby. The network-based weights we'll examine later also work this way.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here, we'll create 4 different weights matrices: queen, rook, 1km euclidian kernel, and 2km euclidian kernel</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">w_queen</span> <span class="o">=</span> <span class="n">Queen</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">w_rook</span> <span class="o">=</span> <span class="n">Rook</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">w_kernel_1k</span> <span class="o">=</span> <span class="n">Kernel</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">df_pts</span><span class="p">,</span> <span class="n">bandwidth</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">w_kernel_2k</span> <span class="o">=</span> <span class="n">Kernel</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">df_pts</span><span class="p">,</span> <span class="n">bandwidth</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="n">plot_spatial_weights</span><span class="p">(</span><span class="n">w_queen</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;queen&#39;</span><span class="p">)</span>
+
+<span class="n">plot_spatial_weights</span><span class="p">(</span><span class="n">w_rook</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;rook&#39;</span><span class="p">)</span>
+
+<span class="n">plot_spatial_weights</span><span class="p">(</span><span class="n">w_kernel_1k</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;kernel 1k&#39;</span><span class="p">)</span>
+
+<span class="n">plot_spatial_weights</span><span class="p">(</span><span class="n">w_kernel_2k</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;kernel 2k&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Text(0.5, 1.0, &#39;kernel 2k&#39;)</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/multiscalar_segregation_profiles_15_1.png"
+width=933
+height=263
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>these plots show us which tracts are considered neighbors with each other using each type of weights matrix. Internally, <code>segregation</code> uses the <code>build_local_environment</code> function to turn these weights matrices into localized data. The different relationships implied by each matrix result in significantly different local environments as shown below</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>we'll measure <em>H</em> as a function of 4 racial categories, and we'll plot the non-hispanic black population to get a sense for how these local environments vary</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;n_nonhisp_white_persons&#39;</span><span class="p">,</span> <span class="s1">&#39;n_nonhisp_black_persons&#39;</span><span class="p">,</span> <span class="s1">&#39;n_hispanic_persons&#39;</span><span class="p">,</span> <span class="s1">&#39;n_asian_persons&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial.spatial_indexes</span> <span class="k">import</span> <span class="n">_build_local_environment</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">plot_local_environment</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+
+    <span class="n">d</span> <span class="o">=</span> <span class="n">_build_local_environment</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">geometry</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">d</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;n_nonhisp_black_persons&#39;</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s1">&#39;quantiles&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">wtype</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">w_queen</span><span class="p">,</span> <span class="n">w_rook</span><span class="p">,</span> <span class="n">w_kernel_1k</span><span class="p">,</span> <span class="n">w_kernel_2k</span><span class="p">]):</span>
+    <span class="n">plot_local_environment</span><span class="p">(</span><span class="n">w</span><span class="o">=</span><span class="n">wtype</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/multiscalar_segregation_profiles_21_0.png"
+width=933
+height=248
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><em>again, note that this is slightly misleading since in this toy example we're not including data from Maryland and Virigina that would otherwise have a big impact on the "local environment" values displayed here</em></p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And, as we might expect, these different local environments result in different segregation statistics</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># aspatial</span>
+
+<span class="n">Multi_Information_Theory</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">groups</span><span class="p">)</span><span class="o">.</span><span class="n">statistic</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.3727393704556473</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># rook neighborhood</span>
+
+<span class="n">SpatialInformationTheory</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">w_rook</span><span class="p">)</span><span class="o">.</span><span class="n">statistic</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.2990451657245139</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># queen neighborhood</span>
+
+<span class="n">SpatialInformationTheory</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">w_queen</span><span class="p">)</span><span class="o">.</span><span class="n">statistic</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.27967265953029136</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 1 kilometer kernel distance neighborhood</span>
+
+<span class="n">SpatialInformationTheory</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">w_kernel_1k</span><span class="p">)</span><span class="o">.</span><span class="n">statistic</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.2955335586939781</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 2 kilometer kernel distance neighborhood</span>
+
+<span class="n">SpatialInformationTheory</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">w_kernel_2k</span><span class="p">)</span><span class="o">.</span><span class="n">statistic</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.22474192583349964</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As we increas the distance on the kernel density weights, we get a sense for how segregation varies across scales. Following Reardon et al, We can calculate <em>H</em> for a set of increasing distances and plot the results to get a sense of the variation in macro versus micro segregation. <code>segregation</code> provides the <code>compute_segregation_profile</code> function for that purpose. You pass a dataframe, a list of distances, and a set of groups for which to calculate the statistics</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">distances</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1000.</span><span class="p">,</span><span class="mf">2000.</span><span class="p">,</span><span class="mf">3000.</span><span class="p">,</span><span class="mf">4000.</span><span class="p">,</span><span class="mf">5000.</span><span class="p">]</span> <span class="c1"># note these are floats</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">euclidian_profile</span> <span class="o">=</span> <span class="n">compute_segregation_profile</span><span class="p">(</span><span class="n">df_pts</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span> <span class="n">distances</span><span class="o">=</span><span class="n">distances</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">euclidian_profile</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{0: 0.3727393704556473,
+ 1000.0: 0.2955335586939781,
+ 2000.0: 0.22474192583349964,
+ 3000.0: 0.1800770024296713,
+ 4000.0: 0.14551919154094112,
+ 5000.0: 0.11639339393864294}</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The drawback for kernel density weights is that urban space is not experienced in a straight line, but instead conditioned by transport networks. In other words, the local street network can have a big impact on how easily a person may come into contact with others. For that reason, <code>segregation</code> can also calculate multiscalar segregation profiles using street network distance. We include the <code>get_osm_network</code> function for downloading street network data from OpenStreetMap</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># convert back to lat/long and get an OSM street network</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>note it can take awhile to download a street network, so you can save and read it back in using pandana</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#net = get_osm_network(df)</span>
+
+<span class="c1">#net.save_hdf5(&#39;dc_network.h5&#39;)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net</span> <span class="o">=</span> <span class="n">Network</span><span class="o">.</span><span class="n">from_hdf5</span><span class="p">(</span><span class="s1">&#39;dc_network.h5&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">network_linear_profile</span> <span class="o">=</span> <span class="n">compute_segregation_profile</span><span class="p">(</span><span class="n">df_pts</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span> <span class="n">network</span><span class="o">=</span><span class="n">net</span><span class="p">,</span> <span class="n">distances</span><span class="o">=</span><span class="n">distances</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">network_exponential_profile</span> <span class="o">=</span> <span class="n">compute_segregation_profile</span><span class="p">(</span><span class="n">df_pts</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span> <span class="n">network</span><span class="o">=</span><span class="n">net</span><span class="p">,</span> <span class="n">distances</span><span class="o">=</span><span class="n">distances</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">precompute</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># we&#39;re using the same network as before, so no need to precompute again</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We now have three different segregation profiles:</p>
+<ul>
+<li>an exponential kernel in euclidian space</li>
+<li>an exponential kernel in network space</li>
+<li>a linear kernel in network space</li>
+</ul>
+<p>lets plot all three of them and examine the differences</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">euclidian_profile</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">euclidian_profile</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;euclidian exp&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">euclidian_profile</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">euclidian_profile</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">network_linear_profile</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">network_linear_profile</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;net linear&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">network_linear_profile</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">network_linear_profile</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">network_exponential_profile</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">network_exponential_profile</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;net exp&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">network_exponential_profile</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">network_exponential_profile</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;meters&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;SIT&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/multiscalar_segregation_profiles_42_0.png"
+width=728
+height=481
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>These results are interesting and show that measured levels of segregation differ according to the analyst's operationalization of space/distance. In general, the network kernels tend to estimate higher levels of segregation, and the euclidian distance has the steepest slope</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Multiscalar-Segregation-Profiles-for-Residential-and-Workplace-Areas">Multiscalar Segregation Profiles for Residential and Workplace Areas<a class="anchor-link" href="#Multiscalar-Segregation-Profiles-for-Residential-and-Workplace-Areas"> </a></h2><h3 id="with-Block-Level-Data">with Block-Level Data<a class="anchor-link" href="#with-Block-Level-Data"> </a></h3>
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here, we'll examine how segregation profiles vary by time of day by calculating multiscalar measures for both workplace populations (i.e. daytime) and residential populations (i.e. night time). We'll use more detailed block-level data from LEHD, and we will compare how the profiles differ when we measure using network distance, but weight further observations using a linear decay function versus an exponential decay.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Again, we'll read in the data, convert to a point representation, and project into state plane for our calculations. Well use the <code>get_lehd</code> convenience function from <code>geosnap</code> to quickly collect block-level attributes for workplace and residential populations</p>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># you can download this file here: https://www2.census.gov/geo/tiger/TIGER2018/TABBLOCK/tl_2018_11_tabblock10.zip</span>
+
+<span class="n">blks</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s1">&#39;zip://tl_2018_11_tabblock10.zip&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">blks</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">blks</span><span class="o">.</span><span class="n">centroid</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">blks</span> <span class="o">=</span> <span class="n">blks</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">6487</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># we need both workplace area characteristics (wac) and residence area characteristics (rac)</span>
+
+<span class="n">de_wac</span> <span class="o">=</span> <span class="n">get_lehd</span><span class="p">(</span><span class="s1">&#39;wac&#39;</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;dc&#39;</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="s1">&#39;2015&#39;</span><span class="p">)</span>
+<span class="n">de_rac</span> <span class="o">=</span> <span class="n">get_lehd</span><span class="p">(</span><span class="s1">&#39;rac&#39;</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;dc&#39;</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="s1">&#39;2015&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># https://lehd.ces.census.gov/data/lodes/LODES7/LODESTechDoc7.3.pdf</span>
+<span class="c1"># white = CR01</span>
+<span class="c1"># black = CR02</span>
+<span class="c1"># asian = CR04</span>
+<span class="c1"># hispanic = CT02 - guessing these arent exclusive, </span>
+
+<span class="c1"># lets just do white-black in this case</span>
+
+<span class="n">groups_lehd</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CR01&#39;</span><span class="p">,</span> <span class="s1">&#39;CR02&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">blks_wac</span> <span class="o">=</span> <span class="n">blks</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">de_wac</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;GEOID10&#39;</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">blks_rac</span> <span class="o">=</span> <span class="n">blks</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">de_rac</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;GEOID10&#39;</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rac_net</span> <span class="o">=</span> <span class="n">compute_segregation_profile</span><span class="p">(</span><span class="n">blks_rac</span><span class="p">,</span> <span class="n">distances</span><span class="o">=</span><span class="n">distances</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups_lehd</span><span class="p">,</span> <span class="n">network</span><span class="o">=</span><span class="n">net</span><span class="p">,</span> <span class="n">precompute</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">wac_net</span> <span class="o">=</span> <span class="n">compute_segregation_profile</span><span class="p">(</span><span class="n">blks_wac</span><span class="p">,</span> <span class="n">distances</span><span class="o">=</span><span class="n">distances</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups_lehd</span><span class="p">,</span> <span class="n">network</span><span class="o">=</span><span class="n">net</span><span class="p">,</span> <span class="n">precompute</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rac_net_exp</span> <span class="o">=</span> <span class="n">compute_segregation_profile</span><span class="p">(</span><span class="n">blks_rac</span><span class="p">,</span> <span class="n">distances</span><span class="o">=</span><span class="n">distances</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups_lehd</span><span class="p">,</span> <span class="n">network</span><span class="o">=</span><span class="n">net</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">precompute</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">wac_net_exp</span> <span class="o">=</span> <span class="n">compute_segregation_profile</span><span class="p">(</span><span class="n">blks_wac</span><span class="p">,</span> <span class="n">distances</span><span class="o">=</span><span class="n">distances</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups_lehd</span><span class="p">,</span> <span class="n">network</span><span class="o">=</span><span class="n">net</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">precompute</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">rac_net_exp</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">rac_net_exp</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;rac exponential&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rac_net_exp</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">rac_net_exp</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">wac_net_exp</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">wac_net_exp</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;wac exponential&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wac_net_exp</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">wac_net_exp</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;yellow&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">rac_net</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">rac_net</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;rac linear&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rac_net</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">rac_net</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">wac_net</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">wac_net</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;wac linear&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wac_net</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">wac_net</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;meters&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;SIT&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/multiscalar_segregation_profiles_55_0.png"
+width=728
+height=481
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A few things to take in here:</p>
+<ul>
+<li>these curves are significantly different from the tract-based profiles above. <ul>
+<li>They are different years, different populations, and different aggregation levels, so we expect them to be (but it raises the question <em>which</em> of these variables is causing the difference?)</li>
+</ul>
+</li>
+<li>residential segregation is <strong>so</strong> much larger than workplace segregation<ul>
+<li>in fact, workplace segregation in DC is essentially 0 for environments greater than 1km</li>
+</ul>
+</li>
+<li>the residential curve falls faster for exponential decay (as we might expect)</li>
+<li>there's almost no discernible differece between workplace areas segregation profiles using different decay types</li>
+</ul>
+<p>what might this say about transport equity and spatial mismatch?</p>
+
+</div>
+</div>
+</div>
+
+ 
+

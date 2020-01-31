@@ -2,4 +2,5 @@
 book/*
 notebooks/*
 .ipynb_checkpoints/*
+lib/.ipynb_checkpoints/*
 lib/__pycache__/*

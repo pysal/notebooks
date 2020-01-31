@@ -1,0 +1,315 @@
+---
+redirect_from:
+  - "/model/mgwr/gwr-mgwr-example"
+interact_link: content/model/mgwr/GWR_MGWR_example.ipynb
+kernel_name: python3
+has_widgets: false
+title: 'GWR_MGWR_example'
+prev_page:
+  url: /model/mgwr/GWR_Georgia_example.html
+  title: 'GWR_Georgia_example'
+next_page:
+  url: /model/mgwr/GWR_MGWR_Parallel_Example.html
+  title: 'GWR_MGWR_Parallel_Example'
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pysal.model.mgwr.sel_bw</span> <span class="k">import</span> <span class="n">Sel_BW</span>
+<span class="kn">from</span> <span class="nn">pysal.model.mgwr.gwr</span> <span class="k">import</span> <span class="n">GWR</span><span class="p">,</span> <span class="n">MGWR</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pysal.lib</span> <span class="k">as</span> <span class="nn">ps</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;GData_utm.csv&#39;</span><span class="p">))</span>
+<span class="n">coords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">by_col</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">),</span> <span class="n">data</span><span class="o">.</span><span class="n">by_col</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">)))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">by_col</span><span class="p">(</span><span class="s1">&#39;PctBach&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">rural</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">by_col</span><span class="p">(</span><span class="s1">&#39;PctRural&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">pov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">by_col</span><span class="p">(</span><span class="s1">&#39;PctPov&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> 
+<span class="n">black</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">by_col</span><span class="p">(</span><span class="s1">&#39;PctBlack&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">fb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">by_col</span><span class="p">(</span><span class="s1">&#39;PctFB&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">pop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">by_col</span><span class="p">(</span><span class="s1">&#39;TotPop90&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">fb</span><span class="p">,</span> <span class="n">black</span><span class="p">,</span> <span class="n">rural</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">X</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">y</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">sel</span> <span class="o">=</span> <span class="n">Sel_BW</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+
+<span class="n">bw</span> <span class="o">=</span> <span class="n">sel</span><span class="o">.</span><span class="n">search</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;bw:&#39;</span><span class="p">,</span> <span class="n">bw</span><span class="p">)</span>
+<span class="n">gwr</span> <span class="o">=</span> <span class="n">GWR</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">bw</span><span class="p">)</span>
+<span class="n">gwr_results</span> <span class="o">=</span> <span class="n">gwr</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;aicc:&#39;</span><span class="p">,</span> <span class="n">gwr_results</span><span class="o">.</span><span class="n">aicc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ENP:&#39;</span><span class="p">,</span> <span class="n">gwr_results</span><span class="o">.</span><span class="n">ENP</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;sigma2:&#39;</span><span class="p">,</span> <span class="n">gwr_results</span><span class="o">.</span><span class="n">sigma2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>bw: 117.0
+aicc: 299.0508086830288
+ENP: 11.804769716730096
+sigma2: 0.3477435474978281
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">X</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">y</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">selector</span> <span class="o">=</span> <span class="n">Sel_BW</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">multi</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">bw</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">multi_bw_min</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">multi_bw_max</span><span class="o">=</span><span class="p">[</span><span class="mi">159</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;bw(intercept):&#39;</span><span class="p">,</span> <span class="n">bw</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;bw(foreign):&#39;</span><span class="p">,</span> <span class="n">bw</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;bw(african_amer):&#39;</span><span class="p">,</span> <span class="n">bw</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;bw(rural):&#39;</span><span class="p">,</span> <span class="n">bw</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">mgwr</span> <span class="o">=</span> <span class="n">MGWR</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">selector</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mgwr_results</span> <span class="o">=</span> <span class="n">mgwr</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;aicc:&#39;</span><span class="p">,</span> <span class="n">mgwr_results</span><span class="o">.</span><span class="n">aicc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;sigma2:&#39;</span><span class="p">,</span> <span class="n">mgwr_results</span><span class="o">.</span><span class="n">sigma2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ENP(model):&#39;</span><span class="p">,</span> <span class="n">mgwr_results</span><span class="o">.</span><span class="n">ENP</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;adj_alpha(model):&#39;</span><span class="p">,</span> <span class="n">mgwr_results</span><span class="o">.</span><span class="n">adj_alpha</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;critical_t(model):&#39;</span><span class="p">,</span> <span class="n">mgwr_results</span><span class="o">.</span><span class="n">critical_tval</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">mgwr_results</span><span class="o">.</span><span class="n">adj_alpha</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+<span class="n">alphas</span> <span class="o">=</span> <span class="n">mgwr_results</span><span class="o">.</span><span class="n">adj_alpha_j</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">critical_ts</span> <span class="o">=</span> <span class="n">mgwr_results</span><span class="o">.</span><span class="n">critical_tval</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ENP(intercept):&#39;</span><span class="p">,</span> <span class="n">mgwr_results</span><span class="o">.</span><span class="n">ENP_j</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;adj_alpha(intercept):&#39;</span><span class="p">,</span> <span class="n">alphas</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;critical_t(intercept):&#39;</span><span class="p">,</span> <span class="n">critical_ts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ENP(foreign):&#39;</span><span class="p">,</span> <span class="n">mgwr_results</span><span class="o">.</span><span class="n">ENP_j</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;adj_alpha(foreign):&#39;</span><span class="p">,</span> <span class="n">alphas</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;critical_t(foreign):&#39;</span><span class="p">,</span> <span class="n">critical_ts</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ENP(african_amer):&#39;</span><span class="p">,</span> <span class="n">mgwr_results</span><span class="o">.</span><span class="n">ENP_j</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;adj_alpha(african_amer):&#39;</span><span class="p">,</span> <span class="n">alphas</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;critical_t(african_amer):&#39;</span><span class="p">,</span> <span class="n">critical_ts</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ENP(rural):&#39;</span><span class="p">,</span> <span class="n">mgwr_results</span><span class="o">.</span><span class="n">ENP_j</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;adj_alpha(rural):&#39;</span><span class="p">,</span> <span class="n">alphas</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;critical_t(rural):&#39;</span><span class="p">,</span> <span class="n">critical_ts</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>bw(intercept): 92.0
+bw(foreign): 101.0
+bw(african_amer): 136.0
+bw(rural): 158.0
+aicc: 297.12013812258783
+sigma2: 0.34477258292171475
+ENP(model): 11.368250872698306
+adj_alpha(model): 0.017592855949398054
+critical_t(model): 2.399257840857394
+ENP(intercept): 3.8446710802641415
+adj_alpha(intercept): 0.013005013681577368
+critical_t(intercept): 2.512107491068591
+ENP(foreign): 3.5137708051516503
+adj_alpha(foreign): 0.01422972719982004
+critical_t(foreign): 2.4788879239423856
+ENP(african_amer): 2.258052527889825
+adj_alpha(african_amer): 0.022142974701622888
+critical_t(african_amer): 2.3106911297007184
+ENP(rural): 1.7517564593926895
+adj_alpha(rural): 0.02854278043726143
+critical_t(rural): 2.210001836555586
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="jb_input" >
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mgwr_results</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>===========================================================================
+Model type                                                         Gaussian
+Number of observations:                                                 159
+Number of covariates:                                                     4
+
+Global Regression Results
+---------------------------------------------------------------------------
+Residual sum of squares:                                             71.793
+Log-likelihood:                                                    -162.399
+AIC:                                                                332.798
+AICc:                                                               335.191
+BIC:                                                               -713.887
+R2:                                                                   0.548
+Adj. R2:                                                              0.540
+
+Variable                              Est.         SE  t(Est/SE)    p-value
+------------------------------- ---------- ---------- ---------- ----------
+X0                                  -0.000      0.054     -0.000      1.000
+X1                                   0.458      0.066      6.988      0.000
+X2                                  -0.084      0.055     -1.525      0.127
+X3                                  -0.374      0.065     -5.734      0.000
+
+Multi-Scale Geographically Weighted Regression (MGWR) Results
+---------------------------------------------------------------------------
+Spatial kernel:                                           Adaptive bisquare
+Criterion for optimal bandwidth:                                       AICc
+Score of Change (SOC) type:                                     Smoothing f
+Termination criterion for MGWR:                                       1e-05
+
+MGWR bandwidths
+---------------------------------------------------------------------------
+Variable             Bandwidth      ENP_j   Adj t-val(95%)   Adj alpha(95%)
+X0                      92.000      3.845            2.512            0.013
+X1                     101.000      3.514            2.479            0.014
+X2                     136.000      2.258            2.311            0.022
+X3                     158.000      1.752            2.210            0.029
+
+Diagnostic information
+---------------------------------------------------------------------------
+Residual sum of squares:                                             50.899
+Effective number of parameters (trace(S)):                           11.368
+Degree of freedom (n - trace(S)):                                   147.632
+Sigma estimate:                                                       0.587
+Log-likelihood:                                                    -135.056
+AIC:                                                                294.849
+AICc:                                                               297.120
+BIC:                                                                332.806
+R2                                                                    0.680
+Adjusted R2                                                           0.655
+
+Summary Statistics For MGWR Parameter Estimates
+---------------------------------------------------------------------------
+Variable                   Mean        STD        Min     Median        Max
+-------------------- ---------- ---------- ---------- ---------- ----------
+X0                        0.017      0.171     -0.260      0.058      0.271
+X1                        0.479      0.216      0.117      0.500      0.722
+X2                       -0.069      0.036     -0.146     -0.064     -0.014
+X3                       -0.304      0.019     -0.347     -0.302     -0.266
+===========================================================================
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+ 
+

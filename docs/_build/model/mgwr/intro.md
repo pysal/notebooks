@@ -1,10 +1,10 @@
 ---
 title: 'mgwr'
 prev_page:
-  url: /model/spglm/Binomial_GLM
-  title: 'Binomial_GLM'
+  url: /lib/libpysal/weights.html
+  title: 'weights'
 next_page:
-  url: /model/mgwr/GWR_Georgia_example
+  url: /model/mgwr/GWR_Georgia_example.html
   title: 'GWR_Georgia_example'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---

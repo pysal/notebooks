@@ -1,11 +1,11 @@
 ---
 title: 'spglm'
 prev_page:
-  url: /model/spint/4d_distance
-  title: '4d_distance'
+  url: /model/mgwr/MGWR_Georgia_example.html
+  title: 'MGWR_Georgia_example'
 next_page:
-  url: /model/spglm/Poisson_GLM
-  title: 'Poisson_GLM'
+  url: /model/spglm/Binomial_GLM.html
+  title: 'Binomial_GLM'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 **G**eneralized **L**inear **M**odeling
