@@ -1,5 +1,6 @@
 import os
 import time
+import pysal
 import zipfile
 import requests
 import argparse
@@ -81,33 +82,38 @@ def pull_notebooks(tgt_folder=NBS_FOLDER, tmp='./tmp'):
     #---------------------------------------------------------#
     # To Do: replace pull from pysal to:
     #   - Pull package hierarchy from pysal
-    #   - Pull .zip of version for each federated pkg --> .zip
-    #   - Unzip into tmp/dls
-    #   - Create structure in NBS_FOLDER (lib, viz, explore, model)
-    #   - Move notebooks folder into NBS_FOLDER
-    #---------------------------------------------------------#
-    # Grab latest meta package
-    url = "https://github.com/pysal/pysal/archive/master.zip"
-    z_file = f"{tmp}/master.zip"
-    print(f"Downloading {url}")
-    _ = download_file_pb(url, z_file)
-    zip_ref = zipfile.ZipFile(z_file, 'r')
-    zip_ref.extractall(f"{tmp}/dls/")
-    zip_ref.close()
-    #---------------------------------------------------------#
-    # Pre-process file names
-    all_ipynbs = list(Path(f"{tmp}/dls/pysal-master/notebooks").rglob("*.ipynb"))
-    #---------------------------------------------------------#
-    for nb in all_ipynbs:
-        nb = str(nb)
-        if nb != nb.replace(' ', '_'):
-            print(f"Renaming {nb}")
-            wr(open(nb).read(), nb.replace(' ', '_'))
-            nb_f = nb.replace(' ', '\ ')
-            os.system(f"rm {nb_f}")
-    # Copy notebooks to tgt_folder
-    cmd = f'mv {tmp}/dls/pysal-master/notebooks/* {tgt_folder}/'
-    pr(cmd)
+    for domain in pysal.federation_hierarchy:
+        #- Create structure in NBS_FOLDER (lib, viz, explore, model)
+        pr(f"mkdir {tgt_folder}/{domain}")
+        for pkg in pysal.federation_hierarchy[domain]:
+            print(f"Working on {domain}/{pkg}")
+            #- Pull .zip of version for each federated pkg --> .zip
+            version = pysal.versions.released[pkg]
+            url = f"https://github.com/pysal/{pkg}/archive/v{version}.zip"
+            z_file = f"{tmp}/{pkg}.zip"
+            print(f"\tDownloading {url}")
+            _ = download_file_pb(url, z_file)
+            #- Unzip into tmp/dls
+            z_dest = f"{tmp}/dls/"
+            print(f"\tUnzipping into {z_dest}")
+            zip_ref = zipfile.ZipFile(z_file, 'r')
+            zip_ref.extractall(z_dest)
+            zip_ref.close()
+            # Pre-process file names
+            print("\tPreprocessing .ipynb files")
+            pkg_nb_folder = f"{tmp}/dls/{pkg}-{version}/notebooks"
+            pkg_ipynbs = list(Path(pkg_nb_folder).rglob("*.ipynb"))
+            for nb in pkg_ipynbs:
+                nb = str(nb)
+                if nb != nb.replace(' ', '_'):
+                    print(f"Renaming {nb}")
+                    wr(open(nb).read(), nb.replace(' ', '_'))
+                    nb_f = nb.replace(' ', '\ ')
+                    os.system(f"rm {nb_f}")
+            #- Move notebooks folder into NBS_FOLDER
+            pr(f"mkdir {tgt_folder}/{domain}/{pkg}")
+            pr((f"mv {pkg_nb_folder}/* "\
+                f"   {tgt_folder}/{domain}/{pkg}/"))
     # Clean up
     pr(f"rm -r {tmp}")
     t1 = time.time()
