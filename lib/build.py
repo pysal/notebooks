@@ -261,7 +261,8 @@ def parse_toc_intro(toc, base_path):
 
 
 def write_pkg_intro(pkg, path):
-    url = f"https://raw.githubusercontent.com/pysal/{pkg}/master/README.md"
+    version = pysal.versions.released[pkg]
+    url = f"https://raw.githubusercontent.com/pysal/{pkg}/v{version}/README.md"
     print(f"\tGetting {url} into\n\t\t{path}")
     wr(requests.get(url).content.decode(), path)
     return path
