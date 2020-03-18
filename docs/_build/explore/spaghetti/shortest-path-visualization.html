@@ -1,0 +1,1103 @@
+---
+interact_link: content/explore/spaghetti/shortest-path-visualization.ipynb
+kernel_name: conda-env-py3_spgh_dev-py
+kernel_path: content/explore/spaghetti
+has_widgets: false
+title: |-
+  shortest-path-visualization
+pagenum: 39
+prev_page:
+  url: /explore/spaghetti/quickstart.html
+next_page:
+  url: /explore/spaghetti/tsp.html
+suffix: .ipynb
+search: network shortest extract plot routes geopandas paths path notebook com spaghetti regular conda matplotlib instantiate elements visualize observations generate within emprical github pysal generating visualizing data through lattice objects requirements org install synthetic snap point patterns note context any part used research please cite reference found readme md bibtex citation lattices creating testing demonstrating author james d gaboardi jgaboardi gmail walk instantiating simple generated geometric addtion base blob master txt dependecies requires installations c forge demonstration x several labeling observation trees tag labels points being snapped same arc libpysal cg chain geodataframe demostration datasets geodataframes empirical
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">shortest-path-visualization</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><strong>If any part of this notebook is used in your research, please cite with the reference found in</strong> <strong><a href="https://github.com/pysal/spaghetti#bibtex-citation">README.md</a>.</strong></p>
+<hr>
+<h2 id="Generating-regular-lattices-and-visualizing-shortest-paths">Generating regular lattices and visualizing shortest paths<a class="anchor-link" href="#Generating-regular-lattices-and-visualizing-shortest-paths"> </a></h2><h3 id="Creating-data-for-testing-and-demonstrating-routes">Creating data for testing and demonstrating routes<a class="anchor-link" href="#Creating-data-for-testing-and-demonstrating-routes"> </a></h3><p><strong>Author: James D. Gaboardi</strong> <strong><a href="mailto:jgaboardi@gmail.com">jgaboardi@gmail.com</a></strong></p>
+<p><strong>This notebook is a walk-through for:</strong></p>
+<ol>
+<li>Instantiating a simple network through a generated regular lattice</li>
+<li>Generating shortest path geometric objects</li>
+<li>Visualizing shortest paths</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2020-01-24T19:49:38-05:00
+
+CPython 3.7.3
+IPython 7.10.2
+
+compiler   : Clang 9.0.0 (tags/RELEASE_900/final)
+system     : Darwin
+release    : 19.2.0
+machine    : x86_64
+processor  : i386
+CPU cores  : 4
+interpreter: 64bit
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>In addtion to the base</strong> <strong><a href="https://github.com/pysal/spaghetti/blob/master/requirements.txt">spaghetti requirements</a></strong> <strong>(and their dependecies), this notebook requires installations of:</strong></p>
+<ul>
+<li><a href="http://geopandas.org">geopandas</a><ul>
+<li><code>$ conda install -c conda-forge geopandas</code></li>
+</ul>
+</li>
+<li><a href="https://matplotlib.org">matplotlib</a><ul>
+<li><code>$ conda install matplotlib</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">spaghetti</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">libpysal</span>
+<span class="kn">from</span> <span class="nn">libpysal.cg</span> <span class="kn">import</span> <span class="n">Point</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">set_matplotlib_formats</span>
+    <span class="n">set_matplotlib_formats</span><span class="p">(</span><span class="s2">&quot;retina&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="k">watermark</span> -w
+<span class="o">%</span><span class="k">watermark</span> -iv
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>watermark 2.0.2
+libpysal   4.2.0
+matplotlib 3.1.2
+spaghetti  1.4.0
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h3 id="1.-Demonstration-with-a-synthetic-network">1. Demonstration with a synthetic network<a class="anchor-link" href="#1.-Demonstration-with-a-synthetic-network"> </a></h3><h4 id="1.1-Instantiate-a-network-from-a-4x4-regular-lattice">1.1 Instantiate a network from a 4x4 regular lattice<a class="anchor-link" href="#1.1-Instantiate-a-network-from-a-4x4-regular-lattice"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lattice</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">regular_lattice</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">ntw</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">in_data</span><span class="o">=</span><span class="n">lattice</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="1.2.-Extract-network-elements-and-visualize-them">1.2. Extract network elements and visualize them<a class="anchor-link" href="#1.2.-Extract-network-elements-and-visualize-them"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vertices</span><span class="p">,</span> <span class="n">arcs</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">element_as_gdf</span><span class="p">(</span><span class="n">ntw</span><span class="p">,</span> <span class="n">vertices</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">arcs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">base</span> <span class="o">=</span> <span class="n">arcs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">vertices</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/spaghetti/shortest-path-visualization_8_0.png"
+width=580
+height=574
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="1.3.-Instantiate-several-synthetic-observations-and-snap-them-to-the-network">1.3. Instantiate several synthetic observations and snap them to the network<a class="anchor-link" href="#1.3.-Instantiate-several-synthetic-observations-and-snap-them-to-the-network"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">synth_obs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Point</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">]),</span> <span class="n">Point</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">]),</span> <span class="n">Point</span><span class="p">([</span><span class="mf">2.8</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])]</span>
+<span class="n">ntw</span><span class="o">.</span><span class="n">snapobservations</span><span class="p">(</span><span class="n">synth_obs</span><span class="p">,</span> <span class="s2">&quot;synth_obs&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="1.4.-Extract-point-patterns-and-visualize-plot">1.4. Extract point patterns and visualize plot<a class="anchor-link" href="#1.4.-Extract-point-patterns-and-visualize-plot"> </a></h4><h5 id="Note-the-labeling-for-network-elements-and-observations">Note the labeling for network elements and observations<a class="anchor-link" href="#Note-the-labeling-for-network-elements-and-observations"> </a></h5>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># true locations of synthetic observations</span>
+<span class="n">pp_obs</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">element_as_gdf</span><span class="p">(</span><span class="n">ntw</span><span class="p">,</span> <span class="n">pp_name</span><span class="o">=</span><span class="s2">&quot;synth_obs&quot;</span><span class="p">)</span>
+<span class="c1"># snapped locations of synthetic observations</span>
+<span class="n">pp_obs_snapped</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">element_as_gdf</span><span class="p">(</span><span class="n">ntw</span><span class="p">,</span> <span class="n">pp_name</span><span class="o">=</span><span class="s2">&quot;synth_obs&quot;</span><span class="p">,</span> <span class="n">snapped</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">base</span> <span class="o">=</span> <span class="n">arcs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">vertices</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pp_obs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">pp_obs_snapped</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># arc labels</span>
+<span class="n">arcs</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">base</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span>
+    <span class="p">),</span>
+    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># vertex labels</span>
+<span class="n">vertices</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">base</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span>
+    <span class="p">),</span>
+    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># synthetic observation labels</span>
+<span class="n">pp_obs</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">base</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">xy</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">style</span><span class="o">=</span><span class="s2">&quot;oblique&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span>
+        <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+        <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+        <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/spaghetti/shortest-path-visualization_13_0.png"
+width=580
+height=574
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="1.5.-Generate-observation-shortest-path-trees">1.5. Generate observation shortest path trees<a class="anchor-link" href="#1.5.-Generate-observation-shortest-path-trees"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">d2d_dist</span><span class="p">,</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">ntw</span><span class="o">.</span><span class="n">allneighbordistances</span><span class="p">(</span><span class="s2">&quot;synth_obs&quot;</span><span class="p">,</span> <span class="n">gen_tree</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">d2d_dist</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[nan, 0.4, 3.8],
+       [0.4, nan, 3.8],
+       [3.8, 3.8, nan]])</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Note-that-a-tag-of-(-0.1,--0.1)-labels-the-points-as-being-snapped-to-the-same-network-arc">Note that a tag of <code>(-0.1, -0.1)</code> labels the points as being snapped to the same network arc<a class="anchor-link" href="#Note-that-a-tag-of-(-0.1,--0.1)-labels-the-points-as-being-snapped-to-the-same-network-arc"> </a></h5>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tree</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{(0, 1): (-0.1, -0.1), (0, 2): (1, 13), (1, 2): (2, 14)}</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="1.6.-Generate-shortest-paths-as-libpysal.cg.Chain-objects">1.6. Generate shortest paths as <code>libpysal.cg.Chain</code> objects<a class="anchor-link" href="#1.6.-Generate-shortest-paths-as-libpysal.cg.Chain-objects"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">paths</span> <span class="o">=</span> <span class="n">ntw</span><span class="o">.</span><span class="n">shortest_paths</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="s2">&quot;synth_obs&quot;</span><span class="p">)</span>
+<span class="n">paths</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{(0, 1): [(0.0, 1.3), (0.0, 1.7)],
+ (0, 2): [(0.0, 1.3),
+  (0.0, 1.0),
+  (1.0, 1.0),
+  (2.0, 1.0),
+  (3.0, 1.0),
+  (3.0, 1.5)],
+ (1, 2): [(0.0, 1.7),
+  (0.0, 2.0),
+  (1.0, 2.0),
+  (2.0, 2.0),
+  (3.0, 2.0),
+  (3.0, 1.5)]}</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="1.7.-Extract-the-shortest-paths-within-geopandas.GeoDataFrame-and-plot">1.7. Extract the shortest paths within <code>geopandas.GeoDataFrame</code> and plot<a class="anchor-link" href="#1.7.-Extract-the-shortest-paths-within-geopandas.GeoDataFrame-and-plot"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">paths_gdf</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">element_as_gdf</span><span class="p">(</span><span class="n">ntw</span><span class="p">,</span> <span class="n">routes</span><span class="o">=</span><span class="n">paths</span><span class="p">)</span>
+<span class="n">paths_gdf</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>(0, 1)</td>
+      <td>LINESTRING (0 1.3, 0 1.7)</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>(0, 2)</td>
+      <td>LINESTRING (0 1.3, 0 1, 1 1, 2 1, 3 1, 3 1.5)</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>(1, 2)</td>
+      <td>LINESTRING (0 1.7, 0 2, 1 2, 2 2, 3 2, 3 1.5)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">paths_gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">column</span><span class="o">=</span><span class="n">paths_gdf</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Paired&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">5</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/spaghetti/shortest-path-visualization_22_0.png"
+width=427
+height=161
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="1.8.-Plot-the-routes-within-the-context-of-the-network">1.8. Plot the routes within the context of the network<a class="anchor-link" href="#1.8.-Plot-the-routes-within-the-context-of-the-network"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">base</span> <span class="o">=</span> <span class="n">arcs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">paths_gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Paired&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">vertices</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">pp_obs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">pp_obs_snapped</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># arc labels</span>
+<span class="n">arcs</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">base</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span>
+    <span class="p">),</span>
+    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># vertex labels</span>
+<span class="n">vertices</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">base</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span>
+    <span class="p">),</span>
+    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># synthetic observation labels</span>
+<span class="n">pp_obs</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">base</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">xy</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">style</span><span class="o">=</span><span class="s2">&quot;oblique&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span>
+        <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+        <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+        <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/spaghetti/shortest-path-visualization_24_0.png"
+width=580
+height=574
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h3 id="2.-Demostration-with-emprical-datasets">2. Demostration with emprical datasets<a class="anchor-link" href="#2.-Demostration-with-emprical-datasets"> </a></h3><h4 id="2.1-Instantiate-an-emprical-network,-extract-elements,-and-visualize">2.1 Instantiate an emprical network, extract elements, and visualize<a class="anchor-link" href="#2.1-Instantiate-an-emprical-network,-extract-elements,-and-visualize"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ntw</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">in_data</span><span class="o">=</span><span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;streets.shp&quot;</span><span class="p">))</span>
+<span class="n">vertices</span><span class="p">,</span> <span class="n">arcs</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">element_as_gdf</span><span class="p">(</span><span class="n">ntw</span><span class="p">,</span> <span class="n">vertices</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">arcs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">base</span> <span class="o">=</span> <span class="n">arcs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">vertices</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/spaghetti/shortest-path-visualization_27_0.png"
+width=591
+height=574
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="2.2-Snap-emprical-observations-and-extract-the-point-patterns-as-geopandas.GeoDataFrames">2.2 Snap emprical observations and extract the point patterns as <code>geopandas.GeoDataFrames</code><a class="anchor-link" href="#2.2-Snap-emprical-observations-and-extract-the-point-patterns-as-geopandas.GeoDataFrames"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ntw</span><span class="o">.</span><span class="n">snapobservations</span><span class="p">(</span><span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;schools.shp&quot;</span><span class="p">),</span> <span class="s2">&quot;schools&quot;</span><span class="p">)</span>
+<span class="n">pp_obs</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">element_as_gdf</span><span class="p">(</span><span class="n">ntw</span><span class="p">,</span> <span class="n">pp_name</span><span class="o">=</span><span class="s2">&quot;schools&quot;</span><span class="p">)</span>
+<span class="n">pp_obs_snapped</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">element_as_gdf</span><span class="p">(</span><span class="n">ntw</span><span class="p">,</span> <span class="n">pp_name</span><span class="o">=</span><span class="s2">&quot;schools&quot;</span><span class="p">,</span> <span class="n">snapped</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="2.3-Plot-empirical-data">2.3 Plot empirical data<a class="anchor-link" href="#2.3-Plot-empirical-data"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">base</span> <span class="o">=</span> <span class="n">arcs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">vertices</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pp_obs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">pp_obs_snapped</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># arc labels</span>
+<span class="n">arcs</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">base</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span>
+    <span class="p">),</span>
+    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># vertex labels</span>
+<span class="n">vertices</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">base</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span>
+    <span class="p">),</span>
+    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># school labels</span>
+<span class="n">pp_obs</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">base</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">xy</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">style</span><span class="o">=</span><span class="s2">&quot;oblique&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span>
+        <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+        <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/spaghetti/shortest-path-visualization_31_0.png"
+width=879
+height=846
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="2.4-Generate-shortest-path-routes-and-extract-them">2.4 Generate shortest path routes and extract them<a class="anchor-link" href="#2.4-Generate-shortest-path-routes-and-extract-them"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">d2d_dist</span><span class="p">,</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">ntw</span><span class="o">.</span><span class="n">allneighbordistances</span><span class="p">(</span><span class="s2">&quot;schools&quot;</span><span class="p">,</span> <span class="n">gen_tree</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">paths</span> <span class="o">=</span> <span class="n">ntw</span><span class="o">.</span><span class="n">shortest_paths</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="s2">&quot;schools&quot;</span><span class="p">)</span>
+<span class="n">paths_gdf</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">element_as_gdf</span><span class="p">(</span><span class="n">ntw</span><span class="p">,</span> <span class="n">routes</span><span class="o">=</span><span class="n">paths</span><span class="p">)</span>
+<span class="n">paths_gdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>(0, 1)</td>
+      <td>LINESTRING (727287.664 879867.386, 727294.797 ...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>(0, 2)</td>
+      <td>LINESTRING (727287.664 879867.386, 727294.797 ...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>(0, 3)</td>
+      <td>LINESTRING (727287.664 879867.386, 727294.797 ...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>(0, 4)</td>
+      <td>LINESTRING (727287.664 879867.386, 727294.797 ...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>(0, 5)</td>
+      <td>LINESTRING (727287.664 879867.386, 727281.557 ...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="2.5-Plot-the-shortest-path-routes">2.5 Plot the shortest path routes<a class="anchor-link" href="#2.5-Plot-the-shortest-path-routes"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">paths_gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">column</span><span class="o">=</span><span class="n">paths_gdf</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Paired&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">5</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/spaghetti/shortest-path-visualization_35_0.png"
+width=464
+height=348
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="2.6.-Plot-the-routes-within-the-context-of-the-network">2.6. Plot the routes within the context of the network<a class="anchor-link" href="#2.6.-Plot-the-routes-within-the-context-of-the-network"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">base</span> <span class="o">=</span> <span class="n">arcs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">pp_obs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">pp_obs_snapped</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">paths_gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Paired&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/spaghetti/shortest-path-visualization_37_0.png"
+width=718
+height=683
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

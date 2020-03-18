@@ -3,34 +3,39 @@ redirect_from:
   - "/model/spint/test-grav"
 interact_link: content/model/spint/test_grav.ipynb
 kernel_name: Python [Root]
+kernel_path: content/model/spint
 has_widgets: false
-title: 'test_grav'
+title: |-
+  test_grav
+pagenum: 74
 prev_page:
   url: /model/spint/sparse_vs_dense_grav.html
-  title: 'sparse_vs_dense_grav'
 next_page:
   url: /model/spint/validate_gravity.html
-  title: 'validate_gravity'
+suffix: .ipynb
+search: 
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">test_grav</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">gravity</span> <span class="kn">import</span> <span class="n">Gravity</span><span class="p">,</span> <span class="n">Production</span><span class="p">,</span> <span class="n">Attraction</span><span class="p">,</span> <span class="n">Doubly</span><span class="p">,</span> <span class="n">BaseGravity</span>
-<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">as</span> <span class="nn">smf</span>
+<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
 <span class="kn">from</span> <span class="nn">statsmodels.api</span> <span class="kn">import</span> <span class="n">families</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="o">%</span><span class="k">pylab</span> inline
 </pre></div>
 
@@ -38,14 +43,20 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>//anaconda/lib/python2.7/site-packages/matplotlib/font_manager.py:273: UserWarning: Matplotlib is building the font cache using fc-list. This may take a moment.
+  warnings.warn(&#39;Matplotlib is building the font cache using fc-list. This may take a moment.&#39;)
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -58,12 +69,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -75,7 +85,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <span class="n">o_vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">loc_size</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
 <span class="n">d_vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">loc_size</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
 <span class="n">dij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="mi">2500</span><span class="p">,</span> <span class="n">n</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">f</span> <span class="o">=</span> <span class="n">o_vars</span><span class="o">**.</span><span class="mi">3</span><span class="o">*</span><span class="n">d_vars</span><span class="o">**.</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dij</span><span class="o">*-.</span><span class="mo">00005</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">o_vars</span><span class="o">**.</span><span class="mi">3</span><span class="o">*</span><span class="n">d_vars</span><span class="o">**.</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dij</span><span class="o">*-.</span><span class="mi">00005</span><span class="p">)</span>
 <span class="n">o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
 <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
 <span class="n">o_vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">o_vars</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
@@ -90,16 +100,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -111,14 +116,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -128,7 +129,7 @@ Wall time: 7.41 s
 </div>
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -143,12 +144,11 @@ Wall time: 7.41 s
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -160,14 +160,10 @@ Wall time: 7.41 s
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -177,7 +173,7 @@ Wall time: 24.6 s
 </div>
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -192,12 +188,11 @@ Wall time: 24.6 s
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -209,14 +204,10 @@ Wall time: 24.6 s
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -226,7 +217,7 @@ Wall time: 21.4 s
 </div>
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -241,12 +232,11 @@ Wall time: 21.4 s
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -258,14 +248,10 @@ Wall time: 21.4 s
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -275,7 +261,7 @@ Wall time: 37.4 s
 </div>
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -290,12 +276,11 @@ Wall time: 37.4 s
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -314,16 +299,11 @@ Wall time: 37.4 s
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -335,14 +315,10 @@ Wall time: 37.4 s
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -355,12 +331,11 @@ Wall time: 37.4 s
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -374,16 +349,11 @@ Wall time: 37.4 s
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -396,10 +366,10 @@ Wall time: 37.4 s
 </div>
 
 </div>
-
-
-
 </div>
 
  
 
+
+    </main>
+    

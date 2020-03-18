@@ -3,29 +3,34 @@ redirect_from:
   - "/model/spint/autograd-test"
 interact_link: content/model/spint/autograd_test.ipynb
 kernel_name: python2
+kernel_path: content/model/spint
 has_widgets: false
-title: 'autograd_test'
+title: |-
+  autograd_test
+pagenum: 63
 prev_page:
-  url: /model/spint/4d_distance.html
-  title: '4d_distance'
+  url: /model/spint/OD_weights.html
 next_page:
   url: /model/spint/dispersion_test.html
-  title: 'dispersion_test'
+suffix: .ipynb
+search: 
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">autograd_test</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">scipy.optimize</span> <span class="kn">as</span> <span class="nn">sc</span>
-<span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">scipy.optimize</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">autograd</span>
 <span class="kn">from</span> <span class="nn">autograd.convenience_wrappers</span> <span class="kn">import</span> <span class="n">multigrad</span>
 <span class="kn">import</span> <span class="nn">scipy.sparse</span>
@@ -36,16 +41,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -68,16 +68,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -108,16 +103,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -127,24 +117,20 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
     <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
     <span class="n">inputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">o_vars</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">d_vars</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">dij</span><span class="p">)))</span>
     <span class="n">params</span> <span class="o">=</span> <span class="n">fit_maxlike</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">mu_guess</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">o_guess</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">d_guess</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
     
     <span class="n">prime</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">multigrad</span><span class="p">(</span><span class="n">poiss_loglike</span><span class="p">,</span> <span class="n">argnums</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">prime</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">prime</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -158,6 +144,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
  
 
+
+    </main>
+    

@@ -1,0 +1,1399 @@
+---
+redirect_from:
+  - "/lib/libpysal/example-datasets"
+interact_link: content/lib/libpysal/Example_Datasets.ipynb
+kernel_name: python3
+kernel_path: content/lib/libpysal
+has_widgets: false
+title: |-
+  Example_Datasets
+pagenum: 42
+prev_page:
+  url: /lib/libpysal/intro.html
+next_page:
+  url: /lib/libpysal/io.html
+suffix: .ipynb
+search: datasets available remote installed data remotes example dataset libpysal source new version center spatial science functionality backwards compatibility previous note builtin updated function not refactored examples package reduce size installation allow unversity chicago uchicago edu notebook highlights maintained familiar versions newest maintains any code relied api should work important here path file particular within distribution such set referred also informative column added tablular output tells user whether aready local machine defninition interesting cases sets release listing above shows tampa avalable yet addition geodata several large github repositories explain generates textual description rendering map done repository does include grabbing downloaded
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">Example_Datasets</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Datasets-for-use-with-libpysal">Datasets for use with libpysal<a class="anchor-link" href="#Datasets-for-use-with-libpysal"> </a></h2><p>As of version 4.2, libpysal has refactored the <code>examples</code> package to:</p>
+<ul>
+<li>reduce the size of the source installation</li>
+<li>allow the use of remote datasets from the <a href="https://spatial.uchicago.edu/">Center for Spatial Data Science at the Unversity of Chicago</a>, and other remotes</li>
+</ul>
+<p>This notebook highlights the new functionality</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Backwards-compatibility-is-maintained">Backwards compatibility is maintained<a class="anchor-link" href="#Backwards-compatibility-is-maintained"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If you were familiar with previous versions of libpysal, the newest version maintains backwards compatibility so any code that relied on the previous API should work.</p>
+<p>For example:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">libpysal.examples</span> <span class="kn">import</span> <span class="n">get_path</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;mexicojoin.dbf&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;/home/jovyan/libpysal/examples/mexico/mexicojoin.dbf&#39;</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>An important thing to note here is that the path to the file for this particular example is within the source distribution that was installed. Such an example data set is now referred to as a <code>builtin</code> dataset.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">libpysal</span>
+<span class="n">dbf</span> <span class="o">=</span> <span class="n">libpysal</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;mexicojoin.dbf&quot;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dbf</span><span class="o">.</span><span class="n">header</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;POLY_ID&#39;,
+ &#39;AREA&#39;,
+ &#39;CODE&#39;,
+ &#39;NAME&#39;,
+ &#39;PERIMETER&#39;,
+ &#39;ACRES&#39;,
+ &#39;HECTARES&#39;,
+ &#39;PCGDP1940&#39;,
+ &#39;PCGDP1950&#39;,
+ &#39;PCGDP1960&#39;,
+ &#39;PCGDP1970&#39;,
+ &#39;PCGDP1980&#39;,
+ &#39;PCGDP1990&#39;,
+ &#39;PCGDP2000&#39;,
+ &#39;HANSON03&#39;,
+ &#39;HANSON98&#39;,
+ &#39;ESQUIVEL99&#39;,
+ &#39;INEGI&#39;,
+ &#39;INEGI2&#39;,
+ &#39;MAXP&#39;,
+ &#39;GR4000&#39;,
+ &#39;GR5000&#39;,
+ &#39;GR6000&#39;,
+ &#39;GR7000&#39;,
+ &#39;GR8000&#39;,
+ &#39;GR9000&#39;,
+ &#39;LPCGDP40&#39;,
+ &#39;LPCGDP50&#39;,
+ &#39;LPCGDP60&#39;,
+ &#39;LPCGDP70&#39;,
+ &#39;LPCGDP80&#39;,
+ &#39;LPCGDP90&#39;,
+ &#39;LPCGDP00&#39;,
+ &#39;TEST&#39;]</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="available-is-updated"><code>available</code> is updated<a class="anchor-link" href="#available-is-updated"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The function <code>available</code> is also available but has been updated to be more informative:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">libpysal.examples</span> <span class="kn">import</span> <span class="n">available</span>
+<span class="n">available</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                      Name                                        Description  Installed
+0                    10740    Albuquerque, New Mexico, Census 2000 Tract Data       True
+1                   AirBnB  Airbnb rentals, socioeconomics, and crime in C...      False
+2                  Atlanta       Atlanta, GA region homicide counts and rates      False
+3                Baltimore          Baltimore house sales prices and hedonics      False
+4                Bostonhsg               Boston housing and neighborhood data      False
+5              Buenosaires      Electoral Data for 1999 Argentinean Elections      False
+6              Charleston1   2000 Census Tract Data for Charleston, SC MSA...      False
+7              Charleston2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+8           Chicago Health                   Chicago Health + Socio-Economics      False
+9              Chile Labor                 Labor Markets in Chile (1982-2002)      False
+10         Chile Migration            Internal Migration in Chile (1977-2002)      False
+11              Cincinnati         2008 Cincinnati Crime + Socio-Demographics      False
+12               Cleveland       2015 sales prices of homes in Cleveland, OH.      False
+13                Columbus                        Columbus neighborhood crime      False
+14                  Denver   Demographics and housing in Denver neighborho...      False
+15               Elections               2012 and 2016 Presidential Elections      False
+16                 Grid100                      Grid with simulated variables      False
+17               Groceries                          2015 Chicago supermarkets      False
+18                  Guerry          Moral statistics of France (Guerry, 1833)      False
+19       Health Indicators                Chicago Health Indicators (2005-11)      False
+20                 Health+                    2000 Health, Income + Diversity      False
+21                Hickory1   2000 Census Tract Data for Hickory, NC MSA an...      False
+22                Hickory2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+23              Home Sales              2014-15 Home Sales in King County, WA      False
+24                 Houston       Houston, TX region homicide counts and rates      False
+25                Juvenile             Cardiff juvenile delinquent residences      False
+26                Lansing1   2000 Census Tract Data for Lansing, MI MSA an...      False
+27                Lansing2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+28                 Laozone   Ozone measures at monitoring stations in Los ...      False
+29                LasRosas   Corn yield, fertilizer and field data for pre...      False
+30                    Line                                     Line Shapefile       True
+31           Liquor Stores                         2015 Chicago Liquor Stores      False
+32                 Malaria   Malaria incidence and population (1973, 95, 9...      False
+33              Milwaukee1       2000 Census Tract Data for Milwaukee, WI MSA      False
+34              Milwaukee2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+35                   NCOVR                      US county homicides 1960-1990      False
+36                    NDVI        Normalized Difference Vegetation Index grid      False
+37                     NYC   Demographic and housing data for New York Cit...      False
+38            NYC Earnings              Block-level Earnings in NYC (2002-14)      False
+39           NYC Education                               NYC Education (2000)      False
+40       NYC Neighborhoods       Demographics for New York City neighborhoods      False
+41  NYC Socio-Demographics                 NYC Education + Socio-Demographics      False
+42              Natregimes                    NCOVR with regimes (book/PySAL)      False
+43                   Nepal   Health, poverty and education indicators for ...      False
+44                Ohiolung            Ohio lung cancer data, 1968, 1978, 1988      False
+45                Orlando1   2000 Census Tract Data for Orlando, FL MSA an...      False
+46                Orlando2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+47                  Oz9799                        Monthly ozone data, 1997-99      False
+48             Phoenix ACS   Phoenix American Community Survey Data (2010,...      False
+49              Pittsburgh                      Pittsburgh homicide locations      False
+50                   Point                                    Point Shapefile       True
+51                  Police           Police expenditures Mississippi counties      False
+52                 Polygon                                  Polygon Shapefile       True
+53           Polygon_Holes                 Example to test treatment of holes       True
+54       Rio Grande do Sul  Cities of the Brazilian State of Rio Grande do...      False
+55                    SIDS            North Carolina county SIDS death counts      False
+56                   SIDS2   North Carolina county SIDS death counts and r...      False
+57             Sacramento1          2000 Census Tract Data for Sacramento MSA      False
+58             Sacramento2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+59           SanFran Crime   July-Dec 2012 crime incidents in San Francisc...      False
+60               Savannah1   2000 Census Tract Data for Savannah, GA MSA a...      False
+61               Savannah2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+62                 Scotlip               Male lip cancer in Scotland, 1975-80      False
+63                Seattle1   2000 Census Tract Data for Seattle, WA MSA an...      False
+64                Seattle2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+65                   South             US Southern county homicides 1960-1990      False
+66                 StLouis   St Louis region county homicide counts and rates      False
+67                  Tampa1   2000 Census Tract Data for Tampa, FL MSA and ...      False
+68                  arcgis                               arcgis testing files       True
+69                  baltim     Baltimore house sales prices and hedonics 1978       True
+70                  berlin  Prenzlauer Berg neighborhood AirBnB data from ...       True
+71                    book       Synthetic data to illustrate spatial weights       True
+72                 burkitt  Burkitt&#39;s lymphoma in the Western Nile distric...       True
+73                  calemp         Employment density for California counties       True
+74                 chicago                              Chicago neighborhoods       True
+75              clearwater                               mgwr testing dataset      False
+76                columbus              Columbus neighborhood crime data 1980       True
+77                 desmith    Small dataset to illustrate Moran&#39;s I statistic       True
+78                geodanet        Datasets from geodanet for network analysis       True
+79                 georgia  Various socio-economic variables for counties ...       True
+80                juvenile    Residences of juvenile offenders in Cardiff, UK       True
+81                  mexico  Decennial per capita incomes of Mexican states...       True
+82                networks                  Datasets used for network testing       True
+83                newHaven                            Network testing dataset      False
+84               nyc_bikes                           New York City Bike Trips      False
+85                   sids2  North Carolina county SIDS death counts and rates       True
+86               snow_maps  Public water pumps and Cholera deaths in Londo...       True
+87                     stl  Homicides and selected socio-economic characte...       True
+88          street_net_pts                              Street network points       True
+89                     taz           Traffic Analysis Zones in So. California      False
+90                   tokyo                               Tokyo Mortality data       True
+91               us_income  Per-capita income for the lower 48 US states 1...       True
+92                virginia                        Virginia counties shapefile       True
+93                    wmat          Datasets used for spatial weights testing       True
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We see that the new column <code>Installed</code> is added to the tablular output of <code>available</code>. This tells the user whether the dataset has aready been installed on the local machine. All the builtin datasets are by defninition installed. The interesting cases are the remote data sets that are new in this release.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Remote-datasets">Remote datasets<a class="anchor-link" href="#Remote-datasets"> </a></h2><p>The listing from <code>available</code> above shows that the dataset <code>Tampa1</code> is avalable, but has not yet been installed.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">libpysal.examples</span> <span class="kn">import</span> <span class="n">explain</span>
+<span class="n">explain</span><span class="p">(</span><span class="s1">&#39;Tampa1&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<iframe
+    width="700"
+    height="350"
+    src="https://geodacenter.github.io/data-and-lab/tampa1/"
+    frameborder="0"
+    allowfullscreen
+></iframe>
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">libpysal.examples</span> <span class="kn">import</span> <span class="n">load_example</span>
+<span class="n">tampa1</span> <span class="o">=</span> <span class="n">load_example</span><span class="p">(</span><span class="s1">&#39;Tampa1&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Downloading Tampa1 to /home/jovyan/pysal_data/Tampa1
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">available</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                      Name                                        Description  Installed
+0                    10740    Albuquerque, New Mexico, Census 2000 Tract Data       True
+1                   AirBnB  Airbnb rentals, socioeconomics, and crime in C...      False
+2                  Atlanta       Atlanta, GA region homicide counts and rates      False
+3                Baltimore          Baltimore house sales prices and hedonics      False
+4                Bostonhsg               Boston housing and neighborhood data      False
+5              Buenosaires      Electoral Data for 1999 Argentinean Elections      False
+6              Charleston1   2000 Census Tract Data for Charleston, SC MSA...      False
+7              Charleston2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+8           Chicago Health                   Chicago Health + Socio-Economics      False
+9              Chile Labor                 Labor Markets in Chile (1982-2002)      False
+10         Chile Migration            Internal Migration in Chile (1977-2002)      False
+11              Cincinnati         2008 Cincinnati Crime + Socio-Demographics      False
+12               Cleveland       2015 sales prices of homes in Cleveland, OH.      False
+13                Columbus                        Columbus neighborhood crime      False
+14                  Denver   Demographics and housing in Denver neighborho...      False
+15               Elections               2012 and 2016 Presidential Elections      False
+16                 Grid100                      Grid with simulated variables      False
+17               Groceries                          2015 Chicago supermarkets      False
+18                  Guerry          Moral statistics of France (Guerry, 1833)      False
+19       Health Indicators                Chicago Health Indicators (2005-11)      False
+20                 Health+                    2000 Health, Income + Diversity      False
+21                Hickory1   2000 Census Tract Data for Hickory, NC MSA an...      False
+22                Hickory2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+23              Home Sales              2014-15 Home Sales in King County, WA      False
+24                 Houston       Houston, TX region homicide counts and rates      False
+25                Juvenile             Cardiff juvenile delinquent residences      False
+26                Lansing1   2000 Census Tract Data for Lansing, MI MSA an...      False
+27                Lansing2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+28                 Laozone   Ozone measures at monitoring stations in Los ...      False
+29                LasRosas   Corn yield, fertilizer and field data for pre...      False
+30                    Line                                     Line Shapefile       True
+31           Liquor Stores                         2015 Chicago Liquor Stores      False
+32                 Malaria   Malaria incidence and population (1973, 95, 9...      False
+33              Milwaukee1       2000 Census Tract Data for Milwaukee, WI MSA      False
+34              Milwaukee2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+35                   NCOVR                      US county homicides 1960-1990      False
+36                    NDVI        Normalized Difference Vegetation Index grid      False
+37                     NYC   Demographic and housing data for New York Cit...      False
+38            NYC Earnings              Block-level Earnings in NYC (2002-14)      False
+39           NYC Education                               NYC Education (2000)      False
+40       NYC Neighborhoods       Demographics for New York City neighborhoods      False
+41  NYC Socio-Demographics                 NYC Education + Socio-Demographics      False
+42              Natregimes                    NCOVR with regimes (book/PySAL)      False
+43                   Nepal   Health, poverty and education indicators for ...      False
+44                Ohiolung            Ohio lung cancer data, 1968, 1978, 1988      False
+45                Orlando1   2000 Census Tract Data for Orlando, FL MSA an...      False
+46                Orlando2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+47                  Oz9799                        Monthly ozone data, 1997-99      False
+48             Phoenix ACS   Phoenix American Community Survey Data (2010,...      False
+49              Pittsburgh                      Pittsburgh homicide locations      False
+50                   Point                                    Point Shapefile       True
+51                  Police           Police expenditures Mississippi counties      False
+52                 Polygon                                  Polygon Shapefile       True
+53           Polygon_Holes                 Example to test treatment of holes       True
+54       Rio Grande do Sul  Cities of the Brazilian State of Rio Grande do...      False
+55                    SIDS            North Carolina county SIDS death counts      False
+56                   SIDS2   North Carolina county SIDS death counts and r...      False
+57             Sacramento1          2000 Census Tract Data for Sacramento MSA      False
+58             Sacramento2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+59           SanFran Crime   July-Dec 2012 crime incidents in San Francisc...      False
+60               Savannah1   2000 Census Tract Data for Savannah, GA MSA a...      False
+61               Savannah2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+62                 Scotlip               Male lip cancer in Scotland, 1975-80      False
+63                Seattle1   2000 Census Tract Data for Seattle, WA MSA an...      False
+64                Seattle2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+65                   South             US Southern county homicides 1960-1990      False
+66                 StLouis   St Louis region county homicide counts and rates      False
+67                  Tampa1   2000 Census Tract Data for Tampa, FL MSA and ...       True
+68                  arcgis                               arcgis testing files       True
+69                  baltim     Baltimore house sales prices and hedonics 1978       True
+70                  berlin  Prenzlauer Berg neighborhood AirBnB data from ...       True
+71                    book       Synthetic data to illustrate spatial weights       True
+72                 burkitt  Burkitt&#39;s lymphoma in the Western Nile distric...       True
+73                  calemp         Employment density for California counties       True
+74                 chicago                              Chicago neighborhoods       True
+75              clearwater                               mgwr testing dataset      False
+76                columbus              Columbus neighborhood crime data 1980       True
+77                 desmith    Small dataset to illustrate Moran&#39;s I statistic       True
+78                geodanet        Datasets from geodanet for network analysis       True
+79                 georgia  Various socio-economic variables for counties ...       True
+80                juvenile    Residences of juvenile offenders in Cardiff, UK       True
+81                  mexico  Decennial per capita incomes of Mexican states...       True
+82                networks                  Datasets used for network testing       True
+83                newHaven                            Network testing dataset      False
+84               nyc_bikes                           New York City Bike Trips      False
+85                   sids2  North Carolina county SIDS death counts and rates       True
+86               snow_maps  Public water pumps and Cholera deaths in Londo...       True
+87                     stl  Homicides and selected socio-economic characte...       True
+88          street_net_pts                              Street network points       True
+89                     taz           Traffic Analysis Zones in So. California      False
+90                   tokyo                               Tokyo Mortality data       True
+91               us_income  Per-capita income for the lower 48 US states 1...       True
+92                virginia                        Virginia counties shapefile       True
+93                    wmat          Datasets used for spatial weights testing       True
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tampa1</span><span class="o">.</span><span class="n">installed</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tampa1</span><span class="o">.</span><span class="n">get_file_list</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;/home/jovyan/pysal_data/Tampa1/__MACOSX/._TampaMSA&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/__MACOSX/TampaMSA/._tampa_counties.sbx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/__MACOSX/TampaMSA/._tampa_final_census2.sbx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/__MACOSX/TampaMSA/._2000 Census Data Variables_Documentation.pdf&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/__MACOSX/TampaMSA/._tampa_final_census2.sbn&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/__MACOSX/TampaMSA/._tampa_counties.sbn&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_final_census2.geojson&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_counties.gpkg&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_final_census2.xlsx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_final_census2.mid&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a0000000a.spx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000005.gdbindexes&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000007.CatRelTypesByDestItemTypeID.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000002.gdbtable&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000004.CatItemsByType.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000003.gdbtablx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/gdb&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000007.gdbtable&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000002.gdbtablx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000004.gdbtablx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000007.CatRelTypesByForwardLabel.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000007.CatRelTypesByBackwardLabel.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000007.CatRelTypesByOriginItemTypeID.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000005.CatItemTypesByParentTypeID.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000003.gdbtable&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000007.gdbindexes&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000001.gdbindexes&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a0000000a.gdbindexes&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000005.gdbtable&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000004.spx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000009.gdbindexes&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000006.FDO_UUID.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000006.CatRelsByOriginID.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000009.gdbtable&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000003.gdbindexes&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000006.gdbtablx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000004.CatItemsByPhysicalName.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a0000000a.gdbtablx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000006.CatRelsByType.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000004.gdbindexes&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000007.CatRelTypesByUUID.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000005.gdbtablx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000005.CatItemTypesByUUID.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000009.gdbtablx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000006.gdbtable&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a0000000a.gdbtable&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000007.gdbtablx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000009.spx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000004.FDO_UUID.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000006.CatRelsByDestinationID.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000001.gdbtable&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000004.gdbtable&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/timestamps&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000007.CatRelTypesByName.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000006.gdbindexes&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000005.CatItemTypesByName.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000001.TablesByName.atx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/TampaMSA.gdb/a00000001.gdbtablx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_final_census2.sbn&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_counties.xlsx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/2000 Census Data Variables_Documentation.pdf&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_counties.mid&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_final_census2.dbf&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_final_census2.gpkg&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_counties.mif&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_final_census2.kml&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_counties.sqlite&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_counties.dbf&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_final_census2.prj&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_final_census2.mif&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_final_census2.shx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_counties.geojson&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_counties.shx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_counties.sbn&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_counties.sbx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_counties.prj&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_counties.shp&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_final_census2.shp&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_final_census2.sqlite&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_final_census2.sbx&#39;,
+ &#39;/home/jovyan/pysal_data/Tampa1/TampaMSA/tampa_counties.kml&#39;]</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tampa_counties_shp</span> <span class="o">=</span> <span class="n">tampa1</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;tampa_counties.shp&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tampa_counties_shp</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;libpysal.io.iohandlers.pyShpIO.PurePyShpWrapper at 0x7f4a368ce7b8&gt;</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">geopandas</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tampa_df</span> <span class="o">=</span> <span class="n">geopandas</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">tampa1</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;tampa_counties.shp&#39;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">tampa_df</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f4a2eb25f60&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/lib/libpysal/Example_Datasets_22_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Other-Remotes">Other Remotes<a class="anchor-link" href="#Other-Remotes"> </a></h2><p>In addition to the remote datasets from the GeoData Data Science Center, there are several large remotes available at github repositories.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">explain</span><span class="p">(</span><span class="s1">&#39;Rio Grande do Sul&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Rio_Grande_do_Sul
+======================
+
+Cities of the Brazilian State of Rio Grande do Sul
+-------------------------------------------------------
+
+* 43MUE250GC_SIR.dbf: attribute data (k=2)
+* 43MUE250GC_SIR.shp: Polygon shapefile (n=499)
+* 43MUE250GC_SIR.shx: spatial index
+* 43MUE250GC_SIR.cpg: encoding file 
+* 43MUE250GC_SIR.prj: projection information 
+* map_RS_BR.dbf: attribute data (k=3)
+* map_RS_BR.shp: Polygon shapefile (no lakes) (n=497)
+* map_RS_BR.prj: projection information
+* map_RS_BR.shx: spatial index
+
+
+
+Source: Renan Xavier Cortes 
+Reference: https://github.com/pysal/pysal/issues/889#issuecomment-396693495
+
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that the <code>explain</code> function generates a textual description of this example dataset - no rendering of the map is done as the source repository does not include that functionality.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rio</span> <span class="o">=</span> <span class="n">load_example</span><span class="p">(</span><span class="s1">&#39;Rio Grande do Sul&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Downloading Rio Grande do Sul to /home/jovyan/pysal_data/Rio_Grande_do_Sul
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">available</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                      Name                                        Description  Installed
+0                    10740    Albuquerque, New Mexico, Census 2000 Tract Data       True
+1                   AirBnB  Airbnb rentals, socioeconomics, and crime in C...      False
+2                  Atlanta       Atlanta, GA region homicide counts and rates      False
+3                Baltimore          Baltimore house sales prices and hedonics      False
+4                Bostonhsg               Boston housing and neighborhood data      False
+5              Buenosaires      Electoral Data for 1999 Argentinean Elections      False
+6              Charleston1   2000 Census Tract Data for Charleston, SC MSA...      False
+7              Charleston2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+8           Chicago Health                   Chicago Health + Socio-Economics      False
+9              Chile Labor                 Labor Markets in Chile (1982-2002)      False
+10         Chile Migration            Internal Migration in Chile (1977-2002)      False
+11              Cincinnati         2008 Cincinnati Crime + Socio-Demographics      False
+12               Cleveland       2015 sales prices of homes in Cleveland, OH.      False
+13                Columbus                        Columbus neighborhood crime      False
+14                  Denver   Demographics and housing in Denver neighborho...      False
+15               Elections               2012 and 2016 Presidential Elections      False
+16                 Grid100                      Grid with simulated variables      False
+17               Groceries                          2015 Chicago supermarkets      False
+18                  Guerry          Moral statistics of France (Guerry, 1833)      False
+19       Health Indicators                Chicago Health Indicators (2005-11)      False
+20                 Health+                    2000 Health, Income + Diversity      False
+21                Hickory1   2000 Census Tract Data for Hickory, NC MSA an...      False
+22                Hickory2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+23              Home Sales              2014-15 Home Sales in King County, WA      False
+24                 Houston       Houston, TX region homicide counts and rates      False
+25                Juvenile             Cardiff juvenile delinquent residences      False
+26                Lansing1   2000 Census Tract Data for Lansing, MI MSA an...      False
+27                Lansing2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+28                 Laozone   Ozone measures at monitoring stations in Los ...      False
+29                LasRosas   Corn yield, fertilizer and field data for pre...      False
+30                    Line                                     Line Shapefile       True
+31           Liquor Stores                         2015 Chicago Liquor Stores      False
+32                 Malaria   Malaria incidence and population (1973, 95, 9...      False
+33              Milwaukee1       2000 Census Tract Data for Milwaukee, WI MSA      False
+34              Milwaukee2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+35                   NCOVR                      US county homicides 1960-1990      False
+36                    NDVI        Normalized Difference Vegetation Index grid      False
+37                     NYC   Demographic and housing data for New York Cit...      False
+38            NYC Earnings              Block-level Earnings in NYC (2002-14)      False
+39           NYC Education                               NYC Education (2000)      False
+40       NYC Neighborhoods       Demographics for New York City neighborhoods      False
+41  NYC Socio-Demographics                 NYC Education + Socio-Demographics      False
+42              Natregimes                    NCOVR with regimes (book/PySAL)      False
+43                   Nepal   Health, poverty and education indicators for ...      False
+44                Ohiolung            Ohio lung cancer data, 1968, 1978, 1988      False
+45                Orlando1   2000 Census Tract Data for Orlando, FL MSA an...      False
+46                Orlando2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+47                  Oz9799                        Monthly ozone data, 1997-99      False
+48             Phoenix ACS   Phoenix American Community Survey Data (2010,...      False
+49              Pittsburgh                      Pittsburgh homicide locations      False
+50                   Point                                    Point Shapefile       True
+51                  Police           Police expenditures Mississippi counties      False
+52                 Polygon                                  Polygon Shapefile       True
+53           Polygon_Holes                 Example to test treatment of holes       True
+54       Rio Grande do Sul  Cities of the Brazilian State of Rio Grande do...       True
+55                    SIDS            North Carolina county SIDS death counts      False
+56                   SIDS2   North Carolina county SIDS death counts and r...      False
+57             Sacramento1          2000 Census Tract Data for Sacramento MSA      False
+58             Sacramento2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+59           SanFran Crime   July-Dec 2012 crime incidents in San Francisc...      False
+60               Savannah1   2000 Census Tract Data for Savannah, GA MSA a...      False
+61               Savannah2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+62                 Scotlip               Male lip cancer in Scotland, 1975-80      False
+63                Seattle1   2000 Census Tract Data for Seattle, WA MSA an...      False
+64                Seattle2   1998 and 2001 Zip Code Business Patterns (Cen...      False
+65                   South             US Southern county homicides 1960-1990      False
+66                 StLouis   St Louis region county homicide counts and rates      False
+67                  Tampa1   2000 Census Tract Data for Tampa, FL MSA and ...       True
+68                  arcgis                               arcgis testing files       True
+69                  baltim     Baltimore house sales prices and hedonics 1978       True
+70                  berlin  Prenzlauer Berg neighborhood AirBnB data from ...       True
+71                    book       Synthetic data to illustrate spatial weights       True
+72                 burkitt  Burkitt&#39;s lymphoma in the Western Nile distric...       True
+73                  calemp         Employment density for California counties       True
+74                 chicago                              Chicago neighborhoods       True
+75              clearwater                               mgwr testing dataset      False
+76                columbus              Columbus neighborhood crime data 1980       True
+77                 desmith    Small dataset to illustrate Moran&#39;s I statistic       True
+78                geodanet        Datasets from geodanet for network analysis       True
+79                 georgia  Various socio-economic variables for counties ...       True
+80                juvenile    Residences of juvenile offenders in Cardiff, UK       True
+81                  mexico  Decennial per capita incomes of Mexican states...       True
+82                networks                  Datasets used for network testing       True
+83                newHaven                            Network testing dataset      False
+84               nyc_bikes                           New York City Bike Trips      False
+85                   sids2  North Carolina county SIDS death counts and rates       True
+86               snow_maps  Public water pumps and Cholera deaths in Londo...       True
+87                     stl  Homicides and selected socio-economic characte...       True
+88          street_net_pts                              Street network points       True
+89                     taz           Traffic Analysis Zones in So. California      False
+90                   tokyo                               Tokyo Mortality data       True
+91               us_income  Per-capita income for the lower 48 US states 1...       True
+92                virginia                        Virginia counties shapefile       True
+93                    wmat          Datasets used for spatial weights testing       True
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Grabbing-all-the-remotes">Grabbing all the remotes<a class="anchor-link" href="#Grabbing-all-the-remotes"> </a></h2><p>All the remote datasets can be downloaded with:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">fetch_all</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>AirBnB
+Downloading AirBnB to /home/jovyan/pysal_data/AirBnB
+Atlanta
+Downloading Atlanta to /home/jovyan/pysal_data/Atlanta
+Baltimore
+Downloading Baltimore to /home/jovyan/pysal_data/Baltimore
+Bostonhsg
+Downloading Bostonhsg to /home/jovyan/pysal_data/Bostonhsg
+Buenosaires
+Downloading Buenosaires to /home/jovyan/pysal_data/Buenosaires
+Charleston1
+Downloading Charleston1 to /home/jovyan/pysal_data/Charleston1
+Charleston2
+Downloading Charleston2 to /home/jovyan/pysal_data/Charleston2
+Chicago Health
+Downloading Chicago Health to /home/jovyan/pysal_data/Chicago_Health
+Chile Labor
+Downloading Chile Labor to /home/jovyan/pysal_data/Chile_Labor
+Chile Migration
+Downloading Chile Migration to /home/jovyan/pysal_data/Chile_Migration
+Cincinnati
+Downloading Cincinnati to /home/jovyan/pysal_data/Cincinnati
+Cleveland
+Downloading Cleveland to /home/jovyan/pysal_data/Cleveland
+Columbus
+Downloading Columbus to /home/jovyan/pysal_data/Columbus
+Denver
+Downloading Denver to /home/jovyan/pysal_data/Denver
+Elections
+Downloading Elections to /home/jovyan/pysal_data/Elections
+Grid100
+Downloading Grid100 to /home/jovyan/pysal_data/Grid100
+Groceries
+Downloading Groceries to /home/jovyan/pysal_data/Groceries
+Guerry
+Downloading Guerry to /home/jovyan/pysal_data/Guerry
+Health Indicators
+Downloading Health Indicators to /home/jovyan/pysal_data/Health_Indicators
+Health+
+Downloading Health+ to /home/jovyan/pysal_data/Health+
+Hickory1
+Downloading Hickory1 to /home/jovyan/pysal_data/Hickory1
+Hickory2
+Downloading Hickory2 to /home/jovyan/pysal_data/Hickory2
+Home Sales
+Downloading Home Sales to /home/jovyan/pysal_data/Home_Sales
+Houston
+Downloading Houston to /home/jovyan/pysal_data/Houston
+Juvenile
+Downloading Juvenile to /home/jovyan/pysal_data/Juvenile
+Lansing1
+Downloading Lansing1 to /home/jovyan/pysal_data/Lansing1
+Lansing2
+Downloading Lansing2 to /home/jovyan/pysal_data/Lansing2
+Laozone
+Downloading Laozone to /home/jovyan/pysal_data/Laozone
+LasRosas
+Downloading LasRosas to /home/jovyan/pysal_data/LasRosas
+Liquor Stores
+Downloading Liquor Stores to /home/jovyan/pysal_data/Liquor_Stores
+Malaria
+Downloading Malaria to /home/jovyan/pysal_data/Malaria
+Milwaukee1
+Downloading Milwaukee1 to /home/jovyan/pysal_data/Milwaukee1
+Milwaukee2
+Downloading Milwaukee2 to /home/jovyan/pysal_data/Milwaukee2
+NCOVR
+Downloading NCOVR to /home/jovyan/pysal_data/NCOVR
+NDVI
+Downloading NDVI to /home/jovyan/pysal_data/NDVI
+NYC
+Downloading NYC to /home/jovyan/pysal_data/NYC
+NYC Earnings
+Downloading NYC Earnings to /home/jovyan/pysal_data/NYC_Earnings
+NYC Education
+Downloading NYC Education to /home/jovyan/pysal_data/NYC_Education
+NYC Neighborhoods
+Downloading NYC Neighborhoods to /home/jovyan/pysal_data/NYC_Neighborhoods
+NYC Socio-Demographics
+Downloading NYC Socio-Demographics to /home/jovyan/pysal_data/NYC_Socio-Demographics
+Natregimes
+Downloading Natregimes to /home/jovyan/pysal_data/Natregimes
+Nepal
+Downloading Nepal to /home/jovyan/pysal_data/Nepal
+Ohiolung
+Downloading Ohiolung to /home/jovyan/pysal_data/Ohiolung
+Orlando1
+Downloading Orlando1 to /home/jovyan/pysal_data/Orlando1
+Orlando2
+Downloading Orlando2 to /home/jovyan/pysal_data/Orlando2
+Oz9799
+Downloading Oz9799 to /home/jovyan/pysal_data/Oz9799
+Phoenix ACS
+Downloading Phoenix ACS to /home/jovyan/pysal_data/Phoenix_ACS
+Pittsburgh
+Downloading Pittsburgh to /home/jovyan/pysal_data/Pittsburgh
+Police
+Downloading Police to /home/jovyan/pysal_data/Police
+Rio Grande do Sul
+Already downloaded
+SIDS
+Downloading SIDS to /home/jovyan/pysal_data/SIDS
+SIDS2
+Downloading SIDS2 to /home/jovyan/pysal_data/SIDS2
+Sacramento1
+Downloading Sacramento1 to /home/jovyan/pysal_data/Sacramento1
+Sacramento2
+Downloading Sacramento2 to /home/jovyan/pysal_data/Sacramento2
+SanFran Crime
+Downloading SanFran Crime to /home/jovyan/pysal_data/SanFran_Crime
+Savannah1
+Downloading Savannah1 to /home/jovyan/pysal_data/Savannah1
+Savannah2
+Downloading Savannah2 to /home/jovyan/pysal_data/Savannah2
+Scotlip
+Downloading Scotlip to /home/jovyan/pysal_data/Scotlip
+Seattle1
+Downloading Seattle1 to /home/jovyan/pysal_data/Seattle1
+Seattle2
+Downloading Seattle2 to /home/jovyan/pysal_data/Seattle2
+South
+Downloading South to /home/jovyan/pysal_data/South
+StLouis
+Downloading StLouis to /home/jovyan/pysal_data/StLouis
+Tampa1
+Already downloaded
+clearwater
+Downloading clearwater to /home/jovyan/pysal_data/clearwater
+newHaven
+Downloading newHaven to /home/jovyan/pysal_data/newHaven
+nyc_bikes
+Downloading nyc_bikes to /home/jovyan/pysal_data/nyc_bikes
+taz
+Downloading taz to /home/jovyan/pysal_data/taz
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">available</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                      Name                                        Description  Installed
+0                    10740    Albuquerque, New Mexico, Census 2000 Tract Data       True
+1                   AirBnB  Airbnb rentals, socioeconomics, and crime in C...       True
+2                  Atlanta       Atlanta, GA region homicide counts and rates       True
+3                Baltimore          Baltimore house sales prices and hedonics       True
+4                Bostonhsg               Boston housing and neighborhood data       True
+5              Buenosaires      Electoral Data for 1999 Argentinean Elections       True
+6              Charleston1   2000 Census Tract Data for Charleston, SC MSA...       True
+7              Charleston2   1998 and 2001 Zip Code Business Patterns (Cen...       True
+8           Chicago Health                   Chicago Health + Socio-Economics       True
+9              Chile Labor                 Labor Markets in Chile (1982-2002)       True
+10         Chile Migration            Internal Migration in Chile (1977-2002)       True
+11              Cincinnati         2008 Cincinnati Crime + Socio-Demographics       True
+12               Cleveland       2015 sales prices of homes in Cleveland, OH.       True
+13                Columbus                        Columbus neighborhood crime       True
+14                  Denver   Demographics and housing in Denver neighborho...       True
+15               Elections               2012 and 2016 Presidential Elections       True
+16                 Grid100                      Grid with simulated variables       True
+17               Groceries                          2015 Chicago supermarkets       True
+18                  Guerry          Moral statistics of France (Guerry, 1833)       True
+19       Health Indicators                Chicago Health Indicators (2005-11)       True
+20                 Health+                    2000 Health, Income + Diversity       True
+21                Hickory1   2000 Census Tract Data for Hickory, NC MSA an...       True
+22                Hickory2   1998 and 2001 Zip Code Business Patterns (Cen...       True
+23              Home Sales              2014-15 Home Sales in King County, WA       True
+24                 Houston       Houston, TX region homicide counts and rates       True
+25                Juvenile             Cardiff juvenile delinquent residences       True
+26                Lansing1   2000 Census Tract Data for Lansing, MI MSA an...       True
+27                Lansing2   1998 and 2001 Zip Code Business Patterns (Cen...       True
+28                 Laozone   Ozone measures at monitoring stations in Los ...       True
+29                LasRosas   Corn yield, fertilizer and field data for pre...       True
+30                    Line                                     Line Shapefile       True
+31           Liquor Stores                         2015 Chicago Liquor Stores       True
+32                 Malaria   Malaria incidence and population (1973, 95, 9...       True
+33              Milwaukee1       2000 Census Tract Data for Milwaukee, WI MSA       True
+34              Milwaukee2   1998 and 2001 Zip Code Business Patterns (Cen...       True
+35                   NCOVR                      US county homicides 1960-1990       True
+36                    NDVI        Normalized Difference Vegetation Index grid       True
+37                     NYC   Demographic and housing data for New York Cit...       True
+38            NYC Earnings              Block-level Earnings in NYC (2002-14)       True
+39           NYC Education                               NYC Education (2000)       True
+40       NYC Neighborhoods       Demographics for New York City neighborhoods       True
+41  NYC Socio-Demographics                 NYC Education + Socio-Demographics       True
+42              Natregimes                    NCOVR with regimes (book/PySAL)       True
+43                   Nepal   Health, poverty and education indicators for ...       True
+44                Ohiolung            Ohio lung cancer data, 1968, 1978, 1988       True
+45                Orlando1   2000 Census Tract Data for Orlando, FL MSA an...       True
+46                Orlando2   1998 and 2001 Zip Code Business Patterns (Cen...       True
+47                  Oz9799                        Monthly ozone data, 1997-99       True
+48             Phoenix ACS   Phoenix American Community Survey Data (2010,...       True
+49              Pittsburgh                      Pittsburgh homicide locations       True
+50                   Point                                    Point Shapefile       True
+51                  Police           Police expenditures Mississippi counties       True
+52                 Polygon                                  Polygon Shapefile       True
+53           Polygon_Holes                 Example to test treatment of holes       True
+54       Rio Grande do Sul  Cities of the Brazilian State of Rio Grande do...       True
+55                    SIDS            North Carolina county SIDS death counts       True
+56                   SIDS2   North Carolina county SIDS death counts and r...       True
+57             Sacramento1          2000 Census Tract Data for Sacramento MSA       True
+58             Sacramento2   1998 and 2001 Zip Code Business Patterns (Cen...       True
+59           SanFran Crime   July-Dec 2012 crime incidents in San Francisc...       True
+60               Savannah1   2000 Census Tract Data for Savannah, GA MSA a...       True
+61               Savannah2   1998 and 2001 Zip Code Business Patterns (Cen...       True
+62                 Scotlip               Male lip cancer in Scotland, 1975-80       True
+63                Seattle1   2000 Census Tract Data for Seattle, WA MSA an...       True
+64                Seattle2   1998 and 2001 Zip Code Business Patterns (Cen...       True
+65                   South             US Southern county homicides 1960-1990       True
+66                 StLouis   St Louis region county homicide counts and rates       True
+67                  Tampa1   2000 Census Tract Data for Tampa, FL MSA and ...       True
+68                  arcgis                               arcgis testing files       True
+69                  baltim     Baltimore house sales prices and hedonics 1978       True
+70                  berlin  Prenzlauer Berg neighborhood AirBnB data from ...       True
+71                    book       Synthetic data to illustrate spatial weights       True
+72                 burkitt  Burkitt&#39;s lymphoma in the Western Nile distric...       True
+73                  calemp         Employment density for California counties       True
+74                 chicago                              Chicago neighborhoods       True
+75              clearwater                               mgwr testing dataset       True
+76                columbus              Columbus neighborhood crime data 1980       True
+77                 desmith    Small dataset to illustrate Moran&#39;s I statistic       True
+78                geodanet        Datasets from geodanet for network analysis       True
+79                 georgia  Various socio-economic variables for counties ...       True
+80                juvenile    Residences of juvenile offenders in Cardiff, UK       True
+81                  mexico  Decennial per capita incomes of Mexican states...       True
+82                networks                  Datasets used for network testing       True
+83                newHaven                            Network testing dataset       True
+84               nyc_bikes                           New York City Bike Trips       True
+85                   sids2  North Carolina county SIDS death counts and rates       True
+86               snow_maps  Public water pumps and Cholera deaths in Londo...       True
+87                     stl  Homicides and selected socio-economic characte...       True
+88          street_net_pts                              Street network points       True
+89                     taz           Traffic Analysis Zones in So. California       True
+90                   tokyo                               Tokyo Mortality data       True
+91               us_income  Per-capita income for the lower 48 US states 1...       True
+92                virginia                        Virginia counties shapefile       True
+93                    wmat          Datasets used for spatial weights testing       True
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

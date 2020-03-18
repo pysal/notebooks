@@ -1,18 +1,25 @@
 ---
 interact_link: content/explore/giddy/directional.ipynb
 kernel_name: python3
+kernel_path: content/explore/giddy
 has_widgets: false
-title: 'directional'
+title: |-
+  directional
+pagenum: 12
 prev_page:
-  url: /explore/giddy/intro.html
-  title: 'giddy'
+  url: /explore/giddy/Sequence.html
 next_page:
-  url: /explore/giddy/Markov_Based_Methods.html
-  title: 'Markov_Based_Methods'
+  url: /explore/inequality/intro.html
+suffix: .ipynb
+search: null counts directional inference based alternative focal unit its spatial lag under positive lisas rose distribution vectors here expectation movement quadrants iii observed considered extreme negative ii iv analysis dynamic notebook demonstrates diagram visualization class contains methods carry circular lisa approach sided where across segments reflects independence movements random permutations four sector signficantly different test also implemented direction departure due co period results general cases sectors larger while small expected finally reflecting association between complimentary interpretation lower higher relative
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">directional</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -21,19 +28,18 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pysal.lib</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">libpysal</span> 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">pysal.explore.giddy.directional</span> <span class="k">import</span> <span class="n">Rose</span>
+<span class="kn">from</span> <span class="nn">giddy.directional</span> <span class="kn">import</span> <span class="n">Rose</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
 
@@ -42,21 +48,16 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">pysal</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;spi_download.csv&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;spi_download.csv&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
 <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
 <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -66,16 +67,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -90,16 +86,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -123,16 +114,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -145,16 +131,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -167,16 +148,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -191,16 +167,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -213,21 +184,16 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gal</span> <span class="o">=</span> <span class="n">pysal</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">pysal</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;states48.gal&#39;</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gal</span> <span class="o">=</span> <span class="n">libpysal</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;states48.gal&#39;</span><span class="p">))</span>
 <span class="n">w</span> <span class="o">=</span> <span class="n">gal</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 <span class="n">w</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span>
 </pre></div>
@@ -237,16 +203,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -259,16 +220,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -280,14 +236,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -302,12 +254,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -319,14 +270,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -388,12 +335,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -407,12 +353,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -420,12 +363,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -437,14 +379,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -456,7 +394,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -472,12 +410,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -489,14 +426,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -508,7 +441,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -524,12 +457,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -541,14 +473,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -560,7 +488,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -576,12 +504,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -593,14 +520,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -612,7 +535,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -628,12 +551,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -645,14 +567,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -664,7 +582,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -680,12 +598,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -697,14 +614,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -720,8 +633,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -730,12 +644,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -747,14 +660,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -769,12 +678,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -786,14 +694,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -808,12 +712,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -826,16 +729,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -848,16 +746,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -869,14 +762,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -891,8 +780,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -901,8 +791,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -911,12 +802,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -929,14 +819,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -951,12 +837,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -968,14 +853,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -990,8 +871,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1000,12 +882,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1018,14 +899,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1040,6 +917,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
  
 
+
+    </main>
+    

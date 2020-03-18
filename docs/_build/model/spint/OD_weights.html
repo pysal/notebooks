@@ -3,30 +3,35 @@ redirect_from:
   - "/model/spint/od-weights"
 interact_link: content/model/spint/OD_weights.ipynb
 kernel_name: Python [Root]
+kernel_path: content/model/spint
 has_widgets: false
-title: 'OD_weights'
+title: |-
+  OD_weights
+pagenum: 62
 prev_page:
   url: /model/spint/ODW_example.html
-  title: 'ODW_example'
 next_page:
-  url: /model/spint/sparse_categorical.html
-  title: 'sparse_categorical'
+  url: /model/spint/autograd_test.html
+suffix: .ipynb
+search: 
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">OD_weights</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pysal</span> <span class="kn">as</span> <span class="nn">ps</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pysal</span> <span class="k">as</span> <span class="nn">ps</span>
 <span class="kn">from</span> <span class="nn">pysal</span> <span class="kn">import</span> <span class="n">weights</span> <span class="k">as</span> <span class="n">w</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="kn">as</span> <span class="nn">sp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
 </pre></div>
 
     </div>
@@ -34,16 +39,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -60,16 +60,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -78,21 +73,17 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <span class="n">dests</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">lat2W</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">Ww</span> <span class="o">=</span> <span class="n">OD</span><span class="p">(</span><span class="n">origins</span><span class="p">,</span> <span class="n">dests</span><span class="p">)</span>
 <span class="n">Ww</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span>
-<span class="k">print</span> <span class="n">Ww</span><span class="o">.</span><span class="n">full</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+<span class="nb">print</span> <span class="n">Ww</span><span class="o">.</span><span class="n">full</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -105,12 +96,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -118,23 +108,19 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">flows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">flows</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">flows</span> <span class="o">=</span> <span class="n">flows</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">16</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
-<span class="k">print</span> <span class="n">flows</span>
+<span class="nb">print</span> <span class="n">flows</span>
 <span class="n">slag</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">lag_spatial</span><span class="p">(</span><span class="n">Ww</span><span class="p">,</span> <span class="n">flows</span><span class="p">)</span>
-<span class="k">print</span> <span class="n">slag</span>
+<span class="nb">print</span> <span class="n">slag</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -178,12 +164,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -195,14 +180,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -217,19 +198,18 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;/Users/toshan/dev/pysal/pysal/weights&#39;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">pysal.model.spintW</span> <span class="kn">import</span> <span class="n">ODW</span>
+<span class="kn">from</span> <span class="nn">spintW</span> <span class="kn">import</span> <span class="n">ODW</span>
 </pre></div>
 
     </div>
@@ -237,16 +217,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -261,16 +236,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -282,14 +252,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -335,6 +301,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
  
 
+
+    </main>
+    

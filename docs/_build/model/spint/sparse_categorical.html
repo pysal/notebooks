@@ -3,27 +3,32 @@ redirect_from:
   - "/model/spint/sparse-categorical"
 interact_link: content/model/spint/sparse_categorical.ipynb
 kernel_name: python2
+kernel_path: content/model/spint
 has_widgets: false
-title: 'sparse_categorical'
+title: |-
+  sparse_categorical
+pagenum: 68
 prev_page:
-  url: /model/spint/OD_weights.html
-  title: 'OD_weights'
+  url: /model/spint/netW.html
 next_page:
   url: /model/spint/sparse_categorical_bottleneck.html
-  title: 'sparse_categorical_bottleneck'
+suffix: .ipynb
+search: 
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">sparse_categorical</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">sparse</span> <span class="k">as</span> <span class="n">sp</span>
 <span class="kn">from</span> <span class="nn">statsmodels.tools.tools</span> <span class="kn">import</span> <span class="n">categorical</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span> <span class="k">as</span> <span class="n">dt</span>
@@ -34,16 +39,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -66,7 +66,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">tmp_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">tmp_dummy</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span>
-        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">tmp_arr</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">tmp_arr</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]:</span>
             <span class="n">row</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">((</span><span class="n">each</span> <span class="o">==</span> <span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
             <span class="n">tmp_dummy</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">tmp_dummy</span><span class="p">,</span> <span class="n">row</span><span class="p">])</span>
         <span class="n">tmp_dummy</span> <span class="o">=</span> <span class="n">tmp_dummy</span><span class="o">.</span><span class="n">T</span>
@@ -80,36 +80,27 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">spcategorical</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span> <span class="n">categorical</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">drop</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">spcategorical</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span> <span class="n">categorical</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -124,12 +115,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -143,21 +133,17 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <span class="n">d_dums</span> <span class="o">=</span> <span class="n">spcategorical</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
 <span class="n">sp</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">o_dums</span><span class="p">,</span> <span class="n">d_dums</span><span class="p">))</span>
 <span class="n">e</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-<span class="k">print</span> <span class="n">e</span><span class="o">-</span><span class="n">s</span>
+<span class="nb">print</span> <span class="n">e</span><span class="o">-</span><span class="n">s</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_text output_error">
@@ -200,12 +186,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -218,14 +203,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -241,31 +222,26 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span> <span class="n">spcategorical</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="nb">print</span> <span class="n">spcategorical</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -278,6 +254,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
  
 
+
+    </main>
+    

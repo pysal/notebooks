@@ -3,18 +3,57 @@ redirect_from:
   - "/explore/segregation/spatial-examples"
 interact_link: content/explore/segregation/spatial_examples.ipynb
 kernel_name: python3
+kernel_path: content/explore/segregation
 has_widgets: false
-title: 'spatial_examples'
+title: |-
+  spatial_examples
+pagenum: 33
 prev_page:
   url: /explore/segregation/network_measures.html
-  title: 'network_measures'
 next_page:
   url: /explore/spaghetti/intro.html
-  title: 'spaghetti'
+suffix: .ipynb
+search: n sum frac spatial left right ii index s ij x where given ai t area distance j fitted below unit dissimilarity absolute relative tilde hat p population d zeta segregation proximity concentration profile delta centralization clustering decay perimeter data alpha beta indexes boundary group ix measure pysal ratio minimum maximum smm y units w note choose total module notation isolation exposure hispanic c minority max defined iy cumulative through example sacramento libpysal also sd respectively matrix neighbors bsd areal spp addition function k g between large xx yy before equal ace rce need its census geopandas dataframe examples hisp
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">spatial_examples</div>
+</div>
+    <div class="jb_cell">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents"> </a></h1><ul>
+<li><a href="#PySAL-*segregation*-module-for-spatial-indexes">PySAL <em>segregation</em> module for spatial indexes</a><ul>
+<li><a href="#Notation">Notation</a><ul>
+<li><a href="#Spatial-Dissimilarity">Spatial Dissimilarity</a></li>
+<li><a href="#Boundary-Spatial-Dissimilarity">Boundary Spatial Dissimilarity</a></li>
+<li><a href="#Perimeter/Area-Ratio-Spatial-Dissimilarity">Perimeter/Area Ratio Spatial Dissimilarity</a></li>
+<li><a href="#Spatial-Proximity-Profile">Spatial Proximity Profile</a></li>
+<li><a href="#Spatial-Proximity">Spatial Proximity</a></li>
+<li><a href="#Absolute-Clustering">Absolute Clustering</a></li>
+<li><a href="#Relative-Clustering">Relative Clustering</a></li>
+<li><a href="#Distance-Decay-Isolation">Distance Decay Isolation</a></li>
+<li><a href="#Distance-Decay-Exposure">Distance Decay Exposure</a></li>
+<li><a href="#Delta">Delta</a></li>
+<li><a href="#Absolute-Concentration">Absolute Concentration</a></li>
+<li><a href="#Relative-Concentration">Relative Concentration</a></li>
+<li><a href="#Absolute-Centralization-and-Relative-Centralization">Absolute Centralization and Relative Centralization</a></li>
+<li><a href="#Spatial-Minimum-Maximum-Index-%28SMM%29">Spatial Minimum-Maximum Index (SMM)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -22,8 +61,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -32,12 +72,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -45,8 +84,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="kn">from</span> <span class="nn">pysal.explore</span> <span class="k">import</span> <span class="n">segregation</span>
-<span class="kn">import</span> <span class="nn">pysal.lib</span>
+<span class="kn">import</span> <span class="nn">segregation</span>
+<span class="kn">import</span> <span class="nn">libpysal</span>
 </pre></div>
 
     </div>
@@ -54,33 +93,29 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Then it's time to load some data to estimate segregation. We use the data of 2000 Census Tract Data for the metropolitan area of Sacramento, CA, USA.</p>
 <p>We use a geopandas dataframe available in PySAL examples repository.</p>
-<p>For more information about the data: <a href="https://github.com/pysal/pysal.lib/tree/master/pysal.lib/examples/sacramento2">https://github.com/pysal/pysal.lib/tree/master/pysal.lib/examples/sacramento2</a></p>
+<p>For more information about the data: <a href="https://github.com/pysal/libpysal/tree/master/libpysal/examples/sacramento2">https://github.com/pysal/libpysal/tree/master/libpysal/examples/sacramento2</a></p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s_map</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">pysal</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;sacramentot2.shp&quot;</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s_map</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;sacramentot2.shp&quot;</span><span class="p">))</span>
 <span class="n">s_map</span><span class="o">.</span><span class="n">columns</span>
 </pre></div>
 
@@ -88,14 +123,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -116,8 +147,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -126,12 +158,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -144,12 +175,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -158,12 +186,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -180,31 +207,27 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x13db31ae5c0&gt;</pre>
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1d9fe5eb588&gt;</pre>
 </div>
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/spatial_examples_8_1.png"
+<img src="../../images/explore/segregation/spatial_examples_9_1.png"
 >
 </div>
 
@@ -214,34 +237,57 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Notation">Notation<a class="anchor-link" href="#Notation"> </a></h2><p>For consistency of notation, we assume that $n_{ij}$ is the population of unit $i \in \{1, ..., I\}$ of group $j \in \{x, y\}$, also $\sum_{j}n_{ij} = n_{i.}$, $\sum_{i}n_{ij} = n_{.j}$, $\sum_{i}\sum_{j}n_{ij} = n_{..}$, $\tilde{s}_{ij} = \frac{n_{ij}}{n_{i.}}$, $\hat{s}_{ij} = \frac{n_{ij}}{n_{.j}}$. The segregation indexes can be build for any group $j$ of the data.</p>
-
+<h2 id="Notation">Notation<a class="anchor-link" href="#Notation"> </a></h2>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Spatial-Dissimilarity">Spatial Dissimilarity<a class="anchor-link" href="#Spatial-Dissimilarity"> </a></h3><p>The Dissimilarity Index (D) is given by:</p>
-\begin{equation}
+<p>For consistency of notation, we assume that $n_{ij}$ is the population of unit $i \in \{1, ..., I\}$ of group $j \in \{x, y\}$, also $\sum_{j}n_{ij} = n_{i.}$, $\sum_{i}n_{ij} = n_{.j}$, $\sum_{i}\sum_{j}n_{ij} = n_{..}$, $\tilde{s}_{ij} = \frac{n_{ij}}{n_{i.}}$, $\hat{s}_{ij} = \frac{n_{ij}}{n_{.j}}$. The segregation indexes can be build for any group $j$ of the data.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Spatial-Dissimilarity">Spatial Dissimilarity<a class="anchor-link" href="#Spatial-Dissimilarity"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The Dissimilarity Index (D) is given by:</p>
+$$
 D=\sum_{i=1}^{I}\frac{n_{i.}\mid \tilde{s}_{ij}-\frac{n_{.j}}{n_{..}}\mid}{2n_{..}\frac{n_{.j}}{n_{..}}\left ( 1-\frac{n_{.j}}{n_{..}} \right ).}
-\end{equation}<p>The Spatial Dissimilarity (SD) is given by:</p>
-\begin{equation}
+$$<p>The Spatial Dissimilarity (SD) is given by:</p>
+$$
 SD = D-\frac{\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\left | \tilde{s}_{ij}^{i_1}-\tilde{s}_{ij}^{i_2} \right |c_{i_1i_2}}{\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}c_{i_1i_2}}
-\end{equation}<p>where $\tilde{s}_{ij}^{i_1}$ and $\tilde{s}_{ij}^{i_2}$ are the proportions of the minority population in the units $i_1$ and $i_2$, respectively and where $c_{i_1i_2}$ denotes an element at $(i_1,i_2)$ in a matrix C, which becomes one only if $i_1$ and $i_2$ are considered neighbors.</p>
+$$<p>where $\tilde{s}_{ij}^{i_1}$ and $\tilde{s}_{ij}^{i_2}$ are the proportions of the minority population in the units $i_1$ and $i_2$, respectively and where $c_{i_1i_2}$ denotes an element at $(i_1,i_2)$ in a matrix C, which becomes one only if $i_1$ and $i_2$ are considered neighbors.</p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -250,17 +296,16 @@ SD = D-\frac{\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\left | \tilde{s}_{ij}^{i_1}-\tilde
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">SpatialDissim</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">SpatialDissim</span>
 <span class="n">index</span> <span class="o">=</span> <span class="n">SpatialDissim</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
@@ -269,14 +314,10 @@ SD = D-\frac{\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\left | \tilde{s}_{ij}^{i_1}-\tilde
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -291,8 +332,9 @@ SD = D-\frac{\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\left | \tilde{s}_{ij}^{i_1}-\tilde
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -301,12 +343,11 @@ SD = D-\frac{\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\left | \tilde{s}_{ij}^{i_1}-\tilde
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -318,14 +359,10 @@ SD = D-\frac{\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\left | \tilde{s}_{ij}^{i_1}-\tilde
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -340,22 +377,36 @@ SD = D-\frac{\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\left | \tilde{s}_{ij}^{i_1}-\tilde
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Boundary-Spatial-Dissimilarity">Boundary Spatial Dissimilarity<a class="anchor-link" href="#Boundary-Spatial-Dissimilarity"> </a></h3><p>The boundary spatial D (BSD) is given by:</p>
-\begin{equation}
+<h3 id="Boundary-Spatial-Dissimilarity">Boundary Spatial Dissimilarity<a class="anchor-link" href="#Boundary-Spatial-Dissimilarity"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The boundary spatial D (BSD) is given by:</p>
+$$
 BSD = D - \frac{1}{2}{\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}w_{i_1i_2} \left | \tilde{s}_{ij}^{i_1} - \tilde{s}_{ij}^{i_2} \right |}
-\end{equation}<p>where</p>
-$$w_{i_1i_2} = \frac{cb_{i_1i_2}}{\sum_{i_2=1}^{I}d_{i_1i_2}}$$<p>where $\tilde{s}_{ij}^{i_1}$ and $\tilde{s}_{ij}^{i_2}$ are the proportions of the minority population in the units $i_1$ and $i_2$, respectively, and $cb_{i_1i_2}$ is the length of the common boundary of areal units $i_1$ and $i_2$.</p>
+$$<p>where</p>
+$$
+w_{i_1i_2} = \frac{cb_{i_1i_2}}{\sum_{i_2=1}^{I}d_{i_1i_2}}
+$$<p>where $\tilde{s}_{ij}^{i_1}$ and $\tilde{s}_{ij}^{i_2}$ are the proportions of the minority population in the units $i_1$ and $i_2$, respectively, and $cb_{i_1i_2}$ is the length of the common boundary of areal units $i_1$ and $i_2$.</p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -364,17 +415,16 @@ $$w_{i_1i_2} = \frac{cb_{i_1i_2}}{\sum_{i_2=1}^{I}d_{i_1i_2}}$$<p>where $\tilde{
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">BoundarySpatialDissim</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">BoundarySpatialDissim</span>
 <span class="n">index</span> <span class="o">=</span> <span class="n">BoundarySpatialDissim</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
@@ -383,14 +433,10 @@ $$w_{i_1i_2} = \frac{cb_{i_1i_2}}{\sum_{i_2=1}^{I}d_{i_1i_2}}$$<p>where $\tilde{
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -405,12 +451,11 @@ $$w_{i_1i_2} = \frac{cb_{i_1i_2}}{\sum_{i_2=1}^{I}d_{i_1i_2}}$$<p>where $\tilde{
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -422,14 +467,10 @@ $$w_{i_1i_2} = \frac{cb_{i_1i_2}}{\sum_{i_2=1}^{I}d_{i_1i_2}}$$<p>where $\tilde{
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -444,21 +485,33 @@ $$w_{i_1i_2} = \frac{cb_{i_1i_2}}{\sum_{i_2=1}^{I}d_{i_1i_2}}$$<p>where $\tilde{
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Perimeter/Area-Ratio-Spatial-Dissimilarity">Perimeter/Area Ratio Spatial Dissimilarity<a class="anchor-link" href="#Perimeter/Area-Ratio-Spatial-Dissimilarity"> </a></h3><p>The perimeter/area ratio Spatial D (PARD) is a spatial dissimilarity index that takes into consideration the perimeter and the area of each unit by adding a specific multiplicative term in the second term of BSD (the spatial effect):</p>
-\begin{equation}
+<h3 id="Perimeter/Area-Ratio-Spatial-Dissimilarity">Perimeter/Area Ratio Spatial Dissimilarity<a class="anchor-link" href="#Perimeter/Area-Ratio-Spatial-Dissimilarity"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The perimeter/area ratio Spatial D (PARD) is a spatial dissimilarity index that takes into consideration the perimeter and the area of each unit by adding a specific multiplicative term in the second term of BSD (the spatial effect):</p>
+$$
 \frac{\frac{1}{2}\left [\left ( \frac{P_i}{A_i} \right )+\left ( \frac{P_j}{A_j} \right )  \right ]}{MAX\left ( \frac{P}{A} \right )}
-\end{equation}<p>where $P_i$ and $A_i$ are the perimeter and area of unit $i$, respectively and $MAX(P/A)$ is the maximum perimeter-area ratio or the minimum compactness of an areal unit found in the study region.</p>
+$$<p>where $P_i$ and $A_i$ are the perimeter and area of unit $i$, respectively and $MAX(P/A)$ is the maximum perimeter-area ratio or the minimum compactness of an areal unit found in the study region.</p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -467,17 +520,16 @@ $$w_{i_1i_2} = \frac{cb_{i_1i_2}}{\sum_{i_2=1}^{I}d_{i_1i_2}}$$<p>where $\tilde{
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">PerimeterAreaRatioSpatialDissim</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">PerimeterAreaRatioSpatialDissim</span>
 <span class="n">index</span> <span class="o">=</span> <span class="n">PerimeterAreaRatioSpatialDissim</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
@@ -486,14 +538,10 @@ $$w_{i_1i_2} = \frac{cb_{i_1i_2}}{\sum_{i_2=1}^{I}d_{i_1i_2}}$$<p>where $\tilde{
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -508,12 +556,11 @@ $$w_{i_1i_2} = \frac{cb_{i_1i_2}}{\sum_{i_2=1}^{I}d_{i_1i_2}}$$<p>where $\tilde{
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -525,14 +572,10 @@ $$w_{i_1i_2} = \frac{cb_{i_1i_2}}{\sum_{i_2=1}^{I}d_{i_1i_2}}$$<p>where $\tilde{
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -547,31 +590,43 @@ $$w_{i_1i_2} = \frac{cb_{i_1i_2}}{\sum_{i_2=1}^{I}d_{i_1i_2}}$$<p>where $\tilde{
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Spatial-Proximity-Profile">Spatial Proximity Profile<a class="anchor-link" href="#Spatial-Proximity-Profile"> </a></h3><p>The spatial proximity profile (SPP) is similar to the Concentration Profile, but with the addition of the spatial component in the connecting function.</p>
-\begin{equation}
+<h3 id="Spatial-Proximity-Profile">Spatial Proximity Profile<a class="anchor-link" href="#Spatial-Proximity-Profile"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The spatial proximity profile (SPP) is similar to the Concentration Profile, but with the addition of the spatial component in the connecting function.</p>
+$$
 \eta_t = \frac{k^2-k}{\sum_{i_1}\sum_{1_2}\delta_{i_1i_2}}
-\end{equation}<p>where $k$ refers to the sum of $g(t,i)$ for a given $t$ and $\delta_{ij}$ is the distance between $i_1$ and $i_2$. One way of determining $\delta_{i_1i_2}$ would be to use a spatial structure matrix, $W$. The matrix $W$ present ones if $i_1$ and $i_2$ are contiguous and zero, otherwise. The distance $\delta_{i_1i_2}$ between $i_1$ and $i_2$ is given by is the order of how neighbors is needed to reach from $i_1$ to $i_2$. For example, two census tracts, $x_1$ and $x_2$, that do not have a common boundary but both are adjacent to the same unit, $x_3$, are second-order neighbors, so $\delta_{12}$ becomes 2. Like the Concentration Profile, if the number of thresholds used is large enough, a smooth curve, or a <em>spatial proximity profile</em>, can be constructed by plotting and connecting $\eta_t$.</p>
+$$<p>where $k$ refers to the sum of $g(t,i)$ for a given $t$ and $\delta_{ij}$ is the distance between $i_1$ and $i_2$. One way of determining $\delta_{i_1i_2}$ would be to use a spatial structure matrix, $W$. The matrix $W$ present ones if $i_1$ and $i_2$ are contiguous and zero, otherwise. The distance $\delta_{i_1i_2}$ between $i_1$ and $i_2$ is given by is the order of how neighbors is needed to reach from $i_1$ to $i_2$. For example, two census tracts, $x_1$ and $x_2$, that do not have a common boundary but both are adjacent to the same unit, $x_3$, are second-order neighbors, so $\delta_{12}$ becomes 2. Like the Concentration Profile, if the number of thresholds used is large enough, a smooth curve, or a <em>spatial proximity profile</em>, can be constructed by plotting and connecting $\eta_t$.</p>
 <p>So, in the equation, $g(t, i)$ is a logical function that is defined as:</p>
-\begin{equation}
+$$
   g(t,i) =
   \begin{cases}
     1 &amp; if \ \frac{n_{ij}}{n_{i.}} \geqslant t \\
     0 &amp; \ otherwise.
   \end{cases}
-\end{equation}<p>The Spatial Proximity Profile (SPP) is given by:</p>
-\begin{equation}
+$$<p>The Spatial Proximity Profile (SPP) is given by:</p>
+$$
 SPP=\frac{\frac{n_{.j}}{n_{..}}-\left ( \int_{t=0}^{\frac{n_{.j}}{n_{..}}}\eta_tdt - \int_{t=\frac{n_{.j}}{n_{..}}}^{1}\eta_tdt \right )}{1-\frac{n_{.j}}{n_{..}}}.
-\end{equation}
+$$
+</div>
 </div>
 </div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -580,17 +635,16 @@ SPP=\frac{\frac{n_{.j}}{n_{..}}-\left ( \int_{t=0}^{\frac{n_{.j}}{n_{..}}}\eta_t
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">SpatialProxProf</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">SpatialProxProf</span>
 <span class="n">index</span> <span class="o">=</span> <span class="n">SpatialProxProf</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
@@ -599,14 +653,10 @@ SPP=\frac{\frac{n_{.j}}{n_{..}}-\left ( \int_{t=0}^{\frac{n_{.j}}{n_{..}}}\eta_t
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -621,12 +671,11 @@ SPP=\frac{\frac{n_{.j}}{n_{..}}-\left ( \int_{t=0}^{\frac{n_{.j}}{n_{..}}}\eta_t
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -638,14 +687,10 @@ SPP=\frac{\frac{n_{.j}}{n_{..}}-\left ( \int_{t=0}^{\frac{n_{.j}}{n_{..}}}\eta_t
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -660,8 +705,9 @@ SPP=\frac{\frac{n_{.j}}{n_{..}}-\left ( \int_{t=0}^{\frac{n_{.j}}{n_{..}}}\eta_t
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -670,12 +716,11 @@ SPP=\frac{\frac{n_{.j}}{n_{..}}-\left ( \int_{t=0}^{\frac{n_{.j}}{n_{..}}}\eta_t
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -687,31 +732,27 @@ SPP=\frac{\frac{n_{.j}}{n_{..}}-\left ( \int_{t=0}^{\frac{n_{.j}}{n_{..}}}\eta_t
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.collections.PathCollection at 0x13db3212ef0&gt;</pre>
+<pre>&lt;matplotlib.collections.PathCollection at 0x1d9fe69b4e0&gt;</pre>
 </div>
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/spatial_examples_28_1.png"
+<img src="../../images/explore/segregation/spatial_examples_34_1.png"
 >
 </div>
 
@@ -721,30 +762,45 @@ SPP=\frac{\frac{n_{.j}}{n_{..}}-\left ( \int_{t=0}^{\frac{n_{.j}}{n_{..}}}\eta_t
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Spatial-Proximity">Spatial Proximity<a class="anchor-link" href="#Spatial-Proximity"> </a></h3><p>The Spatial Proximity Index (SP) is given by:</p>
-\begin{equation}
+<h3 id="Spatial-Proximity">Spatial Proximity<a class="anchor-link" href="#Spatial-Proximity"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The Spatial Proximity Index (SP) is given by:</p>
+$$
 SP = \frac{XP_{xx} + YP_{yy}}{TP_{tt}}
-\end{equation}<p>where</p>
-\begin{equation*}
+$$<p>where</p>
+$$
 P_{xx} = \sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\frac{n_{i_1x}n_{i_2x}\zeta_{i_1i_2}}{n_{.x}^2}
-\end{equation*}\begin{equation*}
+$$<p>and</p>
+$$
 P_{yy} = \sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\frac{n_{i_1y}n_{i_2y}\zeta_{i_1i_2}}{n_{.y}^2}
-\end{equation*}\begin{equation*}
+$$<p>and</p>
+$$
 P_{tt} = \sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\frac{n_{i_1.}n_{i_2.}\zeta_{i_1i_2}}{n_{..}^2}
-\end{equation*}\begin{equation*}
+$$<p>and</p>
+$$
 \zeta_{i_1i_2} = exp(-d_{i_1i_2})
-\end{equation*}<p>$d_{i_1i_2}$ is a pairwise distance measure between area $i_1$ and $i_2$ and $d_{ii}$ is estimated as $d_{ii} = (\alpha a_i)^{\beta}$ where $a_i$ is the area of unit $i$. The default is $\alpha = 0.6$ and $\beta = 0.5$ and for the distance measure, we first extracts the centroid of each unit and calculate the euclidean distance.</p>
+$$<p>$d_{i_1i_2}$ is a pairwise distance measure between area $i_1$ and $i_2$ and $d_{ii}$ is estimated as $d_{ii} = (\alpha a_i)^{\beta}$ where $a_i$ is the area of unit $i$. The default is $\alpha = 0.6$ and $\beta = 0.5$ and for the distance measure, we first extracts the centroid of each unit and calculate the euclidean distance.</p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -753,17 +809,16 @@ P_{tt} = \sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\frac{n_{i_1.}n_{i_2.}\zeta_{i_1i_2}}{n
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">SpatialProximity</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">SpatialProximity</span>
 <span class="n">index</span> <span class="o">=</span> <span class="n">SpatialProximity</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
@@ -772,14 +827,10 @@ P_{tt} = \sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\frac{n_{i_1.}n_{i_2.}\zeta_{i_1i_2}}{n
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -794,12 +845,11 @@ P_{tt} = \sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\frac{n_{i_1.}n_{i_2.}\zeta_{i_1i_2}}{n
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -811,14 +861,10 @@ P_{tt} = \sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\frac{n_{i_1.}n_{i_2.}\zeta_{i_1i_2}}{n
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -833,20 +879,32 @@ P_{tt} = \sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\frac{n_{i_1.}n_{i_2.}\zeta_{i_1i_2}}{n
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Absolute-Clustering">Absolute Clustering<a class="anchor-link" href="#Absolute-Clustering"> </a></h3><p>The Absolute Clustering Measure (ACL) is given by:</p>
-\begin{equation}
+<h3 id="Absolute-Clustering">Absolute Clustering<a class="anchor-link" href="#Absolute-Clustering"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The Absolute Clustering Measure (ACL) is given by:</p>
+$$
 ACL = \frac{\left (\sum_{i_1=1}^{I}\left ( \frac{x_{i_1}}{X} \right )\sum_{i_2=1}^{I}\zeta_{i_1i_2}x_{i_2}  \right ) - \left ( \frac{X}{n^2}\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\zeta_{i_1i_2} \right )}{\left (\sum_{i_1=1}^{I}\left ( \frac{x_{i_1}}{X} \right )\sum_{i_2=1}^{I}\zeta_{i_1i_2}t_{i_2}  \right ) - \left ( \frac{X}{n^2}\sum_{i_1=1}^{I}\sum_{i_2=1}^{I}\zeta_{i_1i_2} \right )}
-\end{equation}
+$$
+</div>
 </div>
 </div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -855,17 +913,16 @@ ACL = \frac{\left (\sum_{i_1=1}^{I}\left ( \frac{x_{i_1}}{X} \right )\sum_{i_2=1
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">AbsoluteClustering</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">AbsoluteClustering</span>
 <span class="n">index</span> <span class="o">=</span> <span class="n">AbsoluteClustering</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
@@ -874,14 +931,10 @@ ACL = \frac{\left (\sum_{i_1=1}^{I}\left ( \frac{x_{i_1}}{X} \right )\sum_{i_2=1
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -896,12 +949,11 @@ ACL = \frac{\left (\sum_{i_1=1}^{I}\left ( \frac{x_{i_1}}{X} \right )\sum_{i_2=1
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -913,14 +965,10 @@ ACL = \frac{\left (\sum_{i_1=1}^{I}\left ( \frac{x_{i_1}}{X} \right )\sum_{i_2=1
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -935,20 +983,32 @@ ACL = \frac{\left (\sum_{i_1=1}^{I}\left ( \frac{x_{i_1}}{X} \right )\sum_{i_2=1
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Relative-Clustering">Relative Clustering<a class="anchor-link" href="#Relative-Clustering"> </a></h3><p>The Relative Clustering Measure (RCL) is given by:</p>
-\begin{equation}
+<h3 id="Relative-Clustering">Relative Clustering<a class="anchor-link" href="#Relative-Clustering"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The Relative Clustering Measure (RCL) is given by:</p>
+$$
 RCL = \frac{P_{xx}}{P_{yy}} - 1
-\end{equation}
+$$
+</div>
 </div>
 </div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -957,17 +1017,16 @@ RCL = \frac{P_{xx}}{P_{yy}} - 1
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">RelativeClustering</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">RelativeClustering</span>
 <span class="n">index</span> <span class="o">=</span> <span class="n">RelativeClustering</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
@@ -976,14 +1035,10 @@ RCL = \frac{P_{xx}}{P_{yy}} - 1
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -998,12 +1053,11 @@ RCL = \frac{P_{xx}}{P_{yy}} - 1
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1015,14 +1069,10 @@ RCL = \frac{P_{xx}}{P_{yy}} - 1
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1037,27 +1087,39 @@ RCL = \frac{P_{xx}}{P_{yy}} - 1
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Distance-Decay-Isolation">Distance Decay Isolation<a class="anchor-link" href="#Distance-Decay-Isolation"> </a></h3><p>The Distance Decay Isolation (DDxPx) is given by:</p>
-\begin{equation}
+<h3 id="Distance-Decay-Isolation">Distance Decay Isolation<a class="anchor-link" href="#Distance-Decay-Isolation"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The Distance Decay Isolation (DDxPx) is given by:</p>
+$$
 DDxPx=\sum_{i_1=1}^{I}\left ( \hat{s}_{i_1x} \right )\left (\sum_{i_2=1}^{I}P_{i_1i_2} \left (\tilde{s}_{i_1x}\right ) \right )
-\end{equation}<p>where</p>
-\begin{equation*}
+$$<p>where</p>
+$$
 P_{i_1i_2} = \frac{\zeta_{i_1i_2}n_{i_2.}}{\sum_{i_2=1}^{I}\zeta_{i_1i_2}n_{i_2.}}
-\end{equation*}<p>such that</p>
-\begin{equation*}
+$$<p>such that</p>
+$$
 \sum_{i_2=1}^{I}P_{i_1i_2} = 1.
-\end{equation*}<p>where $\zeta_{i_1i_2}$ is defined as before. This also could be seen as the <em>probability of contact</em> of members of group $x$ to each other weighted by the inverse of distance.</p>
+$$<p>where $\zeta_{i_1i_2}$ is defined as before. This also could be seen as the <em>probability of contact</em> of members of group $x$ to each other weighted by the inverse of distance.</p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1066,17 +1128,16 @@ P_{i_1i_2} = \frac{\zeta_{i_1i_2}n_{i_2.}}{\sum_{i_2=1}^{I}\zeta_{i_1i_2}n_{i_2.
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">DistanceDecayIsolation</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">DistanceDecayIsolation</span>
 <span class="n">index</span> <span class="o">=</span> <span class="n">DistanceDecayIsolation</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
@@ -1085,14 +1146,10 @@ P_{i_1i_2} = \frac{\zeta_{i_1i_2}n_{i_2.}}{\sum_{i_2=1}^{I}\zeta_{i_1i_2}n_{i_2.
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1107,12 +1164,11 @@ P_{i_1i_2} = \frac{\zeta_{i_1i_2}n_{i_2.}}{\sum_{i_2=1}^{I}\zeta_{i_1i_2}n_{i_2.
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1124,14 +1180,10 @@ P_{i_1i_2} = \frac{\zeta_{i_1i_2}n_{i_2.}}{\sum_{i_2=1}^{I}\zeta_{i_1i_2}n_{i_2.
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1146,21 +1198,33 @@ P_{i_1i_2} = \frac{\zeta_{i_1i_2}n_{i_2.}}{\sum_{i_2=1}^{I}\zeta_{i_1i_2}n_{i_2.
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Distance-Decay-Exposure">Distance Decay Exposure<a class="anchor-link" href="#Distance-Decay-Exposure"> </a></h3><p>The Distance Decay Exposure (DDxPy) is given by:</p>
-\begin{equation}
+<h3 id="Distance-Decay-Exposure">Distance Decay Exposure<a class="anchor-link" href="#Distance-Decay-Exposure"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The Distance Decay Exposure (DDxPy) is given by:</p>
+$$
 DDxPy=\sum_{i_1=1}^{I}\left ( \hat{s}_{i_1x} \right )\left (\sum_{i_2=1}^{I}P_{i_1i_2} \left (\tilde{s}_{i_1y}\right ) \right )
-\end{equation}<p>where $P_{i_1i_2}$ is defined as before.</p>
+$$<p>where $P_{i_1i_2}$ is defined as before.</p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1169,17 +1233,16 @@ DDxPy=\sum_{i_1=1}^{I}\left ( \hat{s}_{i_1x} \right )\left (\sum_{i_2=1}^{I}P_{i
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">DistanceDecayExposure</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">DistanceDecayExposure</span>
 <span class="n">index</span> <span class="o">=</span> <span class="n">DistanceDecayExposure</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
@@ -1188,14 +1251,10 @@ DDxPy=\sum_{i_1=1}^{I}\left ( \hat{s}_{i_1x} \right )\left (\sum_{i_2=1}^{I}P_{i
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1210,12 +1269,11 @@ DDxPy=\sum_{i_1=1}^{I}\left ( \hat{s}_{i_1x} \right )\left (\sum_{i_2=1}^{I}P_{i
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1227,14 +1285,10 @@ DDxPy=\sum_{i_1=1}^{I}\left ( \hat{s}_{i_1x} \right )\left (\sum_{i_2=1}^{I}P_{i
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1249,21 +1303,33 @@ DDxPy=\sum_{i_1=1}^{I}\left ( \hat{s}_{i_1x} \right )\left (\sum_{i_2=1}^{I}P_{i
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Delta">Delta<a class="anchor-link" href="#Delta"> </a></h3><p>The Delta (DEL) measure is given by the following equation:</p>
-\begin{equation}
+<h3 id="Delta">Delta<a class="anchor-link" href="#Delta"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The Delta (DEL) measure is given by the following equation:</p>
+$$
 DEL = \frac{1}{2}\sum_{i=1}^{I}\left | \hat{s}_{ij} - \frac{a_i}{A} \right |
-\end{equation}<p>where $a_i$ is the area of unit $i$ and $A$ is the total area of the given region $A = \sum_{i=1}^{I}a_i$.</p>
+$$<p>where $a_i$ is the area of unit $i$ and $A$ is the total area of the given region $A = \sum_{i=1}^{I}a_i$.</p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1272,17 +1338,16 @@ DEL = \frac{1}{2}\sum_{i=1}^{I}\left | \hat{s}_{ij} - \frac{a_i}{A} \right |
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">Delta</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">Delta</span>
 <span class="n">index</span> <span class="o">=</span> <span class="n">Delta</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
@@ -1291,14 +1356,10 @@ DEL = \frac{1}{2}\sum_{i=1}^{I}\left | \hat{s}_{ij} - \frac{a_i}{A} \right |
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1313,12 +1374,11 @@ DEL = \frac{1}{2}\sum_{i=1}^{I}\left | \hat{s}_{ij} - \frac{a_i}{A} \right |
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1330,14 +1390,10 @@ DEL = \frac{1}{2}\sum_{i=1}^{I}\left | \hat{s}_{ij} - \frac{a_i}{A} \right |
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1352,27 +1408,39 @@ DEL = \frac{1}{2}\sum_{i=1}^{I}\left | \hat{s}_{ij} - \frac{a_i}{A} \right |
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Absolute-Concentration">Absolute Concentration<a class="anchor-link" href="#Absolute-Concentration"> </a></h3><p>The Absolute Concentration Index (ACO) is given by:</p>
-\begin{equation}
+<h3 id="Absolute-Concentration">Absolute Concentration<a class="anchor-link" href="#Absolute-Concentration"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The Absolute Concentration Index (ACO) is given by:</p>
+$$
 \large
 ACO = 1-\frac{ \sum_{i=1}^{I}\left ( \frac{n_{ij}a_i}{n_{.j}} \right ) - \sum_{i=1}^{n_1}\left ( \frac{n_{i.}a_i}{T_1} \right )}{ \sum_{i=n_2}^{I}\left ( \frac{n_{i.}a_i}{T_2} \right ) - \sum_{i=1}^{n_1}\left ( \frac{n_{i.}a_i}{T_1} \right )}
-\end{equation}<p>where the units are <strong>ordered</strong> from <strong>smallest to largest</strong> in areal size. In this formula, $n_1$ is the rank of the unit where the cumulative total population equal the total minority population, $n_2$ is the rank of the unit where cumulative total population equal equal the total minority population <strong>from the largest unit down</strong>. In addition,</p>
-\begin{equation*}
+$$<p>where the units are <strong>ordered</strong> from <strong>smallest to largest</strong> in areal size. In this formula, $n_1$ is the rank of the unit where the cumulative total population equal the total minority population, $n_2$ is the rank of the unit where cumulative total population equal equal the total minority population <strong>from the largest unit down</strong>. In addition,</p>
+$$
 T_1 = \sum_{i=1}^{n_1}n_{i.}
-\end{equation*}<p>and</p>
-\begin{equation*}
+$$<p>and</p>
+$$
 T_2 = \sum_{i=n_2}^{n}n_{i.}
-\end{equation*}
+$$
+</div>
 </div>
 </div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1381,17 +1449,16 @@ T_2 = \sum_{i=n_2}^{n}n_{i.}
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">AbsoluteConcentration</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">AbsoluteConcentration</span>
 <span class="n">index</span> <span class="o">=</span> <span class="n">AbsoluteConcentration</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
@@ -1400,14 +1467,10 @@ T_2 = \sum_{i=n_2}^{n}n_{i.}
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1422,12 +1485,11 @@ T_2 = \sum_{i=n_2}^{n}n_{i.}
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1439,14 +1501,10 @@ T_2 = \sum_{i=n_2}^{n}n_{i.}
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1461,22 +1519,34 @@ T_2 = \sum_{i=n_2}^{n}n_{i.}
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Relative-Concentration">Relative Concentration<a class="anchor-link" href="#Relative-Concentration"> </a></h3><p>The Relative Concentration Index (RCO) is given by:</p>
-\begin{equation}
+<h3 id="Relative-Concentration">Relative Concentration<a class="anchor-link" href="#Relative-Concentration"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The Relative Concentration Index (RCO) is given by:</p>
+$$
 \large
 RCO = \frac{\frac{\sum_{i=1}^{I}\left ( \frac{n_{ix}a_i}{n_{.x}} \right )}{\sum_{i=1}^{I}\left ( \frac{n_{iy}a_i}{n_{.y}} \right )}-1}{\frac{\sum_{i=1}^{n_1}\left ( \frac{n_{i.}a_i}{T_1} \right )}{\sum_{i=n_2}^{I}\left ( \frac{n_{i.}a_i}{T_2} \right )}-1}
-\end{equation}<p>where $n_1$, $n_2$, $T_1$ and $T_2$ are defined as before.</p>
+$$<p>where $n_1$, $n_2$, $T_1$ and $T_2$ are defined as before.</p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1485,17 +1555,16 @@ RCO = \frac{\frac{\sum_{i=1}^{I}\left ( \frac{n_{ix}a_i}{n_{.x}} \right )}{\sum_
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">RelativeConcentration</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">RelativeConcentration</span>
 <span class="n">index</span> <span class="o">=</span> <span class="n">RelativeConcentration</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
@@ -1504,14 +1573,10 @@ RCO = \frac{\frac{\sum_{i=1}^{I}\left ( \frac{n_{ix}a_i}{n_{.x}} \right )}{\sum_
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1526,12 +1591,11 @@ RCO = \frac{\frac{\sum_{i=1}^{I}\left ( \frac{n_{ix}a_i}{n_{.x}} \right )}{\sum_
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1543,14 +1607,10 @@ RCO = \frac{\frac{\sum_{i=1}^{I}\left ( \frac{n_{ix}a_i}{n_{.x}} \right )}{\sum_
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1565,23 +1625,36 @@ RCO = \frac{\frac{\sum_{i=1}^{I}\left ( \frac{n_{ix}a_i}{n_{.x}} \right )}{\sum_
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Absolute-Centralization-and-Relative-Centralization">Absolute Centralization and Relative Centralization<a class="anchor-link" href="#Absolute-Centralization-and-Relative-Centralization"> </a></h3><p>The degree of centralization can be evaluated through the Absolute Centralization Index (ACE) or through the Relative Centralization Index (RCE):</p>
-\begin{equation}
+<h3 id="Absolute-Centralization-and-Relative-Centralization">Absolute Centralization and Relative Centralization<a class="anchor-link" href="#Absolute-Centralization-and-Relative-Centralization"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The degree of centralization can be evaluated through the Absolute Centralization Index (ACE) or through the Relative Centralization Index (RCE):</p>
+$$
 ACE=\left ( \sum_{i=2}^{I}X_{i-1}A_i \right ) - \left ( \sum_{i=2}^{I}X_{i}A_{i-1} \right )
-\end{equation}\begin{equation}
+$$<p>and</p>
+$$
 RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-1} \right )
-\end{equation}<p>where $A_i$ is the cumulative area proportion through unit $i$, $X_i$ is the cumulative frequency proportion through unit $i$ of group $x$ and $Y_i$ is the analogous for group $y$. In this measure, the area units are ordered by increasing distances from the central business district, which could be modified with the <code>center</code> argument.</p>
+$$<p>where $A_i$ is the cumulative area proportion through unit $i$, $X_i$ is the cumulative frequency proportion through unit $i$ of group $x$ and $Y_i$ is the analogous for group $y$. In this measure, the area units are ordered by increasing distances from the central business district, which could be modified with the <code>center</code> argument.</p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1590,17 +1663,16 @@ RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">AbsoluteCentralization</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">AbsoluteCentralization</span>
 <span class="n">index</span> <span class="o">=</span> <span class="n">AbsoluteCentralization</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
@@ -1609,14 +1681,10 @@ RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1631,12 +1699,11 @@ RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1648,14 +1715,10 @@ RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1670,8 +1733,9 @@ RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1680,17 +1744,16 @@ RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">RelativeCentralization</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">RelativeCentralization</span>
 <span class="n">index</span> <span class="o">=</span> <span class="n">RelativeCentralization</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
@@ -1699,14 +1762,10 @@ RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1721,12 +1780,11 @@ RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1738,14 +1796,10 @@ RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1760,6 +1814,104 @@ RCE=\left ( \sum_{i=2}^{I}X_{i-1}Y_i \right ) - \left ( \sum_{i=2}^{I}X_{i}Y_{i-
 </div>
 
 </div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Spatial-Minimum-Maximum-Index-(SMM)">Spatial Minimum-Maximum Index (SMM)<a class="anchor-link" href="#Spatial-Minimum-Maximum-Index-(SMM)"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The Spatial Minimum-Maximum Index (SMM) is the index of O'Sullivan, David, and David WS Wong. "A surface‐based approach to measuring spatial segregation." Geographical Analysis 39.2 (2007): 147-168. Its formula is given by:</p>
+$$
+SMM = \frac{\sum_{i=1}^{n} max \left ( \hat{s}_{i1}, \hat{s}_{i2} \right ) - \sum_{i=1}^{n} min \left ( \hat{s}_{i1}, \hat{s}_{i2} \right )}{\sum_{i=1}^{n} max \left ( \hat{s}_{i1}, \hat{s}_{i2} \right )}
+$$<p>where $\hat{s}_{i1}$ and $\hat{s}_{i2}$ are calculated after performing a spatial smoothing in each population given by <code>w</code> or <code>network</code> (a <code>libpysal</code> <code>Kernel</code> function as default) and the sub-indexes $1$ and $2$ are two mutually exclusive groups (for example, Hispanic and non-Hispanic population). Internally, <code>segregation</code> creates the complementary group of <code>HISP_</code>.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">SpatialMinMax</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">SpatialMinMax</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>segregation.spatial.spatial_indexes.SpatialMinMax</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">index</span><span class="o">.</span><span class="n">statistic</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.17119951092816454</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
 
  
 
+
+    </main>
+    

@@ -1,27 +1,32 @@
 ---
 interact_link: content/model/spvcm/spatially-varying-coefficients.ipynb
 kernel_name: ana
+kernel_path: content/model/spvcm
 has_widgets: false
-title: 'spatially-varying-coefficients'
+title: |-
+  spatially-varying-coefficients
+pagenum: 78
 prev_page:
   url: /model/spvcm/intro.html
-  title: 'spvcm'
 next_page:
   url: /model/spvcm/using_the_sampler.html
-  title: 'using_the_sampler'
+suffix: .ipynb
+search: our beta mathbf n sample model estimates phi vector prior spatial kernel h below models assigned function t lets random data surfaces well spatially coefficient form mathcal tau where reflects site another parameter often j process index otimes alpha being length gibbs spvcm right perfectly exercise though coordinates chains finally today varying discussed gelfand yi sim x p local hierarchical effects relating sites distance attenuation intrinsic covariance among unrelated correlation stated tiling changing faster vec mean ones gamma distributed contingent scale distances reflected inverse wishart amenable sampling sampler written python efficiently starters state simple surface interested fitting gradient left bottom
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">spatially-varying-coefficients</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.model.spvcm.svc</span> <span class="k">import</span> <span class="n">SVC</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">spvcm.svc</span> <span class="kn">import</span> <span class="n">SVC</span>
 <span class="kn">import</span> <span class="nn">pysal</span> <span class="k">as</span> <span class="nn">ps</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -34,12 +39,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -55,12 +57,11 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -74,16 +75,11 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -97,16 +93,11 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -121,14 +112,10 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -144,8 +131,9 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -155,12 +143,11 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -173,16 +160,11 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -196,16 +178,11 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -219,16 +196,11 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -241,12 +213,9 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -255,12 +224,11 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -274,14 +242,10 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -292,7 +256,7 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -308,8 +272,9 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -318,12 +283,11 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -338,12 +302,9 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -352,12 +313,11 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -376,14 +336,22 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>100%|██████████| 2000/2000 [02:29&lt;00:00, 13.37it/s]
+100%|██████████| 2000/2000 [02:31&lt;00:00, 13.16it/s]
+100%|██████████| 2000/2000 [02:32&lt;00:00, 13.15it/s]
+100%|██████████| 2000/2000 [02:32&lt;00:00, 43.02it/s]
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -396,8 +364,9 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -406,12 +375,11 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -425,14 +393,10 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -448,8 +412,9 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -458,12 +423,11 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -476,16 +440,11 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -500,12 +459,9 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -514,12 +470,11 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -541,14 +496,10 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -564,8 +515,9 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -574,12 +526,11 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -602,14 +553,10 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -625,8 +572,9 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -635,12 +583,11 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -659,14 +606,10 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -680,7 +623,7 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -696,6 +639,10 @@ Then, $\phi$ is often assigned a gamma-distributed prior contingent on the scale
 </div>
 
 </div>
+</div>
 
  
 
+
+    </main>
+    

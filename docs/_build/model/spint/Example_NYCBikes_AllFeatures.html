@@ -3,22 +3,27 @@ redirect_from:
   - "/model/spint/example-nycbikes-allfeatures"
 interact_link: content/model/spint/Example_NYCBikes_AllFeatures.ipynb
 kernel_name: Python [spint]
+kernel_path: content/model/spint
 has_widgets: false
-title: 'Example_NYCBikes_AllFeatures'
+title: |-
+  Example_NYCBikes_AllFeatures
+pagenum: 58
 prev_page:
-  url: /model/spint/dispersion_test.html
-  title: 'dispersion_test'
+  url: /model/spint/4d_distance.html
 next_page:
-  url: /model/spint/local_SI.html
-  title: 'local_SI'
+  url: /model/spint/NYC_Bike_Example.html
+suffix: .ipynb
+search: 
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">Example_NYCBikes_AllFeatures</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -26,17 +31,17 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.contrib.spint.gravity</span> <span class="kn">import</span>  <span class="n">BaseGravity</span><span class="p">,</span> <span class="n">Gravity</span><span class="p">,</span> <span class="n">Production</span><span class="p">,</span> <span class="n">Attraction</span><span class="p">,</span> <span class="n">Doubly</span>
 <span class="kn">from</span> <span class="nn">pysal.contrib.spint.dispersion</span> <span class="kn">import</span> <span class="n">phi_disp</span>
 <span class="kn">from</span> <span class="nn">pysal.contrib.spint.vec_SA</span> <span class="kn">import</span> <span class="n">VecMoran</span>
-<span class="kn">import</span> <span class="nn">pysal</span> <span class="kn">as</span> <span class="nn">ps</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">geopandas</span> <span class="kn">as</span> <span class="nn">gp</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sb</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pysal</span> <span class="k">as</span> <span class="nn">ps</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sb</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="o">%</span><span class="k">pylab</span> inline
 <span class="kn">from</span> <span class="nn">descartes</span> <span class="kn">import</span> <span class="n">PolygonPatch</span>
-<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="kn">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
 <span class="kn">from</span> <span class="nn">mpl_toolkits.basemap</span> <span class="kn">import</span> <span class="n">Basemap</span>
-<span class="kn">import</span> <span class="nn">pyproj</span> <span class="kn">as</span> <span class="nn">pj</span>
+<span class="kn">import</span> <span class="nn">pyproj</span> <span class="k">as</span> <span class="nn">pj</span>
 <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Polygon</span><span class="p">,</span> <span class="n">Point</span>
 </pre></div>
 
@@ -44,14 +49,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -60,16 +61,26 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>//anaconda/envs/spint/lib/python2.7/site-packages/IPython/core/magics/pylab.py:161: UserWarning: pylab import has clobbered these variables: [&#39;plt&#39;, &#39;Polygon&#39;]
+`%matplotlib` prevents importing * from pylab and numpy
+  &#34;\n`%matplotlib` prevents importing * from pylab and numpy&#34;
+</pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -83,14 +94,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -256,12 +263,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -301,21 +307,17 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <span class="c1">#destination ids</span>
 <span class="n">d</span> <span class="o">=</span> <span class="n">bikes</span><span class="p">[</span><span class="s1">&#39;d_tract&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
 
-<span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">bikes</span><span class="p">),</span> <span class="s1">&#39; OD pairs between census tracts after filtering out intrazonal flows&#39;</span>
+<span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">bikes</span><span class="p">),</span> <span class="s1">&#39; OD pairs between census tracts after filtering out intrazonal flows&#39;</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -328,12 +330,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -342,26 +343,22 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 <span class="n">grav</span><span class="o">=</span> <span class="n">Gravity</span><span class="p">(</span><span class="n">flows</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">)</span>
 
-<span class="k">print</span> <span class="n">grav</span><span class="o">.</span><span class="n">params</span>
+<span class="nb">print</span> <span class="n">grav</span><span class="o">.</span><span class="n">params</span>
 
-<span class="k">print</span> <span class="s1">&#39;Adjusted psuedo R2: &#39;</span><span class="p">,</span> <span class="n">grav</span><span class="o">.</span><span class="n">adj_pseudoR2</span>
-<span class="k">print</span> <span class="s1">&#39;Adjusted D2: &#39;</span><span class="p">,</span> <span class="n">grav</span><span class="o">.</span><span class="n">adj_D2</span>
-<span class="k">print</span> <span class="s1">&#39;SRMSE: &#39;</span><span class="p">,</span> <span class="n">grav</span><span class="o">.</span><span class="n">SRMSE</span>
-<span class="k">print</span> <span class="s1">&#39;Sorensen similarity index: &#39;</span><span class="p">,</span> <span class="n">grav</span><span class="o">.</span><span class="n">SSI</span>
+<span class="nb">print</span> <span class="s1">&#39;Adjusted psuedo R2: &#39;</span><span class="p">,</span> <span class="n">grav</span><span class="o">.</span><span class="n">adj_pseudoR2</span>
+<span class="nb">print</span> <span class="s1">&#39;Adjusted D2: &#39;</span><span class="p">,</span> <span class="n">grav</span><span class="o">.</span><span class="n">adj_D2</span>
+<span class="nb">print</span> <span class="s1">&#39;SRMSE: &#39;</span><span class="p">,</span> <span class="n">grav</span><span class="o">.</span><span class="n">SRMSE</span>
+<span class="nb">print</span> <span class="s1">&#39;Sorensen similarity index: &#39;</span><span class="p">,</span> <span class="n">grav</span><span class="o">.</span><span class="n">SSI</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -379,12 +376,11 @@ Sorensen similarity index:  0.746131903798
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -393,26 +389,22 @@ Sorensen similarity index:  0.746131903798
 
 <span class="n">prod</span> <span class="o">=</span> <span class="n">Production</span><span class="p">(</span><span class="n">flows</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">)</span>
 
-<span class="k">print</span> <span class="n">prod</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span> <span class="c1">#truncate to exclude balancing factors/fixed effects</span>
+<span class="nb">print</span> <span class="n">prod</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span> <span class="c1">#truncate to exclude balancing factors/fixed effects</span>
 
-<span class="k">print</span> <span class="s1">&#39;Adjusted psuedo R2: &#39;</span><span class="p">,</span> <span class="n">prod</span><span class="o">.</span><span class="n">adj_pseudoR2</span>
-<span class="k">print</span> <span class="s1">&#39;Adjusted D2: &#39;</span><span class="p">,</span> <span class="n">prod</span><span class="o">.</span><span class="n">adj_D2</span>
-<span class="k">print</span> <span class="s1">&#39;SRMSE: &#39;</span><span class="p">,</span> <span class="n">prod</span><span class="o">.</span><span class="n">SRMSE</span>
-<span class="k">print</span> <span class="s1">&#39;Sorensen similarity index: &#39;</span><span class="p">,</span> <span class="n">prod</span><span class="o">.</span><span class="n">SSI</span>
+<span class="nb">print</span> <span class="s1">&#39;Adjusted psuedo R2: &#39;</span><span class="p">,</span> <span class="n">prod</span><span class="o">.</span><span class="n">adj_pseudoR2</span>
+<span class="nb">print</span> <span class="s1">&#39;Adjusted D2: &#39;</span><span class="p">,</span> <span class="n">prod</span><span class="o">.</span><span class="n">adj_D2</span>
+<span class="nb">print</span> <span class="s1">&#39;SRMSE: &#39;</span><span class="p">,</span> <span class="n">prod</span><span class="o">.</span><span class="n">SRMSE</span>
+<span class="nb">print</span> <span class="s1">&#39;Sorensen similarity index: &#39;</span><span class="p">,</span> <span class="n">prod</span><span class="o">.</span><span class="n">SSI</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -429,12 +421,11 @@ Sorensen similarity index:  0.777965361121
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -443,26 +434,22 @@ Sorensen similarity index:  0.777965361121
 
 <span class="n">att</span> <span class="o">=</span> <span class="n">Attraction</span><span class="p">(</span><span class="n">flows</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">)</span>
 
-<span class="k">print</span> <span class="n">att</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span> <span class="c1">#truncate to exclude balancing factors/fixed effects</span>
+<span class="nb">print</span> <span class="n">att</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span> <span class="c1">#truncate to exclude balancing factors/fixed effects</span>
 
-<span class="k">print</span> <span class="s1">&#39;Adjusted psuedo R2: &#39;</span><span class="p">,</span> <span class="n">att</span><span class="o">.</span><span class="n">adj_pseudoR2</span>
-<span class="k">print</span> <span class="s1">&#39;Adjusted D2: &#39;</span><span class="p">,</span> <span class="n">att</span><span class="o">.</span><span class="n">adj_D2</span>
-<span class="k">print</span> <span class="s1">&#39;SRMSE: &#39;</span><span class="p">,</span> <span class="n">att</span><span class="o">.</span><span class="n">SRMSE</span>
-<span class="k">print</span> <span class="s1">&#39;Sorensen similarity index: &#39;</span><span class="p">,</span> <span class="n">att</span><span class="o">.</span><span class="n">SSI</span>
+<span class="nb">print</span> <span class="s1">&#39;Adjusted psuedo R2: &#39;</span><span class="p">,</span> <span class="n">att</span><span class="o">.</span><span class="n">adj_pseudoR2</span>
+<span class="nb">print</span> <span class="s1">&#39;Adjusted D2: &#39;</span><span class="p">,</span> <span class="n">att</span><span class="o">.</span><span class="n">adj_D2</span>
+<span class="nb">print</span> <span class="s1">&#39;SRMSE: &#39;</span><span class="p">,</span> <span class="n">att</span><span class="o">.</span><span class="n">SRMSE</span>
+<span class="nb">print</span> <span class="s1">&#39;Sorensen similarity index: &#39;</span><span class="p">,</span> <span class="n">att</span><span class="o">.</span><span class="n">SSI</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -479,12 +466,11 @@ Sorensen similarity index:  0.777557481635
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -493,26 +479,22 @@ Sorensen similarity index:  0.777557481635
 
 <span class="n">doub</span> <span class="o">=</span> <span class="n">Doubly</span><span class="p">(</span><span class="n">flows</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">)</span>
 
-<span class="k">print</span> <span class="n">doub</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span> <span class="c1">#truncate to exclude balancing factors/fixed effects</span>
+<span class="nb">print</span> <span class="n">doub</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span> <span class="c1">#truncate to exclude balancing factors/fixed effects</span>
 
-<span class="k">print</span> <span class="s1">&#39;Adjusted psuedo R2: &#39;</span><span class="p">,</span> <span class="n">doub</span><span class="o">.</span><span class="n">adj_pseudoR2</span>
-<span class="k">print</span> <span class="s1">&#39;Adjusted D2: &#39;</span><span class="p">,</span> <span class="n">doub</span><span class="o">.</span><span class="n">adj_D2</span>
-<span class="k">print</span> <span class="s1">&#39;SRMSE: &#39;</span><span class="p">,</span> <span class="n">doub</span><span class="o">.</span><span class="n">SRMSE</span>
-<span class="k">print</span> <span class="s1">&#39;Sorensen similarity index: &#39;</span><span class="p">,</span> <span class="n">doub</span><span class="o">.</span><span class="n">SSI</span>
+<span class="nb">print</span> <span class="s1">&#39;Adjusted psuedo R2: &#39;</span><span class="p">,</span> <span class="n">doub</span><span class="o">.</span><span class="n">adj_pseudoR2</span>
+<span class="nb">print</span> <span class="s1">&#39;Adjusted D2: &#39;</span><span class="p">,</span> <span class="n">doub</span><span class="o">.</span><span class="n">adj_D2</span>
+<span class="nb">print</span> <span class="s1">&#39;SRMSE: &#39;</span><span class="p">,</span> <span class="n">doub</span><span class="o">.</span><span class="n">SRMSE</span>
+<span class="nb">print</span> <span class="s1">&#39;Sorensen similarity index: &#39;</span><span class="p">,</span> <span class="n">doub</span><span class="o">.</span><span class="n">SSI</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -529,12 +511,11 @@ Sorensen similarity index:  0.818294076455
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -543,10 +524,10 @@ Sorensen similarity index:  0.818294076455
 
 <span class="c1">#test the hypotehsis of equidispersion (var[mu] = mu) against that of QuasiPoisson (var[mu] = phi * mu)</span>
 <span class="c1">#Results = [phi, tvalue, pvalue]</span>
-<span class="k">print</span> <span class="n">phi_disp</span><span class="p">(</span><span class="n">grav</span><span class="p">)</span>
-<span class="k">print</span> <span class="n">phi_disp</span><span class="p">(</span><span class="n">prod</span><span class="p">)</span>
-<span class="k">print</span> <span class="n">phi_disp</span><span class="p">(</span><span class="n">att</span><span class="p">)</span>
-<span class="k">print</span> <span class="n">phi_disp</span><span class="p">(</span><span class="n">doub</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">phi_disp</span><span class="p">(</span><span class="n">grav</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">phi_disp</span><span class="p">(</span><span class="n">prod</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">phi_disp</span><span class="p">(</span><span class="n">att</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">phi_disp</span><span class="p">(</span><span class="n">doub</span><span class="p">)</span>
 
 <span class="c1">#We can see for all four models there is overdispersion (phi &gt;&gt; 0), </span>
 <span class="c1">#which are statistically significant according the tvalues (large)</span>
@@ -558,14 +539,10 @@ Sorensen similarity index:  0.818294076455
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -581,30 +558,29 @@ Sorensen similarity index:  0.818294076455
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#As a result we can compare our standard errors and tvalues for a Poisson model to a QuasiPoisson</span>
 
-<span class="k">print</span> <span class="s1">&#39;Production-constrained Poisson model standard errors and tvalues&#39;</span>
-<span class="k">print</span> <span class="n">prod</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
-<span class="k">print</span> <span class="n">prod</span><span class="o">.</span><span class="n">std_err</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
-<span class="k">print</span> <span class="n">prod</span><span class="o">.</span><span class="n">tvalues</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
+<span class="nb">print</span> <span class="s1">&#39;Production-constrained Poisson model standard errors and tvalues&#39;</span>
+<span class="nb">print</span> <span class="n">prod</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
+<span class="nb">print</span> <span class="n">prod</span><span class="o">.</span><span class="n">std_err</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
+<span class="nb">print</span> <span class="n">prod</span><span class="o">.</span><span class="n">tvalues</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
 
 <span class="c1">#Fit the same model using QuasiPoisson framework</span>
-<span class="n">Quasi</span> <span class="o">=</span> <span class="n">Production</span><span class="p">(</span><span class="n">flows</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">Quasi</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">Quasi</span> <span class="o">=</span> <span class="n">Production</span><span class="p">(</span><span class="n">flows</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">Quasi</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="k">print</span> <span class="s1">&#39;Production-constrained QuasiPoisson model standard errors and tvalues&#39;</span>
-<span class="k">print</span> <span class="n">Quasi</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
-<span class="k">print</span> <span class="n">Quasi</span><span class="o">.</span><span class="n">std_err</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
-<span class="k">print</span> <span class="n">Quasi</span><span class="o">.</span><span class="n">tvalues</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
+<span class="nb">print</span> <span class="s1">&#39;Production-constrained QuasiPoisson model standard errors and tvalues&#39;</span>
+<span class="nb">print</span> <span class="n">Quasi</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
+<span class="nb">print</span> <span class="n">Quasi</span><span class="o">.</span><span class="n">std_err</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
+<span class="nb">print</span> <span class="n">Quasi</span><span class="o">.</span><span class="n">tvalues</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
 
 <span class="c1">#As we can see both models result in the same parameters (first line)</span>
 <span class="c1">#We also see the QuasiPoisson results in larger standard errors (middle line)</span>
@@ -618,14 +594,10 @@ Sorensen similarity index:  0.818294076455
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -645,12 +617,11 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -668,16 +639,11 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -692,14 +658,10 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -733,12 +695,11 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -773,16 +734,11 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -803,14 +759,10 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -821,7 +773,7 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -837,12 +789,11 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -864,14 +815,20 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>//anaconda/envs/spint/lib/python2.7/site-packages/matplotlib/axes/_axes.py:519: UserWarning: No labelled objects found. Use label=&#39;...&#39; kwarg on individual plots.
+  warnings.warn(&#34;No labelled objects found. &#34;
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -882,13 +839,13 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/model/spint/Example_NYCBikes_AllFeatures_13_1.png"
+<img src="../../images/model/spint/Example_NYCBikes_AllFeatures_13_2.png"
 >
 </div>
 
@@ -898,12 +855,11 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -925,14 +881,10 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -943,7 +895,7 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -959,12 +911,11 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -986,14 +937,10 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1004,7 +951,7 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1020,12 +967,11 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1040,16 +986,11 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1065,9 +1006,9 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 
 <span class="n">vecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">ids</span><span class="p">,</span> <span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">,</span> <span class="n">dest_x</span><span class="p">,</span> <span class="n">dest_y</span><span class="p">])</span>
 <span class="n">origins</span> <span class="o">=</span> <span class="n">vecs</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
-<span class="n">wo</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">DistanceBand</span><span class="p">(</span><span class="n">origins</span><span class="p">,</span> <span class="mi">999</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">build_sp</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">wo</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">DistanceBand</span><span class="p">(</span><span class="n">origins</span><span class="p">,</span> <span class="mi">999</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">build_sp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">dests</span> <span class="o">=</span> <span class="n">vecs</span><span class="p">[:,</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
-<span class="n">wd</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">DistanceBand</span><span class="p">(</span><span class="n">dests</span><span class="p">,</span> <span class="mi">999</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">build_sp</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">wd</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">DistanceBand</span><span class="p">(</span><span class="n">dests</span><span class="p">,</span> <span class="mi">999</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">build_sp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1075,16 +1016,11 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1098,14 +1034,10 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1120,12 +1052,11 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1139,14 +1070,10 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1161,12 +1088,11 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1182,10 +1108,10 @@ Production-constrained QuasiPoisson model standard errors and tvalues
 </div>
 
 </div>
-
-
-
 </div>
 
  
 
+
+    </main>
+    

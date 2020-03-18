@@ -3,18 +3,25 @@ redirect_from:
   - "/viz/splot/esda-morans-viz"
 interact_link: content/viz/splot/esda_morans_viz.ipynb
 kernel_name: python3
+kernel_path: content/viz/splot
 has_widgets: false
-title: 'esda_morans_viz'
+title: |-
+  esda_morans_viz
+pagenum: 89
 prev_page:
-  url: /viz/splot/intro.html
-  title: 'splot'
-next_page:
   url: /viz/splot/esda_moran_matrix_viz.html
-  title: 'esda_moran_matrix_viz'
+next_page:
+  url: /viz/splot/giddy_space_time.html
+suffix: .ipynb
+search: moran spatial autocorrelation statistics local bivariate splot high low example variable polygons values data visualizing global visualizations scatterplot map our left results esda assessing attribute specific upper quadrant lower between correlation offer analysis imports load combined lisa choropleth donatns calculate weights value reference pysal significant spots options visualize lag right lh hl describe polygon its neighboring indicates surrounded lets found asses different space variables into moranscatterplot interpreting exploratory content clustermap guerry shp examples libpysal focus charitable donations per capita contiguity w libpysals queen fromdataframe gdf transform row standardized morans test continuous statistic interpreted against distribution under null hypothesis complete randomness
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">esda_morans_viz</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -22,8 +29,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -39,8 +47,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -48,12 +57,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -61,13 +69,13 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">pysal.lib.weights.contiguity</span> <span class="k">import</span> <span class="n">Queen</span>
-<span class="kn">from</span> <span class="nn">pysal.lib</span> <span class="k">import</span> <span class="n">examples</span>
+<span class="kn">from</span> <span class="nn">libpysal.weights.contiguity</span> <span class="kn">import</span> <span class="n">Queen</span>
+<span class="kn">from</span> <span class="nn">libpysal</span> <span class="kn">import</span> <span class="n">examples</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">pysal.viz</span> <span class="k">import</span> <span class="n">splot</span>
+<span class="kn">import</span> <span class="nn">splot</span>
 </pre></div>
 
     </div>
@@ -75,26 +83,22 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Example-Data">Example Data<a class="anchor-link" href="#Example-Data"> </a></h2><p>First, we will load the Guerry.shp data from <code>examples</code> in <code>pysal.lib</code>.</p>
+<h2 id="Example-Data">Example Data<a class="anchor-link" href="#Example-Data"> </a></h2><p>First, we will load the Guerry.shp data from <code>examples</code> in <code>libpysal</code>.</p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -108,26 +112,22 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>For this example we will focus on the Donatns (charitable donations per capita) variable. We will calculate Contiguity weights <code>w</code> with <code>pysal.libs</code> <code>Queen.from_dataframe(gdf)</code>. Then we transform our weights to be row-standardized.</p>
+<p>For this example we will focus on the Donatns (charitable donations per capita) variable. We will calculate Contiguity weights <code>w</code> with <code>libpysals</code> <code>Queen.from_dataframe(gdf)</code>. Then we transform our weights to be row-standardized.</p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -142,12 +142,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -155,8 +152,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -165,17 +163,16 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.esda.moran</span> <span class="k">import</span> <span class="n">Moran</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">esda.moran</span> <span class="kn">import</span> <span class="n">Moran</span>
 
 <span class="n">w</span> <span class="o">=</span> <span class="n">Queen</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">gdf</span><span class="p">)</span>
 <span class="n">moran</span> <span class="o">=</span> <span class="n">Moran</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
@@ -186,14 +183,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -208,8 +201,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -218,17 +212,16 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.viz.splot.esda</span> <span class="k">import</span> <span class="n">moran_scatterplot</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">splot.esda</span> <span class="kn">import</span> <span class="n">moran_scatterplot</span>
 </pre></div>
 
     </div>
@@ -236,16 +229,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -258,14 +246,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -281,17 +265,16 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.viz.splot.esda</span> <span class="k">import</span> <span class="n">plot_moran</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">splot.esda</span> <span class="kn">import</span> <span class="n">plot_moran</span>
 
 <span class="n">plot_moran</span><span class="p">(</span><span class="n">moran</span><span class="p">,</span> <span class="n">zstandard</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -301,14 +284,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -324,8 +303,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -334,12 +314,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -351,14 +330,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -373,8 +348,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -382,8 +358,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -392,18 +369,17 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.viz.splot.esda</span> <span class="k">import</span> <span class="n">moran_scatterplot</span>
-<span class="kn">from</span> <span class="nn">pysal.explore.esda.moran</span> <span class="k">import</span> <span class="n">Moran_Local</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">splot.esda</span> <span class="kn">import</span> <span class="n">moran_scatterplot</span>
+<span class="kn">from</span> <span class="nn">esda.moran</span> <span class="kn">import</span> <span class="n">Moran_Local</span>
 
 <span class="c1"># calculate Moran_Local and plot</span>
 <span class="n">moran_loc</span> <span class="o">=</span> <span class="n">Moran_Local</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
@@ -417,14 +393,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -440,12 +412,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -460,14 +431,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -483,8 +450,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -496,17 +464,16 @@ Where the upper right quadrant displays HH, the lower left, LL, the upper left L
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.viz.splot.esda</span> <span class="k">import</span> <span class="n">lisa_cluster</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">splot.esda</span> <span class="kn">import</span> <span class="n">lisa_cluster</span>
 
 <span class="n">lisa_cluster</span><span class="p">(</span><span class="n">moran_loc</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">9</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -516,14 +483,10 @@ Where the upper right quadrant displays HH, the lower left, LL, the upper left L
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -539,8 +502,9 @@ Where the upper right quadrant displays HH, the lower left, LL, the upper left L
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -550,17 +514,16 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.viz.splot.esda</span> <span class="k">import</span> <span class="n">plot_local_autocorrelation</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">splot.esda</span> <span class="kn">import</span> <span class="n">plot_local_autocorrelation</span>
 <span class="n">plot_local_autocorrelation</span><span class="p">(</span><span class="n">moran_loc</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;Donatns&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -569,14 +532,10 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -592,12 +551,11 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -610,14 +568,10 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -633,8 +587,9 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -642,8 +597,9 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -652,18 +608,17 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.esda.moran</span> <span class="k">import</span> <span class="n">Moran_BV</span><span class="p">,</span> <span class="n">Moran_Local_BV</span>
-<span class="kn">from</span> <span class="nn">pysal.viz.splot.esda</span> <span class="k">import</span> <span class="n">plot_moran_bv_simulation</span><span class="p">,</span> <span class="n">plot_moran_bv</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">esda.moran</span> <span class="kn">import</span> <span class="n">Moran_BV</span><span class="p">,</span> <span class="n">Moran_Local_BV</span>
+<span class="kn">from</span> <span class="nn">splot.esda</span> <span class="kn">import</span> <span class="n">plot_moran_bv_simulation</span><span class="p">,</span> <span class="n">plot_moran_bv</span>
 </pre></div>
 
     </div>
@@ -671,12 +626,9 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -685,12 +637,11 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -703,12 +654,9 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -717,12 +665,11 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -738,16 +685,11 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -766,14 +708,10 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -789,8 +727,9 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -801,12 +740,11 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -819,14 +757,10 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -842,8 +776,9 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -851,8 +786,9 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -861,17 +797,16 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.esda.moran</span> <span class="k">import</span> <span class="n">Moran_Local_BV</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">esda.moran</span> <span class="kn">import</span> <span class="n">Moran_Local_BV</span>
 </pre></div>
 
     </div>
@@ -879,16 +814,11 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -904,14 +834,10 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -927,12 +853,11 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -945,14 +870,10 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -968,6 +889,10 @@ Here we for example look at a static visualization of a Moran Scatterplot, LISA 
 </div>
 
 </div>
+</div>
 
  
 
+
+    </main>
+    

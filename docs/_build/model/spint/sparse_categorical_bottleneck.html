@@ -3,28 +3,33 @@ redirect_from:
   - "/model/spint/sparse-categorical-bottleneck"
 interact_link: content/model/spint/sparse_categorical_bottleneck.ipynb
 kernel_name: python2
+kernel_path: content/model/spint
 has_widgets: false
-title: 'sparse_categorical_bottleneck'
+title: |-
+  sparse_categorical_bottleneck
+pagenum: 69
 prev_page:
   url: /model/spint/sparse_categorical.html
-  title: 'sparse_categorical'
 next_page:
   url: /model/spint/sparse_categorical_speed.html
-  title: 'sparse_categorical_speed'
+suffix: .ipynb
+search: 
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">sparse_categorical_bottleneck</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">sparse</span> <span class="k">as</span> <span class="n">sp</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="k">def</span> <span class="nf">spcategorical</span><span class="p">(</span><span class="n">n_cat_ids</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
@@ -45,7 +50,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
         <span class="n">cat_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">n_cat_ids</span><span class="p">)</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">n_cat_ids</span><span class="p">)</span>
         <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cat_set</span> <span class="o">==</span> <span class="nb">id</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">n_cat_ids</span><span class="p">]</span> <span class="c1">#This list comprehension is likely </span>
-        <span class="k">print</span> <span class="n">index</span>                                                                    <span class="c1">#the most intense part of the algorithm</span>
+        <span class="nb">print</span> <span class="n">index</span>                                                                    <span class="c1">#the most intense part of the algorithm</span>
         <span class="n">indptr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span> 
         <span class="k">return</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">index</span><span class="p">,</span> <span class="n">indptr</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
@@ -65,10 +70,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
  
 
+
+    </main>
+    

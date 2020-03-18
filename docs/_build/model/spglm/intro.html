@@ -1,0 +1,55 @@
+---
+title: |-
+  spglm
+pagenum: 52
+prev_page:
+  url: /model/mgwr/MGWR_Georgia_example.html
+next_page:
+  url: /model/spglm/Binomial_GLM.html
+suffix: .md
+search: glm statsmodels spglm estimation badge py add org pysal master latest io module functionality supports poisson using iwls sparse status travis ci svg readthedocs version fury github com blob genmod generalizedlinearmodel package currently gaussian logistic only least squares custom routine design matrices models diagnostics also quasipoisson robust negative binomial generalized linear modeling build branch documentation projects en pypi adaptation portion simplified customized purposes serving base several modules namely spint gwr regression iteratively weighted large differences functions avaialble fully compatible necesary very arise constrained spatial interaction somewhat limited computation subset decreases computational overhead another difference caveat generates estimates directly solves normal
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">spglm</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Generalized-Linear-Modeling"><strong>G</strong>eneralized <strong>L</strong>inear <strong>M</strong>odeling<a class="anchor-link" href="#Generalized-Linear-Modeling"> </a></h1><p><a href="https://travis-ci.org/pysal/spglm"><img src="https://travis-ci.org/pysal/spglm.svg?branch=master" alt="Build Status"></a>
+<a href="https://spglm.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/spglm/badge/?version=latest" alt="Documentation Status"></a>
+<a href="https://badge.fury.io/py/spglm"><img src="https://badge.fury.io/py/spglm.svg" alt="PyPI version"></a></p>
+<p>This module is an adaptation of a portion of <a href="https://github.com/statsmodels/statsmodels/blob/master/statsmodels/genmod/generalized_linear_model.py">GLM functionality from the
+Statsmodels</a> package, this it has been simplified and customized for the purposes of serving
+as the base for several other PySAL modules, namely SpInt and GWR. Currently, it
+supports the estimation of Gaussian, Poisson, and Logistic regression using only
+iteratively weighted least squares estimation (IWLS). One of the large differences this
+module and the functions avaialble in the Statsmodels package is that the custom IWLS routine is fully sparse compatible, which was necesary for the very sparse design matrices that arise in constrained spatial interaction models. The somewhat limited functionality and computation of only a subset of GLM diagnostics also decreases the computational overhead. Another difference is that this module also supports the estimation of QuasiPoisson models. One caveat is that this custom IWLS routine currently generates estimates by directly solves the least squares normal equations rather than using a more robust method like the pseudo inverse. For more robust estimation of ill conditioned data and a fuller GLM framework we suggest using the original GLM functionality from <a href="https://github.com/statsmodels/statsmodels/blob/master/statsmodels/genmod/generalized_linear_model.py">Statsmodels</a>.</p>
+<h2 id="Features">Features<a class="anchor-link" href="#Features"> </a></h2><ul>
+<li>Gaussian GLM</li>
+<li>Poisson GLM</li>
+<li>QuasiPoisson GLM</li>
+<li>Logistic GLM</li>
+<li>Selection of most common GLM diagnostics</li>
+<li>Supports sparse design matrices</li>
+</ul>
+<h2 id="Future-Work">Future Work<a class="anchor-link" href="#Future-Work"> </a></h2><ul>
+<li>Add Negative Binomial GLM</li>
+<li>Add Gamma GLM</li>
+<li>Add Zero-inflated/Hurdle extensions of Poisson/Negative Binomial</li>
+<li>Add support for gradient based optimization for maximum likelihood estimation</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

@@ -1,0 +1,80 @@
+---
+title: |-
+  spint
+pagenum: 56
+prev_page:
+  url: /model/spglm/Poisson_GLM.html
+next_page:
+  url: /model/spint/4d_distance.html
+suffix: .md
+search: spatial model interaction spint models constrained estimation based pysal badge io data calibration fotheringham weights org latest module carried project using framework such functions parameter modeling status travis ci svg documentation readthedocs version fury py development github summer progress family wilson poisson count origin destination weighted cameron trivedi routines okelly regression vector via maximum likelihood zero inflated negative binomial compute p university s package build branch master projects en pypi seeks provide collection tools study processes analyze initial com wiki google code found blog tayloroshan currently supports derived entropy maximizing em equivalent information minimizing im able derive parameters following unconstrained
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">spint</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Spatial-Interaction-Modeling-Package">Spatial Interaction Modeling Package<a class="anchor-link" href="#Spatial-Interaction-Modeling-Package"> </a></h1><p><a href="https://travis-ci.org/pysal/spint"><img src="https://travis-ci.org/pysal/spint.svg?branch=master" alt="Build Status"></a>
+<a href="https://spint.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/spint/badge/?version=latest" alt="Documentation Status"></a>
+<a href="https://badge.fury.io/py/spint"><img src="https://badge.fury.io/py/spint.svg" alt="PyPI version"></a></p>
+<p>The <strong>Sp</strong>atial <strong>Int</strong>eraction Modeling (SpInt) module seeks to provide a collection of tools to study spatial interaction processes and analyze spatial interaction data.</p>
+<p>The <a href="https://github.com/pysal/pysal/wiki/SpInt-Development">initial development</a> of the module was carried out as a Google Summer of Code
+project (summer 2016). Documentation of the project progress can be found on the
+<a href="https://tayloroshan.github.io/">project blog</a>.</p>
+<p>The module currently supports the calibration of the 'family' of spatial interaction models (Wilson, 1971) which are derived using an entropy maximizing (EM) framework or the equivalent information minimizing (IM) framework. As such, it is able to derive parameters for the following Poisson count models:</p>
+<h2 id="Models">Models<a class="anchor-link" href="#Models"> </a></h2><ul>
+<li>unconstrained gravity model</li>
+<li>production-constrained model (origin-constrained)</li>
+<li>attraction-constrained model (destination-constrained)</li>
+<li>doubly-constrained model</li>
+</ul>
+<p>Calibration is carried out using iteratively weighted least squares in a generalized linear modleing framework (Cameron &amp; Trivedi, 2013). These model results have been verified against comparable routines laid out in (Fotheringham and O’Kelly, 1989; Willimans and Fotheringham, 1984) and functions avaialble in R such as GL  or Pythons statsmodels. The estimation of the constrained routines are carried out using sparse data strucutres for lower memory overhead and faster computations.</p>
+<h2 id="Additional-Features">Additional Features<a class="anchor-link" href="#Additional-Features"> </a></h2><ul>
+<li>QuasiPoisson model estimation</li>
+<li>Regression-based tests for overdispersion</li>
+<li>Model fit statistics including typical GLM metrics, standardized root mean
+square error, and Sorensen similarit index</li>
+<li>Vector-based Moran's I statistic for testing for spatial autcorrelation in
+spatial interaction data</li>
+<li>Local subset model calibration for mappable sets of parameter estimates and model
+diagnostics</li>
+<li>Three types of spatial interaction spatial weights: origin-destination
+contiguity weights, network-based weights, and vector-based distance weights</li>
+</ul>
+<h2 id="In-Progress">In Progress<a class="anchor-link" href="#In-Progress"> </a></h2><ul>
+<li>Spatial Autoregressive (Lag) model spatial interaction specification</li>
+</ul>
+<h2 id="Future-Work">Future Work<a class="anchor-link" href="#Future-Work"> </a></h2><ul>
+<li>Parameter estimation via maximum likelihood and gradient-based optimization</li>
+<li>Zero-inflated Poisson model</li>
+<li>Negative Binomial model/zero-inflated negative binomial model</li>
+<li>Functions to compute competing destinations</li>
+<li>Functions to compute eigenvector spatial filters</li>
+<li>Parameter estimation via neural networks</li>
+<li>Universal (determinsitic) models such as the Radiation model and Inverse
+Population Weighted model</li>
+</ul>
+<p>Cameron, C. A. and Trivedi, P. K. (2013). Regression analyis of count data.
+Cambridge University Press, 1998.</p>
+<p>Fotheringham, A. S. and O'Kelly, M. E. (1989). Spatial Interaction Models: Formulations and Applications. London: Kluwer Academic Publishers.</p>
+<p>Williams, P. A. and A. S. Fotheringham (1984), The Calibration of Spatial Interaction
+Models by Maximum Likelihood Estimation with Program SIMODEL, Geographic Monograph
+Series, 7, Department of Geography, Indiana University.</p>
+<p>Wilson, A. G. (1971). A family of spatial interaction models, and associated developments. Environment and
+Planning A, 3, 1–32.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

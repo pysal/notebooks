@@ -3,18 +3,25 @@ redirect_from:
   - "/explore/giddy/mobility-measures"
 interact_link: content/explore/giddy/Mobility_measures.ipynb
 kernel_name: python3
+kernel_path: content/explore/giddy
 has_widgets: false
-title: 'Mobility_measures'
+title: |-
+  Mobility_measures
+pagenum: 7
 prev_page:
   url: /explore/giddy/Markov_Based_Methods.html
-  title: 'Markov_Based_Methods'
 next_page:
-  url: /explore/giddy/Rank_based_Methods.html
-  title: 'Rank_based_Methods'
+  url: /explore/giddy/Rank_Markov.html
+suffix: .ipynb
+search: mobility m p measure measures income markov b based sum methods transition matrix frac j python estimate probability pii five summary ii l com notebook data d pi inital distribution any statistical inference gmail regions considered away absolute giddy implemented ipynb formby det lambda ij immobility perfect current state identical thus mobile different method us bartholomews trede www journal lucius author wei kang weikang serge rey sjsrey viewed reranking pheonomenon where switch positions while also happening move previous levels former named latter relative introduces longitudinal using currently estimators meaning closely related discrete chains introduced specifically derived whether final reletive depends
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">Mobility_measures</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -25,8 +32,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -77,29 +85,29 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We implemented all the above five summary mobility measures in a single method $markov\_mobility$. A parameter $measure$ could be specified to select which measure to calculate. By default, the mobility measure 'P' will be estimated.</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">markov_mobility</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">measure</span> <span class="o">=</span> <span class="s2">&quot;P&quot;</span><span class="p">,</span><span class="n">ini</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">markov_mobility</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">measure</span> <span class="o">=</span> <span class="s2">&quot;P&quot;</span><span class="p">,</span><span class="n">ini</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.giddy</span> <span class="k">import</span> <span class="n">markov</span><span class="p">,</span><span class="n">mobility</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">giddy</span> <span class="kn">import</span> <span class="n">markov</span><span class="p">,</span><span class="n">mobility</span>
 mobility.markov_mobility<span class="o">?</span>
 </pre></div>
 
@@ -108,12 +116,9 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -122,19 +127,18 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pysal.lib</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">libpysal</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">pysal.viz</span> <span class="k">import</span> <span class="n">mapclassify</span> <span class="k">as</span> <span class="n">mc</span>
+<span class="kn">import</span> <span class="nn">mapclassify</span> <span class="k">as</span> <span class="nn">mc</span>
 </pre></div>
 
     </div>
@@ -142,22 +146,17 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">income_path</span> <span class="o">=</span> <span class="n">pysal</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;usjoin.csv&quot;</span><span class="p">)</span>
-<span class="n">f</span> <span class="o">=</span> <span class="n">pysal</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">income_path</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">income_path</span> <span class="o">=</span> <span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;usjoin.csv&quot;</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">libpysal</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">income_path</span><span class="p">)</span>
 <span class="n">pci</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="o">.</span><span class="n">by_col</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1929</span><span class="p">,</span> <span class="mi">2010</span><span class="p">)])</span> <span class="c1">#each column represents an state&#39;s income time series 1929-2010</span>
 <span class="n">q5</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">mc</span><span class="o">.</span><span class="n">Quantiles</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">yb</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">pci</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span> <span class="c1">#each row represents an state&#39;s income time series 1929-2010</span>
 <span class="n">m</span> <span class="o">=</span> <span class="n">markov</span><span class="o">.</span><span class="n">Markov</span><span class="p">(</span><span class="n">q5</span><span class="p">)</span>
@@ -168,14 +167,20 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/weikang/anaconda3/lib/python3.6/site-packages/scipy/stats/stats.py:1713: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  return np.add.reduce(sorted[indexer] * weights, axis=axis) / sumval
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -194,8 +199,9 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -204,8 +210,9 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -215,12 +222,11 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -232,14 +238,10 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -254,8 +256,9 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -265,12 +268,11 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -282,14 +284,10 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -304,8 +302,9 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -315,12 +314,11 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -332,14 +330,10 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -354,8 +348,9 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -366,12 +361,11 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -384,14 +378,10 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -406,8 +396,9 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -418,12 +409,11 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -436,14 +426,10 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -458,8 +444,9 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -475,8 +462,9 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -488,6 +476,10 @@ mobility.markov_mobility<span class="o">?</span>
 </div>
 </div>
 </div>
+</div>
 
  
 
+
+    </main>
+    

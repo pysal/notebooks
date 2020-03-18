@@ -1,0 +1,1286 @@
+---
+interact_link: content/explore/esda/geosilhouettes.ipynb
+kernel_name: python3
+kernel_path: content/explore/esda
+has_widgets: false
+title: |-
+  geosilhouettes
+pagenum: 3
+prev_page:
+  url: /explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data.html
+next_page:
+  url: /explore/esda/joincounts.html
+suffix: .ipynb
+search: silhouette j cluster geographical path between k south observations boundary counties dissimilarity second choice c not hat similar similarity well data its louisiana fit observation spatial states ds di statistics best nearest sites org measure silhouettes joint feature clustering using score group carolina geography structure analysis df state measures clusters useful deep used current different own define d county positive groups label nearestlabel function alabama georgia graph l m provide problems esda us only libpysal areas currently distance much negative those inequality provides mississippi labels quite sense weights matrix where such new below package lets gini within example contextily our
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">geosilhouettes</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Geosilhouettes:-geographical-measures-of-cluster-fit">Geosilhouettes: geographical measures of cluster fit<a class="anchor-link" href="#Geosilhouettes:-geographical-measures-of-cluster-fit"> </a></h1><p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_samples.html">Silhouette statistics</a> <a href="https://doi.org/10.1016/0377-0427(87">(Rousseeuw, 1987)</a>90125-7)) are a nonparametric measure of an observation's goodness of fit to a given cluster. Where clusters have a <em>geographical</em> interpretation, such as when they represent geographical regions, silhouette statistics can incorporate <em>spatial thinking</em> in order to provide more useful measures of cluster fit.   The <a href="https://doi.org/10.1177%2F2399808319875752">paper by Wolf, Knaap, &amp; Rey (2019)</a>.
+(<a href="https://osf.io/preprints/socarxiv/vd3uk/">preprint on SocArXiv</a>) defines two:</p>
+<ol>
+<li><strong>Path Silhouettes</strong>, which characterize the joint geographical and feature similarity in a clustering.</li>
+<li><strong>Boundary Silhouettes</strong>, which characterize how well-defined a geographical boundary is in a clustering. </li>
+</ol>
+<p>Together, these two new measures provide new ways to measure the goodness of fit of clusters in clustering problems in geographic data science.</p>
+<p>Below, we'll dig a little into how these are implemented in the <code>esda</code> package. First, though, let's set up some data. We'll be considering a single <em>univariate</em> dataset, the Gini index in 1989 in counties for the US Deep South.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">libpysal</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">esda</span>
+<span class="kn">import</span> <span class="nn">geopandas</span>
+<span class="kn">import</span> <span class="nn">contextily</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To focus in on only the deep south, we'll build an array of states that fall within the deep south:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">focus_states</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Alabama&quot;</span><span class="p">,</span> <span class="s2">&quot;Georgia&quot;</span><span class="p">,</span> <span class="s2">&quot;Louisiana&quot;</span><span class="p">,</span> 
+                <span class="s2">&quot;Mississippi&quot;</span><span class="p">,</span> <span class="s2">&quot;South Carolina&quot;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Then, we'll read in data for all of the south, using the example datasets in the <code>libpysal</code> package:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">south</span> <span class="o">=</span> <span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">example_manager</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;South&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">south</span> <span class="o">=</span> <span class="n">geopandas</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;south.shp&#39;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Then, we'll filter out only the states in the deep south:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">deep</span> <span class="o">=</span> <span class="n">south</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;STATE_NAME in @focus_states&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">deep</span><span class="p">[</span><span class="s1">&#39;state_label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">deep</span><span class="o">.</span><span class="n">STATE_NAME</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">focus_states</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, for mapping purposes, let's get a basemap. This is done using the <code>contextily</code> package, which expects our data in a specific coordinate projection system. For more, check out the <a href="https://github.com/darribas/contextily/blob/master/contextily_guide.ipynb"><code>contextily</code> user guide</a>.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">deep</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;init&#39;</span><span class="p">:</span><span class="s1">&#39;epsg:4326&#39;</span><span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">deep</span> <span class="o">=</span> <span class="n">deep</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">3857</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">basemap</span><span class="p">,</span> <span class="n">extent</span> <span class="o">=</span> <span class="n">contextily</span><span class="o">.</span><span class="n">bounds2img</span><span class="p">(</span><span class="o">*</span><span class="n">deep</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                                        <span class="n">url</span><span class="o">=</span><span class="n">contextily</span><span class="o">.</span><span class="n">tile_providers</span><span class="o">.</span><span class="n">ST_TONER_LITE</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">deep</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;STATE_NAME&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">deep</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;GI89&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;plasma&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">6</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax_</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">ax_</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">basemap</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bilinear&#39;</span><span class="p">)</span>
+    <span class="n">ax_</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">deep</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]])</span>
+<span class="n">f</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/geosilhouettes_14_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="The-Silhouette-Score">The Silhouette Score<a class="anchor-link" href="#The-Silhouette-Score"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The standard silhouette score used in classification/grouping problems as measure of how well-fit an observation is to its current group. The measure is fairly robust, well-studied, and is common in many different problem areas.</p>
+<p>Statistically, the silhouette score is composed of a few components:</p>
+<ul>
+<li>$c$, the cluster in which $i$ is assigned</li>
+<li>$k$, another cluster in which $i$ is not currently assigned</li>
+<li>$d_i(c)$: the dissimilarity between observation $i$ and $i$'s own cluster $c$</li>
+<li>$d_i(k)$: the dissimilarity between observation $i$ and a cluster $k$ that $i$ is not in. </li>
+</ul>
+<p>Here, we define $d$ as an arbitrary dissimilarity metric. For most cases, it's normally the euclidean distance. So, if you see $d_i(c)$, this is the average dissimilarity between observation $i$ and all other observations $j$ in cluster $c$.</p>
+<p>Then, we need to define the <em>second best choice cluster</em>, $\hat{k}$, which is a cluster that $i$ is most similar to, but of which $i$ is not currently a member:
+$$\hat{k}_i = k\ | \min_k \{d_i(k)\}$$</p>
+<p>This lets us define the silhouette score as the relationship between the dissimilarity scores for $i$ and its cluster $c$, and $i$ and the second-best choice cluster, $\hat{k}$:
+$$ s_i = \frac{d_i(c) - d_i(\hat{k})}{\max\left\{d_i(c), d_i(\hat{k})\right\}}$$</p>
+<p>This value is close to 1 when $i$ is much closer to its current cluster, $c$, than the second-best cluster, $\hat{k}$, indicating strong fit to its current cluster. And, when $i$ is more similar to $\hat{k}$ than to its own cluster $c$, the value of $s_i$ is close to -1. We can compute the score for each observation using <code>sklearn</code>'s <code>silhouette_samples</code>:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">silhouette_samples</span>
+<span class="n">silhouettes</span> <span class="o">=</span> <span class="n">silhouette_samples</span><span class="p">(</span><span class="n">deep</span><span class="p">[[</span><span class="s1">&#39;GI89&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">deep</span><span class="o">.</span><span class="n">state_label</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here, we can visualize the silhouette scores by county. With this information, we can see that there is very strong heterogeneity in the Gini coefficient <em>within</em> states, because the silhouette statisic for each county is usually negative (i.e. blue). But, in some areas (e.g. areas of South Carolina and Louisiana), the silhouette statistics for counties are positive (red), suggesting those counties are well-fit to their surroundings.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">silhouettes</span><span class="p">)</span>
+<span class="n">deep</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">silhouettes</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">,</span> 
+          <span class="n">vmin</span><span class="o">=-.</span><span class="mi">5</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">basemap</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bilinear&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">deep</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]])</span>
+<span class="n">f</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/geosilhouettes_19_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>On the contrary, if we used a <em>data-driven</em> definition of regions, we might expect the silhouette scores to be more positive. For example, if we used $k$-means to define the <em>best</em> data-driven groups we could have for this data, we might have something like this:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+<span class="n">data_driven_clustering</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">focus_states</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">deep</span><span class="p">[[</span><span class="s1">&#39;GI89&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">data_labels</span> <span class="o">=</span> <span class="n">data_driven_clustering</span><span class="o">.</span><span class="n">labels_</span>
+<span class="n">data_silhouettes</span> <span class="o">=</span> <span class="n">silhouette_samples</span><span class="p">(</span><span class="n">deep</span><span class="p">[[</span><span class="s1">&#39;GI89&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+                                      <span class="n">data_labels</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This yields the following geography of inequality in the deep south:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">deep</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_labels</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/geosilhouettes_23_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And, in this geography of inequality, each county is very well fit to its group:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">data_silhouettes</span><span class="p">)</span>
+<span class="n">deep</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_silhouettes</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">,</span> 
+          <span class="n">vmin</span><span class="o">=-.</span><span class="mi">5</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">basemap</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bilinear&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">deep</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]])</span>
+<span class="n">f</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/geosilhouettes_25_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Nearest-Label">Nearest Label<a class="anchor-link" href="#Nearest-Label"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Fundamental to the measurement of the silhouette score is the idea of a <em>next best fit cluster</em>. This is $\hat{k}_i$, the cluster to which $i$ <em>would</em> be assigned if it were not in its current cluster, $c$. This is a useful concept, because it shows the latent relationship between observations and other clusters. It gets at how the clustering <em>might</em> be different if different decisions about grouping/classification had been made, and helps us construct a measure of how much "better" $c$ currently is for $i$ than $\hat{k}_i$ would be.</p>
+<p>But, by default, <code>scikit-learn</code> does not provide you with $\hat{k}_i$. Instead, it only provides $s_i$. So, <code>esda</code> provides this for you in the <code>nearest_label</code> function:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nearest_label</span> <span class="o">=</span> <span class="n">esda</span><span class="o">.</span><span class="n">nearest_label</span><span class="p">(</span><span class="n">deep</span><span class="p">[[</span><span class="s1">&#39;GI89&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">deep</span><span class="o">.</span><span class="n">state_label</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/opt/conda/lib/python3.7/site-packages/numpy/core/fromnumeric.py:51: FutureWarning: Series.nonzero() is deprecated and will be removed in a future version.Use Series.to_numpy().nonzero() instead
+  return getattr(obj, method)(*args, **kwds)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>With this function, you can visualize the geography of the <em>second-best choice</em>, $\hat{k}_i$. For example, most of the south of Alabama and Georgia and the <a href="https://en.wikipedia.org/wiki/Mississippi_Delta">Mississippi Delta region</a> has a "second choice" similarity to the inequality profile of Louisiana. This means that, if these counties <em>were not</em> in their own states, they'd be most similar to counies in Louisiana.</p>
+<p>However, keep in mind that this idea of a <em>second choice</em> excludes $c_i$ from the potential list of <em>nearest labels</em>!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nearest_outside_state</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">focus_states</span><span class="p">)[</span><span class="n">nearest_label</span><span class="p">]</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">deep</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;STATE_NAME&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">deep</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nearest_outside_state</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+               <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+               <span class="n">legend_kwds</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Most similar *other* state to county ($\hat</span><span class="si">{k}</span><span class="s1">_i$)&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax_</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">ax_</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">basemap</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bilinear&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/geosilhouettes_30_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To allow for this, the <code>keep_self</code> argument modifies <code>nearest_label</code> to return the nearest label out of <em>any</em> group, regardless of whether or not the observation is currently in that group. This means that the <em>nearest alternative label</em> is provided by <code>nearest_label</code>, but the <em>absolute nearest label</em> is provided by <code>nearest_label(data, labels, keep_self=True)</code>.</p>
+<p>These two can be quite different. Below, you can see that the similarities definitely shift when we allow observations' nearest labels to be their <em>current</em> classification. There, we see that most counties are either more similar to Louisiana, or they're more similar to South Carolina. Forcing the return of the <em>nearest alternative label</em> caused Mississippi to be included as the second choice of most of the counties in Louisiana, and for Alabama &amp; Georgia to be given the second choice of many counties in South Carolina.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nearest_label</span> <span class="o">=</span> <span class="n">esda</span><span class="o">.</span><span class="n">nearest_label</span><span class="p">(</span><span class="n">deep</span><span class="p">[[</span><span class="s1">&#39;GI89&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+                                   <span class="n">deep</span><span class="o">.</span><span class="n">state_label</span><span class="p">,</span> <span class="n">keep_self</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">nearest_state</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">focus_states</span><span class="p">)[</span><span class="n">nearest_label</span><span class="p">]</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">deep</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;STATE_NAME&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">deep</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nearest_state</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+               <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+               <span class="n">legend_kwds</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Most similar *other* state to county ($\hat</span><span class="si">{k}</span><span class="s1">_i$)&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax_</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">ax_</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">basemap</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bilinear&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/opt/conda/lib/python3.7/site-packages/numpy/core/fromnumeric.py:51: FutureWarning: Series.nonzero() is deprecated and will be removed in a future version.Use Series.to_numpy().nonzero() instead
+  return getattr(obj, method)(*args, **kwds)
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/geosilhouettes_32_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Geographical-Structure">Geographical Structure<a class="anchor-link" href="#Geographical-Structure"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For many geographical analysis algorithms, we require some sense of geographical structure in order to "understand" geography. At its most basic level, this requires us to define a representation of geography that can be used in analysis. Often, this takes the form of a <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics"><em>graph</em>, or <em>network</em></a>), that links observations. In this mode of analysis, each <em>node</em> is an observation and each <em>edge</em> represents a geographic connection between observations.</p>
+<p>The <code>pysal</code>/<code>libpysal</code> libraries contain many tools for building graphs from geographical data. In these domains, it is common to refer to one representation of the geographical graph as a <em>spatial weights matrix</em>, since it reflects the <em>spatial weight</em> each observation has on every other observation. As such, this is stored in the <code>libpysal.weights</code> module.</p>
+<p>Here, we'll construct the <a href="https://gis.stackexchange.com/questions/172998/queen-vs-rook-neighborhood">Rook Contiguity graph</a> (sometimes called the <a href="https://en.wikipedia.org/wiki/Von_Neumann_neighborhood">von Neuman neighborhood</a>) for counties using the <code>libpysal.weights.Rook</code> constructor:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">libpysal</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">Rook</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">deep</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To see what this looks like, we can plot the graph below, where "connected" counties have a black line drawn between their centers:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">deep</span><span class="p">,</span> <span class="n">edge_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">linewidth</span><span class="o">=.</span><span class="mi">5</span><span class="p">),</span> 
+              <span class="n">node_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">deep</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;STATE_NAME&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">basemap</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bilinear&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/geosilhouettes_37_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Path-Silhouettes">Path Silhouettes<a class="anchor-link" href="#Path-Silhouettes"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The path silhouette models the joint geographical and feature dissimilarity between two observations as a <em>joint</em> spatial and social similarity:</p>
+$$ d(i,j) = d_f(i,j) * d_s(i,j)$$<p>where $d_f(i,j)$ is the dissimilarity between the <em>features</em> for observations $i$ and $j$ and $d_s(i,j)$ is the <em>spatial</em> dissimilarity between sites $i$ and $j$. Often $d_s(i,j)$ is measured by the euclidean distance matrix between all pairs of sites, but this can sometimes include inaccurate or mis-representative information about distances for some kinds of spatial data. Therefore, the <em>path</em> silhouette uses a $d_s$ that computes the total pairwise dissimilarity for a <em>path</em> connecting $i$ and $j$.</p>
+<p>For the full distance matrix, this <em>path</em> dissimilarity between sites $i$ and $j$ reduces simply to the dissimilarity between sites $i$ and $j$, multiplied by the dissimilarity between sites $i$ and $j$. When $d_s$ is <em>not</em> the full distance matrix, $d_f(i,j) * d_s(i,j)$ is modeled as the length of the shortest path connecting sites $i$ and $j$. This path may include <em>other</em> intermediate sites, such that the whole path cost is the <em>sum</em> of the links on the shortest path from $i$ to $j$. For instance, if the shortest path from $i$ to $j$ is built from additional links $i \rightarrow l \rightarrow m \rightarrow j$, then the path cost representing $d(i,j)$ is:</p>
+$$ d(i,j) = d_f(i,l) * d_s(i,l) + d_f(l,m) * d_s(l,m) + d_f(m,j) * d_s(m,j)$$<p>This <em>path metric</em> is common in geographical analysis problems, but provides a useful insight into the joint geographical-feature similarity of observations &amp; groups. Then, with this $d$, the silouette is computed identically.</p>
+<p>In <code>esda</code>, this is done using the spatial weights object we built before, in addition to the same data and labels we used before for the classical silhouette:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">path_silhouette</span> <span class="o">=</span> <span class="n">esda</span><span class="o">.</span><span class="n">path_silhouette</span><span class="p">(</span><span class="n">deep</span><span class="p">[[</span><span class="s1">&#39;GI89&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+                                       <span class="n">deep</span><span class="o">.</span><span class="n">state_label</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">path_silhouette</span><span class="p">)</span>
+<span class="n">deep</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">path_silhouette</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-.</span><span class="mi">5</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=.</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">basemap</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bilinear&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">deep</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]])</span>
+<span class="n">f</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/geosilhouettes_41_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>With this, we see that <em>most</em> path silhouetes are positive, but some (especially on the boundaries between similar states) are negative. Further, we see that the two states surfaced in the traditional silhouette analysis (Louisiana and South Carolina) are <em>again</em> strongly path-similar, meaning they're both geographically distinctive and homogenous in their inequality profiles.</p>
+<p>There is much additional output available from the <code>path_silhouette</code> function, but one useful output provides the path equivalent of <code>nearest_label</code>: the next best fit cluster under the path metric. To access this, pass <code>return_nbfc=True</code> to the <code>path_silhouette</code> function:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">path_silhouette</span><span class="p">,</span> <span class="n">next_best_path</span> <span class="o">=</span> <span class="n">esda</span><span class="o">.</span><span class="n">path_silhouette</span><span class="p">(</span><span class="n">deep</span><span class="p">[[</span><span class="s1">&#39;GI89&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+                                                       <span class="n">deep</span><span class="o">.</span><span class="n">state_label</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> 
+                                                       <span class="n">return_nbfc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Intuitively with this, we see that the <em>path</em> similarity can enforce a strong spatial structure in the second choice cluster plots. For instance, the "end" states (Louisiana and South Carolina) have basically no choice other than their closest state. But, the middle three states are split quite neatly in half between their neighbors.</p>
+<p>However, together these combine in the silhouette plot to produce rather remarkable patterns in terms of joint geographical and feature similarity! The patterns don't strictly follow the boundaries. Indeed, the negative path silhouettes in north Georgia (largely driven by similarities within the Atlanta-Athens suburbs) and the positive areas completely disregard the divisions in the path-similar map. This suggests that this similarity changes smoothly over geography, even when the "reference" category does not.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">next_best_path_state</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">focus_states</span><span class="p">)[</span><span class="n">next_best_path</span><span class="p">]</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">deep</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">path_silhouette</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-.</span><span class="mi">5</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=.</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">deep</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">next_best_path_state</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+               <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+               <span class="n">legend_kwds</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Most path-similar other state&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax_</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">ax_</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">basemap</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bilinear&#39;</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/geosilhouettes_45_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Boundary-Silhouettes">Boundary Silhouettes<a class="anchor-link" href="#Boundary-Silhouettes"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The final measure of geographical similarity using silhouette statistics constraints the silhoutte "second choice" clusters to make geographical "sense." By this, consider the map of second-choice clusters from the classic silhouette again:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nearest_label</span> <span class="o">=</span> <span class="n">esda</span><span class="o">.</span><span class="n">nearest_label</span><span class="p">(</span><span class="n">deep</span><span class="p">[[</span><span class="s1">&#39;GI89&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">deep</span><span class="o">.</span><span class="n">state_label</span><span class="p">)</span>
+<span class="n">nearest_outside_state</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">focus_states</span><span class="p">)[</span><span class="n">nearest_label</span><span class="p">]</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">deep</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;STATE_NAME&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">deep</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nearest_outside_state</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+               <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+               <span class="n">legend_kwds</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Most similar *other* state to county ($\hat</span><span class="si">{k}</span><span class="s1">_i$)&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax_</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">ax_</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">basemap</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bilinear&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/opt/conda/lib/python3.7/site-packages/numpy/core/fromnumeric.py:51: FutureWarning: Series.nonzero() is deprecated and will be removed in a future version.Use Series.to_numpy().nonzero() instead
+  return getattr(obj, method)(*args, **kwds)
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/geosilhouettes_48_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this case, there are many counties in South Carolina whose "second choice" is all the way over in Louisiana! This is unrealistic, since these observations can't really plausibly be grouped with Louisiana counties in a geographical sense. To account for this, we restrict our attention only to counties that have a <em>feasible</em> second choice, meaning they could "flip" over to the other group without becoming isolated.</p>
+<p>This automatially restricts our attention to the <em>border</em> counties, those that touch another state. For a boundary silhouette, all "interior" observations, those that are <em>not</em> touching an observation in another group, have a default value of zero for their boundary silhouette. All others constrain $\hat{k}_i$ to be a cluster that $i$ <em>is near</em>, geographically. With this constraint, the rest of the silhouette is computed as normal.</p>
+<p>To show what this looks like, we can use the <code>esda.boundary_silhouette</code> function:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">boundary_silhouette</span> <span class="o">=</span> <span class="n">esda</span><span class="o">.</span><span class="n">boundary_silhouette</span><span class="p">(</span><span class="n">deep</span><span class="p">[[</span><span class="s1">&#39;GI89&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+                                               <span class="n">deep</span><span class="o">.</span><span class="n">state_label</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="n">deep</span><span class="p">[</span><span class="s1">&#39;boundary_silhouette&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">boundary_silhouette</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For this, the <em>vast</em> majority of the observations are not on borders between states, so most boundary silhouettes are zeros:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">deep</span><span class="o">.</span><span class="n">boundary_silhouette</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f8e2d100a90&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/geosilhouettes_52_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So, it often makes sense to consider these "structural" zeros separately from the observations that are <em>actually</em> on the boundary:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">deep</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;boundary_silhouette != 0&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">boundary_silhouette</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f8e2d0e79b0&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/geosilhouettes_54_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>These observations are negative when a <em>boundary</em> county is more similar to the state on the <em>other side of the boundary</em> than it is to its own state. They are positive when a county is more similar to its own state than it is for the other state on the other side of the boundary.</p>
+<p>Visualizing this silhouette, it helps to separate out the zeros again:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">deep</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;boundary_silhouette != 0&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">boundary_silhouette</span><span class="p">)</span>
+<span class="n">deep</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;STATE_NAME&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">deep</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;boundary_silhouette != 0&#39;</span><span class="p">)</span>\
+    <span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;boundary_silhouette&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">,</span> 
+          <span class="n">vmin</span><span class="o">=-.</span><span class="mi">5</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">basemap</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bilinear&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">deep</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]])</span>
+<span class="n">f</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/geosilhouettes_56_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>From this, you can see things like:</p>
+<ul>
+<li>All the tracts on the Mississippi-Louisiana border have more similar Gini values to those in Louisiana. </li>
+<li>North and South Alabama differ significantly in their similarities to Mississippi; in the north, boundary tracts are much more "Alabaman" than in the south. </li>
+<li>The boundary between Alabama and Georgia is quite weak; most of the silhouttes are very close to zero, suggesting the dissimilarity in this area is rather gradual, and that the border tracts between the two are quite similar to either Alabama or Georgia. </li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Overall, silhouette statistics are useful in the analysis of clustering and similarity. However, in geographical applications, it sometimes becomes important to understand the <em>geographical</em> structure of groups, in addition to the feature structure explored by silhouette statistics. So, two new silhouette statistics are proposed in Wolf, Knaap, and Rey (2019):</p>
+<ol>
+<li>The path silhouette, which measures the joint feature &amp; geographical similarity.</li>
+<li>The boundary silhouette, which measures the similarity of <em>boundaries</em> between groups. </li>
+</ol>
+<p>Both have distinct uses, and do not supersede the silhouette statistic. Rather, they are spatial complements that provide different information about the geographical structure of groups in clustering problems.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

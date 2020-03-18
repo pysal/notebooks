@@ -3,18 +3,52 @@ redirect_from:
   - "/explore/segregation/inference-wrappers-example"
 interact_link: content/explore/segregation/inference_wrappers_example.ipynb
 kernel_name: python3
+kernel_path: content/explore/segregation
 has_widgets: false
-title: 'inference_wrappers_example'
+title: |-
+  inference_wrappers_example
+pagenum: 28
 prev_page:
   url: /explore/segregation/decomposition_wrapper_example.html
-  title: 'decomposition_wrapper_example'
 next_page:
   url: /explore/segregation/local_measures_example.html
-  title: 'local_measures_example'
+suffix: .ipynb
+search: value index dissimilarity comparative inference segregation under null relative spatial hypothesis class approach sacramento data example function p distribution hispanic segregated single concentration measure also evenness group centralization gini user significance possible values same point terms d conclusion wrappers pysal iterations composition estimation test not map riverside cases using simulations following seg tailed est twovaluetest case its census examples statistically rely compare significantly h different permutation between desired interest unit table framework perform classes fitted analysis type singlevaluetest sim statistic firstly module functions estimate ca github com libpysal master population tracts pre uses iterate comparing question rise significant answer infersegregation
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">inference_wrappers_example</div>
+</div>
+    <div class="jb_cell">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents"> </a></h1><ul>
+<li><a href="#Inference-Wrappers-use-cases">Inference Wrappers use cases</a><ul>
+<li><a href="#Single-Value">Single Value</a><ul>
+<li><a href="#Dissimilarity">Dissimilarity</a></li>
+<li><a href="#Relative-Concentration">Relative Concentration</a></li>
+<li><a href="#Relative-Centralization">Relative Centralization</a></li>
+</ul>
+</li>
+<li><a href="#Comparative-Inference">Comparative Inference</a><ul>
+<li><a href="#Comparative-Dissimilarity">Comparative Dissimilarity</a></li>
+<li><a href="#Comparative-Gini">Comparative Gini</a></li>
+<li><a href="#Comparative-Spatial-Dissimilarity">Comparative Spatial Dissimilarity</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -22,8 +56,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -56,8 +91,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -66,12 +102,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -79,12 +114,12 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="kn">from</span> <span class="nn">pysal.explore</span> <span class="k">import</span> <span class="n">segregation</span>
-<span class="kn">import</span> <span class="nn">pysal.lib</span>
+<span class="kn">import</span> <span class="nn">segregation</span>
+<span class="kn">import</span> <span class="nn">libpysal</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">pysal.explore.segregation.inference</span> <span class="k">import</span> <span class="n">SingleValueTest</span><span class="p">,</span> <span class="n">TwoValueTest</span>
+<span class="kn">from</span> <span class="nn">segregation.inference</span> <span class="kn">import</span> <span class="n">SingleValueTest</span><span class="p">,</span> <span class="n">TwoValueTest</span>
 </pre></div>
 
     </div>
@@ -92,33 +127,29 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Then it's time to load some data to estimate segregation. We use the data of 2000 Census Tract Data for the metropolitan area of Sacramento, CA, USA.</p>
 <p>We use a geopandas dataframe available in PySAL examples repository.</p>
-<p>For more information about the data: <a href="https://github.com/pysal/pysal.lib/tree/master/pysal.lib/examples/sacramento2">https://github.com/pysal/pysal.lib/tree/master/pysal.lib/examples/sacramento2</a></p>
+<p>For more information about the data: <a href="https://github.com/pysal/libpysal/tree/master/libpysal/examples/sacramento2">https://github.com/pysal/libpysal/tree/master/libpysal/examples/sacramento2</a></p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s_map</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">pysal</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;sacramentot2.shp&quot;</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s_map</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;sacramentot2.shp&quot;</span><span class="p">))</span>
 <span class="n">s_map</span><span class="o">.</span><span class="n">columns</span>
 </pre></div>
 
@@ -126,14 +157,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -154,12 +181,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -172,12 +198,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -186,12 +209,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -208,31 +230,27 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x2b483cda5c0&gt;</pre>
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x20e1272e860&gt;</pre>
 </div>
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/inference_wrappers_example_8_1.png"
+<img src="../../images/explore/segregation/inference_wrappers_example_9_1.png"
 >
 </div>
 
@@ -242,27 +260,47 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Single-Value">Single Value<a class="anchor-link" href="#Single-Value"> </a></h2><h3 id="Dissimilarity">Dissimilarity<a class="anchor-link" href="#Dissimilarity"> </a></h3><p>The <strong>SingleValueTest</strong> function expect to receive a pre-fitted segregation class and then it uses the underlying data to iterate over the null hypothesis and comparing the results with point estimation of the index. Thus, we need to firstly estimate some measure. We can fit the classic Dissimilarity index:</p>
+<h2 id="Single-Value">Single Value<a class="anchor-link" href="#Single-Value"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Dissimilarity">Dissimilarity<a class="anchor-link" href="#Dissimilarity"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <strong>SingleValueTest</strong> function expect to receive a pre-fitted segregation class and then it uses the underlying data to iterate over the null hypothesis and comparing the results with point estimation of the index. Thus, we need to firstly estimate some measure. We can fit the classic Dissimilarity index:</p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.aspatial</span> <span class="k">import</span> <span class="n">Dissim</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.aspatial</span> <span class="kn">import</span> <span class="n">Dissim</span>
 <span class="n">D</span> <span class="o">=</span> <span class="n">Dissim</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
 <span class="n">D</span><span class="o">.</span><span class="n">statistic</span>
 </pre></div>
@@ -271,14 +309,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -293,8 +327,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -303,12 +338,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -320,18 +354,34 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+
+ 
+ 
+<div id="6cb3e3b0-e5a0-4897-99a2-c2e39ddcf241"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#6cb3e3b0-e5a0-4897-99a2-c2e39ddcf241');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "fd0bcddf3b4441a0b83286bde09b23f1", "version_major": 2, "version_minor": 0}
+</script>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Processed 1000 iterations out of 1000.
+<pre>
 </pre>
 </div>
 </div>
@@ -340,8 +390,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -350,12 +401,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -367,20 +417,27 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x20e127eb630&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/inference_wrappers_example_14_0.png"
+<img src="../../images/explore/segregation/inference_wrappers_example_17_1.png"
 >
 </div>
 
@@ -390,8 +447,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -400,12 +458,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -417,20 +474,16 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.016104442562906662</pre>
+<pre>0.016109671121956267</pre>
 </div>
 
 </div>
@@ -439,8 +492,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -450,12 +504,11 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -467,14 +520,10 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -489,8 +538,9 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -500,12 +550,11 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -517,18 +566,34 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+
+ 
+ 
+<div id="2d1628d1-5037-4d78-8bc7-88969c60701f"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#2d1628d1-5037-4d78-8bc7-88969c60701f');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "116d6e27ddb6443c9a7f6233c6205053", "version_major": 2, "version_minor": 0}
+</script>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Processed 5000 iterations out of 5000.
+<pre>
 </pre>
 </div>
 </div>
@@ -537,12 +602,11 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -554,20 +618,27 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x20e128235c0&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/inference_wrappers_example_21_0.png"
+<img src="../../images/explore/segregation/inference_wrappers_example_24_1.png"
 >
 </div>
 
@@ -577,8 +648,9 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -587,8 +659,9 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -596,8 +669,9 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -606,17 +680,16 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">RelativeConcentration</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">RelativeConcentration</span>
 <span class="n">RCO</span> <span class="o">=</span> <span class="n">RelativeConcentration</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -625,12 +698,9 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -639,12 +709,11 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -656,18 +725,34 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+
+ 
+ 
+<div id="5ae71c23-b7cb-4065-8cde-e1ab4ccbd4b9"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#5ae71c23-b7cb-4065-8cde-e1ab4ccbd4b9');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "24b830ffe15f4024997e61c73212589f", "version_major": 2, "version_minor": 0}
+</script>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Processed 1000 iterations out of 1000.
+<pre>
 </pre>
 </div>
 </div>
@@ -676,12 +761,11 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -693,20 +777,27 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x20e15dba9b0&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/inference_wrappers_example_28_0.png"
+<img src="../../images/explore/segregation/inference_wrappers_example_31_1.png"
 >
 </div>
 
@@ -716,12 +807,11 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -733,20 +823,16 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.436</pre>
+<pre>0.452</pre>
 </div>
 
 </div>
@@ -755,8 +841,9 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -765,8 +852,9 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -775,12 +863,11 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -793,29 +880,56 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+
+ 
+ 
+<div id="6919dbb7-e1a7-419b-b496-4c5adf3a12c4"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#6919dbb7-e1a7-419b-b496-4c5adf3a12c4');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "93c551d12b524fb0ba904c2ad6339854", "version_major": 2, "version_minor": 0}
+</script>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Processed 1000 iterations out of 1000.
+<pre>
 </pre>
 </div>
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x20e15d8db38&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/inference_wrappers_example_32_1.png"
+<img src="../../images/explore/segregation/inference_wrappers_example_35_3.png"
 >
 </div>
 
@@ -825,8 +939,9 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -834,8 +949,9 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -844,17 +960,16 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">RelativeCentralization</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">RelativeCentralization</span>
 <span class="n">RCE</span> <span class="o">=</span> <span class="n">RelativeCentralization</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
 <span class="n">infer_RCE_per</span> <span class="o">=</span> <span class="n">SingleValueTest</span><span class="p">(</span><span class="n">RCE</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s2">&quot;permutation&quot;</span><span class="p">,</span> <span class="n">two_tailed</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
@@ -863,14 +978,10 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -883,12 +994,11 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -900,20 +1010,16 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/inference_wrappers_example_36_0.png"
+<img src="../../images/explore/segregation/inference_wrappers_example_39_0.png"
 >
 </div>
 
@@ -923,8 +1029,9 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -934,8 +1041,9 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -943,8 +1051,9 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -954,24 +1063,24 @@ $$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This example uses all census data that the user must provide your own copy of the external database.
-A step-by-step procedure for downloading the data can be found here: <a href="https://github.com/spatialucr/geosnap/tree/master/geosnap/data">https://github.com/spatialucr/geosnap/tree/master/geosnap/data</a>.
+A step-by-step procedure for downloading the data can be found here: <a href="https://github.com/spatialucr/geosnap/blob/master/examples/01_getting_started.ipynb">https://github.com/spatialucr/geosnap/blob/master/examples/01_getting_started.ipynb</a>.
 After the user download the zip files, you must provide the path to these files.</p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -985,22 +1094,17 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">geosnap</span>
-<span class="kn">from</span> <span class="nn">geosnap.data.data</span> <span class="k">import</span> <span class="n">read_ltdb</span>
+<span class="kn">from</span> <span class="nn">geosnap.data.data</span> <span class="kn">import</span> <span class="n">read_ltdb</span>
 
 <span class="n">sample</span> <span class="o">=</span> <span class="s2">&quot;LTDB_Std_All_Sample.zip&quot;</span>
 <span class="n">full</span> <span class="o">=</span> <span class="s2">&quot;LTDB_Std_All_fullcount.zip&quot;</span>
@@ -1014,17 +1118,28 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\Users\renan\AppData\Local\Continuum\anaconda3\lib\site-packages\pysal\__init__.py:65: VisibleDeprecationWarning: PySAL&#39;s API will be changed on 2018-12-31. The last release made with this API is version 1.14.4. A preview of the next API version is provided in the `pysal` 2.0 prelease candidate. The API changes and a guide on how to change imports is provided at https://pysal.org/about
+  ), VisibleDeprecationWarning)
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 
-
-
+</div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1036,14 +1151,10 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1246,8 +1357,9 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1256,12 +1368,11 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1278,14 +1389,10 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1382,8 +1489,9 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1392,12 +1500,11 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1410,14 +1517,10 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1514,8 +1617,9 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1524,12 +1628,11 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1548,16 +1651,11 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1569,14 +1667,10 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1658,12 +1752,11 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1677,12 +1770,9 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1691,12 +1781,11 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1711,14 +1800,10 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1729,13 +1814,13 @@ After the user download the zip files, you must provide the path to these files.
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/inference_wrappers_example_53_1.png"
+<img src="../../images/explore/segregation/inference_wrappers_example_56_1.png"
 >
 </div>
 
@@ -1745,8 +1830,9 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1755,12 +1841,11 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1775,14 +1860,10 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1793,13 +1874,13 @@ After the user download the zip files, you must provide the path to these files.
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/inference_wrappers_example_55_1.png"
+<img src="../../images/explore/segregation/inference_wrappers_example_58_1.png"
 >
 </div>
 
@@ -1809,8 +1890,9 @@ After the user download the zip files, you must provide the path to these files.
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1819,8 +1901,9 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1828,12 +1911,11 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1847,14 +1929,10 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1869,8 +1947,9 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1879,12 +1958,11 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1896,14 +1974,10 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1916,8 +1990,9 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1926,12 +2001,11 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1943,20 +2017,16 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/inference_wrappers_example_62_0.png"
+<img src="../../images/explore/segregation/inference_wrappers_example_65_0.png"
 >
 </div>
 
@@ -1966,8 +2036,9 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1976,12 +2047,11 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1993,14 +2063,10 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -2015,8 +2081,9 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -2025,8 +2092,9 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -2034,8 +2102,9 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -2044,17 +2113,16 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.aspatial</span> <span class="k">import</span> <span class="n">GiniSeg</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.aspatial</span> <span class="kn">import</span> <span class="n">GiniSeg</span>
 <span class="n">G_2000</span> <span class="o">=</span> <span class="n">GiniSeg</span><span class="p">(</span><span class="n">gdf_2000</span><span class="p">,</span> <span class="s1">&#39;n_nonhisp_black_persons&#39;</span><span class="p">,</span> <span class="s1">&#39;n_total_pop&#39;</span><span class="p">)</span>
 <span class="n">G_2010</span> <span class="o">=</span> <span class="n">GiniSeg</span><span class="p">(</span><span class="n">gdf_2010</span><span class="p">,</span> <span class="s1">&#39;n_nonhisp_black_persons&#39;</span><span class="p">,</span> <span class="s1">&#39;n_total_pop&#39;</span><span class="p">)</span>
 <span class="n">compare_G_fit</span> <span class="o">=</span> <span class="n">TwoValueTest</span><span class="p">(</span><span class="n">G_2000</span><span class="p">,</span> <span class="n">G_2010</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s2">&quot;random_label&quot;</span><span class="p">)</span>
@@ -2065,14 +2133,10 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2081,13 +2145,13 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/inference_wrappers_example_68_1.png"
+<img src="../../images/explore/segregation/inference_wrappers_example_71_1.png"
 >
 </div>
 
@@ -2097,8 +2161,9 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -2107,8 +2172,9 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -2116,8 +2182,9 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -2127,17 +2194,16 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">SpatialDissim</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">SpatialDissim</span>
 <span class="n">SD_2000</span> <span class="o">=</span> <span class="n">SpatialDissim</span><span class="p">(</span><span class="n">gdf_2000</span><span class="p">,</span> <span class="s1">&#39;n_nonhisp_black_persons&#39;</span><span class="p">,</span> <span class="s1">&#39;n_total_pop&#39;</span><span class="p">)</span>
 <span class="n">SD_2010</span> <span class="o">=</span> <span class="n">SpatialDissim</span><span class="p">(</span><span class="n">gdf_2010</span><span class="p">,</span> <span class="s1">&#39;n_nonhisp_black_persons&#39;</span><span class="p">,</span> <span class="s1">&#39;n_total_pop&#39;</span><span class="p">)</span>
 <span class="n">compare_SD_fit</span> <span class="o">=</span> <span class="n">TwoValueTest</span><span class="p">(</span><span class="n">SD_2000</span><span class="p">,</span> <span class="n">SD_2010</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s2">&quot;counterfactual_composition&quot;</span><span class="p">)</span>
@@ -2148,14 +2214,10 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2164,13 +2226,13 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/inference_wrappers_example_72_1.png"
+<img src="../../images/explore/segregation/inference_wrappers_example_75_1.png"
 >
 </div>
 
@@ -2180,8 +2242,9 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -2190,6 +2253,10 @@ $$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
 </div>
 </div>
 </div>
+</div>
 
  
 
+
+    </main>
+    

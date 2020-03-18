@@ -3,18 +3,25 @@ redirect_from:
   - "/explore/esda/spatial-autocorrelation-for-areal-unit-data"
 interact_link: content/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data.ipynb
 kernel_name: python3
+kernel_path: content/explore/esda
 has_widgets: false
-title: 'Spatial_Autocorrelation_for_Areal_Unit_Data'
+title: |-
+  Spatial_Autocorrelation_for_Areal_Unit_Data
+pagenum: 2
 prev_page:
   url: /explore/esda/intro.html
-  title: 'esda'
 next_page:
-  url: /explore/giddy/intro.html
-  title: 'giddy'
+  url: /explore/esda/geosilhouettes.html
+suffix: .ipynb
+search: spatial our autocorrelation black similarity attribute binary observed value joins prices local case bb count analysis distribution weights white join map us random values types different pysal variable data statistical polygons lag counts object statistics permutations null continuous tests clustering median neighborhood similar however where measures here pair focal global under test process csr again statistic exploratory notebook complement formal berlin constructed part geopython workshop ljwolf org visual pattern not south powerful patterns concept although measure lets generate formalize neighborhoods j still visually unit average logic above below reflected given three expect question whether uses complete randomness reference significance synthetic
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">Spatial_Autocorrelation_for_Areal_Unit_Data</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -25,46 +32,23 @@ multivariate statistical tests for spatial clustering.</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">))</span>
-<span class="kn">from</span> <span class="nn">pysal.explore</span> <span class="k">import</span> <span class="n">esda</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-
-
-
-</div>
-
-
-
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">esda</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="kn">import</span> <span class="nn">pysal.lib</span> <span class="k">as</span> <span class="nn">lps</span>
+<span class="kn">from</span> <span class="nn">geopandas</span> <span class="kn">import</span> <span class="n">GeoDataFrame</span>
+<span class="kn">import</span> <span class="nn">libpysal</span> <span class="k">as</span> <span class="nn">lps</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
 
@@ -73,12 +57,9 @@ multivariate statistical tests for spatial clustering.</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -87,18 +68,16 @@ multivariate statistical tests for spatial clustering.</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s1">&#39;data/neighborhoods.shp&#39;</span><span class="p">)</span>
-<span class="c1"># was created in previous notebook with df.to_file(&#39;data/neighborhoods.shp&#39;)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s1">&#39;data/berlin-neighbourhoods.geojson&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -106,21 +85,19 @@ multivariate statistical tests for spatial clustering.</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/berlin-listings.csv&#39;</span><span class="p">)</span>
+<span class="n">geometry</span> <span class="o">=</span> <span class="p">[</span><span class="n">Point</span><span class="p">(</span><span class="n">xy</span><span class="p">)</span> <span class="k">for</span> <span class="n">xy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bl_df</span><span class="o">.</span><span class="n">longitude</span><span class="p">,</span> <span class="n">bl_df</span><span class="o">.</span><span class="n">latitude</span><span class="p">)]</span>
+<span class="n">crs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;init&#39;</span><span class="p">:</span> <span class="s1">&#39;epsg:4326&#39;</span><span class="p">}</span> 
+<span class="n">bl_gdf</span> <span class="o">=</span> <span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">bl_df</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -128,12 +105,226 @@ multivariate statistical tests for spatial clustering.</p>
 </div>
 
 </div>
-
-
-
 </div>
 
+<div class="jb_cell">
 
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl_gdf</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bl_gdf</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">sj_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">sjoin</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">bl_gdf</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="s1">&#39;intersects&#39;</span><span class="p">,</span> <span class="n">lsuffix</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">rsuffix</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+<span class="n">median_price_gb</span> <span class="o">=</span> <span class="n">sj_gdf</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">sj_gdf</span><span class="p">[</span><span class="s1">&#39;neighbourhood_group&#39;</span><span class="p">]])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">median_price_gb</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>neighbourhood_group
+Charlottenburg-Wilm.        58.556408
+Friedrichshain-Kreuzberg    55.492809
+Lichtenberg                 44.584270
+Marzahn - Hellersdorf       54.246754
+Mitte                       60.387890
+Neukölln                    45.135948
+Pankow                      60.282516
+Reinickendorf               43.682465
+Spandau                     48.236561
+Steglitz - Zehlendorf       54.445683
+Tempelhof - Schöneberg      53.704407
+Treptow - Köpenick          51.222004
+Name: price, dtype: float32</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">median_price_gb</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;neighbourhood_group&#39;</span><span class="p">)</span>
+<span class="n">gdf</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;price&#39;</span><span class="p">:</span> <span class="s1">&#39;median_pri&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">gdf</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>neighbourhood</th>
+      <th>neighbourhood_group</th>
+      <th>geometry</th>
+      <th>median_pri</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Blankenfelde/Niederschönhausen</td>
+      <td>Pankow</td>
+      <td>(POLYGON ((13.411909 52.614871, 13.411826 52.6...</td>
+      <td>60.282516</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Helmholtzplatz</td>
+      <td>Pankow</td>
+      <td>(POLYGON ((13.414053 52.549288, 13.414222 52.5...</td>
+      <td>60.282516</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Wiesbadener Straße</td>
+      <td>Charlottenburg-Wilm.</td>
+      <td>(POLYGON ((13.307476 52.467882, 13.307434 52.4...</td>
+      <td>58.556408</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Schmöckwitz/Karolinenhof/Rauchfangswerder</td>
+      <td>Treptow - Köpenick</td>
+      <td>(POLYGON ((13.709727 52.396299, 13.709263 52.3...</td>
+      <td>51.222004</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Müggelheim</td>
+      <td>Treptow - Köpenick</td>
+      <td>(POLYGON ((13.737622 52.408498, 13.737734 52.4...</td>
+      <td>51.222004</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Biesdorf</td>
+      <td>Marzahn - Hellersdorf</td>
+      <td>(POLYGON ((13.566433 52.535103, 13.566974 52.5...</td>
+      <td>54.246754</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Nord 1</td>
+      <td>Reinickendorf</td>
+      <td>(POLYGON ((13.336686 52.622651, 13.336632 52.6...</td>
+      <td>43.682465</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>West 5</td>
+      <td>Reinickendorf</td>
+      <td>(POLYGON ((13.281381 52.59958, 13.281575 52.59...</td>
+      <td>43.682465</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Frankfurter Allee Nord</td>
+      <td>Friedrichshain-Kreuzberg</td>
+      <td>(POLYGON ((13.453201 52.51682, 13.453212 52.51...</td>
+      <td>55.492809</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Buch</td>
+      <td>Pankow</td>
+      <td>(POLYGON ((13.464495 52.650553, 13.464566 52.6...</td>
+      <td>60.282516</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Kaulsdorf</td>
+      <td>Marzahn - Hellersdorf</td>
+      <td>(POLYGON ((13.621353 52.527041, 13.621956 52.5...</td>
+      <td>54.246754</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>None</td>
+      <td>None</td>
+      <td>(POLYGON ((13.616591 52.58154, 13.614579 52.58...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>None</td>
+      <td>None</td>
+      <td>(POLYGON ((13.616681 52.57868, 13.607031 52.57...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>nördliche Luisenstadt</td>
+      <td>Friedrichshain-Kreuzberg</td>
+      <td>(POLYGON ((13.444305 52.500656, 13.442658 52.5...</td>
+      <td>55.492809</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Nord 2</td>
+      <td>Reinickendorf</td>
+      <td>(POLYGON ((13.306802 52.586062, 13.30667 52.58...</td>
+      <td>43.682465</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -142,17 +333,50 @@ multivariate statistical tests for spatial clustering.</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;median_pri&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;median_pri&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;median_pri&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">((</span><span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;median_pri&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -160,67 +384,63 @@ multivariate statistical tests for spatial clustering.</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;median_pri&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;median_pri&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;median_pri&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f03d25dfbe0&gt;</pre>
 </div>
 
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
 
 
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_10_1.png"
+>
 </div>
 
+</div>
+</div>
+</div>
+</div>
 
+</div>
+</div>
+
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;median_pri&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-
-
-
-</div>
-
-
-
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;aspect&#39;</span><span class="p">:</span><span class="s1">&#39;equal&#39;</span><span class="p">})</span>
-<span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;median_pri&#39;</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s1">&#39;Quantiles&#39;</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;GnBu&#39;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;median_pri&#39;</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s1">&#39;Quantiles&#39;</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;GnBu&#39;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 <span class="c1">#ax.set_xlim(150000, 160000)</span>
 <span class="c1">#ax.set_ylim(208000, 215000)</span>
 </pre></div>
@@ -229,13 +449,39 @@ multivariate statistical tests for spatial clustering.</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f03d0938b38&gt;</pre>
 </div>
 
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
 
 
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_11_1.png"
+>
 </div>
 
+</div>
+</div>
+</div>
+</div>
 
+</div>
+</div>
+
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -264,17 +510,17 @@ are many ways to define spatial weights, here we will use queen contiguity:</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wq</span> <span class="o">=</span>  <span class="n">lps</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">Queen</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">gdf</span>
+<span class="n">wq</span> <span class="o">=</span>  <span class="n">lps</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">Queen</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 <span class="n">wq</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span>
 </pre></div>
 
@@ -282,13 +528,26 @@ are many ways to define spatial weights, here we will use queen contiguity:</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/home/serge/anaconda3/envs/esda/lib/python3.7/site-packages/libpysal/weights/weights.py:170: UserWarning: The weights matrix is not fully connected. There are 2 components
+  warnings.warn(&#34;The weights matrix is not fully connected. There are %d components&#34; % self.n_components)
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 
-
-
+</div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -301,12 +560,11 @@ $i$ the spatial lag is defined as: $$ylag_i = \sum_j w_{i,j} y_j$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -320,16 +578,11 @@ $i$ the spatial lag is defined as: $$ylag_i = \sum_j w_{i,j} y_j$$</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -341,22 +594,61 @@ $i$ the spatial lag is defined as: $$ylag_i = \sum_j w_{i,j} y_j$$</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([56.9625061 , 60.28251648, 56.37749926, 51.22200394, 51.22200394,
+       50.52180099, 43.6824646 , 45.63422012, 52.65491422, 60.28251648,
+       53.64180374, 52.73586273, 52.73586273, 56.47182541, 47.83247757,
+       58.58870177, 60.33520317, 59.60296903, 60.38788986, 60.02159348,
+       51.80624199, 57.94034958, 52.84482813, 53.40314266, 57.90522512,
+       60.28251648, 60.28251648, 55.79730334, 56.79401737, 50.81182589,
+       59.01427841, 60.29756982, 60.28251648, 50.86356888, 60.3220315 ,
+       60.28251648, 55.48057556, 54.42881557, 60.32466583, 59.50179418,
+       54.42846909, 58.55640793, 58.55640793, 57.73426285, 57.47818544,
+       57.74774106, 56.13040733, 48.23656082, 48.23656082, 53.74621709,
+       55.11957245, 45.95951271, 51.67650986, 54.1985906 , 51.45368042,
+       52.36880302, 54.44568253, 54.44568253, 50.84825389, 56.50104523,
+       53.92108345, 55.9956289 , 50.49590378, 49.14499828, 48.61369433,
+       49.70049   , 49.32550866, 51.22200394, 51.22200394, 47.80509822,
+       49.70049   , 51.22200394, 45.13594818, 47.57037048, 51.22200394,
+       51.22200394, 51.22200394, 51.22200394, 49.60257785, 51.57007762,
+       51.42743301, 51.22200394, 51.22200394, 52.43339348, 49.41551208,
+       51.58891296, 44.58427048, 51.58891296, 51.42743301, 49.82624902,
+       48.947686  , 48.40726217, 45.95951271, 47.57037048, 43.6824646 ,
+       47.02354965, 45.95951271, 58.55640793, 56.30865606, 58.09966066,
+       47.34497997, 46.40236028, 58.05298805, 59.24321365, 58.55640793,
+       47.83247757, 49.49497332, 50.74955784, 48.6149381 , 55.97644615,
+       57.95624052, 57.87081385, 58.75619634, 60.37283652, 48.23656082,
+       49.389711  , 54.00091705, 54.26036358, 57.54238828, 55.61980756,
+       51.97116137, 48.92101212, 50.97179985, 54.07504463, 47.45824547,
+       49.42017746, 45.13594818, 45.13594818, 48.61369433, 49.41551208,
+       51.22200394, 50.20766131, 48.72533471, 54.24675369, 54.24675369,
+       54.24675369, 53.23850377, 56.1851902 , 49.23337746, 43.6824646 ])</pre>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.viz</span> <span class="k">import</span> <span class="n">mapclassify</span> <span class="k">as</span> <span class="n">mc</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">mapclassify</span> <span class="k">as</span> <span class="nn">mc</span>
 <span class="n">ylagq5</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">Quantiles</span><span class="p">(</span><span class="n">ylag</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 
@@ -365,16 +657,11 @@ $i$ the spatial lag is defined as: $$ylag_i = \sum_j w_{i,j} y_j$$</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -393,13 +680,28 @@ $i$ the spatial lag is defined as: $$ylag_i = \sum_j w_{i,j} y_j$$</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_18_0.png"
+>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -409,12 +711,11 @@ similarity in space. It is, in effect, a local smoother.</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -438,13 +739,28 @@ similarity in space. It is, in effect, a local smoother.</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_20_0.png"
+>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -462,12 +778,11 @@ to illustrate the key concepts:</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -479,17 +794,29 @@ to illustrate the key concepts:</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>53.704407</pre>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -502,13 +829,27 @@ to illustrate the key concepts:</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>68</pre>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -518,12 +859,11 @@ median (recall the issue with ties).</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -539,12 +879,9 @@ median (recall the issue with ties).</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -554,12 +891,11 @@ about the juxtaposition of the "black" and "white" areas.</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -572,13 +908,39 @@ about the juxtaposition of the "black" and "white" areas.</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f03c3d7deb8&gt;</pre>
 </div>
 
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
 
 
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_27_1.png"
+>
 </div>
 
+</div>
+</div>
+</div>
+</div>
 
+</div>
+</div>
+
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -602,17 +964,16 @@ polygons were randomly assigned on the map? This is the logic of join count stat
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore</span> <span class="k">import</span> <span class="n">esda</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">esda</span> 
 <span class="n">yb</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">y</span><span class="o">.</span><span class="n">median</span><span class="p">())</span> <span class="c1"># convert back to binary</span>
 <span class="n">wq</span> <span class="o">=</span>  <span class="n">lps</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">Queen</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 <span class="n">wq</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span>
@@ -624,13 +985,26 @@ polygons were randomly assigned on the map? This is the logic of join count stat
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[[ 89.03626943 102.96373057]
+ [ 89.96373057 104.03626943]]
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 
-
-
+</div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -639,12 +1013,11 @@ polygons were randomly assigned on the map? This is the logic of join count stat
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -656,17 +1029,29 @@ polygons were randomly assigned on the map? This is the logic of join count stat
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>164</pre>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -678,17 +1063,29 @@ polygons were randomly assigned on the map? This is the logic of join count stat
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>149</pre>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -700,13 +1097,27 @@ polygons were randomly assigned on the map? This is the logic of join count stat
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>73</pre>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -715,12 +1126,11 @@ polygons were randomly assigned on the map? This is the logic of join count stat
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -732,13 +1142,27 @@ polygons were randomly assigned on the map? This is the logic of join count stat
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>386</pre>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -747,12 +1171,11 @@ polygons were randomly assigned on the map? This is the logic of join count stat
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -764,13 +1187,27 @@ polygons were randomly assigned on the map? This is the logic of join count stat
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>386.0</pre>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -780,12 +1217,11 @@ polygons were randomly assigned on the map? This is the logic of join count stat
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -797,13 +1233,27 @@ polygons were randomly assigned on the map? This is the logic of join count stat
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>164</pre>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -819,12 +1269,11 @@ statistical significance of our observed counts.</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -836,13 +1285,27 @@ statistical significance of our observed counts.</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>90</pre>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -852,12 +1315,11 @@ value is so different from the expectation that we would reject the null of CSR?
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -873,13 +1335,39 @@ value is so different from the expectation that we would reject the null of CSR?
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Text(0.5, 0, &#39;BB Counts&#39;)</pre>
 </div>
 
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
 
 
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_43_1.png"
+>
 </div>
 
+</div>
+</div>
+</div>
+</div>
 
+</div>
+</div>
+
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -891,12 +1379,11 @@ extremely high. A pseudo p-value summarizes this:</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -908,13 +1395,27 @@ extremely high. A pseudo p-value summarizes this:</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.001</pre>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -931,12 +1432,11 @@ other tests for spatial autocorrelation for the continuous case.</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -949,16 +1449,11 @@ other tests for spatial autocorrelation for the continuous case.</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -971,12 +1466,9 @@ other tests for spatial autocorrelation for the continuous case.</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -985,12 +1477,11 @@ other tests for spatial autocorrelation for the continuous case.</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1004,13 +1495,27 @@ other tests for spatial autocorrelation for the continuous case.</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.6563069331329718</pre>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1021,12 +1526,11 @@ the join count analysis: random spatial permutations.</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1042,13 +1546,39 @@ the join count analysis: random spatial permutations.</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Text(0.5, 0, &#34;Moran&#39;s I&#34;)</pre>
 </div>
 
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
 
 
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_52_1.png"
+>
 </div>
 
+</div>
+</div>
+</div>
+</div>
 
+</div>
+</div>
+
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1058,12 +1588,11 @@ not look as extreme relative to the binary case. Yet, it is still statistically 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1075,13 +1604,27 @@ not look as extreme relative to the binary case. Yet, it is still statistically 
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.001</pre>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1092,18 +1635,17 @@ d</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">12345</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">pysal.explore</span> <span class="k">import</span> <span class="n">esda</span>
+<span class="kn">import</span> <span class="nn">esda</span>
 </pre></div>
 
     </div>
@@ -1111,16 +1653,11 @@ d</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1134,16 +1671,11 @@ d</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1171,13 +1703,28 @@ d</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_58_0.png"
+>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1188,12 +1735,11 @@ in <code>p_sim</code>.</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1205,17 +1751,34 @@ in <code>p_sim</code>.</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/home/serge/Dropbox/p/pysal/src/subpackages/esda/esda/moran.py:886: RuntimeWarning: invalid value encountered in true_divide
+  self.z_sim = (self.Is - self.EI_sim) / self.seI_sim
+/home/serge/anaconda3/envs/esda/lib/python3.7/site-packages/scipy/stats/_distn_infrastructure.py:901: RuntimeWarning: invalid value encountered in greater
+  return (a &lt; x) &amp; (x &lt; b)
+/home/serge/anaconda3/envs/esda/lib/python3.7/site-packages/scipy/stats/_distn_infrastructure.py:901: RuntimeWarning: invalid value encountered in less
+  return (a &lt; x) &amp; (x &lt; b)
+/home/serge/anaconda3/envs/esda/lib/python3.7/site-packages/scipy/stats/_distn_infrastructure.py:1807: RuntimeWarning: invalid value encountered in greater_equal
+  cond2 = (x &gt;= _b) &amp; cond0
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 
-
-
+</div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1227,13 +1790,33 @@ in <code>p_sim</code>.</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1, 1, 1, 3, 3, 4, 3, 3, 4, 1, 1, 3, 3, 1, 3, 1, 1, 1, 1, 1, 4, 1,
+       1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 3, 3, 1, 1, 3, 3, 1, 3, 3, 1, 1, 4, 1, 1, 1, 3, 3, 3, 3,
+       3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 3,
+       3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 3, 3, 1, 1, 1, 3, 3, 4, 3, 1,
+       1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 4, 3, 4, 1, 3, 3, 3, 3, 3, 4, 3, 3,
+       4, 1, 1, 1, 1, 2, 3, 3])</pre>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1243,12 +1826,11 @@ conditional random permutations (different distributions for each focal location
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1260,13 +1842,27 @@ conditional random permutations (different distributions for each focal location
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>63</pre>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1276,12 +1872,11 @@ the four quadrants of the Moran Scatterplot above:</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1298,16 +1893,11 @@ the four quadrants of the Moran Scatterplot above:</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1321,22 +1911,17 @@ the four quadrants of the Moran Scatterplot above:</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">colors</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">colors</span>
 <span class="n">hmap</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">([</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;lightgrey&#39;</span><span class="p">])</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
 <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">cl</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;cl&#39;</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> \
@@ -1350,17 +1935,30 @@ the four quadrants of the Moran Scatterplot above:</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_67_0.png"
+>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1374,22 +1972,17 @@ the four quadrants of the Moran Scatterplot above:</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">colors</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">colors</span>
 <span class="n">hmap</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">([</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;lightgrey&#39;</span><span class="p">])</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
 <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">cl</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;cl&#39;</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> \
@@ -1403,17 +1996,30 @@ the four quadrants of the Moran Scatterplot above:</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_69_0.png"
+>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1427,22 +2033,17 @@ the four quadrants of the Moran Scatterplot above:</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">colors</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">colors</span>
 <span class="n">hmap</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">([</span><span class="s1">&#39;lightblue&#39;</span><span class="p">,</span> <span class="s1">&#39;lightgrey&#39;</span><span class="p">])</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
 <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">cl</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;cl&#39;</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> \
@@ -1456,17 +2057,30 @@ the four quadrants of the Moran Scatterplot above:</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_71_0.png"
+>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1480,22 +2094,17 @@ the four quadrants of the Moran Scatterplot above:</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">colors</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">colors</span>
 <span class="n">hmap</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">([</span><span class="s1">&#39;pink&#39;</span><span class="p">,</span> <span class="s1">&#39;lightgrey&#39;</span><span class="p">])</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
 <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">cl</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;cl&#39;</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> \
@@ -1509,17 +2118,30 @@ the four quadrants of the Moran Scatterplot above:</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_73_0.png"
+>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1537,17 +2159,35 @@ the four quadrants of the Moran Scatterplot above:</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1, 1, 0, 0, 0, 0, 3, 3, 0, 1, 0, 3, 3, 0, 3, 1, 1, 1, 1, 1, 0, 1,
+       0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1,
+       1, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 3, 3, 0,
+       0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0,
+       0, 0, 0, 3, 3, 3, 3, 3, 3, 1, 0, 1, 3, 3, 1, 1, 1, 0, 0, 0, 3, 0,
+       1, 1, 1, 1, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 3, 0, 3, 3, 3, 0, 0, 0,
+       4, 0, 0, 0, 0, 0, 0, 3])</pre>
 </div>
 
-
-
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
 
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1561,21 +2201,16 @@ the four quadrants of the Moran Scatterplot above:</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">colors</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">colors</span>
 <span class="n">hmap</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">([</span> <span class="s1">&#39;lightgrey&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;lightblue&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;pink&#39;</span><span class="p">])</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
 <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">cl</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;cl&#39;</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> \
@@ -1589,235 +2224,29 @@ the four quadrants of the Moran Scatterplot above:</p>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data_76_0.png"
+>
 </div>
 
-
-
 </div>
-
-
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="S-maup:-Statistical-test-to-measure-the-sensitivity-to-the-modifiable-areal-unit-problem">S-maup: Statistical test to measure the sensitivity to the modifiable areal unit problem<a class="anchor-link" href="#S-maup:-Statistical-test-to-measure-the-sensitivity-to-the-modifiable-areal-unit-problem"> </a></h2><p>This is a nonparametric statistical test to measure the sensitivity of a spatially intensive variable to the effects of the Modifiable Areal Unit Problem (MAUP). The S-maup statistic can be used to find the maximum level of spatial aggregation (k) that preserves the distributional characteristics of the spatial variable before being aggregated.</p>
-<p><strong>H0</strong>: The variable y <strong>is not</strong> significantly affected by the MAUP.</p>
-<p><strong>H1</strong>: The variable y <strong>is</strong> significantly affected by the MAUP.</p>
-<p><strong>Citation</strong>: Duque JC, Laniado H, Polo A (2018) S-maup: Statistical test to measure the sensitivity to the modifiable areal unit problem. PLoS ONE 13(11): e0207377. <a href="https://doi.org/10.1371/journal.pone.0207377">https://doi.org/10.1371/journal.pone.0207377</a></p>
-<p><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0207377">https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0207377</a></p>
-
 </div>
 </div>
 </div>
 
-
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's find the maximum number of regions (k) in which we can aggregate (n) areas before having the negative consequences of the MAUP</p>
-
 </div>
-</div>
-</div>
-
-
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="1.-load-the-map">1. load the map<a class="anchor-link" href="#1.-load-the-map"> </a></h3>
-</div>
-</div>
-</div>
-
-
-
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#import pysal.lib</span>
-<span class="c1">#from pysal.explore.esda.moran import Moran</span>
-<span class="c1">#from pysal.explore.esda.smaup import Smaup</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-
-
-
-</div>
-
-
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="2.-select-the-variable-to-analyze">2. select the variable to analyze<a class="anchor-link" href="#2.-select-the-variable-to-analyze"> </a></h3>
-</div>
-</div>
-</div>
-
-
-
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#f = pysal.lib.io.open(pysal.lib.examples.get_path(&quot;stl_hom.txt&quot;))</span>
-<span class="c1">#y = np.array(f.by_col[&#39;HR8893&#39;])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-
-
-
-</div>
-
-
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="3.-calculate-the-level-of-spatial-autocorrelation">3. calculate the level of spatial autocorrelation<a class="anchor-link" href="#3.-calculate-the-level-of-spatial-autocorrelation"> </a></h3>
-</div>
-</div>
-</div>
-
-
-
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#w = pysal.lib.io.open(pysal.lib.examples.get_path(&quot;stl.gal&quot;)).read()</span>
-<span class="c1">#rho = Moran(y,  w).I</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-
-
-
-</div>
-
-
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="4.-calculate-the-number-of-areas-(n)">4. calculate the number of areas (n)<a class="anchor-link" href="#4.-calculate-the-number-of-areas-(n)"> </a></h3>
-</div>
-</div>
-</div>
-
-
-
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#n = len(y)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-
-
-
-</div>
-
-
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="5.-let's-begin-with-the-minimum-level-of-aggregation-which-is-the-number-of-areas-minus-one">5. let's begin with the minimum level of aggregation which is the number of areas minus one<a class="anchor-link" href="#5.-let's-begin-with-the-minimum-level-of-aggregation-which-is-the-number-of-areas-minus-one"> </a></h3>
-</div>
-</div>
-</div>
-
-
-
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">k = len(y)-1</span>
-<span class="sd">crit_val0_05 = np.inf</span>
-<span class="sd">smaup = -np.inf</span>
-<span class="sd">#the reduce k until H0 is rejected </span>
-<span class="sd">while smaup &lt; crit_val0_05:</span>
-<span class="sd">    s = Smaup(n,k,rho)</span>
-<span class="sd">    smaup = s.smaup</span>
-<span class="sd">    crit_val0_05 = s.critical_05</span>
-<span class="sd">    k -= 1</span>
-<span class="sd">&#39;&#39;&#39;</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-
-
-
-</div>
-
-
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="6.-maximum-number-of-regions-(k)-is...">6. maximum number of regions (k) is...<a class="anchor-link" href="#6.-maximum-number-of-regions-(k)-is..."> </a></h3>
-</div>
-</div>
-</div>
-
-
-
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#print(k+1)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-
-
-
 </div>
 
  
 
+
+    </main>
+    

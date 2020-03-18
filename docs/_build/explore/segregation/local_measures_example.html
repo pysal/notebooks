@@ -3,18 +3,46 @@ redirect_from:
   - "/explore/segregation/local-measures-example"
 interact_link: content/explore/segregation/local_measures_example.ipynb
 kernel_name: python3
+kernel_path: content/explore/segregation
 has_widgets: false
-title: 'local_measures_example'
+title: |-
+  local_measures_example
+pagenum: 29
 prev_page:
   url: /explore/segregation/inference_wrappers_example.html
-  title: 'inference_wrappers_example'
 next_page:
   url: /explore/segregation/multigroup_aspatial_examples.html
-  title: 'multigroup_aspatial_examples'
+suffix: .ipynb
+search: local lq simpson segregation measures location quotient centralization data groups diversity entropy interaction concentration sacramento group black example need pysal examples libpysal important classes expects index white therefore plot spatial composition k unit table contents notebook functionalities module firstly import packages functions its load estimate census tract metropolitan area ca usa geopandas dataframe available repository information github com tree master start multi specific type input multigroups since calculated using hand single calculation metrics interest asian hispanic population create auxiliary list only necessary columns fitting also distribution tracts note column position last addition case every dataset similarly previously lets assume want
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">local_measures_example</div>
+</div>
+    <div class="jb_cell">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents"> </a></h1><ul>
+<li><a href="#Local-Measures-of-segregation">Local Measures of segregation</a><ul>
+<li><a href="#Location-Quotient-%28LQ%29">Location Quotient (LQ)</a></li>
+<li><a href="#Local-Diversity">Local Diversity</a></li>
+<li><a href="#Local-Entropy">Local Entropy</a></li>
+<li><a href="#Local-Simpson-Interaction">Local Simpson Interaction</a></li>
+<li><a href="#Local-Simpson-Concentration">Local Simpson Concentration</a></li>
+<li><a href="#Local-Centralization">Local Centralization</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -22,8 +50,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -32,22 +61,21 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pysal.lib</span>
-<span class="kn">from</span> <span class="nn">pysal.explore</span> <span class="k">import</span> <span class="n">segregation</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">libpysal</span>
+<span class="kn">import</span> <span class="nn">segregation</span>
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="kn">from</span> <span class="nn">pysal.explore.segregation.local</span> <span class="k">import</span> <span class="n">MultiLocationQuotient</span><span class="p">,</span> <span class="n">MultiLocalDiversity</span><span class="p">,</span> <span class="n">MultiLocalEntropy</span><span class="p">,</span> <span class="n">MultiLocalSimpsonInteraction</span><span class="p">,</span> <span class="n">MultiLocalSimpsonConcentration</span><span class="p">,</span> <span class="n">LocalRelativeCentralization</span>
+<span class="kn">from</span> <span class="nn">segregation.local</span> <span class="kn">import</span> <span class="n">MultiLocationQuotient</span><span class="p">,</span> <span class="n">MultiLocalDiversity</span><span class="p">,</span> <span class="n">MultiLocalEntropy</span><span class="p">,</span> <span class="n">MultiLocalSimpsonInteraction</span><span class="p">,</span> <span class="n">MultiLocalSimpsonConcentration</span><span class="p">,</span> <span class="n">LocalRelativeCentralization</span>
 </pre></div>
 
     </div>
@@ -55,33 +83,29 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Then it's time to load some data to estimate segregation. We use the data of 2000 Census Tract Data for the metropolitan area of Sacramento, CA, USA.</p>
 <p>We use a geopandas dataframe available in PySAL examples repository.</p>
-<p>For more information about the data: <a href="https://github.com/pysal/pysal.lib/tree/master/pysal.lib/examples/sacramento2">https://github.com/pysal/pysal.lib/tree/master/pysal.lib/examples/sacramento2</a></p>
+<p>For more information about the data: <a href="https://github.com/pysal/libpysal/tree/master/libpysal/examples/sacramento2">https://github.com/pysal/libpysal/tree/master/libpysal/examples/sacramento2</a></p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">input_df</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">pysal</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;sacramentot2.shp&quot;</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">input_df</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;sacramentot2.shp&quot;</span><span class="p">))</span>
 <span class="n">input_df</span><span class="o">.</span><span class="n">columns</span>
 </pre></div>
 
@@ -89,14 +113,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -117,8 +137,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -128,8 +149,9 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -138,12 +160,11 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -156,12 +177,9 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -170,12 +188,11 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -225,20 +242,16 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/local_measures_example_9_0.png"
+<img src="../../images/explore/segregation/local_measures_example_10_0.png"
 >
 </div>
 
@@ -248,21 +261,21 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Location-Quotient-(LQ)">Location Quotient (LQ)<a class="anchor-link" href="#Location-Quotient-(LQ)"> </a></h1>
+<h2 id="Location-Quotient-(LQ)">Location Quotient (LQ)<a class="anchor-link" href="#Location-Quotient-(LQ)"> </a></h2>
+</div>
 </div>
 </div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -275,14 +288,10 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -303,8 +312,9 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -313,12 +323,11 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -368,20 +377,16 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/local_measures_example_13_0.png"
+<img src="../../images/explore/segregation/local_measures_example_14_0.png"
 >
 </div>
 
@@ -391,21 +396,21 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Local-Diversity">Local Diversity<a class="anchor-link" href="#Local-Diversity"> </a></h1>
+<h2 id="Local-Diversity">Local Diversity<a class="anchor-link" href="#Local-Diversity"> </a></h2>
+</div>
 </div>
 </div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -418,14 +423,10 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -441,12 +442,11 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -461,14 +461,10 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -479,13 +475,13 @@ On the other hand, other classes expects a single group for calculation of the m
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/local_measures_example_16_1.png"
+<img src="../../images/explore/segregation/local_measures_example_17_1.png"
 >
 </div>
 
@@ -495,21 +491,21 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Local-Entropy">Local Entropy<a class="anchor-link" href="#Local-Entropy"> </a></h1>
+<h2 id="Local-Entropy">Local Entropy<a class="anchor-link" href="#Local-Entropy"> </a></h2>
+</div>
 </div>
 </div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -522,14 +518,10 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -545,12 +537,11 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -565,14 +556,10 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -583,13 +570,13 @@ On the other hand, other classes expects a single group for calculation of the m
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/local_measures_example_19_1.png"
+<img src="../../images/explore/segregation/local_measures_example_20_1.png"
 >
 </div>
 
@@ -599,21 +586,21 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Local-Simpson-Interaction">Local Simpson Interaction<a class="anchor-link" href="#Local-Simpson-Interaction"> </a></h1>
+<h2 id="Local-Simpson-Interaction">Local Simpson Interaction<a class="anchor-link" href="#Local-Simpson-Interaction"> </a></h2>
+</div>
 </div>
 </div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -626,14 +613,10 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -649,12 +632,11 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -669,14 +651,10 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -687,13 +665,13 @@ On the other hand, other classes expects a single group for calculation of the m
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/local_measures_example_22_1.png"
+<img src="../../images/explore/segregation/local_measures_example_23_1.png"
 >
 </div>
 
@@ -703,21 +681,21 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Local-Simpson-Concentration">Local Simpson Concentration<a class="anchor-link" href="#Local-Simpson-Concentration"> </a></h1>
+<h2 id="Local-Simpson-Concentration">Local Simpson Concentration<a class="anchor-link" href="#Local-Simpson-Concentration"> </a></h2>
+</div>
 </div>
 </div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -730,14 +708,10 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -753,12 +727,11 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -773,14 +746,10 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -791,13 +760,13 @@ On the other hand, other classes expects a single group for calculation of the m
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/local_measures_example_25_1.png"
+<img src="../../images/explore/segregation/local_measures_example_26_1.png"
 >
 </div>
 
@@ -807,17 +776,19 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Local-Centralization">Local Centralization<a class="anchor-link" href="#Local-Centralization"> </a></h1>
+<h2 id="Local-Centralization">Local Centralization<a class="anchor-link" href="#Local-Centralization"> </a></h2>
+</div>
 </div>
 </div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -826,12 +797,11 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -844,14 +814,10 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -867,12 +833,11 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -887,14 +852,10 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -905,13 +866,13 @@ On the other hand, other classes expects a single group for calculation of the m
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/local_measures_example_29_1.png"
+<img src="../../images/explore/segregation/local_measures_example_30_1.png"
 >
 </div>
 
@@ -921,6 +882,10 @@ On the other hand, other classes expects a single group for calculation of the m
 </div>
 
 </div>
+</div>
 
  
 
+
+    </main>
+    

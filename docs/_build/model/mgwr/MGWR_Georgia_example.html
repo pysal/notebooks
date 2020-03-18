@@ -3,18 +3,25 @@ redirect_from:
   - "/model/mgwr/mgwr-georgia-example"
 interact_link: content/model/mgwr/MGWR_Georgia_example.ipynb
 kernel_name: python3
+kernel_path: content/model/mgwr
 has_widgets: false
-title: 'MGWR_Georgia_example'
+title: |-
+  MGWR_Georgia_example
+pagenum: 51
 prev_page:
   url: /model/mgwr/GWR_prediction_example.html
-  title: 'GWR_prediction_example'
 next_page:
   url: /model/spglm/intro.html
-  title: 'spglm'
+suffix: .ipynb
+search: conda install update anaconda mgwr instructions sh scipy pysal pip libpysal geopandas
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">MGWR_Georgia_example</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -23,7 +30,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 conda update anaconda
 conda update scipy
 conda install pysal 
-pip install pysal.lib
+pip install libpysal
 conda install mgwr
 conda install geopandas
 </pre></div>
@@ -31,21 +38,20 @@ conda install geopandas
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pysal.lib</span> <span class="k">as</span> <span class="nn">ps</span> 
-<span class="kn">from</span> <span class="nn">pysal.model.mgwr.gwr</span> <span class="k">import</span> <span class="n">GWR</span><span class="p">,</span> <span class="n">MGWR</span>
-<span class="kn">from</span> <span class="nn">pysal.model.mgwr.sel_bw</span> <span class="k">import</span> <span class="n">Sel_BW</span>
-<span class="kn">from</span> <span class="nn">pysal.model.mgwr.utils</span> <span class="k">import</span> <span class="n">shift_colormap</span><span class="p">,</span> <span class="n">truncate_colormap</span>
+<span class="kn">import</span> <span class="nn">libpysal</span> <span class="k">as</span> <span class="nn">ps</span> 
+<span class="kn">from</span> <span class="nn">mgwr.gwr</span> <span class="kn">import</span> <span class="n">GWR</span><span class="p">,</span> <span class="n">MGWR</span>
+<span class="kn">from</span> <span class="nn">mgwr.sel_bw</span> <span class="kn">import</span> <span class="n">Sel_BW</span>
+<span class="kn">from</span> <span class="nn">mgwr.utils</span> <span class="kn">import</span> <span class="n">shift_colormap</span><span class="p">,</span> <span class="n">truncate_colormap</span>
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gp</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
@@ -56,17 +62,28 @@ conda install geopandas
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/Ziqi/anaconda/lib/python3.5/site-packages/libpysal/io/iohandlers/__init__.py:25: UserWarning: SQLAlchemy and Geomet not installed, database I/O disabled
+  warnings.warn(&#39;SQLAlchemy and Geomet not installed, database I/O disabled&#39;)
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 
-
-
+</div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -83,14 +100,10 @@ conda install geopandas
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -101,7 +114,7 @@ conda install geopandas
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -117,12 +130,11 @@ conda install geopandas
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -146,16 +158,11 @@ conda install geopandas
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -172,14 +179,10 @@ conda install geopandas
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -192,12 +195,11 @@ conda install geopandas
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -214,14 +216,10 @@ conda install geopandas
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -234,12 +232,11 @@ conda install geopandas
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -251,14 +248,10 @@ conda install geopandas
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -330,12 +323,11 @@ X3                       -0.304      0.019     -0.347     -0.302     -0.266
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -357,16 +349,11 @@ X3                       -0.304      0.019     -0.347     -0.302     -0.266
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -388,16 +375,11 @@ X3                       -0.304      0.019     -0.347     -0.302     -0.266
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -465,14 +447,10 @@ X3                       -0.304      0.019     -0.347     -0.302     -0.266
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -488,12 +466,11 @@ X3                       -0.304      0.019     -0.347     -0.302     -0.266
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -545,14 +522,10 @@ X3                       -0.304      0.019     -0.347     -0.302     -0.266
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -568,12 +541,11 @@ X3                       -0.304      0.019     -0.347     -0.302     -0.266
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -625,14 +597,10 @@ X3                       -0.304      0.019     -0.347     -0.302     -0.266
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -648,12 +616,11 @@ X3                       -0.304      0.019     -0.347     -0.302     -0.266
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -705,14 +672,10 @@ X3                       -0.304      0.019     -0.347     -0.302     -0.266
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -728,6 +691,10 @@ X3                       -0.304      0.019     -0.347     -0.302     -0.266
 </div>
 
 </div>
+</div>
 
  
 
+
+    </main>
+    

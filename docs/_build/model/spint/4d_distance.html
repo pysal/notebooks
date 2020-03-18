@@ -3,29 +3,34 @@ redirect_from:
   - "/model/spint/4d-distance"
 interact_link: content/model/spint/4d_distance.ipynb
 kernel_name: Python [Root]
+kernel_path: content/model/spint
 has_widgets: false
-title: '4d_distance'
+title: |-
+  4d_distance
+pagenum: 57
 prev_page:
   url: /model/spint/intro.html
-  title: 'spint'
 next_page:
-  url: /model/spint/autograd_test.html
-  title: 'autograd_test'
+  url: /model/spint/Example_NYCBikes_AllFeatures.html
+suffix: .ipynb
+search: 
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">4d_distance</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">distance</span>
-<span class="kn">import</span> <span class="nn">scipy.spatial</span> <span class="kn">as</span> <span class="nn">spatial</span>
+<span class="kn">import</span> <span class="nn">scipy.spatial</span> <span class="k">as</span> <span class="nn">spatial</span>
 <span class="kn">from</span> <span class="nn">pysal.weights</span> <span class="kn">import</span> <span class="n">W</span>
 <span class="kn">from</span> <span class="nn">pysal.weights.util</span> <span class="kn">import</span> <span class="n">isKDTree</span>
 <span class="kn">from</span> <span class="nn">pysal.weights</span> <span class="kn">import</span> <span class="n">Distance</span> <span class="k">as</span> <span class="n">Distance</span>
@@ -36,16 +41,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -104,7 +104,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <span class="k">def</span> <span class="nf">scpkdtree</span><span class="p">():</span>
     <span class="n">data</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">w</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">z</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
     <span class="n">tree</span> <span class="o">=</span> <span class="n">spatial</span><span class="o">.</span><span class="n">KDTree</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-    <span class="n">W</span> <span class="o">=</span> <span class="n">pysal</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">DistanceBand</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">9999</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">pysal</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">DistanceBand</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">9999</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -112,16 +112,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -135,14 +130,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -160,12 +151,11 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -177,21 +167,17 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 
 <span class="n">data</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">w</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">z</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
 <span class="n">tree</span> <span class="o">=</span> <span class="n">spatial</span><span class="o">.</span><span class="n">KDTree</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">W</span> <span class="o">=</span> <span class="n">pysal</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">DistanceBand</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">9999</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">pysal</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">DistanceBand</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">9999</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_text output_error">
@@ -225,12 +211,11 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -275,7 +260,7 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Casting to floats is a work around for a bug in scipy.spatial.</span>
 <span class="sd">        See detail in pysal issue #126.</span>
 
@@ -305,13 +290,13 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
         <span class="sd">&quot;&quot;&quot;Find all pairs within threshold.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dmat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kd</span><span class="o">.</span><span class="n">sparse_distance_matrix</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">kd</span><span class="p">,</span> <span class="n">max_distance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">distance_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">_distance_to_W</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_distance_to_W</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">ids</span><span class="p">:</span>
             <span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -331,7 +316,7 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 
         <span class="k">else</span><span class="p">:</span>
             <span class="n">weighted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">pow</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dmat</span><span class="p">))</span>
-            <span class="k">print</span> <span class="n">weighted</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span> <span class="n">weighted</span><span class="o">.</span><span class="n">shape</span>
             <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dmat</span><span class="o">.</span><span class="n">shape</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
@@ -351,16 +336,11 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -379,16 +359,11 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -400,14 +375,10 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -420,12 +391,11 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -437,14 +407,10 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -456,17 +422,16 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">weight</span> <span class="o">=</span> <span class="n">DistanceBand</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">9999</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">weight</span> <span class="o">=</span> <span class="n">DistanceBand</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">9999</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -474,16 +439,11 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -496,16 +456,11 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -518,16 +473,11 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -542,16 +492,11 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -565,14 +510,10 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -587,12 +528,11 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -604,14 +544,10 @@ The slowest run took 5.82 times longer than the fastest. This could mean that an
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -622,7 +558,7 @@ Wall time: 1.85 s
 </div>
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -637,12 +573,11 @@ Wall time: 1.85 s
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -654,14 +589,10 @@ Wall time: 1.85 s
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -671,7 +602,7 @@ Wall time: 8.5 s
 </div>
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -686,31 +617,26 @@ Wall time: 8.5 s
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">W_new</span> <span class="o">=</span> <span class="n">DistanceBand</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">W_new</span> <span class="o">=</span> <span class="n">DistanceBand</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -723,17 +649,16 @@ Wall time: 8.5 s
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">W_old</span> <span class="o">=</span> <span class="n">Distance</span><span class="o">.</span><span class="n">DistanceBand</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">9999999</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">W_old</span> <span class="o">=</span> <span class="n">Distance</span><span class="o">.</span><span class="n">DistanceBand</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">9999999</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -741,16 +666,11 @@ Wall time: 8.5 s
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -762,14 +682,10 @@ Wall time: 8.5 s
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -784,6 +700,10 @@ Wall time: 8.5 s
 </div>
 
 </div>
+</div>
 
  
 
+
+    </main>
+    

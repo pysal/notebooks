@@ -1,0 +1,1255 @@
+---
+interact_link: content/explore/spaghetti/network-analysis.ipynb
+kernel_name: conda-env-py3_spgh_dev-py
+kernel_path: content/explore/spaghetti
+has_widgets: false
+title: |-
+  network-analysis
+pagenum: 37
+prev_page:
+  url: /explore/spaghetti/facility-location.html
+next_page:
+  url: /explore/spaghetti/quickstart.html
+suffix: .ipynb
+search: network point dict coord representation vertices com pysal spaghetti spatial graph points keyed value distance arc pointid notebook github analysis attributes matplotlib observations arcs snapped pattern observation being form x y counts per since segmented morans using function used cluster objects patterns requirements blob master node vertex link not uniform segmentation libpysal opaque esda any part research please cite reference found readme md bibtex citation demonstrating detection author james d gaboardi jgaboardi gmail advanced walk through exploring understanding difference between its theoretic performing addtion base txt dependecies requires installations org conda install instantiating object instantiate shp file allocating snapping composed
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">network-analysis</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><strong>If any part of this notebook is used in your research, please cite with the reference found in</strong> <strong><a href="https://github.com/pysal/spaghetti#bibtex-citation">README.md</a>.</strong></p>
+<hr>
+<h2 id="Spatial-network-analysis">Spatial network analysis<a class="anchor-link" href="#Spatial-network-analysis"> </a></h2><h3 id="Demonstrating-network-representation-and-cluster-detection">Demonstrating network representation and cluster detection<a class="anchor-link" href="#Demonstrating-network-representation-and-cluster-detection"> </a></h3><p><strong>Author: James D. Gaboardi</strong> <strong><a href="mailto:jgaboardi@gmail.com">jgaboardi@gmail.com</a></strong></p>
+<p><strong>This notebook is an advanced walk-through for:</strong></p>
+<ol>
+<li>Exploring the attributes of network objects and point patterns</li>
+<li>Understanding the difference between a network and its graph-theoretic representation</li>
+<li>Performing spatial network analysis</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2020-01-20T16:01:44-05:00
+
+CPython 3.7.3
+IPython 7.10.2
+
+compiler   : Clang 9.0.0 (tags/RELEASE_900/final)
+system     : Darwin
+release    : 19.2.0
+machine    : x86_64
+processor  : i386
+CPU cores  : 4
+interpreter: 64bit
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>In addtion to the base</strong> <strong><a href="https://github.com/pysal/spaghetti/blob/master/requirements.txt">spaghetti requirements</a></strong> <strong>(and their dependecies), this notebook requires installations of:</strong></p>
+<ul>
+<li><a href="https://matplotlib.org">matplotlib</a><ul>
+<li><code>$ conda install matplotlib</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">spaghetti</span>
+<span class="kn">import</span> <span class="nn">esda</span>
+<span class="kn">import</span> <span class="nn">libpysal</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">set_matplotlib_formats</span>
+    <span class="n">set_matplotlib_formats</span><span class="p">(</span><span class="s2">&quot;retina&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="k">watermark</span> -w
+<span class="o">%</span><span class="k">watermark</span> -iv
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>watermark 2.0.2
+spaghetti  1.4.0
+numpy      1.17.3
+libpysal   4.2.0
+esda       2.1.1
+matplotlib 3.1.2
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h3 id="1.-Instantiating-a-spaghetti.Network-object">1. Instantiating a <code>spaghetti.Network</code> object<a class="anchor-link" href="#1.-Instantiating-a-spaghetti.Network-object"> </a></h3><h4 id="Instantiate-the-network-from-a-.shp-file">Instantiate the network from a <code>.shp</code> file<a class="anchor-link" href="#Instantiate-the-network-from-a-.shp-file"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ntw</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">in_data</span><span class="o">=</span><span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;streets.shp&quot;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h3 id="2.-Allocating-observations-(snapping-points)-to-a-network:">2. Allocating observations (snapping points) to a network:<a class="anchor-link" href="#2.-Allocating-observations-(snapping-points)-to-a-network:"> </a></h3><p><strong>A network is composed of a single topological representation of network elements (arcs and vertices) to which point patterns may be snapped.</strong></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Crimes</span>
+<span class="n">ntw</span><span class="o">.</span><span class="n">snapobservations</span><span class="p">(</span>
+    <span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;crimes.shp&quot;</span><span class="p">),</span> <span class="s2">&quot;crimes&quot;</span><span class="p">,</span> <span class="n">attribute</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="c1"># Schools</span>
+<span class="n">ntw</span><span class="o">.</span><span class="n">snapobservations</span><span class="p">(</span>
+    <span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;schools.shp&quot;</span><span class="p">),</span> <span class="s2">&quot;schools&quot;</span><span class="p">,</span> <span class="n">attribute</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;crimes&#39;: &lt;spaghetti.network.PointPattern at 0x11c5f0320&gt;,
+ &#39;schools&#39;: &lt;spaghetti.network.PointPattern at 0x11d553048&gt;}</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Attributes for every point pattern</strong></p>
+<ol>
+<li><code>dist_snapped</code> dict keyed by point id with the value as snapped distance from observation to network arc</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dist_snapped</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>221.5867616973843</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li><code>dist_to_vertex</code> dict keyed by pointid with the value being a dict in the form 
+<pre><code> {node: distance to vertex, node: distance to vertex}</code></pre>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dist_to_vertex</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{161: 83.70599311338093, 162: 316.8274480625799}</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li><code>npoints</code> point observations in set</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">npoints</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>287</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li><code>obs_to_arc</code> dict keyed by arc with the value being a dict in the form 
+<pre><code> {pointID:(x-coord, y-coord), pointID:(x-coord, y-coord), ... }</code></pre>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">obs_to_arc</span><span class="p">[(</span><span class="mi">161</span><span class="p">,</span> <span class="mi">162</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{0: (727919.2473619275, 875942.4986759046)}</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li><code>obs_to_vertex</code> list of incident network vertices to snapped observation points</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">obs_to_vertex</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>161</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li><code>points</code> geojson like representation of the point pattern.  Includes properties if read with attributes=<code>True</code></li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;coordinates&#39;: (727913.0000000029, 875720.9999999977), &#39;properties&#39;: [[1, 1]]}</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li><code>snapped_coordinates</code> dict keyed by pointid with the value being (x-coord, y-coord)</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">snapped_coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(727919.2473619275, 875942.4986759046)</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Counts per link (arc or edge) are important, but should not be precomputed since we have different representations of the network (spatial and graph currently).  (Relatively) Uniform segmentation still needs to be done.</strong></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">counts</span> <span class="o">=</span> <span class="n">ntw</span><span class="o">.</span><span class="n">count_per_link</span><span class="p">(</span><span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">obs_to_arc</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">orig_counts_per_link</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+<span class="n">orig_counts_per_link</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2.682242990654206</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h3 id="3.-Network-segmentation">3. Network segmentation<a class="anchor-link" href="#3.-Network-segmentation"> </a></h3><h4 id="Split-network-arcs-into-segments-of-200-(US-feet-is-this-case)">Split network arcs into segments of 200 (<a href="https://github.com/pysal/libpysal/blob/master/libpysal/examples/geodanet/streets.prj">US feet is this case</a>)<a class="anchor-link" href="#Split-network-arcs-into-segments-of-200-(US-feet-is-this-case)"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n200</span> <span class="o">=</span> <span class="n">ntw</span><span class="o">.</span><span class="n">split_arcs</span><span class="p">(</span><span class="mf">200.0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Calculate-observations-per-link-on-the-segmented-network">Calculate observations per link on the segmented network<a class="anchor-link" href="#Calculate-observations-per-link-on-the-segmented-network"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">counts</span> <span class="o">=</span> <span class="n">n200</span><span class="o">.</span><span class="n">count_per_link</span><span class="p">(</span><span class="n">n200</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">obs_to_arc</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">segm_counts_per_link</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+<span class="n">segm_counts_per_link</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2.0354609929078014</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h3 id="4.-Extract-geopandas.GeoDataFrame-objects-of-the-vertices-and-arcs">4. Extract <code>geopandas.GeoDataFrame</code> objects of the vertices and arcs<a class="anchor-link" href="#4.-Extract-geopandas.GeoDataFrame-objects-of-the-vertices-and-arcs"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># &#39;full&#39; unsegmented network</span>
+<span class="n">vertices_df</span><span class="p">,</span> <span class="n">arcs_df</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">element_as_gdf</span><span class="p">(</span>
+    <span class="n">ntw</span><span class="p">,</span> <span class="n">vertices</span><span class="o">=</span><span class="n">ntw</span><span class="o">.</span><span class="n">vertex_coords</span><span class="p">,</span> <span class="n">arcs</span><span class="o">=</span><span class="n">ntw</span><span class="o">.</span><span class="n">arcs</span>
+<span class="p">)</span>
+<span class="c1"># network segmented at 200-meter increments</span>
+<span class="n">vertices200_df</span><span class="p">,</span> <span class="n">arcs200_df</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">element_as_gdf</span><span class="p">(</span>
+    <span class="n">n200</span><span class="p">,</span> <span class="n">vertices</span><span class="o">=</span><span class="n">n200</span><span class="o">.</span><span class="n">vertex_coords</span><span class="p">,</span> <span class="n">arcs</span><span class="o">=</span><span class="n">n200</span><span class="o">.</span><span class="n">arcs</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h3 id="5.-Visualization-demonstration">5. Visualization demonstration<a class="anchor-link" href="#5.-Visualization-demonstration"> </a></h3><ul>
+<li>shapefile derived, unsegmented network with vertices in a larger, blue, semi-opaque form</li>
+<li>distance segmented network with small, red, fully opaque vertices</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">base</span> <span class="o">=</span> <span class="n">arcs_df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">vertices_df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">vertices200_df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/spaghetti/network-analysis_32_0.png"
+width=698
+height=683
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h3 id="6.-Spatial-Analysis-with-pysal/esda">6. Spatial Analysis with <a href="https://esda.readthedocs.io/en/latest/">pysal/esda</a><a class="anchor-link" href="#6.-Spatial-Analysis-with-pysal/esda"> </a></h3><h4 id="6.1-Moran's-I-using-the-digitized-network">6.1 Moran's <em>I</em> using the digitized network<a class="anchor-link" href="#6.1-Moran's-I-using-the-digitized-network"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Compute the counts</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">ntw</span><span class="o">.</span><span class="n">count_per_link</span><span class="p">(</span><span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">obs_to_arc</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Binary Adjacency</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">ntw</span><span class="o">.</span><span class="n">contiguityweights</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Build the y vector</span>
+<span class="n">arcs</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">neighbors</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">arcs</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">arcs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">counts</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
+
+<span class="c1"># Moran&#39;s I</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">esda</span><span class="o">.</span><span class="n">moran</span><span class="o">.</span><span class="n">Moran</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">permutations</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;EI&#39;, &#39;EI_sim&#39;, &#39;I&#39;, &#39;VI_norm&#39;, &#39;VI_rand&#39;, &#39;VI_sim&#39;, &#39;_Moran__calc&#39;, &#39;_Moran__moments&#39;, &#39;__class__&#39;, &#39;__delattr__&#39;, &#39;__dict__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__eq__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, &#39;__getattribute__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__init__&#39;, &#39;__init_subclass__&#39;, &#39;__le__&#39;, &#39;__lt__&#39;, &#39;__module__&#39;, &#39;__ne__&#39;, &#39;__new__&#39;, &#39;__reduce__&#39;, &#39;__reduce_ex__&#39;, &#39;__repr__&#39;, &#39;__setattr__&#39;, &#39;__sizeof__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, &#39;__weakref__&#39;, &#39;_statistic&#39;, &#39;by_col&#39;, &#39;n&#39;, &#39;p_norm&#39;, &#39;p_rand&#39;, &#39;p_sim&#39;, &#39;p_z_sim&#39;, &#39;permutations&#39;, &#39;seI_norm&#39;, &#39;seI_rand&#39;, &#39;seI_sim&#39;, &#39;sim&#39;, &#39;w&#39;, &#39;y&#39;, &#39;z&#39;, &#39;z2ss&#39;, &#39;z_norm&#39;, &#39;z_rand&#39;, &#39;z_sim&#39;]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="6.2-Moran's-I-using-the-graph-representation-to-generate-the-W">6.2 Moran's <em>I</em> using the graph representation to generate the <em>W</em><a class="anchor-link" href="#6.2-Moran's-I-using-the-graph-representation-to-generate-the-W"> </a></h4><ul>
+<li>Note that we have to regenerate the counts per arc, since the graph will have less edges.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Compute the counts</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">ntw</span><span class="o">.</span><span class="n">count_per_link</span><span class="p">(</span><span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">obs_to_arc</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Binary Adjacency</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">ntw</span><span class="o">.</span><span class="n">contiguityweights</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Build the y vector</span>
+<span class="n">edges</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">neighbors</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">edges</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">counts</span><span class="p">[</span><span class="n">e</span><span class="p">]</span>
+
+<span class="c1"># Moran&#39;s I</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">esda</span><span class="o">.</span><span class="n">moran</span><span class="o">.</span><span class="n">Moran</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">permutations</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;EI&#39;, &#39;EI_sim&#39;, &#39;I&#39;, &#39;VI_norm&#39;, &#39;VI_rand&#39;, &#39;VI_sim&#39;, &#39;_Moran__calc&#39;, &#39;_Moran__moments&#39;, &#39;__class__&#39;, &#39;__delattr__&#39;, &#39;__dict__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__eq__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, &#39;__getattribute__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__init__&#39;, &#39;__init_subclass__&#39;, &#39;__le__&#39;, &#39;__lt__&#39;, &#39;__module__&#39;, &#39;__ne__&#39;, &#39;__new__&#39;, &#39;__reduce__&#39;, &#39;__reduce_ex__&#39;, &#39;__repr__&#39;, &#39;__setattr__&#39;, &#39;__sizeof__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, &#39;__weakref__&#39;, &#39;_statistic&#39;, &#39;by_col&#39;, &#39;n&#39;, &#39;p_norm&#39;, &#39;p_rand&#39;, &#39;p_sim&#39;, &#39;p_z_sim&#39;, &#39;permutations&#39;, &#39;seI_norm&#39;, &#39;seI_rand&#39;, &#39;seI_sim&#39;, &#39;sim&#39;, &#39;w&#39;, &#39;y&#39;, &#39;z&#39;, &#39;z2ss&#39;, &#39;z_norm&#39;, &#39;z_rand&#39;, &#39;z_sim&#39;]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="6.3-Moran's-I-using-the-segmented-network-and-intensities-instead-of-counts">6.3 Moran's <em>I</em> using the segmented network and intensities instead of counts<a class="anchor-link" href="#6.3-Moran's-I-using-the-segmented-network-and-intensities-instead-of-counts"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Compute the counts</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">n200</span><span class="o">.</span><span class="n">count_per_link</span><span class="p">(</span><span class="n">n200</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">obs_to_arc</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Binary Adjacency</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">n200</span><span class="o">.</span><span class="n">contiguityweights</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Build the y vector and convert from raw counts to intensities</span>
+<span class="n">arcs</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">neighbors</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n200</span><span class="o">.</span><span class="n">arcs</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">arcs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="n">n200</span><span class="o">.</span><span class="n">arc_lengths</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">counts</span><span class="p">[</span><span class="n">a</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+
+<span class="c1"># Moran&#39;s I</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">esda</span><span class="o">.</span><span class="n">moran</span><span class="o">.</span><span class="n">Moran</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">permutations</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;EI&#39;, &#39;EI_sim&#39;, &#39;I&#39;, &#39;VI_norm&#39;, &#39;VI_rand&#39;, &#39;VI_sim&#39;, &#39;_Moran__calc&#39;, &#39;_Moran__moments&#39;, &#39;__class__&#39;, &#39;__delattr__&#39;, &#39;__dict__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__eq__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, &#39;__getattribute__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__init__&#39;, &#39;__init_subclass__&#39;, &#39;__le__&#39;, &#39;__lt__&#39;, &#39;__module__&#39;, &#39;__ne__&#39;, &#39;__new__&#39;, &#39;__reduce__&#39;, &#39;__reduce_ex__&#39;, &#39;__repr__&#39;, &#39;__setattr__&#39;, &#39;__sizeof__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, &#39;__weakref__&#39;, &#39;_statistic&#39;, &#39;by_col&#39;, &#39;n&#39;, &#39;p_norm&#39;, &#39;p_rand&#39;, &#39;p_sim&#39;, &#39;p_z_sim&#39;, &#39;permutations&#39;, &#39;seI_norm&#39;, &#39;seI_rand&#39;, &#39;seI_sim&#39;, &#39;sim&#39;, &#39;w&#39;, &#39;y&#39;, &#39;z&#39;, &#39;z2ss&#39;, &#39;z_norm&#39;, &#39;z_rand&#39;, &#39;z_sim&#39;]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h3 id="7.-Simulate-a-point-pattern-on-the-network">7. Simulate a point pattern on the network<a class="anchor-link" href="#7.-Simulate-a-point-pattern-on-the-network"> </a></h3><ul>
+<li>Need to supply a count of the number of points and a distirbution (default is uniform).  Generally, this will not be called by the user, since the simulation will be used for Monte Carlo permutation.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">npts</span> <span class="o">=</span> <span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">npoints</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">ntw</span><span class="o">.</span><span class="n">simulate_observations</span><span class="p">(</span><span class="n">npts</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">sim</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;__class__&#39;, &#39;__delattr__&#39;, &#39;__dict__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__eq__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, &#39;__getattribute__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__init__&#39;, &#39;__init_subclass__&#39;, &#39;__le__&#39;, &#39;__lt__&#39;, &#39;__module__&#39;, &#39;__ne__&#39;, &#39;__new__&#39;, &#39;__reduce__&#39;, &#39;__reduce_ex__&#39;, &#39;__repr__&#39;, &#39;__setattr__&#39;, &#39;__sizeof__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, &#39;__weakref__&#39;, &#39;dist_to_vertex&#39;, &#39;npoints&#39;, &#39;obs_to_arc&#39;, &#39;obs_to_vertex&#39;, &#39;points&#39;, &#39;snapped_coordinates&#39;]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h3 id="8.-Network-constrained-observation-cluster-testing">8. Network-constrained observation cluster testing<a class="anchor-link" href="#8.-Network-constrained-observation-cluster-testing"> </a></h3><h4 id="F-function"><em>F</em>-function<a class="anchor-link" href="#F-function"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fres</span> <span class="o">=</span> <span class="n">ntw</span><span class="o">.</span><span class="n">NetworkF</span><span class="p">(</span><span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">],</span> <span class="n">permutations</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fres</span><span class="o">.</span><span class="n">xaxis</span><span class="p">,</span> <span class="n">fres</span><span class="o">.</span><span class="n">observed</span><span class="p">,</span> <span class="s2">&quot;b-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Observed&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fres</span><span class="o">.</span><span class="n">xaxis</span><span class="p">,</span> <span class="n">fres</span><span class="o">.</span><span class="n">upperenvelope</span><span class="p">,</span> <span class="s2">&quot;r--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Upper&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fres</span><span class="o">.</span><span class="n">xaxis</span><span class="p">,</span> <span class="n">fres</span><span class="o">.</span><span class="n">lowerenvelope</span><span class="p">,</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Lower&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;x-large&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Network F Function&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;xx-large&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/spaghetti/network-analysis_43_0.png"
+width=483
+height=484
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="G-function"><em>G</em>-function<a class="anchor-link" href="#G-function"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gres</span> <span class="o">=</span> <span class="n">ntw</span><span class="o">.</span><span class="n">NetworkG</span><span class="p">(</span><span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">],</span> <span class="n">permutations</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gres</span><span class="o">.</span><span class="n">xaxis</span><span class="p">,</span> <span class="n">gres</span><span class="o">.</span><span class="n">observed</span><span class="p">,</span> <span class="s2">&quot;b-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Observed&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gres</span><span class="o">.</span><span class="n">xaxis</span><span class="p">,</span> <span class="n">gres</span><span class="o">.</span><span class="n">upperenvelope</span><span class="p">,</span> <span class="s2">&quot;r--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Upper&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gres</span><span class="o">.</span><span class="n">xaxis</span><span class="p">,</span> <span class="n">gres</span><span class="o">.</span><span class="n">lowerenvelope</span><span class="p">,</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Lower&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;x-large&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Network G Function&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;xx-large&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/spaghetti/network-analysis_46_0.png"
+width=483
+height=484
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="K-function"><em>K</em>-function<a class="anchor-link" href="#K-function"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;invalid value encountered&quot;</span><span class="p">)</span>
+<span class="n">kres</span> <span class="o">=</span> <span class="n">ntw</span><span class="o">.</span><span class="n">NetworkK</span><span class="p">(</span><span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">],</span> <span class="n">permutations</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kres</span><span class="o">.</span><span class="n">xaxis</span><span class="p">,</span> <span class="n">kres</span><span class="o">.</span><span class="n">observed</span><span class="p">,</span> <span class="s2">&quot;b-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Observed&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kres</span><span class="o">.</span><span class="n">xaxis</span><span class="p">,</span> <span class="n">kres</span><span class="o">.</span><span class="n">upperenvelope</span><span class="p">,</span> <span class="s2">&quot;r--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Upper&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kres</span><span class="o">.</span><span class="n">xaxis</span><span class="p">,</span> <span class="n">kres</span><span class="o">.</span><span class="n">lowerenvelope</span><span class="p">,</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Lower&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;x-large&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Network K Function&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;xx-large&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/spaghetti/network-analysis_49_0.png"
+width=483
+height=484
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

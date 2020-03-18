@@ -3,18 +3,44 @@ redirect_from:
   - "/explore/segregation/multiscalar-segregation-profiles"
 interact_link: content/explore/segregation/multiscalar_segregation_profiles.ipynb
 kernel_name: python3
+kernel_path: content/explore/segregation
 has_widgets: false
-title: 'multiscalar_segregation_profiles'
+title: |-
+  multiscalar_segregation_profiles
+pagenum: 31
 prev_page:
   url: /explore/segregation/multigroup_aspatial_examples.html
-  title: 'multigroup_aspatial_examples'
 next_page:
   url: /explore/segregation/network_measures.html
-  title: 'network_measures'
+suffix: .ipynb
+search: segregation profiles different weights well network data local kernel multiscalar distance workplace using street residential function space environment examine urban block level environments here tracts decay networks areas h calculate note take get into matrices tract euclidian exponential populations affect spatial differ measure versus transport pandana queen rook also based matrix km plot sense might expect levels notebook definitions measures values population groups reardon et al pmc differences between macro micro straight line following census geosnap project state plane units since dc relationships our observations type further show result significantly vary again not big impact statistics density set distances results
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">multiscalar_segregation_profiles</div>
+</div>
+    <div class="jb_cell">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents"> </a></h1><ul>
+<li><a href="#Multiscalar-Segregation-Profiles-on-Urban-Street-Networks">Multiscalar Segregation Profiles on Urban Street Networks</a><ul>
+<li><a href="#Multiscalar-Segregation-Profiles-for-Residential-and-Workplace-Areas">Multiscalar Segregation Profiles for Residential and Workplace Areas</a><ul>
+<li><a href="#with-Block-Level-Data">with Block-Level Data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -22,8 +48,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -32,8 +59,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -42,26 +70,25 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="kn">from</span> <span class="nn">pysal.explore.segregation.aspatial</span> <span class="k">import</span> <span class="n">Multi_Information_Theory</span>
-<span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">SpatialInformationTheory</span>
-<span class="kn">from</span> <span class="nn">pysal.explore.segregation.network</span> <span class="k">import</span> <span class="n">get_osm_network</span>
-<span class="kn">from</span> <span class="nn">pysal.explore.segregation.util</span> <span class="k">import</span> <span class="n">compute_segregation_profile</span>
-<span class="kn">from</span> <span class="nn">pysal.lib.weights</span> <span class="k">import</span> <span class="n">Queen</span><span class="p">,</span> <span class="n">Rook</span><span class="p">,</span> <span class="n">Kernel</span>
-<span class="kn">from</span> <span class="nn">geosnap.data</span> <span class="k">import</span> <span class="n">Community</span>
-<span class="kn">from</span> <span class="nn">geosnap.data.data</span> <span class="k">import</span> <span class="n">get_lehd</span>
-<span class="kn">from</span> <span class="nn">pandana.network</span> <span class="k">import</span> <span class="n">Network</span>
-<span class="kn">from</span> <span class="nn">pysal.viz.splot.pysal.lib</span> <span class="k">import</span> <span class="n">plot_spatial_weights</span>
+<span class="kn">from</span> <span class="nn">segregation.aspatial</span> <span class="kn">import</span> <span class="n">Multi_Information_Theory</span>
+<span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">SpatialInformationTheory</span>
+<span class="kn">from</span> <span class="nn">segregation.network</span> <span class="kn">import</span> <span class="n">get_osm_network</span>
+<span class="kn">from</span> <span class="nn">segregation.util</span> <span class="kn">import</span> <span class="n">compute_segregation_profile</span>
+<span class="kn">from</span> <span class="nn">libpysal.weights</span> <span class="kn">import</span> <span class="n">Queen</span><span class="p">,</span> <span class="n">Rook</span><span class="p">,</span> <span class="n">Kernel</span>
+<span class="kn">from</span> <span class="nn">geosnap.data</span> <span class="kn">import</span> <span class="n">Community</span>
+<span class="kn">from</span> <span class="nn">geosnap.data.data</span> <span class="kn">import</span> <span class="n">get_lehd</span>
+<span class="kn">from</span> <span class="nn">pandana.network</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">pysal.viz.splot.libpysal</span> <span class="kn">import</span> <span class="n">plot_spatial_weights</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="o">%</span><span class="k">load_ext</span> autoreload
@@ -73,12 +100,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -87,12 +111,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -105,16 +128,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -127,16 +145,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -149,16 +162,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -170,14 +178,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -188,13 +192,13 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/multiscalar_segregation_profiles_8_1.png"
+<img src="../../images/explore/segregation/multiscalar_segregation_profiles_9_1.png"
 width=236
 height=250
 >
@@ -206,8 +210,9 @@ height=250
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -216,8 +221,9 @@ height=250
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -226,12 +232,11 @@ height=250
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -245,12 +250,9 @@ height=250
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -259,8 +261,9 @@ height=250
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -269,12 +272,11 @@ height=250
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -289,17 +291,30 @@ height=250
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/home/knaaptime/anaconda3/lib/python3.7/site-packages/libpysal/weights/weights.py:170: UserWarning: The weights matrix is not fully connected. There are 29 components
+  warnings.warn(&#34;The weights matrix is not fully connected. There are %d components&#34; % self.n_components)
+/home/knaaptime/anaconda3/lib/python3.7/site-packages/libpysal/weights/weights.py:170: UserWarning: The weights matrix is not fully connected. There are 2 components
+  warnings.warn(&#34;The weights matrix is not fully connected. There are %d components&#34; % self.n_components)
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 
-
-
+</div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -323,14 +338,10 @@ height=250
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -341,13 +352,13 @@ height=250
 
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/multiscalar_segregation_profiles_15_1.png"
+<img src="../../images/explore/segregation/multiscalar_segregation_profiles_16_1.png"
 width=933
 height=263
 >
@@ -359,8 +370,9 @@ height=263
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -369,8 +381,9 @@ height=263
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -379,12 +392,11 @@ height=263
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -397,21 +409,16 @@ height=263
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial.spatial_indexes</span> <span class="k">import</span> <span class="n">_build_local_environment</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial.spatial_indexes</span> <span class="kn">import</span> <span class="n">_build_local_environment</span>
 </pre></div>
 
     </div>
@@ -419,16 +426,11 @@ height=263
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -447,16 +449,11 @@ height=263
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -471,20 +468,28 @@ height=263
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/home/knaaptime/anaconda3/lib/python3.7/site-packages/libpysal/weights/weights.py:170: UserWarning: The weights matrix is not fully connected. There are 29 components
+  warnings.warn(&#34;The weights matrix is not fully connected. There are %d components&#34; % self.n_components)
+/home/knaaptime/anaconda3/lib/python3.7/site-packages/libpysal/weights/weights.py:170: UserWarning: The weights matrix is not fully connected. There are 2 components
+  warnings.warn(&#34;The weights matrix is not fully connected. There are %d components&#34; % self.n_components)
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/multiscalar_segregation_profiles_21_0.png"
+<img src="../../images/explore/segregation/multiscalar_segregation_profiles_22_1.png"
 width=933
 height=248
 >
@@ -496,8 +501,9 @@ height=248
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -506,8 +512,9 @@ height=248
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -516,12 +523,11 @@ height=248
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -535,14 +541,10 @@ height=248
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -557,12 +559,11 @@ height=248
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -576,14 +577,10 @@ height=248
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -598,12 +595,11 @@ height=248
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -617,14 +613,10 @@ height=248
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -639,12 +631,11 @@ height=248
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -658,14 +649,20 @@ height=248
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/home/knaaptime/anaconda3/lib/python3.7/site-packages/libpysal/weights/weights.py:170: UserWarning: The weights matrix is not fully connected. There are 29 components
+  warnings.warn(&#34;The weights matrix is not fully connected. There are %d components&#34; % self.n_components)
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -680,12 +677,11 @@ height=248
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -699,14 +695,20 @@ height=248
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/home/knaaptime/anaconda3/lib/python3.7/site-packages/libpysal/weights/weights.py:170: UserWarning: The weights matrix is not fully connected. There are 2 components
+  warnings.warn(&#34;The weights matrix is not fully connected. There are %d components&#34; % self.n_components)
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -721,8 +723,9 @@ height=248
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -731,12 +734,11 @@ height=248
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -749,16 +751,11 @@ height=248
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -770,17 +767,34 @@ height=248
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/home/knaaptime/anaconda3/lib/python3.7/site-packages/libpysal/weights/weights.py:170: UserWarning: The weights matrix is not fully connected. There are 29 components
+  warnings.warn(&#34;The weights matrix is not fully connected. There are %d components&#34; % self.n_components)
+/home/knaaptime/anaconda3/lib/python3.7/site-packages/libpysal/weights/weights.py:170: UserWarning: The weights matrix is not fully connected. There are 29 components
+  warnings.warn(&#34;The weights matrix is not fully connected. There are %d components&#34; % self.n_components)
+/home/knaaptime/anaconda3/lib/python3.7/site-packages/libpysal/weights/weights.py:170: UserWarning: The weights matrix is not fully connected. There are 2 components
+  warnings.warn(&#34;The weights matrix is not fully connected. There are %d components&#34; % self.n_components)
+/home/knaaptime/anaconda3/lib/python3.7/site-packages/libpysal/weights/weights.py:170: UserWarning: The weights matrix is not fully connected. There are 2 components
+  warnings.warn(&#34;The weights matrix is not fully connected. There are %d components&#34; % self.n_components)
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 
-
-
+</div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -792,14 +806,10 @@ height=248
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -819,8 +829,9 @@ height=248
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -829,12 +840,11 @@ height=248
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -849,12 +859,9 @@ height=248
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -863,12 +870,11 @@ height=248
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -883,16 +889,11 @@ height=248
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -905,16 +906,11 @@ height=248
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -927,16 +923,11 @@ height=248
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -950,16 +941,11 @@ height=248
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -972,12 +958,9 @@ height=248
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -992,12 +975,11 @@ height=248
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1024,20 +1006,16 @@ height=248
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/multiscalar_segregation_profiles_42_0.png"
+<img src="../../images/explore/segregation/multiscalar_segregation_profiles_43_0.png"
 width=728
 height=481
 >
@@ -1049,8 +1027,9 @@ height=481
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1059,17 +1038,29 @@ height=481
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Multiscalar-Segregation-Profiles-for-Residential-and-Workplace-Areas">Multiscalar Segregation Profiles for Residential and Workplace Areas<a class="anchor-link" href="#Multiscalar-Segregation-Profiles-for-Residential-and-Workplace-Areas"> </a></h2><h3 id="with-Block-Level-Data">with Block-Level Data<a class="anchor-link" href="#with-Block-Level-Data"> </a></h3>
+<h2 id="Multiscalar-Segregation-Profiles-for-Residential-and-Workplace-Areas">Multiscalar Segregation Profiles for Residential and Workplace Areas<a class="anchor-link" href="#Multiscalar-Segregation-Profiles-for-Residential-and-Workplace-Areas"> </a></h2>
+</div>
 </div>
 </div>
 </div>
 
+<div class="jb_cell">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="with-Block-Level-Data">with Block-Level Data<a class="anchor-link" href="#with-Block-Level-Data"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1078,8 +1069,9 @@ height=481
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1088,12 +1080,11 @@ height=481
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1108,16 +1099,11 @@ height=481
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1130,16 +1116,11 @@ height=481
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1152,16 +1133,11 @@ height=481
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1177,16 +1153,11 @@ height=481
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1207,16 +1178,11 @@ height=481
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1230,16 +1196,11 @@ height=481
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1253,16 +1214,11 @@ height=481
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1276,16 +1232,11 @@ height=481
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1314,20 +1265,16 @@ height=481
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/multiscalar_segregation_profiles_55_0.png"
+<img src="../../images/explore/segregation/multiscalar_segregation_profiles_57_0.png"
 width=728
 height=481
 >
@@ -1339,8 +1286,9 @@ height=481
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1362,6 +1310,10 @@ height=481
 </div>
 </div>
 </div>
+</div>
 
  
 
+
+    </main>
+    

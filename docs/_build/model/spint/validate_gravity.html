@@ -3,22 +3,27 @@ redirect_from:
   - "/model/spint/validate-gravity"
 interact_link: content/model/spint/validate_gravity.ipynb
 kernel_name: Python [Root]
+kernel_path: content/model/spint
 has_widgets: false
-title: 'validate_gravity'
+title: |-
+  validate_gravity
+pagenum: 75
 prev_page:
   url: /model/spint/test_grav.html
-  title: 'test_grav'
 next_page:
-  url: /model/spvcm/intro.html
-  title: 'spvcm'
+  url: /model/spreg/intro.html
+suffix: .ipynb
+search: 
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">validate_gravity</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -26,14 +31,14 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#import sys</span>
 <span class="c1">#sys.path.append(&#39;/Users/toshan/dev/pysal/pysal/contrib/glm&#39;)</span>
 <span class="c1">#from utils import </span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/Users/toshan/dev/pysal/pysal/contrib/spint&#39;</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">gravity</span> <span class="kn">import</span> <span class="n">Gravity</span><span class="p">,</span> <span class="n">Production</span><span class="p">,</span> <span class="n">Attraction</span><span class="p">,</span> <span class="n">Doubly</span><span class="p">,</span> <span class="n">BaseGravity</span>
 <span class="kn">import</span> <span class="nn">gravity</span>
 <span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">sorensen</span>
-<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">as</span> <span class="nn">smf</span>
+<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
 <span class="kn">from</span> <span class="nn">statsmodels.api</span> <span class="kn">import</span> <span class="n">families</span> <span class="k">as</span> <span class="n">families</span>
 </pre></div>
 
@@ -42,16 +47,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -71,39 +71,30 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">grav</span> <span class="o">=</span> <span class="n">Gravity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="s1">&#39;glm&#39;</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="k">print</span> <span class="n">grav</span><span class="o">.</span><span class="n">params</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">grav</span> <span class="o">=</span> <span class="n">Gravity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="s1">&#39;glm&#39;</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">grav</span><span class="o">.</span><span class="n">params</span>
 
 <span class="n">gravity</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">glm</span><span class="p">(</span><span class="s1">&#39;Data~np.log(Oi2007)+np.log(Dj2007)+Dij&#39;</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="n">families</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(),</span> <span class="n">data</span><span class="o">=</span><span class="n">austria</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-<span class="k">print</span> <span class="n">gravity</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span>
+<span class="nb">print</span> <span class="n">gravity</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -117,35 +108,30 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">production</span> <span class="o">=</span> <span class="n">Production</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="s1">&#39;glm&#39;</span><span class="p">)</span>
-<span class="k">print</span> <span class="n">production</span><span class="o">.</span><span class="n">params</span>
+<span class="nb">print</span> <span class="n">production</span><span class="o">.</span><span class="n">params</span>
 
 <span class="n">gravity</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">glm</span><span class="p">(</span><span class="s1">&#39;Data~Origin+np.log(Dj2007)+Dij&#39;</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="n">families</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(),</span> <span class="n">data</span><span class="o">=</span><span class="n">austria</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-<span class="k">print</span> <span class="n">gravity</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span>
+<span class="nb">print</span> <span class="n">gravity</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -161,35 +147,30 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">attraction</span> <span class="o">=</span> <span class="n">Attraction</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="s1">&#39;glm&#39;</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="k">print</span> <span class="n">attraction</span><span class="o">.</span><span class="n">params</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">attraction</span> <span class="o">=</span> <span class="n">Attraction</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="s1">&#39;glm&#39;</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">attraction</span><span class="o">.</span><span class="n">params</span>
 
 <span class="n">gravity</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">glm</span><span class="p">(</span><span class="s1">&#39;Data~np.log(Oi2007)+Destination + Dij&#39;</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="n">families</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(),</span> <span class="n">data</span><span class="o">=</span><span class="n">austria</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-<span class="k">print</span> <span class="n">gravity</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span>
+<span class="nb">print</span> <span class="n">gravity</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -205,35 +186,30 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">doubly</span> <span class="o">=</span> <span class="n">Doubly</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="s1">&#39;glm&#39;</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="k">print</span> <span class="n">doubly</span><span class="o">.</span><span class="n">params</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">doubly</span> <span class="o">=</span> <span class="n">Doubly</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="s1">&#39;glm&#39;</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">doubly</span><span class="o">.</span><span class="n">params</span>
 
 <span class="n">gravity</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">glm</span><span class="p">(</span><span class="s1">&#39;Data~Origin+Destination+Dij&#39;</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="n">families</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(),</span> <span class="n">data</span><span class="o">=</span><span class="n">austria</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-<span class="k">print</span> <span class="n">gravity</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span>
+<span class="nb">print</span> <span class="n">gravity</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -251,6 +227,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
  
 
+
+    </main>
+    

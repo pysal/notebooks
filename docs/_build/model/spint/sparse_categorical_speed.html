@@ -3,35 +3,40 @@ redirect_from:
   - "/model/spint/sparse-categorical-speed"
 interact_link: content/model/spint/sparse_categorical_speed.ipynb
 kernel_name: python2
+kernel_path: content/model/spint
 has_widgets: false
-title: 'sparse_categorical_speed'
+title: |-
+  sparse_categorical_speed
+pagenum: 70
 prev_page:
   url: /model/spint/sparse_categorical_bottleneck.html
-  title: 'sparse_categorical_bottleneck'
 next_page:
   url: /model/spint/sparse_grav.html
-  title: 'sparse_grav'
+suffix: .ipynb
+search: spcat row sparse index matrix n functions memory non zero dummy building function array very dummies between rows using uses entire empty assignment csr however best lets value larger k ones shape large infeasible where obvious fastest creating differnece creates format stacks hstack while builds variable entries instanitate somewhat simularly regimes built pysal slower spcata spcatb riffs also work instantiate either lil dok assign scipy doucmentation suggests types sparce matrices faster csc therefore better incrementally appears avoiding alother route therefrow data structure contruction context vs instantiation variables starts become much clear efficient method additional testing noticed does somewhere notebook ran
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">sparse_categorical_speed</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pysal</span>
-<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="kn">as</span> <span class="nn">sp</span>
-<span class="kn">import</span> <span class="nn">itertools</span> <span class="kn">as</span> <span class="nn">iter</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
+<span class="kn">import</span> <span class="nn">itertools</span> <span class="k">as</span> <span class="nn">iter</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">f</span><span class="p">,</span> <span class="n">chisqprob</span>
-<span class="kn">import</span> <span class="nn">numpy.linalg</span> <span class="kn">as</span> <span class="nn">la</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy.linalg</span> <span class="k">as</span> <span class="nn">la</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span> <span class="k">as</span> <span class="n">dt</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="o">%</span><span class="k">pylab</span> inline
 </pre></div>
 
@@ -39,14 +44,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -55,16 +56,25 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>WARNING: pylab import has clobbered these variables: [&#39;f&#39;]
+`%matplotlib` prevents importing * from pylab and numpy
+</pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -130,16 +140,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -162,7 +167,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">tmp_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">tmp_dummy</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span>
-        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">tmp_arr</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">tmp_arr</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]:</span>
             <span class="n">row</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">((</span><span class="n">each</span> <span class="o">==</span> <span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
             <span class="n">tmp_dummy</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">tmp_dummy</span><span class="p">,</span> <span class="n">row</span><span class="p">])</span>
         <span class="n">tmp_dummy</span> <span class="o">=</span> <span class="n">tmp_dummy</span><span class="o">.</span><span class="n">T</span>
@@ -176,16 +181,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -210,7 +210,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">C</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_arr</span><span class="p">)</span>
         <span class="n">tmp_dummy</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">dok_matrix</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">C</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">tmp_arr</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">tmp_arr</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]:</span>
             <span class="n">row</span> <span class="o">=</span> <span class="p">(</span><span class="n">each</span> <span class="o">==</span> <span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
             <span class="n">tmp_dummy</span><span class="p">[:,</span><span class="n">each</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">tmp_dummy</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
@@ -223,16 +223,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -257,7 +252,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">C</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_arr</span><span class="p">)</span>
         <span class="n">tmp_dummy</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">lil_matrix</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">C</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">tmp_arr</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">tmp_arr</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]:</span>
             <span class="n">row</span> <span class="o">=</span> <span class="p">(</span><span class="n">each</span> <span class="o">==</span> <span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
             <span class="n">tmp_dummy</span><span class="p">[:,</span><span class="n">each</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">tmp_dummy</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
@@ -270,39 +265,30 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">20</span>
 <span class="n">o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">n</span><span class="p">)</span>
-<span class="k">print</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">spcategorical1</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span> <span class="n">spcategorical2</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">())</span>
-<span class="k">print</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">spcategorical1</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span> <span class="n">spcategorical1a</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">())</span>
-<span class="k">print</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">spcategorical1</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span> <span class="n">spcategorical1b</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">())</span>
+<span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">spcategorical1</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span> <span class="n">spcategorical2</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">())</span>
+<span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">spcategorical1</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span> <span class="n">spcategorical1a</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">())</span>
+<span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">spcategorical1</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span> <span class="n">spcategorical1b</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">())</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -317,12 +303,11 @@ True
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -341,16 +326,11 @@ True
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -369,16 +349,11 @@ True
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -397,16 +372,11 @@ True
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -425,16 +395,11 @@ True
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -447,16 +412,11 @@ True
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -469,16 +429,11 @@ True
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -491,16 +446,11 @@ True
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -513,16 +463,11 @@ True
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -540,12 +485,9 @@ True
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -553,12 +495,11 @@ True
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -577,16 +518,11 @@ True
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -605,16 +541,11 @@ True
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -627,16 +558,11 @@ True
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -649,16 +575,11 @@ True
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -676,12 +597,9 @@ True
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -689,12 +607,11 @@ True
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -708,7 +625,7 @@ True
 
     <span class="k">return</span> <span class="n">csc_matrix</span><span class="p">((</span><span class="n">new_data</span><span class="p">,</span> <span class="n">new_indices</span><span class="p">,</span> <span class="n">new_ind_ptr</span><span class="p">))</span>
 
-<span class="k">def</span> <span class="nf">spcategorical2a</span><span class="p">(</span><span class="n">n_cat_ids</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">spcategorical2a</span><span class="p">(</span><span class="n">n_cat_ids</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns a dummy matrix given an array of categorical variables.</span>
 <span class="sd">    Parameters</span>
@@ -736,16 +653,11 @@ True
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -755,7 +667,7 @@ True
 <span class="n">s</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 <span class="n">b2</span> <span class="o">=</span> <span class="n">spcategorical2</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
 <span class="n">e</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-<span class="k">print</span> <span class="n">e</span><span class="o">-</span><span class="n">s</span>
+<span class="nb">print</span> <span class="n">e</span><span class="o">-</span><span class="n">s</span>
 <span class="n">b2</span>
 </pre></div>
 
@@ -763,14 +675,10 @@ True
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -779,7 +687,7 @@ True
 </div>
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -795,12 +703,11 @@ True
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -810,7 +717,7 @@ True
 <span class="n">s</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 <span class="n">b2a</span> <span class="o">=</span> <span class="n">spcategorical2a</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
 <span class="n">e</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-<span class="k">print</span> <span class="n">e</span><span class="o">-</span><span class="n">s</span>
+<span class="nb">print</span> <span class="n">e</span><span class="o">-</span><span class="n">s</span>
 <span class="n">b2a</span>
 </pre></div>
 
@@ -818,14 +725,10 @@ True
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -834,7 +737,7 @@ True
 </div>
 </div>
 </div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -850,6 +753,10 @@ True
 </div>
 
 </div>
+</div>
 
  
 
+
+    </main>
+    

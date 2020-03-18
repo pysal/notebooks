@@ -3,33 +3,70 @@ redirect_from:
   - "/explore/segregation/decomposition-wrapper-example"
 interact_link: content/explore/segregation/decomposition_wrapper_example.ipynb
 kernel_name: python3
+kernel_path: content/explore/segregation
 has_widgets: false
-title: 'decomposition_wrapper_example'
+title: |-
+  decomposition_wrapper_example
+pagenum: 27
 prev_page:
   url: /explore/segregation/compute_all_example.html
-  title: 'compute_all_example'
 next_page:
   url: /explore/segregation/inference_wrappers_example.html
-  title: 'inference_wrappers_example'
+suffix: .ipynb
+search: composition approach metropolitan area component decomposition segregation map share lets population group data difference different counterfactual los angeles new york index total both spatial attribute framework pysal module default dual inspecting relative concentration download similar read unit also into respectively case possible table notebook step comparative import going census should type file zipped looks variable us cities previous build frequency inspect compare check structure role since absolute plotting cdfs maps contexts note takes consideration complementary importance however contents explains procedure perform measures needed libraries example user must its own copy following guidelines explained github com spatialucr geosnap blob master examples
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">decomposition_wrapper_example</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Decomposition-framework-of-the-PySAL-segregation-module">Decomposition framework of the PySAL <em>segregation</em> module<a class="anchor-link" href="#Decomposition-framework-of-the-PySAL-segregation-module"> </a></h1><p>This is a notebook that explains a step-by-step procedure to perform decomposition on comparative segregation measures.</p>
+<h1 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents"> </a></h1><ul>
+<li><a href="#Decomposition-framework-of-the-PySAL-*segregation*-module">Decomposition framework of the PySAL <em>segregation</em> module</a><ul>
+<li><a href="#Map-of-the-composition-of-the-Metropolitan-area-of-Los-Angeles">Map of the composition of the Metropolitan area of Los Angeles</a></li>
+<li><a href="#Map-of-the-composition-of-the-Metropolitan-area-of-New-York">Map of the composition of the Metropolitan area of New York</a></li>
+<li><a href="#Composition-Approach-%28default%29">Composition Approach (default)</a></li>
+<li><a href="#Share-Approach">Share Approach</a></li>
+<li><a href="#Dual-Composition-Approach">Dual Composition Approach</a></li>
+<li><a href="#Inspecting-a-different-index:-Relative-Concentration">Inspecting a different index: Relative Concentration</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Decomposition-framework-of-the-PySAL-segregation-module">Decomposition framework of the PySAL <em>segregation</em> module<a class="anchor-link" href="#Decomposition-framework-of-the-PySAL-segregation-module"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is a notebook that explains a step-by-step procedure to perform decomposition on comparative segregation measures.</p>
 <p>First, let's import all the needed libraries.</p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -39,8 +76,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="kn">from</span> <span class="nn">pysal.explore</span> <span class="k">import</span> <span class="n">segregation</span>
-<span class="kn">from</span> <span class="nn">pysal.explore.segregation.decomposition</span> <span class="k">import</span> <span class="n">DecomposeSegregation</span>
+<span class="kn">import</span> <span class="nn">segregation</span>
+<span class="kn">from</span> <span class="nn">segregation.decomposition</span> <span class="kn">import</span> <span class="n">DecomposeSegregation</span>
 </pre></div>
 
     </div>
@@ -48,26 +85,22 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this example, we are going to use census data that the user must download its own copy, following similar guidelines explained in <a href="https://github.com/spatialucr/geosnap/tree/master/geosnap/data">https://github.com/spatialucr/geosnap/tree/master/geosnap/data</a> where you should download the full type file  of 2010. The zipped file download will have a name that looks like <code>LTDB_Std_All_fullcount.zip</code>. After extracting the zipped content, the filepath of the data should looks like this:</p>
+<p>In this example, we are going to use census data that the user must download its own copy, following similar guidelines explained in <a href="https://github.com/spatialucr/geosnap/blob/master/examples/01_getting_started.ipynb">https://github.com/spatialucr/geosnap/blob/master/examples/01_getting_started.ipynb</a> where you should download the full type file  of 2010. The zipped file download will have a name that looks like <code>LTDB_Std_All_fullcount.zip</code>. After extracting the zipped content, the filepath of the data should looks like this:</p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -80,12 +113,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -94,12 +124,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -112,12 +141,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -126,12 +152,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -150,12 +175,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -164,12 +186,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -184,12 +205,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -198,12 +216,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -216,12 +233,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -230,12 +244,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -248,14 +261,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -367,8 +376,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -377,8 +387,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -386,12 +397,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -405,14 +415,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -423,69 +429,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 </div>
 </div>
-<div class="jb_output_wrapper">
-<div class="output_area">
-
-
-
-<div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/decomposition_wrapper_example_16_1.png"
->
-</div>
-
-</div>
-</div>
-</div>
-</div>
-
-</div>
-
-
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Map-of-the-composition-of-the-Metropolitan-area-of-New-York">Map of the composition of the Metropolitan area of New York<a class="anchor-link" href="#Map-of-the-composition-of-the-Metropolitan-area-of-New-York"> </a></h2>
-</div>
-</div>
-</div>
-
-
-
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ny_2010</span> <span class="o">=</span> <span class="n">merged_gdf</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">merged_gdf</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;New York-Newark-Jersey City, NY-NJ-PA&#39;</span><span class="p">)]</span>
-<span class="n">ny_2010</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span> <span class="o">=</span> <span class="s1">&#39;compo&#39;</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;OrRd&#39;</span><span class="p">,</span> <span class="n">legend</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-
-
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="jb_output_wrapper">
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(-75.5381038, -71.59841419999998, 39.36886419999999, 41.70820779999999)</pre>
-</div>
-
-</div>
-</div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -501,8 +445,67 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Map-of-the-composition-of-the-Metropolitan-area-of-New-York">Map of the composition of the Metropolitan area of New York<a class="anchor-link" href="#Map-of-the-composition-of-the-Metropolitan-area-of-New-York"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ny_2010</span> <span class="o">=</span> <span class="n">merged_gdf</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">merged_gdf</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;New York-Newark-Jersey City, NY-NJ-PA&#39;</span><span class="p">)]</span>
+<span class="n">ny_2010</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span> <span class="o">=</span> <span class="s1">&#39;compo&#39;</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;OrRd&#39;</span><span class="p">,</span> <span class="n">legend</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
 
 
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(-75.5381038, -71.59841419999998, 39.36886419999999, 41.70820779999999)</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/decomposition_wrapper_example_20_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -511,17 +514,16 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.aspatial</span> <span class="k">import</span> <span class="n">GiniSeg</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.aspatial</span> <span class="kn">import</span> <span class="n">GiniSeg</span>
 
 <span class="n">G_la</span> <span class="o">=</span> <span class="n">GiniSeg</span><span class="p">(</span><span class="n">la_2010</span><span class="p">,</span> <span class="s1">&#39;nhblk10&#39;</span><span class="p">,</span> <span class="s1">&#39;pop10&#39;</span><span class="p">)</span>
 <span class="n">G_ny</span> <span class="o">=</span> <span class="n">GiniSeg</span><span class="p">(</span><span class="n">ny_2010</span><span class="p">,</span> <span class="s1">&#39;nhblk10&#39;</span><span class="p">,</span> <span class="s1">&#39;pop10&#39;</span><span class="p">)</span>
@@ -533,14 +535,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -555,8 +553,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -565,12 +564,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -582,14 +580,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -660,8 +654,9 @@ class DecomposeSegregation(builtins.object)
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -669,8 +664,9 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -679,12 +675,11 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -697,14 +692,10 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -719,12 +710,11 @@ class DecomposeSegregation(builtins.object)
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -736,14 +726,10 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -758,8 +744,9 @@ class DecomposeSegregation(builtins.object)
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -769,12 +756,11 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -786,65 +772,10 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
-<div class="output_area">
-
-
-
-<div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/decomposition_wrapper_example_28_0.png"
->
-</div>
-
-</div>
-</div>
-</div>
-</div>
-
-</div>
-
-
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>If your data is a GeoDataFrame, it is also possible to visualize the counterfactual compositions with the argument <code>plot_type = 'maps'</code></p>
-<p>The first and second contexts are Los Angeles and New York, respectively.</p>
-
-</div>
-</div>
-</div>
-
-
-
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">DS_composition</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_type</span> <span class="o">=</span> <span class="s1">&#39;maps&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-
-
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -860,8 +791,56 @@ class DecomposeSegregation(builtins.object)
 </div>
 
 </div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If your data is a GeoDataFrame, it is also possible to visualize the counterfactual compositions with the argument <code>plot_type = 'maps'</code></p>
+<p>The first and second contexts are Los Angeles and New York, respectively.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">DS_composition</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_type</span> <span class="o">=</span> <span class="s1">&#39;maps&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
 
 
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/decomposition_wrapper_example_32_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -870,8 +849,9 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -879,8 +859,9 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -890,12 +871,11 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -908,64 +888,10 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
-<div class="output_area">
-
-
-
-<div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/decomposition_wrapper_example_34_0.png"
->
-</div>
-
-</div>
-</div>
-</div>
-</div>
-
-</div>
-
-
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can see that curve between the contexts are closer to each other which represent a drop in the importance of the population structure (attribute component) to -0.062. However, this attribute still overcomes the spatial component (-0.045) in terms of importance due to both absolute magnitudes.</p>
-
-</div>
-</div>
-</div>
-
-
-
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">DS_share</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_type</span> <span class="o">=</span> <span class="s1">&#39;maps&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-
-
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -981,8 +907,55 @@ class DecomposeSegregation(builtins.object)
 </div>
 
 </div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can see that curve between the contexts are closer to each other which represent a drop in the importance of the population structure (attribute component) to -0.062. However, this attribute still overcomes the spatial component (-0.045) in terms of importance due to both absolute magnitudes.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">DS_share</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_type</span> <span class="o">=</span> <span class="s1">&#39;maps&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
 
 
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/decomposition_wrapper_example_38_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -991,22 +964,32 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Dual-Composition-Approach">Dual Composition Approach<a class="anchor-link" href="#Dual-Composition-Approach"> </a></h2><p>The <code>dual_composition</code> approach is similar to the composition approach. However, it uses also the counterfactual composition of the cdf of the complementary group.</p>
+<h2 id="Dual-Composition-Approach">Dual Composition Approach<a class="anchor-link" href="#Dual-Composition-Approach"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>dual_composition</code> approach is similar to the composition approach. However, it uses also the counterfactual composition of the cdf of the complementary group.</p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1019,20 +1002,16 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/decomposition_wrapper_example_39_0.png"
+<img src="../../images/explore/segregation/decomposition_wrapper_example_42_0.png"
 >
 </div>
 
@@ -1042,8 +1021,9 @@ class DecomposeSegregation(builtins.object)
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1052,12 +1032,11 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1069,20 +1048,16 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/explore/segregation/decomposition_wrapper_example_41_0.png"
+<img src="../../images/explore/segregation/decomposition_wrapper_example_44_0.png"
 >
 </div>
 
@@ -1092,8 +1067,9 @@ class DecomposeSegregation(builtins.object)
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1102,8 +1078,9 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1111,17 +1088,16 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.explore.segregation.spatial</span> <span class="k">import</span> <span class="n">RelativeConcentration</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">RelativeConcentration</span>
 
 <span class="n">RCO_la</span> <span class="o">=</span> <span class="n">RelativeConcentration</span><span class="p">(</span><span class="n">la_2010</span><span class="p">,</span> <span class="s1">&#39;nhblk10&#39;</span><span class="p">,</span> <span class="s1">&#39;pop10&#39;</span><span class="p">)</span>
 <span class="n">RCO_ny</span> <span class="o">=</span> <span class="n">RelativeConcentration</span><span class="p">(</span><span class="n">ny_2010</span><span class="p">,</span> <span class="s1">&#39;nhblk10&#39;</span><span class="p">,</span> <span class="s1">&#39;pop10&#39;</span><span class="p">)</span>
@@ -1133,14 +1109,10 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1155,12 +1127,11 @@ class DecomposeSegregation(builtins.object)
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1173,14 +1144,10 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1195,12 +1162,11 @@ class DecomposeSegregation(builtins.object)
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1212,14 +1178,10 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1234,8 +1196,9 @@ class DecomposeSegregation(builtins.object)
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1244,6 +1207,10 @@ class DecomposeSegregation(builtins.object)
 </div>
 </div>
 </div>
+</div>
 
  
 
+
+    </main>
+    

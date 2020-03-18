@@ -31,21 +31,29 @@
   sections:
   - title: Spatial_Autocorrelation_for_Areal_Unit_Data
     url: /explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data
+  - title: geosilhouettes
+    url: /explore/esda/geosilhouettes
+  - title: joincounts
+    url: /explore/esda/joincounts
   
 - title: giddy
   url: /explore/giddy/intro
   not_numbered: true
   sections:
-  - title: directional
-    url: /explore/giddy/directional
   - title: Markov_Based_Methods
     url: /explore/giddy/Markov_Based_Methods
   - title: Mobility_measures
     url: /explore/giddy/Mobility_measures
-  - title: Rank_based_Methods
-    url: /explore/giddy/Rank_based_Methods
   - title: Rank_Markov
     url: /explore/giddy/Rank_Markov
+  - title: Rank_Markov_ergodic_morecomu
+    url: /explore/giddy/Rank_Markov_ergodic_morecomu
+  - title: Rank_based_Methods
+    url: /explore/giddy/Rank_based_Methods
+  - title: Sequence
+    url: /explore/giddy/Sequence
+  - title: directional
+    url: /explore/giddy/directional
   
 - title: inequality
   url: /explore/inequality/intro
@@ -58,20 +66,20 @@
   url: /explore/pointpats/intro
   not_numbered: true
   sections:
+  - title: Minimum_bounding_circle
+    url: /explore/pointpats/Minimum_bounding_circle
+  - title: Quadrat_statistics
+    url: /explore/pointpats/Quadrat_statistics
   - title: centrography
     url: /explore/pointpats/centrography
   - title: distance_statistics
     url: /explore/pointpats/distance_statistics
   - title: marks
     url: /explore/pointpats/marks
-  - title: Minimum_bounding_circle
-    url: /explore/pointpats/Minimum_bounding_circle
   - title: pointpattern
     url: /explore/pointpats/pointpattern
   - title: process
     url: /explore/pointpats/process
-  - title: Quadrat_statistics
-    url: /explore/pointpats/Quadrat_statistics
   - title: window
     url: /explore/pointpats/window
   
@@ -102,14 +110,18 @@
   url: /explore/spaghetti/intro
   not_numbered: true
   sections:
-  - title: Facility_Location
-    url: /explore/spaghetti/Facility_Location
-  - title: Network_Usage
-    url: /explore/spaghetti/Network_Usage
-  - title: Snapping_Demonstration
-    url: /explore/spaghetti/Snapping_Demonstration
-  - title: Spaghetti_Pointpatterns_Empirical
-    url: /explore/spaghetti/Spaghetti_Pointpatterns_Empirical
+  - title: connected-components
+    url: /explore/spaghetti/connected-components
+  - title: facility-location
+    url: /explore/spaghetti/facility-location
+  - title: network-analysis
+    url: /explore/spaghetti/network-analysis
+  - title: quickstart
+    url: /explore/spaghetti/quickstart
+  - title: shortest-path-visualization
+    url: /explore/spaghetti/shortest-path-visualization
+  - title: tsp
+    url: /explore/spaghetti/tsp
   
 - divider: true
 - header: Lib
@@ -118,6 +130,8 @@
   url: /lib/libpysal/intro
   not_numbered: true
   sections:
+  - title: Example_Datasets
+    url: /lib/libpysal/Example_Datasets
   - title: io
     url: /lib/libpysal/io
   - title: voronoi
@@ -134,10 +148,10 @@
   sections:
   - title: GWR_Georgia_example
     url: /model/mgwr/GWR_Georgia_example
-  - title: GWR_MGWR_example
-    url: /model/mgwr/GWR_MGWR_example
   - title: GWR_MGWR_Parallel_Example
     url: /model/mgwr/GWR_MGWR_Parallel_Example
+  - title: GWR_MGWR_example
+    url: /model/mgwr/GWR_MGWR_example
   - title: GWR_prediction_example
     url: /model/mgwr/GWR_prediction_example
   - title: MGWR_Georgia_example
@@ -160,24 +174,26 @@
   sections:
   - title: 4d_distance
     url: /model/spint/4d_distance
-  - title: autograd_test
-    url: /model/spint/autograd_test
-  - title: dispersion_test
-    url: /model/spint/dispersion_test
   - title: Example_NYCBikes_AllFeatures
     url: /model/spint/Example_NYCBikes_AllFeatures
-  - title: local_SI
-    url: /model/spint/local_SI
-  - title: netW
-    url: /model/spint/netW
-  - title: New_DistanceBand
-    url: /model/spint/New_DistanceBand
   - title: NYC_Bike_Example
     url: /model/spint/NYC_Bike_Example
+  - title: New_DistanceBand
+    url: /model/spint/New_DistanceBand
   - title: ODW_example
     url: /model/spint/ODW_example
   - title: OD_weights
     url: /model/spint/OD_weights
+  - title: autograd_test
+    url: /model/spint/autograd_test
+  - title: dispersion_test
+    url: /model/spint/dispersion_test
+  - title: glm_speed
+    url: /model/spint/glm_speed
+  - title: local_SI
+    url: /model/spint/local_SI
+  - title: netW
+    url: /model/spint/netW
   - title: sparse_categorical
     url: /model/spint/sparse_categorical
   - title: sparse_categorical_bottleneck
@@ -195,6 +211,10 @@
   - title: validate_gravity
     url: /model/spint/validate_gravity
   
+- title: spreg
+  url: /model/spreg/intro
+  not_numbered: true
+
 - title: spvcm
   url: /model/spvcm/intro
   not_numbered: true
@@ -204,6 +224,15 @@
   - title: using_the_sampler
     url: /model/spvcm/using_the_sampler
   
+- title: tobler
+  url: /model/tobler/intro
+  not_numbered: true
+  sections:
+  - title: areal
+    url: /model/tobler/areal
+  - title: precincts
+    url: /model/tobler/precincts
+  
 - divider: true
 - header: Viz
 
@@ -211,8 +240,6 @@
   url: /viz/mapclassify/intro
   not_numbered: true
   sections:
-  - title: deprecate
-    url: /viz/mapclassify/deprecate
   - title: maximum_breaks
     url: /viz/mapclassify/maximum_breaks
   - title: plot
@@ -224,10 +251,10 @@
   url: /viz/splot/intro
   not_numbered: true
   sections:
-  - title: esda_morans_viz
-    url: /viz/splot/esda_morans_viz
   - title: esda_moran_matrix_viz
     url: /viz/splot/esda_moran_matrix_viz
+  - title: esda_morans_viz
+    url: /viz/splot/esda_morans_viz
   - title: giddy_space_time
     url: /viz/splot/giddy_space_time
   - title: libpysal_non_planar_joins_viz

@@ -1,22 +1,27 @@
 ---
 interact_link: content/viz/mapclassify/south.ipynb
 kernel_name: python3
+kernel_path: content/viz/mapclassify
 has_widgets: false
-title: 'south'
+title: |-
+  south
+pagenum: 86
 prev_page:
   url: /viz/mapclassify/plot.html
-  title: 'plot'
 next_page:
   url: /viz/splot/intro.html
-  title: 'splot'
+suffix: .ipynb
+search: 
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">south</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -24,8 +29,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">))</span>
-<span class="kn">from</span> <span class="nn">pysal.viz</span> <span class="k">import</span> <span class="n">mapclassify</span> <span class="k">as</span> <span class="n">mc</span>
-<span class="kn">import</span> <span class="nn">pysal.lib</span>
+<span class="kn">import</span> <span class="nn">mapclassify</span> <span class="k">as</span> <span class="nn">mc</span>
+<span class="kn">import</span> <span class="nn">libpysal</span>
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
@@ -37,21 +42,16 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">pysal</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;south.shp&#39;</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">load_example</span><span class="p">(</span><span class="s1">&#39;South&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -59,16 +59,28 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-<div class="jb_input" >
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;south.shp&#39;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
@@ -81,33 +93,29 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                Quantiles                
- 
-Lower            Upper              Count
-=========================================
-         x[i] &lt;=  0.000               180
- 0.000 &lt; x[i] &lt;=  2.497               103
- 2.497 &lt; x[i] &lt;=  3.927               141
- 3.927 &lt; x[i] &lt;=  5.104               141
- 5.104 &lt; x[i] &lt;=  6.245               141
- 6.245 &lt; x[i] &lt;=  7.621               141
- 7.621 &lt; x[i] &lt;=  9.188               141
- 9.188 &lt; x[i] &lt;= 10.981               141
-10.981 &lt; x[i] &lt;= 14.313               141
-14.313 &lt; x[i] &lt;= 92.937               142</pre>
+<pre>Quantiles             
+
+   Interval      Count
+----------------------
+[ 0.00,  0.00] |   180
+( 0.00,  2.50] |   103
+( 2.50,  3.93] |   141
+( 3.93,  5.10] |   141
+( 5.10,  6.25] |   141
+( 6.25,  7.62] |   141
+( 7.62,  9.19] |   141
+( 9.19, 10.98] |   141
+(10.98, 14.31] |   141
+(14.31, 92.94] |   142</pre>
 </div>
 
 </div>
@@ -116,12 +124,11 @@ Lower            Upper              Count
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -139,20 +146,16 @@ Lower            Upper              Count
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/viz/mapclassify/south_3_0.png"
+<img src="../../images/viz/mapclassify/south_4_0.png"
 >
 </div>
 
@@ -162,12 +165,11 @@ Lower            Upper              Count
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -182,33 +184,29 @@ Lower            Upper              Count
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>               FisherJenks               
- 
-Lower            Upper              Count
-=========================================
-         x[i] &lt;=  1.707               216
- 1.707 &lt; x[i] &lt;=  4.446               278
- 4.446 &lt; x[i] &lt;=  7.082               287
- 7.082 &lt; x[i] &lt;= 10.022               288
-10.022 &lt; x[i] &lt;= 13.587               176
-13.587 &lt; x[i] &lt;= 19.600               121
-19.600 &lt; x[i] &lt;= 28.773                34
-28.773 &lt; x[i] &lt;= 40.744                 8
-40.744 &lt; x[i] &lt;= 53.305                 3
-53.305 &lt; x[i] &lt;= 92.937                 1</pre>
+<pre>FisherJenks           
+
+   Interval      Count
+----------------------
+[ 0.00,  1.71] |   216
+( 1.71,  4.45] |   278
+( 4.45,  7.08] |   287
+( 7.08, 10.02] |   288
+(10.02, 13.59] |   176
+(13.59, 19.60] |   121
+(19.60, 28.77] |    34
+(28.77, 40.74] |     8
+(40.74, 53.30] |     3
+(53.30, 92.94] |     1</pre>
 </div>
 
 </div>
@@ -217,12 +215,11 @@ Lower            Upper              Count
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -240,20 +237,16 @@ Lower            Upper              Count
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/viz/mapclassify/south_5_0.png"
+<img src="../../images/viz/mapclassify/south_6_0.png"
 >
 </div>
 
@@ -263,12 +256,11 @@ Lower            Upper              Count
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -289,20 +281,16 @@ Lower            Upper              Count
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_png output_subarea ">
-<img src="../../images/viz/mapclassify/south_6_0.png"
+<img src="../../images/viz/mapclassify/south_7_0.png"
 >
 </div>
 
@@ -312,12 +300,11 @@ Lower            Upper              Count
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -337,14 +324,10 @@ Lower            Upper              Count
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -355,59 +338,7 @@ Lower            Upper              Count
 
 </div>
 </div>
-<div class="jb_output_wrapper">
-<div class="output_area">
-
-
-
-<div class="output_png output_subarea ">
-<img src="../../images/viz/mapclassify/south_7_1.png"
->
-</div>
-
-</div>
-</div>
-</div>
-</div>
-
-</div>
-
-
-
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;aspect&#39;</span><span class="p">:</span><span class="s1">&#39;equal&#39;</span><span class="p">})</span>
-<span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;HR60&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-
-
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="jb_output_wrapper">
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f1b25913198&gt;</pre>
-</div>
-
-</div>
-</div>
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -423,12 +354,58 @@ Lower            Upper              Count
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-<div class="jb_input" >
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;aspect&#39;</span><span class="p">:</span><span class="s1">&#39;equal&#39;</span><span class="p">})</span>
+<span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;HR60&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fe872dec160&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/viz/mapclassify/south_9_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
@@ -441,16 +418,11 @@ Lower            Upper              Count
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -462,36 +434,36 @@ Lower            Upper              Count
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                Quantiles                
+<pre>Quantiles             
+
+   Interval      Count
+----------------------
+[ 0.00,  2.50] |   283
+( 2.50,  5.10] |   282
+( 5.10,  7.62] |   282
+( 7.62, 10.98] |   282
+(10.98, 92.94] |   283</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
  
-Lower            Upper              Count
-=========================================
-         x[i] &lt;=  2.497               283
- 2.497 &lt; x[i] &lt;=  5.104               282
- 5.104 &lt; x[i] &lt;=  7.621               282
- 7.621 &lt; x[i] &lt;= 10.981               282
-10.981 &lt; x[i] &lt;= 92.937               283</pre>
-</div>
 
-</div>
-</div>
-</div>
-</div>
 
-</div>
-
- 
-
+    </main>
+    

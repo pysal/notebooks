@@ -3,18 +3,25 @@ redirect_from:
   - "/explore/pointpats/distance-statistics"
 interact_link: content/explore/pointpats/distance_statistics.ipynb
 kernel_name: python3
+kernel_path: content/explore/pointpats
 has_widgets: false
-title: 'distance_statistics'
+title: |-
+  distance_statistics
+pagenum: 19
 prev_page:
   url: /explore/pointpats/centrography.html
-  title: 'centrography'
 next_page:
   url: /explore/pointpats/marks.html
-  title: 'marks'
+suffix: .ipynb
+search: point d function distance process simulation nearest neighbor csr g envelope event j pattern functions k n underlying f u distances observed construct mean distribution l interevent envelopes regular class given above statistics s under frac sum pi times pysal data example spatial defined cases quad text plot line simulate ij patterns going between points null hypothesis whether not cluster min si cumulative infer otherwise expectation below might psi simulated based method gmail com technique generating used demonstrate able calculate outcome neighbors pp array including confidence level follows phiid begin end lambda however departures quantile q small expected value events
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">distance_statistics</div>
+</div>
+    <div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -30,20 +37,19 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">scipy.spatial</span>
-<span class="kn">import</span> <span class="nn">pysal.lib</span> <span class="k">as</span> <span class="nn">ps</span>
+<span class="kn">import</span> <span class="nn">libpysal</span> <span class="k">as</span> <span class="nn">ps</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">pysal.explore.pointpats</span> <span class="k">import</span> <span class="n">PointPattern</span><span class="p">,</span> <span class="n">PoissonPointProcess</span><span class="p">,</span> <span class="n">as_window</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">Genv</span><span class="p">,</span> <span class="n">Fenv</span><span class="p">,</span> <span class="n">Jenv</span><span class="p">,</span> <span class="n">Kenv</span><span class="p">,</span> <span class="n">Lenv</span>
+<span class="kn">from</span> <span class="nn">pointpats</span> <span class="kn">import</span> <span class="n">PointPattern</span><span class="p">,</span> <span class="n">PoissonPointProcess</span><span class="p">,</span> <span class="n">as_window</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">Genv</span><span class="p">,</span> <span class="n">Fenv</span><span class="p">,</span> <span class="n">Jenv</span><span class="p">,</span> <span class="n">Kenv</span><span class="p">,</span> <span class="n">Lenv</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
@@ -53,12 +59,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -72,12 +75,11 @@ $$\bar{d}_{min}=\frac{1}{n} \sum_{i=1}^n d_{min}(s_i)$$
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -94,16 +96,11 @@ $$\bar{d}_{min}=\frac{1}{n} \sum_{i=1}^n d_{min}(s_i)$$
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -115,14 +112,10 @@ $$\bar{d}_{min}=\frac{1}{n} \sum_{i=1}^n d_{min}(s_i)$$
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -145,8 +138,9 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -155,12 +149,11 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -173,14 +166,10 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -217,8 +206,9 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -227,12 +217,11 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -245,14 +234,10 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -289,12 +274,11 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -306,14 +290,10 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -328,12 +308,11 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -345,14 +324,10 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -367,12 +342,11 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -384,14 +358,10 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -406,12 +376,11 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -423,14 +392,10 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -456,12 +421,11 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -473,14 +437,10 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -495,12 +455,11 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -512,14 +471,10 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -535,8 +490,9 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -545,8 +501,9 @@ Intensity estimate for window: 0.0015710507711240865
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -567,12 +524,11 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -585,14 +541,10 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -608,8 +560,9 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -618,12 +571,11 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -635,14 +587,10 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -658,8 +606,9 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -668,8 +617,9 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -678,12 +628,11 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -695,14 +644,10 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -721,12 +666,11 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -738,14 +682,10 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -764,8 +704,9 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -774,12 +715,11 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -792,14 +732,10 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -815,12 +751,11 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -832,14 +767,10 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -855,8 +786,9 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -865,12 +797,11 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -883,14 +814,10 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -906,12 +833,11 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -923,14 +849,10 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -946,8 +868,9 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -956,8 +879,9 @@ However, if the $G$ function plot is above the expectation this reflects cluster
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -967,12 +891,11 @@ $$J(d) = \frac{1-G(d)}{1-F(d)}$$<p>If $J(d)&lt;1$, the underlying point process 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -985,14 +908,10 @@ $$J(d) = \frac{1-G(d)}{1-F(d)}$$<p>If $J(d)&lt;1$, the underlying point process 
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1008,8 +927,9 @@ $$J(d) = \frac{1-G(d)}{1-F(d)}$$<p>If $J(d)&lt;1$, the underlying point process 
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1018,8 +938,9 @@ $$J(d) = \frac{1-G(d)}{1-F(d)}$$<p>If $J(d)&lt;1$, the underlying point process 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1040,12 +961,11 @@ $$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1058,14 +978,10 @@ $$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1081,8 +997,9 @@ $$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1092,12 +1009,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1110,14 +1026,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1133,8 +1045,9 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1143,8 +1056,9 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1153,12 +1067,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1172,14 +1085,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1194,12 +1103,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1211,14 +1119,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1254,12 +1158,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1271,14 +1174,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1294,8 +1193,9 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1304,8 +1204,9 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1314,12 +1215,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1332,14 +1232,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1355,8 +1251,9 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1365,12 +1262,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1383,14 +1279,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1406,8 +1298,9 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1416,12 +1309,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1434,14 +1326,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1457,8 +1345,9 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1467,12 +1356,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1485,14 +1373,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1508,8 +1392,9 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1518,19 +1403,18 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pysal.lib.cg</span> <span class="k">import</span> <span class="n">shapely_ext</span>
-<span class="kn">from</span> <span class="nn">pysal.explore.pointpats</span> <span class="k">import</span> <span class="n">Window</span>
-<span class="kn">import</span> <span class="nn">pysal.lib</span> <span class="k">as</span> <span class="nn">ps</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">libpysal.cg</span> <span class="kn">import</span> <span class="n">shapely_ext</span>
+<span class="kn">from</span> <span class="nn">pointpats</span> <span class="kn">import</span> <span class="n">Window</span>
+<span class="kn">import</span> <span class="nn">libpysal</span> <span class="k">as</span> <span class="nn">ps</span>
 <span class="n">va</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;vautm17n.shp&quot;</span><span class="p">))</span>
 <span class="n">polys</span> <span class="o">=</span> <span class="p">[</span><span class="n">shp</span> <span class="k">for</span> <span class="n">shp</span> <span class="ow">in</span> <span class="n">va</span><span class="p">]</span>
 <span class="n">state</span> <span class="o">=</span> <span class="n">shapely_ext</span><span class="o">.</span><span class="n">cascaded_union</span><span class="p">(</span><span class="n">polys</span><span class="p">)</span>
@@ -1541,12 +1425,9 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1555,12 +1436,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1573,14 +1453,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1595,12 +1471,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1615,14 +1490,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1637,12 +1508,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1654,14 +1524,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1676,8 +1542,9 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1686,12 +1553,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1704,14 +1570,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1726,8 +1588,9 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1736,12 +1599,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1754,14 +1616,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1777,8 +1635,9 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1787,12 +1646,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1804,14 +1662,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1827,12 +1681,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1844,14 +1697,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1867,8 +1716,9 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1877,12 +1727,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1895,14 +1744,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1918,8 +1763,9 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1928,12 +1774,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1946,14 +1791,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -1969,8 +1810,9 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1979,12 +1821,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -1997,14 +1838,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -2020,8 +1857,9 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -2030,12 +1868,11 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -2048,14 +1885,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -2071,6 +1904,10 @@ $$L(d) = \sqrt{\frac{K(d)}{\pi}}-d$$</p>
 </div>
 
 </div>
+</div>
 
  
 
+
+    </main>
+    

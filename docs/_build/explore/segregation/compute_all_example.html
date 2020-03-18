@@ -3,18 +3,43 @@ redirect_from:
   - "/explore/segregation/compute-all-example"
 interact_link: content/explore/segregation/compute_all_example.ipynb
 kernel_name: python3
+kernel_path: content/explore/segregation
 has_widgets: false
-title: 'compute_all_example'
+title: |-
+  compute_all_example
+pagenum: 26
 prev_page:
   url: /explore/segregation/aspatial_examples.html
-  title: 'aspatial_examples'
 next_page:
   url: /explore/segregation/decomposition_wrapper_example.html
-  title: 'decomposition_wrapper_example'
+suffix: .ipynb
+search: measures segregation compute pysal classes data several computeall example computing module using aspatial spatial comprises functions assess available sacramento geopandas dataframe examples libpysal table contents simple quick multiple once dataset uses default parameters returns object attribute computed dictionary summary values fitted wrappers currently three computeallaspatialsegregation computeallspatialsegregation computeallsegregation firstly need import libraries used its load estimate census tract metropolitan area ca usa repository information github com tree master demographic variables going hispanic population variable hisp only extract columns
+
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">compute_all_example</div>
+</div>
+    <div class="jb_cell">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents"> </a></h1><ul>
+<li><a href="#Example-of-use-of-computing-several-measures-of-the-PySAL-*segregation*-module:-using-ComputeAll-classes">Example of use of computing several measures of the PySAL <em>segregation</em> module: using <code>ComputeAll</code> classes</a><ul>
+<li><a href="#Compute-All-Aspatial-Measures">Compute All Aspatial Measures</a></li>
+<li><a href="#Compute-All-Spatial-Measures">Compute All Spatial Measures</a></li>
+<li><a href="#Compute-All-Segregation-Measures">Compute All Segregation Measures</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -22,8 +47,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -34,12 +60,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -47,9 +72,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="kn">from</span> <span class="nn">pysal.explore</span> <span class="k">import</span> <span class="n">segregation</span>
-<span class="kn">import</span> <span class="nn">pysal.lib</span>
-<span class="kn">from</span> <span class="nn">pysal.explore.segregation.compute_all</span> <span class="k">import</span> <span class="n">ComputeAllAspatialSegregation</span><span class="p">,</span> <span class="n">ComputeAllSpatialSegregation</span><span class="p">,</span> <span class="n">ComputeAllSegregation</span>
+<span class="kn">import</span> <span class="nn">segregation</span>
+<span class="kn">import</span> <span class="nn">libpysal</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">segregation.compute_all</span> <span class="kn">import</span> <span class="n">ComputeAllAspatialSegregation</span><span class="p">,</span> <span class="n">ComputeAllSpatialSegregation</span><span class="p">,</span> <span class="n">ComputeAllSegregation</span>
 </pre></div>
 
     </div>
@@ -57,33 +83,29 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Then it's time to load some data to estimate segregation. We use the data of 2000 Census Tract Data for the metropolitan area of Sacramento, CA, USA.</p>
 <p>We use a geopandas dataframe available in PySAL examples repository.</p>
-<p>For more information about the data: <a href="https://github.com/pysal/pysal.lib/tree/master/pysal.lib/examples/sacramento2">https://github.com/pysal/pysal.lib/tree/master/pysal.lib/examples/sacramento2</a></p>
+<p>For more information about the data: <a href="https://github.com/pysal/libpysal/tree/master/libpysal/examples/sacramento2">https://github.com/pysal/libpysal/tree/master/libpysal/examples/sacramento2</a></p>
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s_map</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">pysal</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;sacramentot2.shp&quot;</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s_map</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;sacramentot2.shp&quot;</span><span class="p">))</span>
 <span class="n">s_map</span><span class="o">.</span><span class="n">columns</span>
 </pre></div>
 
@@ -91,14 +113,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -119,8 +137,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -129,12 +148,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
@@ -147,30 +165,27 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
-
-
-
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Compute-All-Aspatial-Measures">Compute All Aspatial Measures<a class="anchor-link" href="#Compute-All-Aspatial-Measures"> </a></h3>
+<h2 id="Compute-All-Aspatial-Measures">Compute All Aspatial Measures<a class="anchor-link" href="#Compute-All-Aspatial-Measures"> </a></h2>
+</div>
 </div>
 </div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">aspatial_fit</span> <span class="o">=</span> <span class="n">ComputeAllAspatialSegregation</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">aspatial_fit</span> <span class="o">=</span> <span class="n">ComputeAllAspatialSegregation</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
 <span class="n">aspatial_fit</span><span class="o">.</span><span class="n">computed</span>
 </pre></div>
 
@@ -178,14 +193,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -251,7 +262,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
     <tr>
       <th>7</th>
       <td>Bias Corrected Dissimilarity</td>
-      <td>0.321431</td>
+      <td>0.321420</td>
     </tr>
     <tr>
       <th>8</th>
@@ -266,12 +277,17 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
     <tr>
       <th>10</th>
       <td>Modified Dissimilarity</td>
-      <td>0.310733</td>
+      <td>0.310746</td>
     </tr>
     <tr>
       <th>11</th>
       <td>Modified Gini</td>
-      <td>0.421795</td>
+      <td>0.421793</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Minimun-Maximum</td>
+      <td>0.486965</td>
     </tr>
   </tbody>
 </table>
@@ -284,26 +300,27 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Compute-All-Spatial-Measures">Compute All Spatial Measures<a class="anchor-link" href="#Compute-All-Spatial-Measures"> </a></h3>
+<h2 id="Compute-All-Spatial-Measures">Compute All Spatial Measures<a class="anchor-link" href="#Compute-All-Spatial-Measures"> </a></h2>
+</div>
 </div>
 </div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">spatial_fit</span> <span class="o">=</span> <span class="n">ComputeAllSpatialSegregation</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">spatial_fit</span> <span class="o">=</span> <span class="n">ComputeAllSpatialSegregation</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
 <span class="n">spatial_fit</span><span class="o">.</span><span class="n">computed</span>
 </pre></div>
 
@@ -311,14 +328,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -416,6 +429,11 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
       <td>Perimeter Area Ratio Spatial Dissimilarity</td>
       <td>0.311172</td>
     </tr>
+    <tr>
+      <th>14</th>
+      <td>Spatial Minimun-Maximum</td>
+      <td>0.171200</td>
+    </tr>
   </tbody>
 </table>
 </div>
@@ -427,26 +445,27 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Compute-All-Segregation-Measures">Compute All Segregation Measures<a class="anchor-link" href="#Compute-All-Segregation-Measures"> </a></h3>
+<h2 id="Compute-All-Segregation-Measures">Compute All Segregation Measures<a class="anchor-link" href="#Compute-All-Segregation-Measures"> </a></h2>
+</div>
 </div>
 </div>
 </div>
 
-
+<div class="jb_cell">
 
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="jb_input" >
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">segregation_fit</span> <span class="o">=</span> <span class="n">ComputeAllSegregation</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">segregation_fit</span> <span class="o">=</span> <span class="n">ComputeAllSegregation</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
 <span class="n">segregation_fit</span><span class="o">.</span><span class="n">computed</span>
 </pre></div>
 
@@ -454,14 +473,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
-</div>
-
-
-
 <div class="output_wrapper">
 <div class="output">
 
-<div class="jb_output_wrapper">
+<div class="jb_output_wrapper }}">
 <div class="output_area">
 
 
@@ -527,7 +542,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
     <tr>
       <th>7</th>
       <td>Bias Corrected Dissimilarity</td>
-      <td>0.321369</td>
+      <td>0.321420</td>
     </tr>
     <tr>
       <th>8</th>
@@ -542,82 +557,92 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
     <tr>
       <th>10</th>
       <td>Modified Dissimilarity</td>
-      <td>0.310738</td>
+      <td>0.310746</td>
     </tr>
     <tr>
       <th>11</th>
       <td>Modified Gini</td>
-      <td>0.421745</td>
+      <td>0.421793</td>
     </tr>
     <tr>
       <th>12</th>
+      <td>Minimun-Maximum</td>
+      <td>0.486965</td>
+    </tr>
+    <tr>
+      <th>13</th>
       <td>Spatial Dissimilarity</td>
       <td>0.261197</td>
     </tr>
     <tr>
-      <th>13</th>
+      <th>14</th>
       <td>Absolute Centralization</td>
       <td>0.689142</td>
     </tr>
     <tr>
-      <th>14</th>
+      <th>15</th>
       <td>Absolute Clustering</td>
       <td>0.005189</td>
     </tr>
     <tr>
-      <th>15</th>
+      <th>16</th>
       <td>Absolute Concentration</td>
       <td>0.851282</td>
     </tr>
     <tr>
-      <th>16</th>
+      <th>17</th>
       <td>Delta</td>
       <td>0.804497</td>
     </tr>
     <tr>
-      <th>17</th>
+      <th>18</th>
       <td>Relative Centralization</td>
       <td>-0.111942</td>
     </tr>
     <tr>
-      <th>18</th>
+      <th>19</th>
       <td>Relative Clustering</td>
       <td>0.009096</td>
     </tr>
     <tr>
-      <th>19</th>
+      <th>20</th>
       <td>Relative Concentration</td>
       <td>0.127338</td>
     </tr>
     <tr>
-      <th>20</th>
+      <th>21</th>
       <td>Distance Decay Exposure</td>
       <td>0.839658</td>
     </tr>
     <tr>
-      <th>21</th>
+      <th>22</th>
       <td>Distance Decay Isolation</td>
       <td>0.156216</td>
     </tr>
     <tr>
-      <th>22</th>
+      <th>23</th>
       <td>Spatial Proximity Profile</td>
       <td>0.228473</td>
     </tr>
     <tr>
-      <th>23</th>
+      <th>24</th>
       <td>Spatial Proximity</td>
       <td>1.002662</td>
     </tr>
     <tr>
-      <th>24</th>
+      <th>25</th>
       <td>Boundary Spatial Dissimilarity</td>
       <td>0.266763</td>
     </tr>
     <tr>
-      <th>25</th>
+      <th>26</th>
       <td>Perimeter Area Ratio Spatial Dissimilarity</td>
       <td>0.311172</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>Spatial Minimun-Maximum</td>
+      <td>0.171200</td>
     </tr>
   </tbody>
 </table>
@@ -630,6 +655,10 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 
 </div>
+</div>
 
  
 
+
+    </main>
+    

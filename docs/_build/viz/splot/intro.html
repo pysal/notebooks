@@ -1,0 +1,112 @@
+---
+title: |-
+  splot
+pagenum: 87
+prev_page:
+  url: /viz/mapclassify/south.html
+next_page:
+  url: /viz/splot/esda_moran_matrix_viz.html
+suffix: .md
+search: splot pysal github com master org spatial notebooks issues io our badge analysis visualization blob documentation latest install ipynb readthedocs conda project svg en pypi visualizations check community map ideas status branch py doi zenodo autocorrelation different popular matplotlib package create visualize objects new get installing also found giddy pip usage examples any working code travis ci coveralls version fury toolkits allows data views workflow best python later separate installed html through c forge maps report here work together toolkit contributions into feel free discussion add support api integrate pep pyflakes allow used base density methods gitter build coverage repos
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">splot</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="splot">splot<a class="anchor-link" href="#splot"> </a></h1><p><a href="https://travis-ci.org/pysal/splot"><img src="https://travis-ci.org/pysal/splot.svg?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/github/pysal/splot?branch=master"><img src="https://coveralls.io/repos/github/pysal/splot/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="https://splot.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/splot/badge/?version=latest" alt="Documentation Status"></a>
+<a href="https://badge.fury.io/py/splot"><img src="https://badge.fury.io/py/splot.svg" alt="PyPI version"></a>
+<a href="https://doi.org/10.5281/zenodo.3258810"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3258810.svg" alt="DOI"></a></p>
+<p><strong>Visual analytics for spatial analysis with PySAL.</strong></p>
+<p><img src="figs/viz_local_autocorrelation.png" alt="Local Spatial Autocorrelation"></p>
+<h2 id="What-is-splot?">What is splot?<a class="anchor-link" href="#What-is-splot?"> </a></h2><p><code>splot</code> connects spatial analysis done in <a href="https://github.com/pysal"><code>PySAL</code></a> to different popular visualization toolkits like <a href="https://matplotlib.org"><code>matplotlib</code></a>.
+The <code>splot</code> package allows you to create both static plots ready for publication and interactive visualizations for quick iteration and spatial data exploration. The primary goal of <code>splot</code> is to enable you to visualize popular <code>PySAL</code> objects and gives you different views on your spatial analysis workflow.</p>
+<p>If you are new to <code>splot</code> and <code>PySAL</code> you will best get started with our <a href="https://splot.readthedocs.io/en/latest/">documentation</a> and the short introduction <a href="https://youtu.be/kriQOJMycIQ?t=2403">video</a> of the package at the Scipy 2018 conference!</p>
+<h2 id="Installing-splot">Installing splot<a class="anchor-link" href="#Installing-splot"> </a></h2><h3 id="Installing-dependencies:">Installing dependencies:<a class="anchor-link" href="#Installing-dependencies:"> </a></h3><p><code>splot</code> is compatible with <code>Python</code> 3.6 and 3.7 and depends on <code>geopandas</code> 0.4.0 or later and <code>matplotlib</code> 2.2.2 or later.</p>
+<p>splot also uses</p>
+<ul>
+<li><code>numpy</code></li>
+<li><code>seaborn</code></li>
+<li><code>mapclassify</code></li>
+<li><code>Ipywidgets</code></li>
+</ul>
+<p>Depending on your spatial analysis workflow and the <code>PySAL</code> objects you would like to visualize, <code>splot</code> relies on:</p>
+<ul>
+<li>PySAL 2.0</li>
+</ul>
+<p>or separate packages found in the <code>PySAL</code> stack:</p>
+<ul>
+<li>esda</li>
+<li>libpysal</li>
+<li>spreg</li>
+<li>giddy</li>
+</ul>
+<h3 id="Installing-splot:">Installing splot:<a class="anchor-link" href="#Installing-splot:"> </a></h3><p>There are two ways of accessing <code>splot</code>. First, <code>splot</code> is installed with the <a href="https://pysal.readthedocs.io/en/latest/installation.html">PySAL 2.0</a> metapackage through:</p>
+
+<pre><code>$ pip install -U pysal
+
+or 
+
+$ conda install -c conda-forge pysal
+
+
+</code></pre>
+<p>Second, <code>splot</code> can be installed as a separate package. If you are using Anaconda, install <code>splot</code> via the <code>conda</code> utility:</p>
+
+<pre><code>$ conda install -c conda-forge splot
+
+
+</code></pre>
+<p>Otherwise you can install <code>splot</code> from <code>PyPI</code> with pip:</p>
+
+<pre><code>$ pip install splot
+
+
+</code></pre>
+<h2 id="Usage">Usage<a class="anchor-link" href="#Usage"> </a></h2><p>Usage examples for different spatial statistical workflows are provided as <a href="https://github.com/pysal/splot/tree/master/notebooks">notebooks</a>:</p>
+<ul>
+<li><a href="https://github.com/pysal/splot/blob/master/notebooks/mapping_vba.ipynb">for creating value-by-alpha maps</a></li>
+<li><a href="https://github.com/pysal/splot/blob/master/notebooks/libpysal_non_planar_joins_viz.ipynb">for assessing the relationship between neighboring polygons</a></li>
+<li><a href="https://github.com/pysal/splot/blob/master/notebooks/giddy_space_time.ipynb">for the visualization of space-time autocorrelation</a>, also documented in <a href="https://github.com/pysal/giddy/blob/master/notebooks/directional.ipynb">giddy</a></li>
+<li>for visualizing spatial autocorrelation of <a href="https://github.com/pysal/splot/blob/master/notebooks/esda_morans_viz.ipynb">univariate</a> or <a href="https://github.com/pysal/splot/blob/master/notebooks/esda_moran_matrix_viz.ipynb">multivariate</a> variable analysis</li>
+</ul>
+<p>You can also check our <a href="https://splot.readthedocs.io/en/latest/">documentation</a> for examples on how to use each function. A detailed report about the development, structure and usage of <code>splot</code> can be found <a href="https://gist.github.com/slumnitz/a86ef4a5b48b1b5fac41e91cfd05fff2">here</a>. More tutorials for the whole <code>PySAL</code> ecosystem can be found in our <a href="http://pysal.org/notebooks/intro.html">notebooks book</a> project.</p>
+<h2 id="Contributing-to-splot">Contributing to splot<a class="anchor-link" href="#Contributing-to-splot"> </a></h2><p><code>splot</code> is an open source project within the Python Spatial Analysis Library that is supported by a community of Geographers, visualization lovers, map fans, users and data scientists. As a community we work together to create splot as our own spatial visualization toolkit and will gratefully and humbly accept any contributions and ideas you might bring into this project.</p>
+<p>Feel free to check out our discussion spaces, add ideas and contributions:</p>
+<ul>
+<li><a href="https://github.com/pysal/splot/issues/10">Idea collection</a> which PySAL objects to support and how new visualizations could look like</li>
+<li><a href="https://github.com/pysal/splot/issues/9">Discussion</a> about the splot API</li>
+<li>Ideas how to integrate <a href="https://github.com/pysal/splot/issues/22">other popular visualization toolkits</a> like <code>Bokeh</code> or <code>Altair</code></li>
+</ul>
+<p>If you have never contributed before or you are just discovering what <code>PySAL</code> and <code>splot</code> have to offer, reading through """Doc-strings""" and correcting our Documentation can be a great way to start. Check for spelling and grammar mistakes or use <a href="https://pypi.org/project/pep8/">pep8</a> and <a href="https://pypi.org/project/pyflakes/">pyflakes</a> to clean our <code>.py</code> files. This will allow you to get used to working with <a href="https://try.github.io">git</a> and generally allows you to familiarize yourself with the <code>splot</code> and <code>PySAL</code> code base.</p>
+<p>If you have already used <code>PySAL</code> and <code>splot</code> and you are missing object-specific views for your analysis feel free to add to our code-base or discuss your ideas. Please make sure you include unit test, documentation and examples or (create an issue so someone else can work together with you). The common <code>splot</code> API design discussed <a href="https://github.com/pysal/splot/issues/9">here</a> can help you to decide how to best integrate your visualization prototype into <code>splot</code>.</p>
+<p>Beyond working on documentation and prototyping new visualizations, you can always write a bug report or feature request on <a href="https://github.com/pysal/splot/issues">Github issues</a>. Whether large or small, any contribution makes a big difference and we hope you enjoy being part of our community as much as we do! The only thing we ask is that you abide principles of openness, respect, and consideration of others as described in the <a href="https://github.com/pysal/code_of_conduct/blob/master/README.md">PySAL Code of Conduct</a>.</p>
+<h2 id="Road-map">Road-map<a class="anchor-link" href="#Road-map"> </a></h2><p>We are planning on extending <code>splot</code>'s visualization toolkit in future. Functionality we plan to implement includes:</p>
+<ul>
+<li>visualisations for <a href="https://github.com/pysal/splot/issues/32">density methods</a> (mapping density estimations)</li>
+<li><a href="https://github.com/pysal/splot/issues/35">cross-hatching fill styles</a> for maps (to allow choropleth visualizations without class intervals)</li>
+<li><a href="https://github.com/pysal/splot/issues/34">legendgrams</a> (map legends that visualize the distribution of observations by color in a given map)</li>
+</ul>
+<p>If you are interested in working on one of these or any other methods, check out the linked issues or get in touch!</p>
+<h2 id="Community-support">Community support<a class="anchor-link" href="#Community-support"> </a></h2><ul>
+<li><a href="http://pysal.org">PySAL 2.0</a></li>
+<li><a href="https://gitter.im/pysal/splot?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge">Gitter chat splot</a></li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    
