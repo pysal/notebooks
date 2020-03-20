@@ -29,31 +29,92 @@
   url: /explore/esda/intro
   not_numbered: true
   sections:
-  - title: Spatial_Autocorrelation_for_Areal_Unit_Data
-    url: /explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data
-  - title: geosilhouettes
-    url: /explore/esda/geosilhouettes
   - title: joincounts
     url: /explore/esda/joincounts
+  - title: geosilhouettes
+    url: /explore/esda/geosilhouettes
+  - title: Spatial_Autocorrelation_for_Areal_Unit_Data
+    url: /explore/esda/Spatial_Autocorrelation_for_Areal_Unit_Data
   
 - title: giddy
   url: /explore/giddy/intro
   not_numbered: true
   sections:
-  - title: Markov_Based_Methods
-    url: /explore/giddy/Markov_Based_Methods
-  - title: Mobility_measures
-    url: /explore/giddy/Mobility_measures
-  - title: Rank_Markov
-    url: /explore/giddy/Rank_Markov
-  - title: Rank_Markov_ergodic_morecomu
-    url: /explore/giddy/Rank_Markov_ergodic_morecomu
   - title: Rank_based_Methods
     url: /explore/giddy/Rank_based_Methods
-  - title: Sequence
-    url: /explore/giddy/Sequence
+  - title: Rank_Markov_ergodic_morecomu
+    url: /explore/giddy/Rank_Markov_ergodic_morecomu
   - title: directional
     url: /explore/giddy/directional
+  - title: Rank_Markov
+    url: /explore/giddy/Rank_Markov
+  - title: Sequence
+    url: /explore/giddy/Sequence
+  - title: Mobility_measures
+    url: /explore/giddy/Mobility_measures
+  - title: Markov_Based_Methods
+    url: /explore/giddy/Markov_Based_Methods
+  
+- title: pointpats
+  url: /explore/pointpats/intro
+  not_numbered: true
+  sections:
+  - title: distance_statistics
+    url: /explore/pointpats/distance_statistics
+  - title: centrography
+    url: /explore/pointpats/centrography
+  - title: Minimum_bounding_circle
+    url: /explore/pointpats/Minimum_bounding_circle
+  - title: Quadrat_statistics
+    url: /explore/pointpats/Quadrat_statistics
+  - title: window
+    url: /explore/pointpats/window
+  - title: marks
+    url: /explore/pointpats/marks
+  - title: pointpattern
+    url: /explore/pointpats/pointpattern
+  - title: process
+    url: /explore/pointpats/process
+  
+- title: spaghetti
+  url: /explore/spaghetti/intro
+  not_numbered: true
+  sections:
+  - title: shortest-path-visualization
+    url: /explore/spaghetti/shortest-path-visualization
+  - title: facility-location
+    url: /explore/spaghetti/facility-location
+  - title: connected-components
+    url: /explore/spaghetti/connected-components
+  - title: network-analysis
+    url: /explore/spaghetti/network-analysis
+  - title: quickstart
+    url: /explore/spaghetti/quickstart
+  - title: tsp
+    url: /explore/spaghetti/tsp
+  
+- title: segregation
+  url: /explore/segregation/intro
+  not_numbered: true
+  sections:
+  - title: aspatial_examples
+    url: /explore/segregation/aspatial_examples
+  - title: decomposition_wrapper_example
+    url: /explore/segregation/decomposition_wrapper_example
+  - title: inference_wrappers_example
+    url: /explore/segregation/inference_wrappers_example
+  - title: multiscalar_segregation_profiles
+    url: /explore/segregation/multiscalar_segregation_profiles
+  - title: multigroup_aspatial_examples
+    url: /explore/segregation/multigroup_aspatial_examples
+  - title: compute_all_example
+    url: /explore/segregation/compute_all_example
+  - title: network_measures
+    url: /explore/segregation/network_measures
+  - title: spatial_examples
+    url: /explore/segregation/spatial_examples
+  - title: local_measures_example
+    url: /explore/segregation/local_measures_example
   
 - title: inequality
   url: /explore/inequality/intro
@@ -62,158 +123,37 @@
   - title: gini
     url: /explore/inequality/gini
   
-- title: pointpats
-  url: /explore/pointpats/intro
-  not_numbered: true
-  sections:
-  - title: Minimum_bounding_circle
-    url: /explore/pointpats/Minimum_bounding_circle
-  - title: Quadrat_statistics
-    url: /explore/pointpats/Quadrat_statistics
-  - title: centrography
-    url: /explore/pointpats/centrography
-  - title: distance_statistics
-    url: /explore/pointpats/distance_statistics
-  - title: marks
-    url: /explore/pointpats/marks
-  - title: pointpattern
-    url: /explore/pointpats/pointpattern
-  - title: process
-    url: /explore/pointpats/process
-  - title: window
-    url: /explore/pointpats/window
-  
-- title: segregation
-  url: /explore/segregation/intro
-  not_numbered: true
-  sections:
-  - title: aspatial_examples
-    url: /explore/segregation/aspatial_examples
-  - title: compute_all_example
-    url: /explore/segregation/compute_all_example
-  - title: decomposition_wrapper_example
-    url: /explore/segregation/decomposition_wrapper_example
-  - title: inference_wrappers_example
-    url: /explore/segregation/inference_wrappers_example
-  - title: local_measures_example
-    url: /explore/segregation/local_measures_example
-  - title: multigroup_aspatial_examples
-    url: /explore/segregation/multigroup_aspatial_examples
-  - title: multiscalar_segregation_profiles
-    url: /explore/segregation/multiscalar_segregation_profiles
-  - title: network_measures
-    url: /explore/segregation/network_measures
-  - title: spatial_examples
-    url: /explore/segregation/spatial_examples
-  
-- title: spaghetti
-  url: /explore/spaghetti/intro
-  not_numbered: true
-  sections:
-  - title: connected-components
-    url: /explore/spaghetti/connected-components
-  - title: facility-location
-    url: /explore/spaghetti/facility-location
-  - title: network-analysis
-    url: /explore/spaghetti/network-analysis
-  - title: quickstart
-    url: /explore/spaghetti/quickstart
-  - title: shortest-path-visualization
-    url: /explore/spaghetti/shortest-path-visualization
-  - title: tsp
-    url: /explore/spaghetti/tsp
-  
 - divider: true
-- header: Lib
+- header: Viz
 
-- title: libpysal
-  url: /lib/libpysal/intro
+- title: mapclassify
+  url: /viz/mapclassify/intro
   not_numbered: true
   sections:
-  - title: Example_Datasets
-    url: /lib/libpysal/Example_Datasets
-  - title: io
-    url: /lib/libpysal/io
-  - title: voronoi
-    url: /lib/libpysal/voronoi
-  - title: weights
-    url: /lib/libpysal/weights
+  - title: plot
+    url: /viz/mapclassify/plot
+  - title: south
+    url: /viz/mapclassify/south
+  - title: maximum_breaks
+    url: /viz/mapclassify/maximum_breaks
+  
+- title: splot
+  url: /viz/splot/intro
+  not_numbered: true
+  sections:
+  - title: esda_moran_matrix_viz
+    url: /viz/splot/esda_moran_matrix_viz
+  - title: libpysal_non_planar_joins_viz
+    url: /viz/splot/libpysal_non_planar_joins_viz
+  - title: esda_morans_viz
+    url: /viz/splot/esda_morans_viz
+  - title: giddy_space_time
+    url: /viz/splot/giddy_space_time
+  - title: mapping_vba
+    url: /viz/splot/mapping_vba
   
 - divider: true
 - header: Model
-
-- title: mgwr
-  url: /model/mgwr/intro
-  not_numbered: true
-  sections:
-  - title: GWR_Georgia_example
-    url: /model/mgwr/GWR_Georgia_example
-  - title: GWR_MGWR_Parallel_Example
-    url: /model/mgwr/GWR_MGWR_Parallel_Example
-  - title: GWR_MGWR_example
-    url: /model/mgwr/GWR_MGWR_example
-  - title: GWR_prediction_example
-    url: /model/mgwr/GWR_prediction_example
-  - title: MGWR_Georgia_example
-    url: /model/mgwr/MGWR_Georgia_example
-  
-- title: spglm
-  url: /model/spglm/intro
-  not_numbered: true
-  sections:
-  - title: Binomial_GLM
-    url: /model/spglm/Binomial_GLM
-  - title: Gaussian_GLM
-    url: /model/spglm/Gaussian_GLM
-  - title: Poisson_GLM
-    url: /model/spglm/Poisson_GLM
-  
-- title: spint
-  url: /model/spint/intro
-  not_numbered: true
-  sections:
-  - title: 4d_distance
-    url: /model/spint/4d_distance
-  - title: Example_NYCBikes_AllFeatures
-    url: /model/spint/Example_NYCBikes_AllFeatures
-  - title: NYC_Bike_Example
-    url: /model/spint/NYC_Bike_Example
-  - title: New_DistanceBand
-    url: /model/spint/New_DistanceBand
-  - title: ODW_example
-    url: /model/spint/ODW_example
-  - title: OD_weights
-    url: /model/spint/OD_weights
-  - title: autograd_test
-    url: /model/spint/autograd_test
-  - title: dispersion_test
-    url: /model/spint/dispersion_test
-  - title: glm_speed
-    url: /model/spint/glm_speed
-  - title: local_SI
-    url: /model/spint/local_SI
-  - title: netW
-    url: /model/spint/netW
-  - title: sparse_categorical
-    url: /model/spint/sparse_categorical
-  - title: sparse_categorical_bottleneck
-    url: /model/spint/sparse_categorical_bottleneck
-  - title: sparse_categorical_speed
-    url: /model/spint/sparse_categorical_speed
-  - title: sparse_grav
-    url: /model/spint/sparse_grav
-  - title: sparse_scipy_optim
-    url: /model/spint/sparse_scipy_optim
-  - title: sparse_vs_dense_grav
-    url: /model/spint/sparse_vs_dense_grav
-  - title: test_grav
-    url: /model/spint/test_grav
-  - title: validate_gravity
-    url: /model/spint/validate_gravity
-  
-- title: spreg
-  url: /model/spreg/intro
-  not_numbered: true
 
 - title: spvcm
   url: /model/spvcm/intro
@@ -224,41 +164,101 @@
   - title: using_the_sampler
     url: /model/spvcm/using_the_sampler
   
+- title: spreg
+  url: /model/spreg/intro
+  not_numbered: true
+
+- title: spint
+  url: /model/spint/intro
+  not_numbered: true
+  sections:
+  - title: sparse_vs_dense_grav
+    url: /model/spint/sparse_vs_dense_grav
+  - title: Example_NYCBikes_AllFeatures
+    url: /model/spint/Example_NYCBikes_AllFeatures
+  - title: New_DistanceBand
+    url: /model/spint/New_DistanceBand
+  - title: sparse_scipy_optim
+    url: /model/spint/sparse_scipy_optim
+  - title: local_SI
+    url: /model/spint/local_SI
+  - title: validate_gravity
+    url: /model/spint/validate_gravity
+  - title: dispersion_test
+    url: /model/spint/dispersion_test
+  - title: glm_speed
+    url: /model/spint/glm_speed
+  - title: netW
+    url: /model/spint/netW
+  - title: sparse_categorical
+    url: /model/spint/sparse_categorical
+  - title: test_grav
+    url: /model/spint/test_grav
+  - title: sparse_grav
+    url: /model/spint/sparse_grav
+  - title: sparse_categorical_bottleneck
+    url: /model/spint/sparse_categorical_bottleneck
+  - title: OD_weights
+    url: /model/spint/OD_weights
+  - title: sparse_categorical_speed
+    url: /model/spint/sparse_categorical_speed
+  - title: ODW_example
+    url: /model/spint/ODW_example
+  - title: autograd_test
+    url: /model/spint/autograd_test
+  - title: NYC_Bike_Example
+    url: /model/spint/NYC_Bike_Example
+  - title: 4d_distance
+    url: /model/spint/4d_distance
+  
+- title: spglm
+  url: /model/spglm/intro
+  not_numbered: true
+  sections:
+  - title: Poisson_GLM
+    url: /model/spglm/Poisson_GLM
+  - title: Gaussian_GLM
+    url: /model/spglm/Gaussian_GLM
+  - title: Binomial_GLM
+    url: /model/spglm/Binomial_GLM
+  
+- title: mgwr
+  url: /model/mgwr/intro
+  not_numbered: true
+  sections:
+  - title: GWR_Georgia_example
+    url: /model/mgwr/GWR_Georgia_example
+  - title: GWR_prediction_example
+    url: /model/mgwr/GWR_prediction_example
+  - title: GWR_MGWR_example
+    url: /model/mgwr/GWR_MGWR_example
+  - title: MGWR_Georgia_example
+    url: /model/mgwr/MGWR_Georgia_example
+  - title: GWR_MGWR_Parallel_Example
+    url: /model/mgwr/GWR_MGWR_Parallel_Example
+  
 - title: tobler
   url: /model/tobler/intro
   not_numbered: true
   sections:
-  - title: areal
-    url: /model/tobler/areal
   - title: precincts
     url: /model/tobler/precincts
+  - title: areal
+    url: /model/tobler/areal
   
 - divider: true
-- header: Viz
+- header: Lib
 
-- title: mapclassify
-  url: /viz/mapclassify/intro
+- title: libpysal
+  url: /lib/libpysal/intro
   not_numbered: true
   sections:
-  - title: maximum_breaks
-    url: /viz/mapclassify/maximum_breaks
-  - title: plot
-    url: /viz/mapclassify/plot
-  - title: south
-    url: /viz/mapclassify/south
-  
-- title: splot
-  url: /viz/splot/intro
-  not_numbered: true
-  sections:
-  - title: esda_moran_matrix_viz
-    url: /viz/splot/esda_moran_matrix_viz
-  - title: esda_morans_viz
-    url: /viz/splot/esda_morans_viz
-  - title: giddy_space_time
-    url: /viz/splot/giddy_space_time
-  - title: libpysal_non_planar_joins_viz
-    url: /viz/splot/libpysal_non_planar_joins_viz
-  - title: mapping_vba
-    url: /viz/splot/mapping_vba
+  - title: io
+    url: /lib/libpysal/io
+  - title: weights
+    url: /lib/libpysal/weights
+  - title: voronoi
+    url: /lib/libpysal/voronoi
+  - title: Example_Datasets
+    url: /lib/libpysal/Example_Datasets
   
