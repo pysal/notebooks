@@ -1,7 +1,4 @@
-FROM darribas/gds_py:2.0
-
-RUN pip install deprecated
-RUN pip install --no-deps git+https://github.com/pysal/pysal.git
+FROM darribas/gds_py:4.0
 
 # Local docs
 RUN rm -R work/
