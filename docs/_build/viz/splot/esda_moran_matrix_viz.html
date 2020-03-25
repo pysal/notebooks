@@ -1,0 +1,686 @@
+---
+redirect_from:
+  - "/viz/splot/esda-moran-matrix-viz"
+interact_link: content/viz/splot/esda_moran_matrix_viz.ipynb
+kernel_name: python3
+kernel_path: content/viz/splot
+has_widgets: false
+title: |-
+  esda_moran_matrix_viz
+pagenum: 88
+prev_page:
+  url: /viz/splot/intro.html
+next_page:
+  url: /viz/splot/esda_morans_viz.html
+suffix: .ipynb
+search: example weights splot moranbvmatrix varnames our esda moran variables arrays geopandas geodataframe moranfacet np list array dataframe generate matrix input case working variable separately libpysal values stored spatial bivariate univariate statistics objects import options names option needed already second results sidr nwr additionally create containing var own lets possible simple data visualising offers tool assess relationship between multiple space morans returns dictionary moranbv displayed further analysed not familiar s esdamoransviz ipynb notebook contents org reference html imports generally ways generated representing attributes different adding great choice calculate popular ot directly load unsure work numpy recommend visualizing examine named pass need
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">esda_moran_matrix_viz</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Visualising-the-esda-Moran-Matrix-with-splot">Visualising the <code>esda</code> Moran Matrix with <code>splot</code><a class="anchor-link" href="#Visualising-the-esda-Moran-Matrix-with-splot"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>esda.moran.Moran_BV_matrix</code> offers you a tool to assess the relationship between multiple input variables and over space as bivariate and univariate Moran's I Statistics. <code>Moran_BV_matrix</code> returns a dictionary of <code>Moran_BV</code> objects which can be displayed and further analysed. In case you are not familiar with Moran Statistics, have a look at <code>splot</code>'s <code>esda_morans_viz.ipynb</code> notebook.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Contents">Contents<a class="anchor-link" href="#Contents"> </a></h2><ul>
+<li>What to import?</li>
+<li>Example 1: Working with arrays </li>
+<li>Example 2: Working with a <a href="http://geopandas.org/reference/geopandas.GeoDataFrame.html">geopandas.GeoDataFrame</a></li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Imports">Imports<a class="anchor-link" href="#Imports"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">libpysal.weights.contiguity</span> <span class="kn">import</span> <span class="n">Queen</span>
+<span class="kn">from</span> <span class="nn">libpysal</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="kn">import</span> <span class="nn">libpysal</span> <span class="k">as</span> <span class="nn">lp</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Example-1:-Working-with-arrays">Example 1: Working with arrays<a class="anchor-link" href="#Example-1:-Working-with-arrays"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There are generally two ways in which a <code>Moran_BV_matrix</code> and a <code>splot.esda.moran_facet</code> can be generated. The first of the two options is to use <code>np.arrays</code> representing the attributes of different variables and adding a list of variable names. This first option is a great choice in case you needed to calculate your weights separately with <code>libpysal.weights</code> and already have your values stored in an array. The second and more popular option is ot directly load a DataFrame. If you are unsure in how to work with <code>numpy</code> arrays or you already have your variables stored in a dataframe, we would recommend to use Example 2.</p>
+<p>In this example we will look at visualizing your results stored as a <code>np.array</code>. We know that we would like to examine all values for the variables named: <code>varnames = ['SIDR74',  'SIDR79',  'NWR74',  'NWR79']</code>. We can pass in a list of these variable names separately with <code>varnames=varnames</code>. Additionally, we need to create an <code>np.array</code> containing the values of each individual variable separately with <code>vars = [np.array(f.by_col[var]) for var in varnames]</code>:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;sids2.dbf&quot;</span><span class="p">))</span>
+
+<span class="n">varnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SIDR74&#39;</span><span class="p">,</span>  <span class="s1">&#39;SIDR79&#39;</span><span class="p">,</span>  <span class="s1">&#39;NWR74&#39;</span><span class="p">,</span>  <span class="s1">&#39;NWR79&#39;</span><span class="p">]</span>
+<span class="n">varnames</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;SIDR74&#39;, &#39;SIDR79&#39;, &#39;NWR74&#39;, &#39;NWR79&#39;]</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">variable</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">variable</span><span class="p">])</span> <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">varnames</span><span class="p">]</span>
+<span class="n">variable</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0.91659 , 0.      , 1.568381, 1.968504, 6.333568, 4.820937,
+       0.      , 0.      , 4.132231, 0.620347, 1.932367, 3.596314,
+       2.393776, 2.570694, 1.834862, 4.988914, 1.831502, 1.271456,
+       0.755858, 2.066116, 1.331558, 0.      , 0.788022, 1.429593,
+       0.843313, 1.421157, 2.782534, 4.531722, 1.264223, 2.007528,
+       1.989555, 0.      , 2.734482, 1.66251 , 0.      , 1.291156,
+       1.104667, 2.614379, 0.966417, 0.8285  , 0.      , 1.452169,
+       1.399384, 5.050505, 0.      , 2.569373, 1.570916, 1.215067,
+       2.971367, 0.651324, 2.748331, 0.868961, 1.197605, 1.500375,
+       0.947867, 0.      , 2.600297, 4.444444, 4.597701, 2.220249,
+       4.010695, 2.71166 , 1.588983, 2.055076, 3.610108, 1.749781,
+       1.888218, 2.038169, 0.731886, 2.384738, 2.122241, 1.942502,
+       0.      , 2.786291, 2.557545, 1.220324, 1.876173, 0.      ,
+       1.322314, 1.845018, 1.94742 , 1.865855, 1.730104, 1.021711,
+       9.55414 , 4.685408, 0.      , 1.610954, 1.451379, 0.      ,
+       2.215406, 3.547672, 2.599032, 3.929522, 2.071251, 4.489338,
+       3.257329, 4.477612, 2.171553, 2.292526])</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next, we can open a file containing pre calculated spatial weights for "sids2.dbf". In case you don't have spatial weights, check out <code>libpysal.weights</code> which will provide you with many options calculating your own.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">lp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;sids2.gal&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">w</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;libpysal.weights.weights.W at 0x1a1f854160&gt;</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we are ready to import and generate our <code>Moran_BV_matrix</code>:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">esda.moran</span> <span class="kn">import</span> <span class="n">Moran_BV_matrix</span>
+
+<span class="n">matrix</span> <span class="o">=</span> <span class="n">Moran_BV_matrix</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">varnames</span> <span class="o">=</span> <span class="n">varnames</span><span class="p">)</span>
+<span class="n">matrix</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{(0, 1): &lt;esda.moran.Moran_BV at 0x1047ff5f8&gt;,
+ (1, 0): &lt;esda.moran.Moran_BV at 0x1047ff940&gt;,
+ (0, 2): &lt;esda.moran.Moran_BV at 0x1047ff2e8&gt;,
+ (2, 0): &lt;esda.moran.Moran_BV at 0x1a1f854080&gt;,
+ (0, 3): &lt;esda.moran.Moran_BV at 0x1a1f842748&gt;,
+ (3, 0): &lt;esda.moran.Moran_BV at 0x1a1f8555c0&gt;,
+ (1, 2): &lt;esda.moran.Moran_BV at 0x1a1f854048&gt;,
+ (2, 1): &lt;esda.moran.Moran_BV at 0x1a1f8546a0&gt;,
+ (1, 3): &lt;esda.moran.Moran_BV at 0x1a1f85c8d0&gt;,
+ (3, 1): &lt;esda.moran.Moran_BV at 0x1a1f85cb70&gt;,
+ (2, 3): &lt;esda.moran.Moran_BV at 0x1a1f85cb38&gt;,
+ (3, 2): &lt;esda.moran.Moran_BV at 0x1a1f85cb00&gt;}</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's visualise our matrix with <code>splot.esda.moran_facet()</code>. You will see Univariate Moran objects with a grey background, surrounded by all possible bivariate combinations of your input dataset:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">splot.esda</span> <span class="kn">import</span> <span class="n">moran_facet</span>
+
+<span class="n">moran_facet</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/viz/splot/esda_moran_matrix_viz_14_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Example-2:-insert-a-DataFrame">Example 2: insert a DataFrame<a class="anchor-link" href="#Example-2:-insert-a-DataFrame"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Additionally, it is possible to generte your <code>Moran_BV_matrix</code> and a <code>moran_facet</code> using a <code>pandas</code> or <code>geopandas</code> DataFrame as input. Let's have a look at a simple example examining <code>columbus.shp</code> example data:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;columbus.shp&#39;</span><span class="p">)</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In order for <code>moran_facet</code> to generate sensible results, it is recommended to extract all columns you would specifically like to analyse and generate a new GeoDataFrame:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">variables2</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[[</span><span class="s1">&#39;HOVAL&#39;</span><span class="p">,</span> <span class="s1">&#39;CRIME&#39;</span><span class="p">,</span> <span class="s1">&#39;INC&#39;</span><span class="p">,</span> <span class="s1">&#39;EW&#39;</span><span class="p">]]</span>
+<span class="n">variables2</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>HOVAL</th>
+      <th>CRIME</th>
+      <th>INC</th>
+      <th>EW</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>80.467003</td>
+      <td>15.725980</td>
+      <td>19.531</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>44.567001</td>
+      <td>18.801754</td>
+      <td>21.232</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>26.350000</td>
+      <td>30.626781</td>
+      <td>15.956</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>33.200001</td>
+      <td>32.387760</td>
+      <td>4.477</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>23.225000</td>
+      <td>50.731510</td>
+      <td>11.252</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">variables2</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(49, 4)</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We will now generate our own spatial weights leveraging <code>libpysal</code> and create a second <code>matrix2</code> from our GeoDataFrame. Note that there is no list of <code>varnames</code> needed, this list will be automatically extracted from teh first row of your <code>gdf</code>:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">w2</span> <span class="o">=</span> <span class="n">Queen</span><span class="o">.</span><span class="n">from_shapefile</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">w2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;libpysal.weights.contiguity.Queen at 0x1a1f82ac50&gt;</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">esda.moran</span> <span class="kn">import</span> <span class="n">Moran_BV_matrix</span>
+
+<span class="n">matrix2</span> <span class="o">=</span> <span class="n">Moran_BV_matrix</span><span class="p">(</span><span class="n">variables2</span><span class="p">,</span> <span class="n">w2</span><span class="p">)</span>
+<span class="n">matrix2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{(0, 1): &lt;esda.moran.Moran_BV at 0x1a20ddbcc0&gt;,
+ (1, 0): &lt;esda.moran.Moran_BV at 0x1a20ddbb38&gt;,
+ (0, 2): &lt;esda.moran.Moran_BV at 0x1a20ddbb00&gt;,
+ (2, 0): &lt;esda.moran.Moran_BV at 0x1a20ddbc50&gt;,
+ (0, 3): &lt;esda.moran.Moran_BV at 0x1a20bf2828&gt;,
+ (3, 0): &lt;esda.moran.Moran_BV at 0x1a20c14390&gt;,
+ (1, 2): &lt;esda.moran.Moran_BV at 0x1a20ddb160&gt;,
+ (2, 1): &lt;esda.moran.Moran_BV at 0x1a20ddbfd0&gt;,
+ (1, 3): &lt;esda.moran.Moran_BV at 0x1a20ddbf98&gt;,
+ (3, 1): &lt;esda.moran.Moran_BV at 0x1a20ddbf60&gt;,
+ (2, 3): &lt;esda.moran.Moran_BV at 0x1037e02b0&gt;,
+ (3, 2): &lt;esda.moran.Moran_BV at 0x1037e0198&gt;}</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Like in the first example we can now plot our data with a simple <code>splot</code> call:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">splot.esda</span> <span class="kn">import</span> <span class="n">moran_facet</span>
+
+<span class="n">moran_facet</span><span class="p">(</span><span class="n">matrix2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/viz/splot/esda_moran_matrix_viz_25_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

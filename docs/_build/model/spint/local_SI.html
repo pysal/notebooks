@@ -1,0 +1,320 @@
+---
+redirect_from:
+  - "/model/spint/local-si"
+interact_link: content/model/spint/local_SI.ipynb
+kernel_name: python2
+kernel_path: content/model/spint
+has_widgets: false
+title: |-
+  local_SI
+pagenum: 66
+prev_page:
+  url: /model/spint/glm_speed.html
+next_page:
+  url: /model/spint/netW.html
+suffix: .ipynb
+search: 
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">local_SI</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">gravity</span> <span class="kn">import</span> <span class="n">Gravity</span><span class="p">,</span> <span class="n">Production</span><span class="p">,</span> <span class="n">Attraction</span><span class="p">,</span> <span class="n">Doubly</span><span class="p">,</span> <span class="n">BaseGravity</span>
+<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
+<span class="kn">from</span> <span class="nn">statsmodels.api</span> <span class="kn">import</span> <span class="n">families</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">pylab</span> inline
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Populating the interactive namespace from numpy and matplotlib
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">austria</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;http://dl.dropbox.com/u/8649795/AT_Austria.csv&#39;</span><span class="p">)</span>
+<span class="n">austria</span> <span class="o">=</span> <span class="n">austria</span><span class="p">[</span><span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Origin&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Destination&#39;</span><span class="p">]]</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">o</span> <span class="o">=</span> <span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Origin&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Destination&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">dij</span> <span class="o">=</span> <span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Dij&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">o_vars</span> <span class="o">=</span> <span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Oi2007&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">d_vars</span> <span class="o">=</span> <span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Dj2007&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Gravity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>-0.00976746026969
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">local</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">local</span><span class="p">(</span><span class="n">loc_index</span><span class="o">=</span><span class="n">o</span><span class="p">,</span> <span class="n">locs</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
+<span class="n">local</span><span class="p">[</span><span class="s1">&#39;param2&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[-0.01699776161094757,
+ -0.0053210259160796358,
+ -0.0028594272276957211,
+ -0.006533037784217155,
+ -0.0024666647861060209,
+ -0.0058258251130860472,
+ -0.010739622617965516,
+ -0.0046867791898773659,
+ -0.0065940756391066335]</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Production</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>-0.00727113391179
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">local</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">local</span><span class="p">()</span>
+<span class="n">local</span><span class="p">[</span><span class="s1">&#39;param2&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[-0.016997761610949791,
+ -0.005321025916080413,
+ -0.0028594272276953325,
+ -0.0065330377842177101,
+ -0.0024666647861060209,
+ -0.0058258251130863803,
+ -0.010739622617965183,
+ -0.0046867791898770328,
+ -0.0065940756391070776]</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Attraction</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>-0.00693754909526
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">local</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">local</span><span class="p">()</span>
+<span class="n">local</span><span class="p">[</span><span class="s1">&#39;param2&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[-0.010872636479707154,
+ -0.0054690202130680543,
+ -0.0025567421332022833,
+ -0.0051439340488994012,
+ -0.0036020461535491433,
+ -0.010088935906795271,
+ -0.012926843651020203,
+ -0.0075750287063747201,
+ -0.0081576735088411123]</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

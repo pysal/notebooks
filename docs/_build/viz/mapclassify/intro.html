@@ -1,0 +1,270 @@
+---
+title: |-
+  mapclassify
+pagenum: 83
+prev_page:
+  url: /model/tobler/precincts.html
+next_page:
+  url: /viz/mapclassify/maximum_breaks.html
+suffix: .md
+search: mapclassify y python interval count k e import boxplot fisherjenks bp data org badge np maximumbreaks quantiles lsp svg inf equalinterval random fisherjenkssampled x headtailbreaks jenkscaspall jenkscaspallforced jenkscaspallsampled maxp naturalbreaks percentiles stdmean userdefined array num classification travis ci pysal fury io py zenodo numpy seed bins apply pandas schemes choropleth maps build status branch master pypi version doi latestdoi loadexample mean min max map classifiers supported exponential size notebooks ipynb pct cases creating using instance counts yb linspace dataframe t rolling true
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">mapclassify</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="mapclassify:-Classification-Schemes-for-Choropleth-Maps">mapclassify: Classification Schemes for Choropleth Maps<a class="anchor-link" href="#mapclassify:-Classification-Schemes-for-Choropleth-Maps"> </a></h1><p><a href="https://travis-ci.org/pysal/mapclassify"><img src="https://travis-ci.org/pysal/mapclassify.svg?branch=master" alt="Build Status"></a>
+<a href="https://badge.fury.io/py/mapclassify"><img src="https://badge.fury.io/py/mapclassify.svg" alt="PyPI version"></a>
+<a href="https://zenodo.org/badge/latestdoi/88918063"><img src="https://zenodo.org/badge/88918063.svg" alt="DOI"></a></p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">mapclassify</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">load_example</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="mf">125.92810344827588</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="p">(</span><span class="mf">0.13</span><span class="p">,</span> <span class="mf">4111.4499999999998</span><span class="p">)</span>
+</pre></div>
+<h2 id="Map-Classifiers-Supported">Map Classifiers Supported<a class="anchor-link" href="#Map-Classifiers-Supported"> </a></h2><h3 id="BoxPlot">BoxPlot<a class="anchor-link" href="#BoxPlot"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">BoxPlot</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">BoxPlot</span>
+
+     <span class="n">Interval</span>        <span class="n">Count</span>
+<span class="o">--------------------------</span>
+<span class="p">(</span>   <span class="o">-</span><span class="n">inf</span><span class="p">,</span>  <span class="o">-</span><span class="mf">52.88</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">0</span>
+<span class="p">(</span> <span class="o">-</span><span class="mf">52.88</span><span class="p">,</span>    <span class="mf">2.57</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">15</span>
+<span class="p">(</span>   <span class="mf">2.57</span><span class="p">,</span>    <span class="mf">9.36</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">14</span>
+<span class="p">(</span>   <span class="mf">9.36</span><span class="p">,</span>   <span class="mf">39.53</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">14</span>
+<span class="p">(</span>  <span class="mf">39.53</span><span class="p">,</span>   <span class="mf">94.97</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">6</span>
+<span class="p">(</span>  <span class="mf">94.97</span><span class="p">,</span> <span class="mf">4111.45</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">9</span>
+</pre></div>
+<h3 id="EqualInterval">EqualInterval<a class="anchor-link" href="#EqualInterval"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">EqualInterval</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">EqualInterval</span>
+
+     <span class="n">Interval</span>        <span class="n">Count</span>
+<span class="o">--------------------------</span>
+<span class="p">[</span>   <span class="mf">0.13</span><span class="p">,</span>  <span class="mf">822.39</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">57</span>
+<span class="p">(</span> <span class="mf">822.39</span><span class="p">,</span> <span class="mf">1644.66</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">0</span>
+<span class="p">(</span><span class="mf">1644.66</span><span class="p">,</span> <span class="mf">2466.92</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">0</span>
+<span class="p">(</span><span class="mf">2466.92</span><span class="p">,</span> <span class="mf">3289.19</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">0</span>
+<span class="p">(</span><span class="mf">3289.19</span><span class="p">,</span> <span class="mf">4111.45</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">1</span>
+</pre></div>
+<h3 id="FisherJenks">FisherJenks<a class="anchor-link" href="#FisherJenks"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123456</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">FisherJenks</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">FisherJenks</span>
+
+     <span class="n">Interval</span>        <span class="n">Count</span>
+<span class="o">--------------------------</span>
+<span class="p">[</span>   <span class="mf">0.13</span><span class="p">,</span>   <span class="mf">75.29</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">49</span>
+<span class="p">(</span>  <span class="mf">75.29</span><span class="p">,</span>  <span class="mf">192.05</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">3</span>
+<span class="p">(</span> <span class="mf">192.05</span><span class="p">,</span>  <span class="mf">370.50</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">4</span>
+<span class="p">(</span> <span class="mf">370.50</span><span class="p">,</span>  <span class="mf">722.85</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">1</span>
+<span class="p">(</span> <span class="mf">722.85</span><span class="p">,</span> <span class="mf">4111.45</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">1</span>
+</pre></div>
+<h3 id="FisherJenksSampled">FisherJenksSampled<a class="anchor-link" href="#FisherJenksSampled"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123456</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">10000</span><span class="p">,))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">FisherJenks</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">FisherJenks</span>
+
+   <span class="n">Interval</span>      <span class="n">Count</span>
+<span class="o">----------------------</span>
+<span class="p">[</span> <span class="mf">0.00</span><span class="p">,</span>  <span class="mf">0.64</span><span class="p">]</span> <span class="o">|</span>  <span class="mi">4694</span>
+<span class="p">(</span> <span class="mf">0.64</span><span class="p">,</span>  <span class="mf">1.45</span><span class="p">]</span> <span class="o">|</span>  <span class="mi">2922</span>
+<span class="p">(</span> <span class="mf">1.45</span><span class="p">,</span>  <span class="mf">2.53</span><span class="p">]</span> <span class="o">|</span>  <span class="mi">1584</span>
+<span class="p">(</span> <span class="mf">2.53</span><span class="p">,</span>  <span class="mf">4.14</span><span class="p">]</span> <span class="o">|</span>   <span class="mi">636</span>
+<span class="p">(</span> <span class="mf">4.14</span><span class="p">,</span> <span class="mf">10.61</span><span class="p">]</span> <span class="o">|</span>   <span class="mi">164</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">FisherJenksSampled</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">FisherJenksSampled</span>
+
+   <span class="n">Interval</span>      <span class="n">Count</span>
+<span class="o">----------------------</span>
+<span class="p">[</span> <span class="mf">0.00</span><span class="p">,</span>  <span class="mf">0.70</span><span class="p">]</span> <span class="o">|</span>  <span class="mi">5020</span>
+<span class="p">(</span> <span class="mf">0.70</span><span class="p">,</span>  <span class="mf">1.63</span><span class="p">]</span> <span class="o">|</span>  <span class="mi">2952</span>
+<span class="p">(</span> <span class="mf">1.63</span><span class="p">,</span>  <span class="mf">2.88</span><span class="p">]</span> <span class="o">|</span>  <span class="mi">1454</span>
+<span class="p">(</span> <span class="mf">2.88</span><span class="p">,</span>  <span class="mf">5.32</span><span class="p">]</span> <span class="o">|</span>   <span class="mi">522</span>
+<span class="p">(</span> <span class="mf">5.32</span><span class="p">,</span> <span class="mf">10.61</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">52</span>
+</pre></div>
+<h3 id="HeadTailBreaks">HeadTailBreaks<a class="anchor-link" href="#HeadTailBreaks"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">HeadTailBreaks</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">HeadTailBreaks</span>
+
+     <span class="n">Interval</span>        <span class="n">Count</span>
+<span class="o">--------------------------</span>
+<span class="p">[</span>   <span class="mf">0.13</span><span class="p">,</span>  <span class="mf">125.93</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">50</span>
+<span class="p">(</span> <span class="mf">125.93</span><span class="p">,</span>  <span class="mf">811.26</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">7</span>
+<span class="p">(</span> <span class="mf">811.26</span><span class="p">,</span> <span class="mf">4111.45</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">1</span>
+</pre></div>
+<h3 id="JenksCaspall">JenksCaspall<a class="anchor-link" href="#JenksCaspall"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">JenksCaspall</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">JenksCaspall</span>
+
+     <span class="n">Interval</span>        <span class="n">Count</span>
+<span class="o">--------------------------</span>
+<span class="p">[</span>   <span class="mf">0.13</span><span class="p">,</span>    <span class="mf">1.81</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">14</span>
+<span class="p">(</span>   <span class="mf">1.81</span><span class="p">,</span>    <span class="mf">7.60</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">13</span>
+<span class="p">(</span>   <span class="mf">7.60</span><span class="p">,</span>   <span class="mf">29.82</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">14</span>
+<span class="p">(</span>  <span class="mf">29.82</span><span class="p">,</span>  <span class="mf">181.27</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">10</span>
+<span class="p">(</span> <span class="mf">181.27</span><span class="p">,</span> <span class="mf">4111.45</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">7</span>
+</pre></div>
+<h3 id="JenksCaspallForced">JenksCaspallForced<a class="anchor-link" href="#JenksCaspallForced"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">JenksCaspallForced</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">JenksCaspallForced</span>
+
+     <span class="n">Interval</span>        <span class="n">Count</span>
+<span class="o">--------------------------</span>
+<span class="p">[</span>   <span class="mf">0.13</span><span class="p">,</span>    <span class="mf">1.34</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">12</span>
+<span class="p">(</span>   <span class="mf">1.34</span><span class="p">,</span>    <span class="mf">5.90</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">12</span>
+<span class="p">(</span>   <span class="mf">5.90</span><span class="p">,</span>   <span class="mf">16.70</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">13</span>
+<span class="p">(</span>  <span class="mf">16.70</span><span class="p">,</span>   <span class="mf">50.65</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">9</span>
+<span class="p">(</span>  <span class="mf">50.65</span><span class="p">,</span> <span class="mf">4111.45</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">12</span>
+</pre></div>
+<h3 id="JenksCaspallSampled">JenksCaspallSampled<a class="anchor-link" href="#JenksCaspallSampled"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">JenksCaspallSampled</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">JenksCaspallSampled</span>
+
+     <span class="n">Interval</span>        <span class="n">Count</span>
+<span class="o">--------------------------</span>
+<span class="p">[</span>   <span class="mf">0.13</span><span class="p">,</span>   <span class="mf">12.02</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">33</span>
+<span class="p">(</span>  <span class="mf">12.02</span><span class="p">,</span>   <span class="mf">29.82</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">8</span>
+<span class="p">(</span>  <span class="mf">29.82</span><span class="p">,</span>   <span class="mf">75.29</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">8</span>
+<span class="p">(</span>  <span class="mf">75.29</span><span class="p">,</span>  <span class="mf">192.05</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">3</span>
+<span class="p">(</span> <span class="mf">192.05</span><span class="p">,</span> <span class="mf">4111.45</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">6</span>
+</pre></div>
+<h3 id="MaxP">MaxP<a class="anchor-link" href="#MaxP"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">MaxP</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">MaxP</span>
+
+     <span class="n">Interval</span>        <span class="n">Count</span>
+<span class="o">--------------------------</span>
+<span class="p">[</span>   <span class="mf">0.13</span><span class="p">,</span>    <span class="mf">8.70</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">29</span>
+<span class="p">(</span>   <span class="mf">8.70</span><span class="p">,</span>   <span class="mf">16.70</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">8</span>
+<span class="p">(</span>  <span class="mf">16.70</span><span class="p">,</span>   <span class="mf">20.47</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">1</span>
+<span class="p">(</span>  <span class="mf">20.47</span><span class="p">,</span>   <span class="mf">66.26</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">10</span>
+<span class="p">(</span>  <span class="mf">66.26</span><span class="p">,</span> <span class="mf">4111.45</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">10</span>
+</pre></div>
+<h3 id="MaximumBreaks"><a href="notebooks/maximum_breaks.ipynb">MaximumBreaks</a><a class="anchor-link" href="#MaximumBreaks"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">MaximumBreaks</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">MaximumBreaks</span>
+
+     <span class="n">Interval</span>        <span class="n">Count</span>
+<span class="o">--------------------------</span>
+<span class="p">[</span>   <span class="mf">0.13</span><span class="p">,</span>  <span class="mf">146.00</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">50</span>
+<span class="p">(</span> <span class="mf">146.00</span><span class="p">,</span>  <span class="mf">228.49</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">2</span>
+<span class="p">(</span> <span class="mf">228.49</span><span class="p">,</span>  <span class="mf">546.67</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">4</span>
+<span class="p">(</span> <span class="mf">546.67</span><span class="p">,</span> <span class="mf">2417.15</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">1</span>
+<span class="p">(</span><span class="mf">2417.15</span><span class="p">,</span> <span class="mf">4111.45</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">1</span>
+</pre></div>
+<h3 id="NaturalBreaks">NaturalBreaks<a class="anchor-link" href="#NaturalBreaks"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">NaturalBreaks</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">NaturalBreaks</span>
+
+     <span class="n">Interval</span>        <span class="n">Count</span>
+<span class="o">--------------------------</span>
+<span class="p">[</span>   <span class="mf">0.13</span><span class="p">,</span>   <span class="mf">75.29</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">49</span>
+<span class="p">(</span>  <span class="mf">75.29</span><span class="p">,</span>  <span class="mf">192.05</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">3</span>
+<span class="p">(</span> <span class="mf">192.05</span><span class="p">,</span>  <span class="mf">370.50</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">4</span>
+<span class="p">(</span> <span class="mf">370.50</span><span class="p">,</span>  <span class="mf">722.85</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">1</span>
+<span class="p">(</span> <span class="mf">722.85</span><span class="p">,</span> <span class="mf">4111.45</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">1</span>
+</pre></div>
+<h3 id="Quantiles">Quantiles<a class="anchor-link" href="#Quantiles"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">Quantiles</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">Quantiles</span>
+
+     <span class="n">Interval</span>        <span class="n">Count</span>
+<span class="o">--------------------------</span>
+<span class="p">[</span>   <span class="mf">0.13</span><span class="p">,</span>    <span class="mf">1.46</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">12</span>
+<span class="p">(</span>   <span class="mf">1.46</span><span class="p">,</span>    <span class="mf">5.80</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">11</span>
+<span class="p">(</span>   <span class="mf">5.80</span><span class="p">,</span>   <span class="mf">13.28</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">12</span>
+<span class="p">(</span>  <span class="mf">13.28</span><span class="p">,</span>   <span class="mf">54.62</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">11</span>
+<span class="p">(</span>  <span class="mf">54.62</span><span class="p">,</span> <span class="mf">4111.45</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">12</span>
+</pre></div>
+<h3 id="Percentiles">Percentiles<a class="anchor-link" href="#Percentiles"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">Percentiles</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pct</span><span class="o">=</span><span class="p">[</span><span class="mi">33</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+<span class="n">Percentiles</span>
+
+     <span class="n">Interval</span>        <span class="n">Count</span>
+<span class="o">--------------------------</span>
+<span class="p">[</span>   <span class="mf">0.13</span><span class="p">,</span>    <span class="mf">3.36</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">19</span>
+<span class="p">(</span>   <span class="mf">3.36</span><span class="p">,</span>   <span class="mf">22.86</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">19</span>
+<span class="p">(</span>  <span class="mf">22.86</span><span class="p">,</span> <span class="mf">4111.45</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">20</span>
+</pre></div>
+<h3 id="StdMean">StdMean<a class="anchor-link" href="#StdMean"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">StdMean</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">StdMean</span>
+
+     <span class="n">Interval</span>        <span class="n">Count</span>
+<span class="o">--------------------------</span>
+<span class="p">(</span>   <span class="o">-</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="mf">967.36</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">0</span>
+<span class="p">(</span><span class="o">-</span><span class="mf">967.36</span><span class="p">,</span> <span class="o">-</span><span class="mf">420.72</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">0</span>
+<span class="p">(</span><span class="o">-</span><span class="mf">420.72</span><span class="p">,</span>  <span class="mf">672.57</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">56</span>
+<span class="p">(</span> <span class="mf">672.57</span><span class="p">,</span> <span class="mf">1219.22</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">1</span>
+<span class="p">(</span><span class="mf">1219.22</span><span class="p">,</span> <span class="mf">4111.45</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">1</span>
+</pre></div>
+<h3 id="UserDefined">UserDefined<a class="anchor-link" href="#UserDefined"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">UserDefined</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">674</span><span class="p">,</span> <span class="mi">4112</span><span class="p">])</span>
+<span class="n">UserDefined</span>
+
+     <span class="n">Interval</span>        <span class="n">Count</span>
+<span class="o">--------------------------</span>
+<span class="p">[</span>   <span class="mf">0.13</span><span class="p">,</span>   <span class="mf">22.00</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">38</span>
+<span class="p">(</span>  <span class="mf">22.00</span><span class="p">,</span>  <span class="mf">674.00</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">18</span>
+<span class="p">(</span> <span class="mf">674.00</span><span class="p">,</span> <span class="mf">4112.00</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">2</span>
+</pre></div>
+<h2 id="Use-Cases">Use Cases<a class="anchor-link" href="#Use-Cases"> </a></h2><h3 id="Creating-and-using-a-classification-instance">Creating and using a classification instance<a class="anchor-link" href="#Creating-and-using-a-classification-instance"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">bp</span> <span class="o">=</span> <span class="n">mapclassify</span><span class="o">.</span><span class="n">BoxPlot</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">bp</span>
+<span class="n">BoxPlot</span>
+
+     <span class="n">Interval</span>        <span class="n">Count</span>
+<span class="o">--------------------------</span>
+<span class="p">(</span>   <span class="o">-</span><span class="n">inf</span><span class="p">,</span>  <span class="o">-</span><span class="mf">52.88</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">0</span>
+<span class="p">(</span> <span class="o">-</span><span class="mf">52.88</span><span class="p">,</span>    <span class="mf">2.57</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">15</span>
+<span class="p">(</span>   <span class="mf">2.57</span><span class="p">,</span>    <span class="mf">9.36</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">14</span>
+<span class="p">(</span>   <span class="mf">9.36</span><span class="p">,</span>   <span class="mf">39.53</span><span class="p">]</span> <span class="o">|</span>    <span class="mi">14</span>
+<span class="p">(</span>  <span class="mf">39.53</span><span class="p">,</span>   <span class="mf">94.97</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">6</span>
+<span class="p">(</span>  <span class="mf">94.97</span><span class="p">,</span> <span class="mf">4111.45</span><span class="p">]</span> <span class="o">|</span>     <span class="mi">9</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">bp</span><span class="o">.</span><span class="n">bins</span>
+<span class="n">array</span><span class="p">([</span> <span class="o">-</span><span class="mf">5.28762500e+01</span><span class="p">,</span>   <span class="mf">2.56750000e+00</span><span class="p">,</span>   <span class="mf">9.36500000e+00</span><span class="p">,</span>
+         <span class="mf">3.95300000e+01</span><span class="p">,</span>   <span class="mf">9.49737500e+01</span><span class="p">,</span>   <span class="mf">4.11145000e+03</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">bp</span><span class="o">.</span><span class="n">counts</span>
+<span class="n">array</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span>  <span class="mi">6</span><span class="p">,</span>  <span class="mi">9</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">bp</span><span class="o">.</span><span class="n">yb</span>
+<span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>
+       <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+       <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</pre></div>
+<h3 id="Apply">Apply<a class="anchor-link" href="#Apply"> </a></h3><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">mapclassify</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">pandas</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">linspace</span> <span class="k">as</span> <span class="n">lsp</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">lsp</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="n">num</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">lsp</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">lsp</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">10</span><span class="p">)]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span>
+          <span class="mi">0</span>          <span class="mi">1</span>          <span class="mi">2</span>
+<span class="mi">0</span>  <span class="mf">3.000000</span>  <span class="mf">10.000000</span>  <span class="o">-</span><span class="mf">5.000000</span>
+<span class="mi">1</span>  <span class="mf">3.555556</span>   <span class="mf">8.888889</span>  <span class="o">-</span><span class="mf">2.777778</span>
+<span class="mi">2</span>  <span class="mf">4.111111</span>   <span class="mf">7.777778</span>  <span class="o">-</span><span class="mf">0.555556</span>
+<span class="mi">3</span>  <span class="mf">4.666667</span>   <span class="mf">6.666667</span>   <span class="mf">1.666667</span>
+<span class="mi">4</span>  <span class="mf">5.222222</span>   <span class="mf">5.555556</span>   <span class="mf">3.888889</span>
+<span class="mi">5</span>  <span class="mf">5.777778</span>   <span class="mf">4.444444</span>   <span class="mf">6.111111</span>
+<span class="mi">6</span>  <span class="mf">6.333333</span>   <span class="mf">3.333333</span>   <span class="mf">8.333333</span>
+<span class="mi">7</span>  <span class="mf">6.888889</span>   <span class="mf">2.222222</span>  <span class="mf">10.555556</span>
+<span class="mi">8</span>  <span class="mf">7.444444</span>   <span class="mf">1.111111</span>  <span class="mf">12.777778</span>
+<span class="mi">9</span>  <span class="mf">8.000000</span>   <span class="mf">0.000000</span>  <span class="mf">15.000000</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">mapclassify</span><span class="o">.</span><span class="n">Quantiles</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="n">rolling</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+   <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">2</span>
+<span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">4</span>  <span class="mi">0</span>
+<span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">4</span>  <span class="mi">0</span>
+<span class="mi">2</span>  <span class="mi">1</span>  <span class="mi">4</span>  <span class="mi">0</span>
+<span class="mi">3</span>  <span class="mi">1</span>  <span class="mi">3</span>  <span class="mi">0</span>
+<span class="mi">4</span>  <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">1</span>
+<span class="mi">5</span>  <span class="mi">2</span>  <span class="mi">1</span>  <span class="mi">2</span>
+<span class="mi">6</span>  <span class="mi">3</span>  <span class="mi">0</span>  <span class="mi">4</span>
+<span class="mi">7</span>  <span class="mi">3</span>  <span class="mi">0</span>  <span class="mi">4</span>
+<span class="mi">8</span>  <span class="mi">4</span>  <span class="mi">0</span>  <span class="mi">4</span>
+<span class="mi">9</span>  <span class="mi">4</span>  <span class="mi">0</span>  <span class="mi">4</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

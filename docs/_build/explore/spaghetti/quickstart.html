@@ -1,0 +1,727 @@
+---
+interact_link: content/explore/spaghetti/quickstart.ipynb
+kernel_name: conda-env-py3_spgh_dev-py
+kernel_path: content/explore/spaghetti
+has_widgets: false
+title: |-
+  quickstart
+pagenum: 38
+prev_page:
+  url: /explore/spaghetti/network-analysis.html
+next_page:
+  url: /explore/spaghetti/shortest-path-visualization.html
+suffix: .ipynb
+search: network snapped geopandas spaghetti true matplotlib conda locations attributes vs coordinates comparison geodataframe notebook com visualizing descartes org install school crime github pysal object instantiating allocating observations snapping points original requirements c forge create objects any part used research please cite reference found readme md bibtex citation quickstart creating author james d gaboardi jgaboardi gmail basic walk through addtion base blob master txt dependecies requires installations pypi project instantiate shp file schools without crimes vertices arcs legend patches plot plotting
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">quickstart</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><strong>If any part of this notebook is used in your research, please cite with the reference found in</strong> <strong><a href="https://github.com/pysal/spaghetti#bibtex-citation">README.md</a>.</strong></p>
+<hr>
+<h2 id="Quickstart">Quickstart<a class="anchor-link" href="#Quickstart"> </a></h2><h3 id="Creating-and-visualizing-a-spaghetti.Network-object">Creating and visualizing a <code>spaghetti.Network</code> object<a class="anchor-link" href="#Creating-and-visualizing-a-spaghetti.Network-object"> </a></h3><p><strong>Author: James D. Gaboardi</strong> <strong><a href="mailto:jgaboardi@gmail.com">jgaboardi@gmail.com</a></strong></p>
+<p><strong>This notebook is a basic walk-through for:</strong></p>
+<ol>
+<li>Instantiating a network</li>
+<li>Allocating observations to a network (snapping points)</li>
+<li>Visualizing the original and network-snapped locations with <code>geopandas</code> and <code>matplotlib</code></li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2020-01-20T16:01:54-05:00
+
+CPython 3.7.3
+IPython 7.10.2
+
+compiler   : Clang 9.0.0 (tags/RELEASE_900/final)
+system     : Darwin
+release    : 19.2.0
+machine    : x86_64
+processor  : i386
+CPU cores  : 4
+interpreter: 64bit
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>In addtion to the base</strong> <strong><a href="https://github.com/pysal/spaghetti/blob/master/requirements.txt">spaghetti requirements</a></strong> <strong>(and their dependecies), this notebook requires installations of:</strong></p>
+<ul>
+<li><a href="https://pypi.org/project/descartes/">descartes</a><ul>
+<li><code>$ conda install -c conda-forge descartes</code></li>
+</ul>
+</li>
+<li><a href="http://geopandas.org">geopandas</a><ul>
+<li><code>$ conda install -c conda-forge geopandas</code></li>
+</ul>
+</li>
+<li><a href="https://matplotlib.org">matplotlib</a><ul>
+<li><code>$ conda install matplotlib</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">spaghetti</span>
+<span class="kn">import</span> <span class="nn">geopandas</span>
+<span class="kn">import</span> <span class="nn">libpysal</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.lines</span> <span class="k">as</span> <span class="nn">mlines</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">set_matplotlib_formats</span>
+    <span class="n">set_matplotlib_formats</span><span class="p">(</span><span class="s2">&quot;retina&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="k">watermark</span> -w
+<span class="o">%</span><span class="k">watermark</span> -iv
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>watermark 2.0.2
+matplotlib 3.1.2
+libpysal   4.2.0
+geopandas  0.6.2
+spaghetti  1.4.0
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h3 id="1.-Instantiating-a-spaghetti.Network-object">1. Instantiating a <code>spaghetti.Network</code> object<a class="anchor-link" href="#1.-Instantiating-a-spaghetti.Network-object"> </a></h3><h4 id="Instantiate-the-network-from-a-.shp-file">Instantiate the network from a <code>.shp</code> file<a class="anchor-link" href="#Instantiate-the-network-from-a-.shp-file"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ntw</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">in_data</span><span class="o">=</span><span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;streets.shp&quot;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h3 id="2.-Allocating-observations-(snapping-points)-to-a-network:">2. Allocating observations (snapping points) to a network:<a class="anchor-link" href="#2.-Allocating-observations-(snapping-points)-to-a-network:"> </a></h3><h4 id="Schools-without-attributes">Schools without attributes<a class="anchor-link" href="#Schools-without-attributes"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ntw</span><span class="o">.</span><span class="n">snapobservations</span><span class="p">(</span>
+    <span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;schools.shp&quot;</span><span class="p">),</span> <span class="s2">&quot;schools&quot;</span><span class="p">,</span> <span class="n">attribute</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="True-vs.-snapped-school-coordinates-comparison:--spaghetti.Network-attributes">True vs. snapped school coordinates comparison:  <code>spaghetti.Network</code> attributes<a class="anchor-link" href="#True-vs.-snapped-school-coordinates-comparison:--spaghetti.Network-attributes"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;observation 1</span><span class="se">\n</span><span class="s2">true coords:</span><span class="se">\t</span><span class="si">%s</span><span class="se">\n</span><span class="s2">snapped coords:</span><span class="se">\t</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+    <span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;schools&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;coordinates&quot;</span><span class="p">],</span>
+    <span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;schools&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">snapped_coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>observation 1
+true coords:	(727082.0462136, 879863.260705768)
+snapped coords:	(727287.6644417326, 879867.3863186113)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Crimes-with-attributes">Crimes with attributes<a class="anchor-link" href="#Crimes-with-attributes"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ntw</span><span class="o">.</span><span class="n">snapobservations</span><span class="p">(</span>
+    <span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;crimes.shp&quot;</span><span class="p">),</span> <span class="s2">&quot;crimes&quot;</span><span class="p">,</span> <span class="n">attribute</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="True-vs.-snapped-crime-coordinates-comparison:-spaghetti.Network-attributes">True vs. snapped crime coordinates comparison: <code>spaghetti.Network</code> attributes<a class="anchor-link" href="#True-vs.-snapped-crime-coordinates-comparison:-spaghetti.Network-attributes"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;observation 1</span><span class="se">\n</span><span class="s2">true coords:</span><span class="se">\t</span><span class="si">%s</span><span class="se">\n</span><span class="s2">snapped coords:</span><span class="se">\t</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+    <span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;coordinates&quot;</span><span class="p">],</span>
+    <span class="n">ntw</span><span class="o">.</span><span class="n">pointpatterns</span><span class="p">[</span><span class="s2">&quot;crimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">snapped_coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>observation 1
+true coords:	(727913.0000000029, 875720.9999999977)
+snapped coords:	(727919.2473619275, 875942.4986759046)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h3 id="3.-Visualizing-original-and-snapped-locations">3. Visualizing original and snapped locations<a class="anchor-link" href="#3.-Visualizing-original-and-snapped-locations"> </a></h3><h4 id="True-and-snapped-school-locations">True and snapped school locations<a class="anchor-link" href="#True-and-snapped-school-locations"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">true_schools_df</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">element_as_gdf</span><span class="p">(</span>
+    <span class="n">ntw</span><span class="p">,</span> <span class="n">pp_name</span><span class="o">=</span><span class="s2">&quot;schools&quot;</span><span class="p">,</span> <span class="n">snapped</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="n">snapped_schools_df</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">element_as_gdf</span><span class="p">(</span>
+    <span class="n">ntw</span><span class="p">,</span> <span class="n">pp_name</span><span class="o">=</span><span class="s2">&quot;schools&quot;</span><span class="p">,</span> <span class="n">snapped</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="True-vs.-snapped-school-coordinates-comparison:-geopandas.GeoDataFrame">True vs. snapped school coordinates comparison: <code>geopandas.GeoDataFrame</code><a class="anchor-link" href="#True-vs.-snapped-school-coordinates-comparison:-geopandas.GeoDataFrame"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Compare true point coordinates &amp; snapped point coordinates</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;observation 1</span><span class="se">\n</span><span class="s2">true coords:</span><span class="se">\t</span><span class="si">%s</span><span class="se">\n</span><span class="s2">snapped coords:</span><span class="se">\t</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+    <span class="n">true_schools_df</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coords</span><span class="p">[:][</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">snapped_schools_df</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coords</span><span class="p">[:][</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>observation 1
+true coords:	(727082.0462136, 879863.260705768)
+snapped coords:	(727287.6644417326, 879867.3863186113)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="True-and-snapped-crime-locations">True and snapped crime locations<a class="anchor-link" href="#True-and-snapped-crime-locations"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">true_crimes_df</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">element_as_gdf</span><span class="p">(</span>
+    <span class="n">ntw</span><span class="p">,</span> <span class="n">pp_name</span><span class="o">=</span><span class="s2">&quot;crimes&quot;</span><span class="p">,</span> <span class="n">snapped</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="n">snapped_crimes_df</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">element_as_gdf</span><span class="p">(</span>
+    <span class="n">ntw</span><span class="p">,</span> <span class="n">pp_name</span><span class="o">=</span><span class="s2">&quot;crimes&quot;</span><span class="p">,</span> <span class="n">snapped</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="True-vs.-snapped-crime-coordinates-comparison:-geopandas.GeoDataFrame">True vs. snapped crime coordinates comparison: <code>geopandas.GeoDataFrame</code><a class="anchor-link" href="#True-vs.-snapped-crime-coordinates-comparison:-geopandas.GeoDataFrame"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;observation 1</span><span class="se">\n</span><span class="s2">true coords:</span><span class="se">\t</span><span class="si">%s</span><span class="se">\n</span><span class="s2">snapped coords:</span><span class="se">\t</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+    <span class="n">true_crimes_df</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coords</span><span class="p">[:][</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">snapped_crimes_df</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coords</span><span class="p">[:][</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>observation 1
+true coords:	(727913.0000000029, 875720.9999999977)
+snapped coords:	(727919.2473619275, 875942.4986759046)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Create-geopandas.GeoDataFrame-objects-of-the-vertices-and-arcs">Create <code>geopandas.GeoDataFrame</code> objects of the vertices and arcs<a class="anchor-link" href="#Create-geopandas.GeoDataFrame-objects-of-the-vertices-and-arcs"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># network nodes and edges</span>
+<span class="n">vertices_df</span><span class="p">,</span> <span class="n">arcs_df</span> <span class="o">=</span> <span class="n">spaghetti</span><span class="o">.</span><span class="n">element_as_gdf</span><span class="p">(</span><span class="n">ntw</span><span class="p">,</span> <span class="n">vertices</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">arcs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Create-legend-patches-for-the-matplotlib-plot">Create legend patches for the <code>matplotlib</code> plot<a class="anchor-link" href="#Create-legend-patches-for-the-matplotlib-plot"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create legend arguments and keyword arguments for matplotlib</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;c&quot;</span><span class="p">:</span><span class="s2">&quot;k&quot;</span><span class="p">}</span>
+
+<span class="c1"># set arcs legend entry</span>
+<span class="n">arcs</span> <span class="o">=</span> <span class="n">mlines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Network Arcs&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># update keyword arguments for matplotlib</span>
+<span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;lw&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">})</span>
+
+<span class="c1"># set vertices legend entry</span>
+<span class="n">vertices</span> <span class="o">=</span> <span class="n">mlines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">(</span>
+    <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Network Vertices&quot;</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># set true school locations legend entry</span>
+<span class="n">tschools</span> <span class="o">=</span> <span class="n">mlines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">(</span>
+    <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;School Locations&quot;</span>
+<span class="p">)</span>
+<span class="c1"># set network-snapped school locations legend entry</span>
+<span class="n">sschools</span> <span class="o">=</span> <span class="n">mlines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">(</span>
+    <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Snapped Schools&quot;</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># update keyword arguments for matplotlib</span>
+<span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;c&quot;</span><span class="p">:</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span><span class="mf">0.75</span><span class="p">})</span>
+
+<span class="c1"># set true crimes locations legend entry</span>
+<span class="n">tcrimes</span> <span class="o">=</span> <span class="n">mlines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">(</span>
+    <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Crime Locations&quot;</span>
+<span class="p">)</span>
+<span class="c1"># set network-snapped crimes locations legend entry</span>
+<span class="n">scrimes</span> <span class="o">=</span> <span class="n">mlines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">(</span>
+    <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Snapped Crimes&quot;</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># combine all legend patches</span>
+<span class="n">patches</span> <span class="o">=</span> <span class="p">[</span><span class="n">arcs</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">tschools</span><span class="p">,</span> <span class="n">sschools</span><span class="p">,</span> <span class="n">tcrimes</span><span class="p">,</span> <span class="n">scrimes</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Plotting-geopandas.GeoDataFrame-objects">Plotting <code>geopandas.GeoDataFrame</code> objects<a class="anchor-link" href="#Plotting-geopandas.GeoDataFrame-objects"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># set the streets as the plot base</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">arcs_df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># create vertices keyword arguments for matplotlib</span>
+<span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;ax&quot;</span><span class="p">:</span><span class="n">base</span><span class="p">}</span>
+<span class="n">vertices_df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="c1"># update crime keyword arguments for matplotlib</span>
+<span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;alpha&quot;</span><span class="p">:</span><span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;zorder&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+<span class="n">true_crimes_df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="n">snapped_crimes_df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="c1"># update schools keyword arguments for matplotlib</span>
+<span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;cmap&quot;</span><span class="p">:</span><span class="s2">&quot;tab20&quot;</span><span class="p">,</span> <span class="s2">&quot;column&quot;</span><span class="p">:</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;zorder&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">})</span>
+<span class="n">true_schools_df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="n">snapped_schools_df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">markersize</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="c1"># add legend</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+    <span class="n">handles</span><span class="o">=</span><span class="n">patches</span><span class="p">,</span>
+    <span class="n">fancybox</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">framealpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">scatterpoints</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;xx-large&quot;</span><span class="p">,</span>
+    <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.04</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">),</span>
+<span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/spaghetti/quickstart_30_0.png"
+width=955
+height=683
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

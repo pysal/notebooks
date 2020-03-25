@@ -1,0 +1,153 @@
+---
+redirect_from:
+  - "/model/spint/autograd-test"
+interact_link: content/model/spint/autograd_test.ipynb
+kernel_name: python2
+kernel_path: content/model/spint
+has_widgets: false
+title: |-
+  autograd_test
+pagenum: 63
+prev_page:
+  url: /model/spint/OD_weights.html
+next_page:
+  url: /model/spint/dispersion_test.html
+suffix: .ipynb
+search: 
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">autograd_test</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">scipy.optimize</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">import</span> <span class="nn">autograd.numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">autograd</span>
+<span class="kn">from</span> <span class="nn">autograd.convenience_wrappers</span> <span class="kn">import</span> <span class="n">multigrad</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">austria</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;http://dl.dropbox.com/u/8649795/AT_Austria.csv&#39;</span><span class="p">)</span>
+<span class="n">austria</span> <span class="o">=</span> <span class="n">austria</span><span class="p">[</span><span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Origin&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Destination&#39;</span><span class="p">]]</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">o</span> <span class="o">=</span> <span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Origin&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Destination&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">dij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Dij&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">o_vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Oi2007&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">d_vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Dj2007&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">dij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Dij&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">o_vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Oi2007&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">d_vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">austria</span><span class="p">[</span><span class="s1">&#39;Dj2007&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">newton</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="p">):</span>
+    <span class="c1"># wrap scipy.optimize.newton with our automatic derivatives</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">fsolve</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">params</span>
+
+<span class="k">def</span> <span class="nf">poiss_loglike</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">ep</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">inputs</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">inputs</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">predict</span> <span class="o">=</span> <span class="n">sig</span><span class="o">*</span><span class="n">a</span> <span class="o">+</span> <span class="n">ep</span><span class="o">*</span><span class="n">b</span> <span class="o">+</span> <span class="n">mu</span><span class="o">*</span><span class="n">c</span>
+    <span class="n">predict</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">predict</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">predict</span><span class="p">)</span><span class="o">-</span><span class="n">predict</span><span class="p">)</span>
+
+<span class="c1">#def loglike(mu, k, x, inputs):</span>
+    <span class="c1">#return np.sum(poiss_loglike(mu, k, x, inputs))</span>
+
+
+<span class="k">def</span> <span class="nf">fit_maxlike</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">mu_guess</span><span class="p">,</span> <span class="n">o_guess</span><span class="p">,</span> <span class="n">d_guess</span><span class="p">):</span>
+    <span class="n">prime</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">multigrad</span><span class="p">(</span><span class="n">poiss_loglike</span><span class="p">,</span> <span class="n">argnums</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">newton</span><span class="p">(</span><span class="n">prime</span><span class="p">,</span> <span class="p">(</span><span class="n">mu_guess</span><span class="p">,</span> <span class="n">o_guess</span><span class="p">,</span> <span class="n">d_guess</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">params</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    
+    <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">o_vars</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">d_vars</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">dij</span><span class="p">)))</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">fit_maxlike</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">mu_guess</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">o_guess</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">d_guess</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    
+    <span class="n">prime</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">multigrad</span><span class="p">(</span><span class="n">poiss_loglike</span><span class="p">,</span> <span class="n">argnums</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">prime</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[-1.14993102  0.69084953  0.68523832]
+(-2.7430635540781623e-10, -2.5915536383536164e-10, -4.730811298259141e-10)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

@@ -1,0 +1,505 @@
+---
+title: |-
+  segregation
+pagenum: 24
+prev_page:
+  url: /explore/pointpats/window.html
+next_page:
+  url: /explore/segregation/aspatial_examples.html
+suffix: .md
+search: segregation pysal github com spatial yes master notebooks blob ipynb dissimilarity multigroup local index function inference measures class io conda indices single user python img example group doc static images png value anaconda statistic column specific d table concentration alpha beta metric relative branch org pypi shields since network inferencewrappersexample also dataframe arguments measure attribute income hiincome summarized exposure centralization below simpsons analysis decomposition svg badge only aspatial using into differences structure available pip bash install www download development module population estimation main want df totalpopulation import dissim fitted spatialdissim w gini entropy isolation standardize distance decay absolute case multidissim
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">segregation</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Segregation-Analysis,-Inference,-and-Decomposition-with-PySAL">Segregation Analysis, Inference, and Decomposition with PySAL<a class="anchor-link" href="#Segregation-Analysis,-Inference,-and-Decomposition-with-PySAL"> </a></h1><p><a href="https://travis-ci.org/pysal/segregation"><img src="https://travis-ci.com/pysal/segregation.svg?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/github/pysal/segregation?branch=master&amp;service=github&amp;kill_cache=1"><img src="https://coveralls.io/repos/github/pysal/segregation/badge.svg?branch=master" alt="Coverage Status"></a> 
+<img src="https://img.shields.io/pypi/pyversions/segregation" alt="PyPI - Python Version">
+<img src="https://img.shields.io/pypi/v/segregation" alt="PyPI">
+<img src="https://img.shields.io/conda/vn/conda-forge/segregation" alt="Conda (channel only)">
+<img src="https://img.shields.io/github/commits-since/pysal/segregation/latest" alt="GitHub commits since latest release (branch)">
+<a href="https://zenodo.org/badge/latestdoi/162503796"><img src="https://zenodo.org/badge/162503796.svg" alt="DOI"></a></p>
+<p><img src="doc/_static/images/heatmaps.png" alt=""></p>
+<p>The PySAL <strong>segregation</strong> package is a tool for analyzing patterns of urban segregation.
+With only a few lines of code, <strong>segregation</strong> users can</p>
+<p>Calculate over 40 segregation measures from simple to state-of-the art, including:</p>
+<ul>
+<li><a href="https://github.com/pysal/segregation/blob/master/notebooks/aspatial_examples.ipynb">aspatial segregation indices</a></li>
+<li>spatial segregation indices<ul>
+<li><a href="https://github.com/pysal/segregation/blob/master/notebooks/spatial_examples.ipynb">using spatial weights matrices, euclidian distances, or topological relationships</a></li>
+<li><a href="https://github.com/pysal/segregation/blob/master/notebooks/network_measures.ipynb">using street network distances</a></li>
+<li><a href="https://github.com/pysal/segregation/blob/master/notebooks/multiscalar_segregation_profiles.ipynb">using multiscalar definitions</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/pysal/segregation/blob/master/notebooks/local_measures_example.ipynb">local segregation indices</a></li>
+</ul>
+<p>Test whether segregation estimates are statistically significant:</p>
+<ul>
+<li><a href="https://github.com/pysal/segregation/blob/master/notebooks/inference_wrappers_example.ipynb">single value inference</a></li>
+<li><a href="https://github.com/pysal/segregation/blob/master/notebooks/inference_wrappers_example.ipynb">comparative inference</a></li>
+</ul>
+<p><a href="https://github.com/pysal/segregation/blob/master/notebooks/decomposition_wrapper_example.ipynb">Decompose</a>
+segregation comparisons into</p>
+<ul>
+<li>differences arising from spatial structure </li>
+<li>differences arising from demographic structure</li>
+</ul>
+<h2 id="Installation">Installation<a class="anchor-link" href="#Installation"> </a></h2><p>Released versions of segregation are available on pip and anaconda</p>
+<p>pip:</p>
+<div class="highlight"><pre><span></span>pip install segregation
+</pre></div>
+<p><a href="https://www.anaconda.com/download/">anaconda</a>:</p>
+<div class="highlight"><pre><span></span>conda install -c conda-forge segregation
+</pre></div>
+<p>You can also install the current development version from this repository</p>
+<p>download <a href="https://www.anaconda.com/download/">anaconda</a>:</p>
+<p><code>cd</code> into the directory and run the following commands</p>
+<div class="highlight"><pre><span></span>conda env create -f environment.yml
+conda activate segregation
+python setup.py develop
+</pre></div>
+<h2 id="Getting-started">Getting started<a class="anchor-link" href="#Getting-started"> </a></h2><p>For a complete guide to the <code>segregation</code> API, see the online
+<a href="http://segregation.readthedocs.io">documentation</a>.</p>
+<p>For code walkthroughs and sample analyses, see the
+<a href="https://github.com/pysal/segregation/tree/master/notebooks">example notebooks</a></p>
+<h2 id="Calculating-Segregation-Measures">Calculating Segregation Measures<a class="anchor-link" href="#Calculating-Segregation-Measures"> </a></h2><p>Each index in the <strong>segregation</strong> module is implemented as a class, which is built from a <code>pandas.DataFrame</code>
+or a <code>geopandas.GeoDataFrame</code>. To estimate a segregation statistic, a user needs to call the segregation class
+she wishes to estimate, and pass three arguments:</p>
+<ul>
+<li>the DataFrame containing population data</li>
+<li>the name of the column with population counts for the group of interest</li>
+<li>the name of the column with the total population for each enumeration unit</li>
+</ul>
+<p>Every class in <strong>segregation</strong> has a <code>statistic</code> and a <code>core_data</code> attributes.
+The first is a direct access to the point estimation of the specific segregation measure
+and the second attribute gives access to the main data that the module uses internally to
+perform the estimates.</p>
+<h3 id="Single-group-measures">Single group measures<a class="anchor-link" href="#Single-group-measures"> </a></h3><p>If, for example, a user was studying income segregation and wanted to know whether
+high-income residents tend to be more segregated from others.
+This user may want would want to fit a dissimilarity index (D) to a DataFrame called <code>df</code> to
+a specific group with columns like <code>"hi_income"</code>, <code>"med_income"</code> and <code>"low_income"</code> that store counts of people in each income
+bracket, and a total column called <code>"total_population"</code>. A typical call would be something like this:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.aspatial</span> <span class="kn">import</span> <span class="n">Dissim</span>
+<span class="n">d_index</span> <span class="o">=</span> <span class="n">Dissim</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;hi_income&quot;</span><span class="p">,</span> <span class="s2">&quot;total_population&quot;</span><span class="p">)</span>
+</pre></div>
+<p>To see the estimated D in the first generic example above, the user would have just to run
+<code>d_index.statistic</code> to see the fitted value.</p>
+<p>If a user would want to fit a <em>spatial</em> dissimilarity index (SD), the call would be nearly
+identical, save for the fact that the <code>DataFrame</code> now needs to be a <code>GeoDataFrame</code> with an appropriate <code>geometry</code> column</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">SpatialDissim</span>
+<span class="n">spatial_index</span> <span class="o">=</span> <span class="n">SpatialDissim</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s2">&quot;hi_income&quot;</span><span class="p">,</span> <span class="s2">&quot;total_population&quot;</span><span class="p">)</span>
+</pre></div>
+<p>Some spatial indices can also accept either a <a href="http://pysal.org">PySAL</a> <code>W</code> object, or a <a href="https://github.com/UDST/pandana">pandana</a> <code>Network</code> object,
+which allows the user full control over how to parameterize spatial effects.
+The network functions can be particularly useful for teasing out differences in
+segregation measures caused by two cities that have two very different spatial structures,
+like for example Detroit MI (left) and Monroe LA (right):</p>
+<p><img src="doc/_static/images/networks.png" alt=""></p>
+<p>For point estimation, all single-group indices available are summarized in the following
+table:</p>
+<table>
+<thead><tr>
+<th style="text-align:left"><strong>Measure</strong></th>
+<th style="text-align:left"><strong>Class/Function</strong></th>
+<th style="text-align:center"><strong>Spatial?</strong></th>
+<th style="text-align:center"><strong>Specific Arguments</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Dissimilarity (D)</td>
+<td style="text-align:left">Dissim</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Gini (G)</td>
+<td style="text-align:left">GiniSeg</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Entropy (H)</td>
+<td style="text-align:left">Entropy</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Isolation (xPx)</td>
+<td style="text-align:left">Isolation</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Exposure (xPy)</td>
+<td style="text-align:left">Exposure</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Atkinson (A)</td>
+<td style="text-align:left">Atkinson</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">b</td>
+</tr>
+<tr>
+<td style="text-align:left">Correlation Ratio (V)</td>
+<td style="text-align:left">CorrelationR</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Concentration Profile (R)</td>
+<td style="text-align:left">ConProf</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">m</td>
+</tr>
+<tr>
+<td style="text-align:left">Modified Dissimilarity (Dct)</td>
+<td style="text-align:left">ModifiedDissim</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">iterations</td>
+</tr>
+<tr>
+<td style="text-align:left">Modified Gini (Gct)</td>
+<td style="text-align:left">ModifiedGiniSeg</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">iterations</td>
+</tr>
+<tr>
+<td style="text-align:left">Bias-Corrected Dissimilarity (Dbc)</td>
+<td style="text-align:left">BiasCorrectedDissim</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">B</td>
+</tr>
+<tr>
+<td style="text-align:left">Density-Corrected Dissimilarity (Ddc)</td>
+<td style="text-align:left">DensityCorrectedDissim</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">xtol</td>
+</tr>
+<tr>
+<td style="text-align:left">Minimun-Maximum Index (MM)</td>
+<td style="text-align:left">MinMax</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:left">Spatial Proximity Profile (SPP)</td>
+<td style="text-align:left">SpatialProxProf</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">m</td>
+</tr>
+<tr>
+<td style="text-align:left">Spatial Dissimilarity (SD)</td>
+<td style="text-align:left">SpatialDissim</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">w, standardize</td>
+</tr>
+<tr>
+<td style="text-align:left">Boundary Spatial Dissimilarity (BSD)</td>
+<td style="text-align:left">BoundarySpatialDissim</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">standardize</td>
+</tr>
+<tr>
+<td style="text-align:left">Perimeter Area Ratio Spatial Dissimilarity (PARD)</td>
+<td style="text-align:left">PerimeterAreaRatioSpatialDissim</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">standardize</td>
+</tr>
+<tr>
+<td style="text-align:left">Distance Decay Isolation (DDxPx)</td>
+<td style="text-align:left">DistanceDecayIsolation</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">alpha, beta, metric</td>
+</tr>
+<tr>
+<td style="text-align:left">Distance Decay Exposure (DDxPy)</td>
+<td style="text-align:left">DistanceDecayExposure</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">alpha, beta, metric</td>
+</tr>
+<tr>
+<td style="text-align:left">Spatial Proximity (SP)</td>
+<td style="text-align:left">SpatialProximity</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">alpha, beta, metric</td>
+</tr>
+<tr>
+<td style="text-align:left">Absolute Clustering (ACL)</td>
+<td style="text-align:left">AbsoluteClustering</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">alpha, beta, metric</td>
+</tr>
+<tr>
+<td style="text-align:left">Relative Clustering (RCL)</td>
+<td style="text-align:left">RelativeClustering</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">alpha, beta, metric</td>
+</tr>
+<tr>
+<td style="text-align:left">Delta (DEL)</td>
+<td style="text-align:left">Delta</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Absolute Concentration (ACO)</td>
+<td style="text-align:left">AbsoluteConcentration</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Relative Concentration (RCO)</td>
+<td style="text-align:left">RelativeConcentration</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Absolute Centralization (ACE)</td>
+<td style="text-align:left">AbsoluteCentralization</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Relative Centralization (RCE)</td>
+<td style="text-align:left">RelativeCentralization</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Relative Centralization (RCE)</td>
+<td style="text-align:left">RelativeCentralization</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Spatial Minimun-Maximum (SMM)</td>
+<td style="text-align:left">SpatialMinMax</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">network, w, decay, distance, precompute</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Multigroup-measures">Multigroup measures<a class="anchor-link" href="#Multigroup-measures"> </a></h3><p><strong>segregation</strong> also facilitates the estimation of multigroup segregation measures.</p>
+<p>In this case, the call is nearly identical to the single-group, only now we pass a list of
+column names rather than a single string;
+reprising the income segregation example above, an example call might look like this</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.aspatial</span> <span class="kn">import</span> <span class="n">MultiDissim</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">MultiDissim</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;hi_income&#39;</span><span class="p">,</span> <span class="s1">&#39;med_income&#39;</span><span class="p">,</span> <span class="s1">&#39;low_income&#39;</span><span class="p">])</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="n">index</span><span class="o">.</span><span class="n">statistic</span>
+</pre></div>
+<p>Available multi-group indices are summarized in the table below:</p>
+<table>
+<thead><tr>
+<th style="text-align:left"><strong>Measure</strong></th>
+<th style="text-align:left"><strong>Class/Function</strong></th>
+<th style="text-align:center"><strong>Spatial?</strong></th>
+<th style="text-align:center"><strong>Specific Arguments</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Multigroup Dissimilarity</td>
+<td style="text-align:left">MultiDissim</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Multigroup Gini</td>
+<td style="text-align:left">MultiGiniSeg</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Multigroup Normalized Exposure</td>
+<td style="text-align:left">MultiNormalizedExposure</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Multigroup Information Theory</td>
+<td style="text-align:left">MultiInformationTheory</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Multigroup Relative Diversity</td>
+<td style="text-align:left">MultiRelativeDiversity</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Multigroup Squared Coefficient of Variation</td>
+<td style="text-align:left">MultiSquaredCoefficientVariation</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Multigroup Diversity</td>
+<td style="text-align:left">MultiDiversity</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">normalized</td>
+</tr>
+<tr>
+<td style="text-align:left">Simpson’s Concentration</td>
+<td style="text-align:left">SimpsonsConcentration</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Simpson’s Interaction</td>
+<td style="text-align:left">SimpsonsInteraction</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Multigroup Divergence</td>
+<td style="text-align:left">MultiDivergence</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Local-measures">Local measures<a class="anchor-link" href="#Local-measures"> </a></h3><p>Also, it is possible to calculate local measures of segregation.
+A <code>statistics</code> attribute will contain the values of these indexes. <strong>Note:
+in this case the attribute is in the plural since, many statistics are fitted, one for
+each enumeration unit</strong> Local segregation indices have the same signature as their global
+cousins and are summarized in the table below:</p>
+<table>
+<thead><tr>
+<th style="text-align:left"><strong>Measure</strong></th>
+<th style="text-align:left"><strong>Class/Function</strong></th>
+<th style="text-align:center"><strong>Spatial?</strong></th>
+<th style="text-align:center"><strong>Specific Arguments</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location Quotient</td>
+<td style="text-align:left">MultiLocationQuotient</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Local Diversity</td>
+<td style="text-align:left">MultiLocalDiversity</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Local Entropy</td>
+<td style="text-align:left">MultiLocalEntropy</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Local Simpson’s Concentration</td>
+<td style="text-align:left">MultiLocalSimpsonConcentration</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Local Simpson’s Interaction</td>
+<td style="text-align:left">MultiLocalSimpsonInteraction</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Local Centralization</td>
+<td style="text-align:left">LocalRelativeCentralization</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">-</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Testing-for-Statistical-Significance">Testing for Statistical Significance<a class="anchor-link" href="#Testing-for-Statistical-Significance"> </a></h2><p>Once the segregation indexes are fitted, the user can perform inference to shed light for
+statistical significance in regional analysis.
+The summary of the inference framework is presented in the table below:</p>
+<table>
+<thead><tr>
+<th style="text-align:left"><strong>Inference Type</strong></th>
+<th style="text-align:left"><strong>Class/Function</strong></th>
+<th style="text-align:center"><strong>Function main Inputs</strong></th>
+<th style="text-align:center"><strong>Function Outputs</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Single Value</td>
+<td style="text-align:left">SingleValueTest</td>
+<td style="text-align:center">seg_class, iterations_under_null, null_approach, two_tailed</td>
+<td style="text-align:center">p_value, est_sim, statistic</td>
+</tr>
+<tr>
+<td style="text-align:left">Two Values</td>
+<td style="text-align:left">TwoValueTest</td>
+<td style="text-align:center">seg_class_1, seg_class_2, iterations_under_null, null_approach</td>
+<td style="text-align:center">p_value, est_sim, est_point_diff</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Single-Value-Inference"><a href="https://github.com/pysal/segregation/blob/master/notebooks/inference_wrappers_example.ipynb">Single Value Inference</a><a class="anchor-link" href="#Single-Value-Inference"> </a></h3><p><img src="doc/_static/images/singleval_inference.png" alt=""></p>
+<h3 id="Two-Value-Inference"><a href="https://github.com/pysal/segregation/blob/master/notebooks/inference_wrappers_example.ipynb">Two-Value Inference</a><a class="anchor-link" href="#Two-Value-Inference"> </a></h3><p><img src="doc/_static/images/twoval_inference.png" alt=""></p>
+<h3 id="Decomposition"><a href="https://github.com/pysal/segregation/blob/master/notebooks/decomposition_wrapper_example.ipynb">Decomposition</a><a class="anchor-link" href="#Decomposition"> </a></h3><p>Another useful analysis that can be performed with the <strong>segregation</strong> module is a
+decompositional approach where two different indexes can be broken down into their spatial
+component (<code>c_s</code>) and attribute component (<code>c_a</code>). This framework is summarized in the table
+below:</p>
+<table>
+<thead><tr>
+<th style="text-align:left"><strong>Framework</strong></th>
+<th style="text-align:left"><strong>Class/Function</strong></th>
+<th style="text-align:center"><strong>Function main Inputs</strong></th>
+<th style="text-align:center"><strong>Function Outputs</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Decomposition</td>
+<td style="text-align:left">DecomposeSegregation</td>
+<td style="text-align:center">index1, index2, counterfactual_approach</td>
+<td style="text-align:center">c_a, c_s</td>
+</tr>
+</tbody>
+</table>
+<p><img src="doc/_static/images/decomp_example.png" alt=""></p>
+<p>In this case, the difference in measured D statistics between Detroit and Monroe is
+attributable primarily to their demographic makeup, rather than the spatial structure of
+the two cities.
+(Note, this is to be expected since <em>D</em> is not a spatial index)</p>
+<h2 id="Contributing">Contributing<a class="anchor-link" href="#Contributing"> </a></h2><p>PySAL-segregation is under active development and contributors are welcome.</p>
+<p>If you have any suggestion, feature request, or bug report, please open a new
+<a href="https://github.com/pysal/segregation/issues">issue</a> on GitHub.
+To submit patches, please follow the PySAL development
+<a href="https://github.com/pysal/pysal/wiki">guidelines</a> and open a
+<a href="https://github.com/pysal/segregation">pull request</a>. Once your changes get merged, you’ll
+automatically be added to the
+<a href="https://github.com/pysal/segregation/graphs/contributors">Contributors List</a>.</p>
+<h2 id="Support">Support<a class="anchor-link" href="#Support"> </a></h2><p>If you are having issues, please talk to us in the
+<a href="https://gitter.im/pysal/pysal">gitter room</a>.</p>
+<h2 id="License">License<a class="anchor-link" href="#License"> </a></h2><p>The project is licensed under the
+<a href="https://github.com/pysal/pysal/blob/master/LICENSE.txt">BSD license</a>.</p>
+<h2 id="Funding">Funding<a class="anchor-link" href="#Funding"> </a></h2><p><img src="figs/nsf_logo.jpg" width="50"> Award #1831615
+<a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=1831615">RIDIR: Scalable Geospatial Analytics for Social Science Research</a></p>
+<p><img src="figs/capes_logo.jpg" width="50"> Renan Xavier Cortes is grateful for the support of Coordenação de Aperfeiçoamento de
+Pessoal de Nível Superior - Brazil (CAPES) - Process number 88881.170553/2018-01</p>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

@@ -1,0 +1,598 @@
+---
+redirect_from:
+  - "/model/spint/sparse-vs-dense-grav"
+interact_link: content/model/spint/sparse_vs_dense_grav.ipynb
+kernel_name: python2
+kernel_path: content/model/spint
+has_widgets: false
+title: |-
+  sparse_vs_dense_grav
+pagenum: 73
+prev_page:
+  url: /model/spint/sparse_scipy_optim.html
+next_page:
+  url: /model/spint/test_grav.html
+suffix: .ipynb
+search: 
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">sparse_vs_dense_grav</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">gravity</span> <span class="kn">import</span> <span class="n">Gravity</span><span class="p">,</span> <span class="n">Production</span><span class="p">,</span> <span class="n">Attraction</span><span class="p">,</span> <span class="n">Doubly</span><span class="p">,</span> <span class="n">BaseGravity</span>
+<span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="n">Unconstrained</span><span class="p">,</span> <span class="n">ProductionConstrained</span><span class="p">,</span> <span class="n">AttractionConstrained</span><span class="p">,</span> <span class="n">DoublyConstrained</span>
+<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
+<span class="kn">from</span> <span class="nn">statsmodels.api</span> <span class="kn">import</span> <span class="n">families</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">pylab</span> inline
+
+<span class="kn">import</span> <span class="nn">time</span>                                                
+
+<span class="k">def</span> <span class="nf">timeit</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">timed</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">method</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+        <span class="n">te</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">elapsed</span> <span class="o">=</span> <span class="n">te</span><span class="o">-</span><span class="n">ts</span>
+
+        <span class="c1">#print &#39;%2.8f sec&#39; % \</span>
+              <span class="c1">#(elapsed)</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">elapsed</span>
+
+    <span class="k">return</span> <span class="n">timed</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Populating the interactive namespace from numpy and matplotlib
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="nd">@timeit</span>
+<span class="k">def</span> <span class="nf">gravity</span><span class="p">(</span><span class="n">f</span> <span class="p">,</span><span class="n">o</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="n">cost</span><span class="o">=</span><span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="s1">&#39;glm&#39;</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">Gravity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="n">framework</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span>
+    
+<span class="nd">@timeit</span>    
+<span class="k">def</span> <span class="nf">production</span><span class="p">(</span><span class="n">f</span> <span class="p">,</span><span class="n">o</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="n">cost</span><span class="o">=</span><span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="s1">&#39;glm&#39;</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">Production</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="n">framework</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span>
+
+<span class="nd">@timeit</span>    
+<span class="k">def</span> <span class="nf">attraction</span><span class="p">(</span><span class="n">f</span> <span class="p">,</span><span class="n">o</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="n">cost</span><span class="o">=</span><span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="s1">&#39;glm&#39;</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">Attraction</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="n">framework</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span>
+
+<span class="nd">@timeit</span>    
+<span class="k">def</span> <span class="nf">doubly</span><span class="p">(</span><span class="n">f</span> <span class="p">,</span><span class="n">o</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="n">cost</span><span class="o">=</span><span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="s1">&#39;glm&#39;</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">Doubly</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="n">framework</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">sim_data</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">loc_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">25000</span><span class="p">,</span><span class="mi">500000</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">o_vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">loc_size</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">d_vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">loc_size</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">dij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="mi">2500</span><span class="p">,</span> <span class="n">n</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">o_vars</span><span class="o">**.</span><span class="mi">3</span><span class="o">*</span><span class="n">d_vars</span><span class="o">**.</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dij</span><span class="o">*-.</span><span class="mi">00005</span><span class="p">)</span>
+    <span class="n">o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">o_vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">o_vars</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">d_vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">d_vars</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">dij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dij</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">dij</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">loop</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="s1">&#39;glm&#39;</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+        <span class="n">f</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">dij</span> <span class="o">=</span> <span class="n">sim_data</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">,</span> <span class="n">elapsed</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">dij</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="n">framework</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="n">out</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elapsed</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span>
+    
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#copy results over from notebook in sparse branch</span>
+<span class="n">sp_grav</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.009379863739013672</span><span class="p">,</span>
+ <span class="mf">0.010191917419433594</span><span class="p">,</span>
+ <span class="mf">0.013580083847045898</span><span class="p">,</span>
+ <span class="mf">0.02336597442626953</span><span class="p">,</span>
+ <span class="mf">0.023818016052246094</span><span class="p">,</span>
+ <span class="mf">0.03525900840759277</span><span class="p">,</span>
+ <span class="mf">0.03714299201965332</span><span class="p">,</span>
+ <span class="mf">0.047389984130859375</span><span class="p">,</span>
+ <span class="mf">0.055455923080444336</span><span class="p">,</span>
+ <span class="mf">0.07191991806030273</span><span class="p">,</span>
+ <span class="mf">0.07992720603942871</span><span class="p">,</span>
+ <span class="mf">0.10130095481872559</span><span class="p">,</span>
+ <span class="mf">0.10898685455322266</span><span class="p">,</span>
+ <span class="mf">0.1385822296142578</span><span class="p">,</span>
+ <span class="mf">0.15839409828186035</span><span class="p">,</span>
+ <span class="mf">0.18109512329101562</span><span class="p">,</span>
+ <span class="mf">0.19623899459838867</span><span class="p">,</span>
+ <span class="mf">0.2373828887939453</span><span class="p">,</span>
+ <span class="mf">0.24484801292419434</span><span class="p">])</span>
+
+<span class="n">sp_prod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.008792877197265625</span><span class="p">,</span>
+ <span class="mf">0.012892961502075195</span><span class="p">,</span>
+ <span class="mf">0.018072128295898438</span><span class="p">,</span>
+ <span class="mf">0.02672410011291504</span><span class="p">,</span>
+ <span class="mf">0.036765098571777344</span><span class="p">,</span>
+ <span class="mf">0.05049705505371094</span><span class="p">,</span>
+ <span class="mf">0.06424093246459961</span><span class="p">,</span>
+ <span class="mf">0.08189702033996582</span><span class="p">,</span>
+ <span class="mf">0.1013631820678711</span><span class="p">,</span>
+ <span class="mf">0.1273641586303711</span><span class="p">,</span>
+ <span class="mf">0.15144896507263184</span><span class="p">,</span>
+ <span class="mf">0.17901921272277832</span><span class="p">,</span>
+ <span class="mf">0.2195439338684082</span><span class="p">,</span>
+ <span class="mf">0.2700672149658203</span><span class="p">,</span>
+ <span class="mf">0.2963399887084961</span><span class="p">,</span>
+ <span class="mf">0.332568883895874</span><span class="p">,</span>
+ <span class="mf">0.3813331127166748</span><span class="p">,</span>
+ <span class="mf">0.44652509689331055</span><span class="p">,</span>
+ <span class="mf">0.4651219844818115</span><span class="p">])</span>
+
+<span class="n">sp_att</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.00892496109008789</span><span class="p">,</span>
+ <span class="mf">0.01181483268737793</span><span class="p">,</span>
+ <span class="mf">0.017676830291748047</span><span class="p">,</span>
+ <span class="mf">0.025489091873168945</span><span class="p">,</span>
+ <span class="mf">0.03578901290893555</span><span class="p">,</span>
+ <span class="mf">0.04750704765319824</span><span class="p">,</span>
+ <span class="mf">0.06312990188598633</span><span class="p">,</span>
+ <span class="mf">0.07956314086914062</span><span class="p">,</span>
+ <span class="mf">0.09888005256652832</span><span class="p">,</span>
+ <span class="mf">0.11808300018310547</span><span class="p">,</span>
+ <span class="mf">0.14717316627502441</span><span class="p">,</span>
+ <span class="mf">0.175645112991333</span><span class="p">,</span>
+ <span class="mf">0.20492291450500488</span><span class="p">,</span>
+ <span class="mf">0.23653817176818848</span><span class="p">,</span>
+ <span class="mf">0.2717468738555908</span><span class="p">,</span>
+ <span class="mf">0.2954838275909424</span><span class="p">,</span>
+ <span class="mf">0.3636939525604248</span><span class="p">,</span>
+ <span class="mf">0.4200310707092285</span><span class="p">,</span>
+ <span class="mf">0.43506598472595215</span><span class="p">])</span>
+
+<span class="n">sp_doub</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.01020193099975586</span><span class="p">,</span>
+ <span class="mf">0.015948057174682617</span><span class="p">,</span>
+ <span class="mf">0.025825023651123047</span><span class="p">,</span>
+ <span class="mf">0.03924298286437988</span><span class="p">,</span>
+ <span class="mf">0.05489301681518555</span><span class="p">,</span>
+ <span class="mf">0.08008694648742676</span><span class="p">,</span>
+ <span class="mf">0.10814595222473145</span><span class="p">,</span>
+ <span class="mf">0.14121484756469727</span><span class="p">,</span>
+ <span class="mf">0.18188691139221191</span><span class="p">,</span>
+ <span class="mf">0.2283778190612793</span><span class="p">,</span>
+ <span class="mf">0.2879500389099121</span><span class="p">,</span>
+ <span class="mf">0.3248469829559326</span><span class="p">,</span>
+ <span class="mf">0.3642420768737793</span><span class="p">,</span>
+ <span class="mf">0.44018101692199707</span><span class="p">,</span>
+ <span class="mf">0.506378173828125</span><span class="p">,</span>
+ <span class="mf">0.5851249694824219</span><span class="p">,</span>
+ <span class="mf">0.6679189205169678</span><span class="p">,</span>
+ <span class="mf">0.7664568424224854</span><span class="p">,</span>
+ <span class="mf">0.8878300189971924</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">grav</span> <span class="o">=</span> <span class="n">loop</span><span class="p">(</span><span class="n">gravity</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">prod</span> <span class="o">=</span> <span class="n">loop</span><span class="p">(</span><span class="n">production</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">att</span> <span class="o">=</span> <span class="n">loop</span><span class="p">(</span><span class="n">attraction</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">doub</span> <span class="o">=</span> <span class="n">loop</span><span class="p">(</span><span class="n">doubly</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[  4.00003765e-01  -5.00082127e-05]
+[  4.00002697e-01  -5.00066666e-05]
+[  3.99999915e-01  -5.00055984e-05]
+[  4.00000861e-01  -5.00064292e-05]
+[  4.00001140e-01  -5.00063276e-05]
+[  4.00001953e-01  -5.00062703e-05]
+[  4.00001310e-01  -5.00062954e-05]
+[  4.00000599e-01  -5.00060056e-05]
+[  4.00001176e-01  -5.00056830e-05]
+[  4.00001582e-01  -5.00061861e-05]
+[  4.00001745e-01  -5.00066448e-05]
+[  4.00001078e-01  -5.00061603e-05]
+[  4.00001357e-01  -5.00060119e-05]
+[  4.00001380e-01  -5.00057114e-05]
+[  4.00001400e-01  -5.00060612e-05]
+[  4.00001041e-01  -5.00061054e-05]
+[  4.00001420e-01  -5.00061600e-05]
+[  4.00001390e-01  -5.00061795e-05]
+[  4.00001566e-01  -5.00060298e-05]
+[  4.00044504e-01  -5.00046674e-05]
+[  4.00045068e-01  -5.00051517e-05]
+[  4.00046830e-01  -5.00051536e-05]
+[  4.00044189e-01  -5.00051428e-05]
+[  4.00047196e-01  -5.00056583e-05]
+[  4.00046735e-01  -5.00056823e-05]
+[  4.00046318e-01  -5.00055976e-05]
+[  4.00047239e-01  -5.00055579e-05]
+[  4.00046316e-01  -5.00056376e-05]
+[  4.00045989e-01  -5.00051992e-05]
+[  4.00044818e-01  -5.00054746e-05]
+[  4.00045085e-01  -5.00051760e-05]
+[  4.00045998e-01  -5.00054688e-05]
+[  4.00045219e-01  -5.00055610e-05]
+[  4.00047317e-01  -5.00056556e-05]
+[  4.00045808e-01  -5.00055909e-05]
+[  4.00045374e-01  -5.00053382e-05]
+[  4.00046947e-01  -5.00056095e-05]
+[  4.00046361e-01  -5.00056381e-05]
+[  3.00034016e-01  -5.00057525e-05]
+[  3.00033252e-01  -5.00052744e-05]
+[  3.00030145e-01  -5.00053775e-05]
+[  3.00030037e-01  -5.00047565e-05]
+[  3.00032487e-01  -5.00052466e-05]
+[  3.00032907e-01  -5.00052725e-05]
+[  3.00033558e-01  -5.00059839e-05]
+[  3.00032909e-01  -5.00053619e-05]
+[  3.00031875e-01  -5.00051895e-05]
+[  3.00032290e-01  -5.00053379e-05]
+[  3.00032978e-01  -5.00053514e-05]
+[  3.00033905e-01  -5.00054823e-05]
+[  3.00031747e-01  -5.00056422e-05]
+[  3.00032427e-01  -5.00053723e-05]
+[  3.00031778e-01  -5.00052621e-05]
+[  3.00034105e-01  -5.00057004e-05]
+[  3.00033159e-01  -5.00053856e-05]
+[  3.00033450e-01  -5.00056404e-05]
+[  3.00032449e-01  -5.00053773e-05]
+[  9.05975391e+00  -5.00058173e-05]
+[  7.89807159e+00  -5.00052349e-05]
+[  8.90961019e+00  -5.00053092e-05]
+[  8.65670296e+00  -5.00054583e-05]
+[  8.84397080e+00  -5.00052016e-05]
+[  8.47393885e+00  -5.00054873e-05]
+[  8.29266674e+00  -5.00049815e-05]
+[  8.38421867e+00  -5.00060056e-05]
+[  8.82217852e+00  -5.00054169e-05]
+[  8.88570848e+00  -5.00056774e-05]
+[  8.36139835e+00  -5.00054640e-05]
+[  8.50520290e+00  -5.00056668e-05]
+[  8.93418525e+00  -5.00053669e-05]
+[  8.65710610e+00  -5.00055227e-05]
+[  7.73443865e+00  -5.00057702e-05]
+[  8.63212583e+00  -5.00053614e-05]
+[  7.95999344e+00  -5.00053746e-05]
+[  8.69617289e+00  -5.00056379e-05]
+[  8.54361439e+00  -4.99613448e-05]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">grav</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">sp_grav</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="s1">&#39;dense&#39;</span><span class="p">,</span> <span class="s1">&#39;sparse&#39;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Sparse vs Dense GLM Unconstrained Gravity Model&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Sample Size&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Seconds&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.text.Text at 0x10cf792d0&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/model/spint/sparse_vs_dense_grav_7_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">prod</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">sp_prod</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="s1">&#39;dense&#39;</span><span class="p">,</span> <span class="s1">&#39;sparse&#39;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Sparse vs Dense GLM Production-Constrained Gravity Model&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Sample Size&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Seconds&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.text.Text at 0x10cdc6450&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/model/spint/sparse_vs_dense_grav_8_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">att</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">sp_att</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="s1">&#39;dense&#39;</span><span class="p">,</span> <span class="s1">&#39;sparse&#39;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Sparse vs Dense GLM Attraction-Constrained Gravity Model&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Sample Size&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Seconds&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.text.Text at 0x10d49c410&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/model/spint/sparse_vs_dense_grav_9_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">doub</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">sp_doub</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="s1">&#39;dense&#39;</span><span class="p">,</span> <span class="s1">&#39;sparse&#39;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Sparse vs Dense GLM Doubly-Constrained Gravity Model&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Sample Size&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Seconds&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.text.Text at 0x10d49ce50&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/model/spint/sparse_vs_dense_grav_10_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

@@ -1,0 +1,664 @@
+---
+redirect_from:
+  - "/explore/segregation/compute-all-example"
+interact_link: content/explore/segregation/compute_all_example.ipynb
+kernel_name: python3
+kernel_path: content/explore/segregation
+has_widgets: false
+title: |-
+  compute_all_example
+pagenum: 26
+prev_page:
+  url: /explore/segregation/aspatial_examples.html
+next_page:
+  url: /explore/segregation/decomposition_wrapper_example.html
+suffix: .ipynb
+search: measures segregation compute pysal classes data several computeall example computing module using aspatial spatial comprises functions assess available sacramento geopandas dataframe examples libpysal table contents simple quick multiple once dataset uses default parameters returns object attribute computed dictionary summary values fitted wrappers currently three computeallaspatialsegregation computeallspatialsegregation computeallsegregation firstly need import libraries used its load estimate census tract metropolitan area ca usa repository information github com tree master demographic variables going hispanic population variable hisp only extract columns
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">compute_all_example</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents"> </a></h1><ul>
+<li><a href="#Example-of-use-of-computing-several-measures-of-the-PySAL-*segregation*-module:-using-ComputeAll-classes">Example of use of computing several measures of the PySAL <em>segregation</em> module: using <code>ComputeAll</code> classes</a><ul>
+<li><a href="#Compute-All-Aspatial-Measures">Compute All Aspatial Measures</a></li>
+<li><a href="#Compute-All-Spatial-Measures">Compute All Spatial Measures</a></li>
+<li><a href="#Compute-All-Segregation-Measures">Compute All Segregation Measures</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Example-of-use-of-computing-several-measures-of-the-PySAL-segregation-module:-using-ComputeAll-classes">Example of use of computing several measures of the PySAL <em>segregation</em> module: using <code>ComputeAll</code> classes<a class="anchor-link" href="#Example-of-use-of-computing-several-measures-of-the-PySAL-segregation-module:-using-ComputeAll-classes"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The Compute_All classes comprises simple and quick functions to assess multiple segregation measures at once in a dataset. It uses all the default parameters and returns an object that has an attribute (.computed) of a dictionary with summary of all values fitted.</p>
+<p>The wrappers have currently three classes: ComputeAllAspatialSegregation, ComputeAllSpatialSegregation and ComputeAllSegregation which comprises all the measures available.</p>
+<p>Firstly, we need to import the libraries and functions to be used.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">import</span> <span class="nn">segregation</span>
+<span class="kn">import</span> <span class="nn">libpysal</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">segregation.compute_all</span> <span class="kn">import</span> <span class="n">ComputeAllAspatialSegregation</span><span class="p">,</span> <span class="n">ComputeAllSpatialSegregation</span><span class="p">,</span> <span class="n">ComputeAllSegregation</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Then it's time to load some data to estimate segregation. We use the data of 2000 Census Tract Data for the metropolitan area of Sacramento, CA, USA.</p>
+<p>We use a geopandas dataframe available in PySAL examples repository.</p>
+<p>For more information about the data: <a href="https://github.com/pysal/libpysal/tree/master/libpysal/examples/sacramento2">https://github.com/pysal/libpysal/tree/master/libpysal/examples/sacramento2</a></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s_map</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;sacramentot2.shp&quot;</span><span class="p">))</span>
+<span class="n">s_map</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Index([&#39;FIPS&#39;, &#39;MSA&#39;, &#39;TOT_POP&#39;, &#39;POP_16&#39;, &#39;POP_65&#39;, &#39;WHITE_&#39;, &#39;BLACK_&#39;,
+       &#39;ASIAN_&#39;, &#39;HISP_&#39;, &#39;MULTI_RA&#39;, &#39;MALES&#39;, &#39;FEMALES&#39;, &#39;MALE1664&#39;,
+       &#39;FEM1664&#39;, &#39;EMPL16&#39;, &#39;EMP_AWAY&#39;, &#39;EMP_HOME&#39;, &#39;EMP_29&#39;, &#39;EMP_30&#39;,
+       &#39;EMP16_2&#39;, &#39;EMP_MALE&#39;, &#39;EMP_FEM&#39;, &#39;OCC_MAN&#39;, &#39;OCC_OFF1&#39;, &#39;OCC_INFO&#39;,
+       &#39;HH_INC&#39;, &#39;POV_POP&#39;, &#39;POV_TOT&#39;, &#39;HSG_VAL&#39;, &#39;FIPSNO&#39;, &#39;POLYID&#39;,
+       &#39;geometry&#39;],
+      dtype=&#39;object&#39;)</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The data have several demographic variables. We are going to assess the segregation of the Hispanic Population (variable 'HISP_'). For this, we only extract some columns of the geopandas dataframe.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gdf</span> <span class="o">=</span> <span class="n">s_map</span><span class="p">[[</span><span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Compute-All-Aspatial-Measures">Compute All Aspatial Measures<a class="anchor-link" href="#Compute-All-Aspatial-Measures"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">aspatial_fit</span> <span class="o">=</span> <span class="n">ComputeAllAspatialSegregation</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
+<span class="n">aspatial_fit</span><span class="o">.</span><span class="n">computed</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Measure</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Dissimilarity</td>
+      <td>0.321847</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Gini</td>
+      <td>0.435065</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Entropy</td>
+      <td>0.094598</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Atkinson</td>
+      <td>0.150793</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Exposure</td>
+      <td>0.768038</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Isolation</td>
+      <td>0.231962</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Concentration Profile</td>
+      <td>0.137687</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Bias Corrected Dissimilarity</td>
+      <td>0.321420</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Density Corrected Dissimilarity</td>
+      <td>0.295205</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Correlation Ratio</td>
+      <td>0.091640</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Modified Dissimilarity</td>
+      <td>0.310746</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Modified Gini</td>
+      <td>0.421793</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Minimun-Maximum</td>
+      <td>0.486965</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Compute-All-Spatial-Measures">Compute All Spatial Measures<a class="anchor-link" href="#Compute-All-Spatial-Measures"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">spatial_fit</span> <span class="o">=</span> <span class="n">ComputeAllSpatialSegregation</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
+<span class="n">spatial_fit</span><span class="o">.</span><span class="n">computed</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Measure</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Spatial Dissimilarity</td>
+      <td>0.261197</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Absolute Centralization</td>
+      <td>0.689142</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Absolute Clustering</td>
+      <td>0.005189</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Absolute Concentration</td>
+      <td>0.851282</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Delta</td>
+      <td>0.804497</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Relative Centralization</td>
+      <td>-0.111942</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Relative Clustering</td>
+      <td>0.009096</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Relative Concentration</td>
+      <td>0.127338</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Distance Decay Exposure</td>
+      <td>0.839658</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Distance Decay Isolation</td>
+      <td>0.156216</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Spatial Proximity Profile</td>
+      <td>0.228473</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Spatial Proximity</td>
+      <td>1.002662</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Boundary Spatial Dissimilarity</td>
+      <td>0.266763</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Perimeter Area Ratio Spatial Dissimilarity</td>
+      <td>0.311172</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Spatial Minimun-Maximum</td>
+      <td>0.171200</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Compute-All-Segregation-Measures">Compute All Segregation Measures<a class="anchor-link" href="#Compute-All-Segregation-Measures"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">segregation_fit</span> <span class="o">=</span> <span class="n">ComputeAllSegregation</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
+<span class="n">segregation_fit</span><span class="o">.</span><span class="n">computed</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Measure</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Dissimilarity</td>
+      <td>0.321847</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Gini</td>
+      <td>0.435065</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Entropy</td>
+      <td>0.094598</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Atkinson</td>
+      <td>0.150793</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Exposure</td>
+      <td>0.768038</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Isolation</td>
+      <td>0.231962</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Concentration Profile</td>
+      <td>0.137687</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Bias Corrected Dissimilarity</td>
+      <td>0.321420</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Density Corrected Dissimilarity</td>
+      <td>0.295205</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Correlation Ratio</td>
+      <td>0.091640</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Modified Dissimilarity</td>
+      <td>0.310746</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Modified Gini</td>
+      <td>0.421793</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Minimun-Maximum</td>
+      <td>0.486965</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Spatial Dissimilarity</td>
+      <td>0.261197</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Absolute Centralization</td>
+      <td>0.689142</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Absolute Clustering</td>
+      <td>0.005189</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Absolute Concentration</td>
+      <td>0.851282</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Delta</td>
+      <td>0.804497</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Relative Centralization</td>
+      <td>-0.111942</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Relative Clustering</td>
+      <td>0.009096</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Relative Concentration</td>
+      <td>0.127338</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Distance Decay Exposure</td>
+      <td>0.839658</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>Distance Decay Isolation</td>
+      <td>0.156216</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Spatial Proximity Profile</td>
+      <td>0.228473</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Spatial Proximity</td>
+      <td>1.002662</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>Boundary Spatial Dissimilarity</td>
+      <td>0.266763</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>Perimeter Area Ratio Spatial Dissimilarity</td>
+      <td>0.311172</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>Spatial Minimun-Maximum</td>
+      <td>0.171200</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

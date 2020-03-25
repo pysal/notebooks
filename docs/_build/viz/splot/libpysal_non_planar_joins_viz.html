@@ -1,0 +1,488 @@
+---
+redirect_from:
+  - "/viz/splot/libpysal-non-planar-joins-viz"
+interact_link: content/viz/splot/libpysal_non_planar_joins_viz.ipynb
+kernel_name: python3
+kernel_path: content/viz/splot
+has_widgets: false
+title: |-
+  libpysal_non_planar_joins_viz
+pagenum: 91
+prev_page:
+  url: /viz/splot/giddy_space_time.html
+next_page:
+  url: /viz/splot/mapping_vba.html
+suffix: .ipynb
+search: libpysal polygons not our islands splot spatial weights neighbouring data error analysis often share imports preparation plotting dataset into polygones stems using plotspatialweights network centroid its neighbors errors tool visualization new joins assessing neigbors workflows important necessary asses relationships help inspect edge content lets examples explain load geopandas geodataframe warning tells us contains edges nodes adjacent example case truly eg land parcels seperated river however human digitizing features unwanted assessed functionality visualisation depicts connections polygon neighbour south west map connected digitization needs corrected before start statistical offers correct snapping incorrectly separated neighbours back together visualise nonplanarneighbors adjusted correctly shows erroneous
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">libpysal_non_planar_joins_viz</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="splot.libpysal:-assessing-neigbors-&amp;-spatial-weights">splot.libpysal: assessing neigbors &amp; spatial weights<a class="anchor-link" href="#splot.libpysal:-assessing-neigbors-&amp;-spatial-weights"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In spatial analysis workflows it is often important and necessary to asses the relationships of neighbouring polygons. <code>libpysal</code> and <code>splot</code> can help you to inspect if two neighbouring polygons share an edge or not.</p>
+<p><strong>Content</strong>:</p>
+<ul>
+<li>Imports</li>
+<li>Data Preparation</li>
+<li>Plotting</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Imports">Imports<a class="anchor-link" href="#Imports"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">libpysal.weights.contiguity</span> <span class="kn">import</span> <span class="n">Queen</span>
+<span class="kn">import</span> <span class="nn">libpysal</span>
+<span class="kn">from</span> <span class="nn">libpysal</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">splot.libpysal</span> <span class="kn">import</span> <span class="n">plot_spatial_weights</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Data-Preparation">Data Preparation<a class="anchor-link" href="#Data-Preparation"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's first have a look at the dataset with <code>libpysal.examples.explain</code></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">examples</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="s1">&#39;rio_grande_do_sul&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;name&#39;: &#39;Rio_Grande_do_Sul&#39;,
+ &#39;description&#39;: &#39;Cities of the Brazilian State of Rio Grande do Sul&#39;,
+ &#39;explanation&#39;: [&#39;* 43MUE250GC_SIR.dbf: attribute data (k=2)&#39;,
+  &#39;* 43MUE250GC_SIR.shp: Polygon shapefile (n=499)&#39;,
+  &#39;* 43MUE250GC_SIR.shx: spatial index&#39;,
+  &#39;* 43MUE250GC_SIR.cpg: encoding file &#39;,
+  &#39;* 43MUE250GC_SIR.prj: projection information &#39;,
+  &#39;* map_RS_BR.dbf: attribute data (k=3)&#39;,
+  &#39;* map_RS_BR.shp: Polygon shapefile (no lakes) (n=497)&#39;,
+  &#39;* map_RS_BR.prj: projection information&#39;,
+  &#39;* map_RS_BR.shx: spatial index&#39;,
+  &#39;Source: Renan Xavier Cortes &lt;renanxcortes@gmail.com&gt;&#39;,
+  &#39;Reference: https://github.com/pysal/pysal/issues/889#issuecomment-396693495&#39;]}</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Load data into a <code>geopandas</code> geodataframe</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;map_RS_BR.shp&#39;</span><span class="p">))</span>
+<span class="n">gdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>NM_MUNICIP</th>
+      <th>CD_GEOCMU</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ACEGUÁ</td>
+      <td>4300034</td>
+      <td>POLYGON ((-54.10940375660775 -31.4331615329298...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ÁGUA SANTA</td>
+      <td>4300059</td>
+      <td>POLYGON ((-51.98932089399999 -28.1294290447850...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>AGUDO</td>
+      <td>4300109</td>
+      <td>POLYGON ((-53.13695617099998 -29.4948277498090...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>AJURICABA</td>
+      <td>4300208</td>
+      <td>POLYGON ((-53.61993058200001 -28.1456914857853...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>ALECRIM</td>
+      <td>4300307</td>
+      <td>POLYGON ((-54.77812739300882 -27.5837166490823...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">weights</span> <span class="o">=</span> <span class="n">Queen</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">gdf</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/steffie/code/libpysal/libpysal/weights/weights.py:168: UserWarning: There are 29 disconnected observations 
+  Island ids: 0, 4, 23, 27, 80, 94, 101, 107, 109, 119, 122, 139, 169, 175, 223, 239, 247, 253, 254, 255, 256, 261, 276, 291, 294, 303, 321, 357, 374
+  &#34; Island ids: %s&#34; % &#39;, &#39;.join(str(island) for island in self.islands))
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This warning tells us that our dataset contains islands. Islands are polygons that do not share edges and nodes with adjacent polygones. This can for example be the case if polygones are truly not neighbouring, eg. when two land parcels are seperated by a river. However, these islands often stems from human error when digitizing features into polygons.</p>
+<p>This unwanted error can be assessed using <code>splot.libpysal</code> <code>plot_spatial_weights</code> functionality:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Plotting">Plotting<a class="anchor-link" href="#Plotting"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_spatial_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">gdf</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/viz/splot/libpysal_non_planar_joins_viz_13_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This visualisation depicts the spatial weights network, a network of connections of the centroid of each polygon to the centroid of its neighbour. As we can see, there are many polygons in the south and west of this map, that are not connected to it's neighbors. This stems from digitization errors and needs to be corrected before we can start our statistical analysis.</p>
+<p><code>libpysal</code> offers a tool to correct this error by 'snapping' incorrectly separated neighbours back together:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wnp</span> <span class="o">=</span> <span class="n">libpysal</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">nonplanar_neighbors</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">gdf</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can now visualise if the <code>nonplanar_neighbors</code> tool adjusted all errors correctly:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_spatial_weights</span><span class="p">(</span><span class="n">wnp</span><span class="p">,</span> <span class="n">gdf</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/viz/splot/libpysal_non_planar_joins_viz_17_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The visualization shows that all erroneous islands are now stored as neighbors in our new weights object, depicted by the new joins displayed in orange.</p>
+<p>We can now adapt our visualization to show all joins in the same color, by using the <code>nonplanar_edge_kws</code> argument in <code>plot_spatial_weights</code>:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_spatial_weights</span><span class="p">(</span><span class="n">wnp</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">nonplanar_edge_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#4393c3&#39;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/viz/splot/libpysal_non_planar_joins_viz_19_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

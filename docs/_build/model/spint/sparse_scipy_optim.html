@@ -1,0 +1,199 @@
+---
+redirect_from:
+  - "/model/spint/sparse-scipy-optim"
+interact_link: content/model/spint/sparse_scipy_optim.ipynb
+kernel_name: python2
+kernel_path: content/model/spint
+has_widgets: false
+title: |-
+  sparse_scipy_optim
+pagenum: 72
+prev_page:
+  url: /model/spint/sparse_grav.html
+next_page:
+  url: /model/spint/sparse_vs_dense_grav.html
+suffix: .ipynb
+search: 
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">sparse_scipy_optim</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">scipy.optimize</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="mi">10000</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">poiss_loglike</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="n">x</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">data</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">a</span>
+
+
+<span class="n">params</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">fmin</span><span class="p">(</span><span class="n">poiss_loglike</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">data</span> <span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span> <span class="n">params</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[ 0.]
+[ 0.00025]
+[ 0.0005]
+[ 0.00075]
+[ 0.00125]
+[ 0.00175]
+[ 0.00275]
+[ 0.00375]
+[ 0.00575]
+[ 0.00775]
+[ 0.01175]
+[ 0.01575]
+[ 0.02375]
+[ 0.03175]
+[ 0.04775]
+[ 0.06375]
+[ 0.09575]
+[ 0.12775]
+[ 0.19175]
+[ 0.25575]
+[ 0.38375]
+[ 0.51175]
+[ 0.76775]
+[ 1.02375]
+[ 1.53575]
+[ 2.04775]
+[ 3.07175]
+[ 4.09575]
+[ 6.14375]
+[ 8.19175]
+[ 12.28775]
+[ 16.38375]
+[ 24.57575]
+[ 32.76775]
+[ 49.15175]
+[ 65.53575]
+[ 98.30375]
+[ 131.07175]
+[ 131.07175]
+[ 114.68775]
+[ 81.91975]
+[ 106.49575]
+[ 90.11175]
+[ 102.39975]
+[ 94.20775]
+[ 100.35175]
+[ 102.39975]
+[ 99.32775]
+[ 98.30375]
+[ 99.83975]
+[ 100.35175]
+[ 99.58375]
+[ 100.09575]
+[ 99.71175]
+[ 99.58375]
+[ 99.77575]
+[ 99.83975]
+[ 99.74375]
+[ 99.80775]
+[ 99.75975]
+[ 99.74375]
+[ 99.76775]
+[ 99.77575]
+[ 99.76375]
+[ 99.77175]
+[ 99.76575]
+[ 99.76975]
+[ 99.76675]
+[ 99.76875]
+[ 99.76725]
+[ 99.76825]
+[ 99.7675]
+[ 99.76725]
+[ 99.767625]
+[ 99.76775]
+[ 99.7675625]
+Optimization terminated successfully.
+         Current function value: -3594470.473058
+         Iterations: 38
+         Function evaluations: 76
+[ 99.767625]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

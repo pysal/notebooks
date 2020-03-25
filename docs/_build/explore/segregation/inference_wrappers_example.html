@@ -1,0 +1,2262 @@
+---
+redirect_from:
+  - "/explore/segregation/inference-wrappers-example"
+interact_link: content/explore/segregation/inference_wrappers_example.ipynb
+kernel_name: python3
+kernel_path: content/explore/segregation
+has_widgets: false
+title: |-
+  inference_wrappers_example
+pagenum: 28
+prev_page:
+  url: /explore/segregation/decomposition_wrapper_example.html
+next_page:
+  url: /explore/segregation/local_measures_example.html
+suffix: .ipynb
+search: value index dissimilarity comparative inference segregation under null relative spatial hypothesis class approach sacramento data example function p distribution hispanic segregated single concentration measure also evenness group centralization gini user significance possible values same point terms d conclusion wrappers pysal iterations composition estimation test not map riverside cases using simulations following seg tailed est twovaluetest case its census examples statistically rely compare significantly h different permutation between desired interest unit table framework perform classes fitted analysis type singlevaluetest sim statistic firstly module functions estimate ca github com libpysal master population tracts pre uses iterate comparing question rise significant answer infersegregation
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">inference_wrappers_example</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents"> </a></h1><ul>
+<li><a href="#Inference-Wrappers-use-cases">Inference Wrappers use cases</a><ul>
+<li><a href="#Single-Value">Single Value</a><ul>
+<li><a href="#Dissimilarity">Dissimilarity</a></li>
+<li><a href="#Relative-Concentration">Relative Concentration</a></li>
+<li><a href="#Relative-Centralization">Relative Centralization</a></li>
+</ul>
+</li>
+<li><a href="#Comparative-Inference">Comparative Inference</a><ul>
+<li><a href="#Comparative-Dissimilarity">Comparative Dissimilarity</a></li>
+<li><a href="#Comparative-Gini">Comparative Gini</a></li>
+<li><a href="#Comparative-Spatial-Dissimilarity">Comparative Spatial Dissimilarity</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Inference-Wrappers-use-cases">Inference Wrappers use cases<a class="anchor-link" href="#Inference-Wrappers-use-cases"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is an example of the PySAL <em>segregation</em> framework to perform inference on a single value and comparative inference using simulations under the null hypothesis. Once the segregation classes are fitted, the user can perform inference to shed light for statistical significance in regional analysis. Currently, it is possible to make inference for a single measure or for two values of the same measure.</p>
+<p>The summary of the inference wrappers is presented in the following Table:</p>
+<table>
+<thead><tr>
+<th style="text-align:left"><strong>Inference Type</strong></th>
+<th style="text-align:left"><strong>Class/Function</strong></th>
+<th style="text-align:center"><strong>Function main Inputs</strong></th>
+<th style="text-align:center"><strong>Function Outputs</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Single Value</td>
+<td style="text-align:left">SingleValueTest</td>
+<td style="text-align:center">seg_class, iterations_under_null, null_approach, two_tailed</td>
+<td style="text-align:center">p_value, est_sim, statistic</td>
+</tr>
+<tr>
+<td style="text-align:left">Two Value</td>
+<td style="text-align:left">TwoValueTest</td>
+<td style="text-align:center">seg_class_1, seg_class_2, iterations_under_null, null_approach</td>
+<td style="text-align:center">p_value, est_sim, est_point_diff</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Firstly let's import the module/functions for the use case:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">import</span> <span class="nn">segregation</span>
+<span class="kn">import</span> <span class="nn">libpysal</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">segregation.inference</span> <span class="kn">import</span> <span class="n">SingleValueTest</span><span class="p">,</span> <span class="n">TwoValueTest</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Then it's time to load some data to estimate segregation. We use the data of 2000 Census Tract Data for the metropolitan area of Sacramento, CA, USA.</p>
+<p>We use a geopandas dataframe available in PySAL examples repository.</p>
+<p>For more information about the data: <a href="https://github.com/pysal/libpysal/tree/master/libpysal/examples/sacramento2">https://github.com/pysal/libpysal/tree/master/libpysal/examples/sacramento2</a></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s_map</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">libpysal</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s2">&quot;sacramentot2.shp&quot;</span><span class="p">))</span>
+<span class="n">s_map</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Index([&#39;FIPS&#39;, &#39;MSA&#39;, &#39;TOT_POP&#39;, &#39;POP_16&#39;, &#39;POP_65&#39;, &#39;WHITE_&#39;, &#39;BLACK_&#39;,
+       &#39;ASIAN_&#39;, &#39;HISP_&#39;, &#39;MULTI_RA&#39;, &#39;MALES&#39;, &#39;FEMALES&#39;, &#39;MALE1664&#39;,
+       &#39;FEM1664&#39;, &#39;EMPL16&#39;, &#39;EMP_AWAY&#39;, &#39;EMP_HOME&#39;, &#39;EMP_29&#39;, &#39;EMP_30&#39;,
+       &#39;EMP16_2&#39;, &#39;EMP_MALE&#39;, &#39;EMP_FEM&#39;, &#39;OCC_MAN&#39;, &#39;OCC_OFF1&#39;, &#39;OCC_INFO&#39;,
+       &#39;HH_INC&#39;, &#39;POV_POP&#39;, &#39;POV_TOT&#39;, &#39;HSG_VAL&#39;, &#39;FIPSNO&#39;, &#39;POLYID&#39;,
+       &#39;geometry&#39;],
+      dtype=&#39;object&#39;)</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gdf</span> <span class="o">=</span> <span class="n">s_map</span><span class="p">[[</span><span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We also can plot the spatial distribution of the composition of the Hispanic population over the tracts of Sacramento:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;composition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;HISP_&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;TOT_POP&#39;</span><span class="p">]</span>
+
+<span class="n">gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span> <span class="o">=</span> <span class="s1">&#39;composition&#39;</span><span class="p">,</span>
+         <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;OrRd&#39;</span><span class="p">,</span> 
+         <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span>
+         <span class="n">legend</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x20e1272e860&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/inference_wrappers_example_9_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Single-Value">Single Value<a class="anchor-link" href="#Single-Value"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Dissimilarity">Dissimilarity<a class="anchor-link" href="#Dissimilarity"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <strong>SingleValueTest</strong> function expect to receive a pre-fitted segregation class and then it uses the underlying data to iterate over the null hypothesis and comparing the results with point estimation of the index. Thus, we need to firstly estimate some measure. We can fit the classic Dissimilarity index:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.aspatial</span> <span class="kn">import</span> <span class="n">Dissim</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">Dissim</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
+<span class="n">D</span><span class="o">.</span><span class="n">statistic</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.32184656076566864</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The question that may rise is "Is this value of 0.32 statistically significant under some pre-specified circumstance?". To answer this, it is possible to rely on the <strong>Infer_Segregation</strong> function to generate several values of the same index (in this case the Dissimilarity Index) under the hypothesis and compare them with the one estimated by the dataset of Sacramento. To generate 1000 values assuming <em>evenness</em>, you can run:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">infer_D_eve</span> <span class="o">=</span> <span class="n">SingleValueTest</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s2">&quot;evenness&quot;</span><span class="p">,</span> <span class="n">two_tailed</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+
+ 
+ 
+<div id="20a14000-85ec-4325-8801-f032ce8a3532"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#20a14000-85ec-4325-8801-f032ce8a3532');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "fd0bcddf3b4441a0b83286bde09b23f1", "version_major": 2, "version_minor": 0}
+</script>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This class has a quick plotting method to inspect the generated distribution with the estimated value from the sample (vertical red line):</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">infer_D_eve</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x20e127eb630&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/inference_wrappers_example_17_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It is possible to see that clearly the value of 0.3218 is far-right in the distribution indicating that the hispanic group is, indeed, significantly segregated in terms of the Dissimilarity index under evenness. You can also check the mean value of the distribution using the <strong>est_sim</strong> attribute which represents all the D draw from the simulations:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">infer_D_eve</span><span class="o">.</span><span class="n">est_sim</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.016109671121956267</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The two-tailed p-value of the following hypothesis test:</p>
+$$H_0: under \ evenness, \ Sacramento \ IS \ NOT \ segregated \ in \ terms \ of \ the \ Dissimilarity \ index \ (D)$$$$H_1: under \ evenness, \ Sacramento \ IS \ segregated \ in \ terms \ of \ the \ Dissimilarity \ index \ (D)$$<p>can be accessed with the <strong>p_value</strong> attribute:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">infer_D_eve</span><span class="o">.</span><span class="n">p_value</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.0</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Therefore, we can conclude that Sacramento is statistically segregated at 5% of significance level (p.value &lt; 5%) in terms of D.</p>
+<p>You can also test under different approaches for the null hypothesis:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">infer_D_sys</span> <span class="o">=</span> <span class="n">SingleValueTest</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s2">&quot;systematic&quot;</span><span class="p">,</span> <span class="n">two_tailed</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+
+ 
+ 
+<div id="cbe6b980-ced2-4260-b921-017a3264e8c3"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#cbe6b980-ced2-4260-b921-017a3264e8c3');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "116d6e27ddb6443c9a7f6233c6205053", "version_major": 2, "version_minor": 0}
+</script>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">infer_D_sys</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x20e128235c0&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/inference_wrappers_example_24_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The conclusions are analogous as the <em>evenness</em> approach.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Relative-Concentration">Relative Concentration<a class="anchor-link" href="#Relative-Concentration"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <strong>Infer_Segregation</strong> wrapper can handle any class of the PySAL segregation module. It is possible to use it in the Relative Concentration (RCO) segregation index:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">RelativeConcentration</span>
+<span class="n">RCO</span> <span class="o">=</span> <span class="n">RelativeConcentration</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Since RCO is an spatial index (i.e. depends on the spatial context), it makes sense to use the <em>permutation</em> null approach. This approach relies on randomly allocating the sample values over the spatial units and recalculating the chosen index to all iterations.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">infer_RCO_per</span> <span class="o">=</span> <span class="n">SingleValueTest</span><span class="p">(</span><span class="n">RCO</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s2">&quot;permutation&quot;</span><span class="p">,</span> <span class="n">two_tailed</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+
+ 
+ 
+<div id="f0a4f58c-08d9-4358-adb1-3994ab1efbc0"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#f0a4f58c-08d9-4358-adb1-3994ab1efbc0');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "24b830ffe15f4024997e61c73212589f", "version_major": 2, "version_minor": 0}
+</script>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">infer_RCO_per</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x20e15dba9b0&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/inference_wrappers_example_31_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">infer_RCO_per</span><span class="o">.</span><span class="n">p_value</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.452</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Analogously, the conclusion for the Relative Concentration index is that Sacramento is not significantly (under 5% of significance, because p-value &gt; 5%) concentrated for the hispanic people.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Additionaly, it is possible to combine the null approaches establishing, for example, a permutation along with evenness of the frequency of the Sacramento hispanic group. With this, the conclusion of the Relative Concentration changes.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">infer_RCO_eve_per</span> <span class="o">=</span> <span class="n">SingleValueTest</span><span class="p">(</span><span class="n">RCO</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s2">&quot;even_permutation&quot;</span><span class="p">,</span> <span class="n">two_tailed</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">infer_RCO_eve_per</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+
+ 
+ 
+<div id="3ae722b5-c4a4-4db0-b74d-ee05b6db8429"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#3ae722b5-c4a4-4db0-b74d-ee05b6db8429');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "93c551d12b524fb0ba904c2ad6339854", "version_major": 2, "version_minor": 0}
+</script>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x20e15d8db38&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/inference_wrappers_example_35_3.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Relative-Centralization">Relative Centralization<a class="anchor-link" href="#Relative-Centralization"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Using the same <em>permutation</em> approach for the Relative Centralization (RCE) segregation index:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">RelativeCentralization</span>
+<span class="n">RCE</span> <span class="o">=</span> <span class="n">RelativeCentralization</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="s1">&#39;HISP_&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT_POP&#39;</span><span class="p">)</span>
+<span class="n">infer_RCE_per</span> <span class="o">=</span> <span class="n">SingleValueTest</span><span class="p">(</span><span class="n">RCE</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s2">&quot;permutation&quot;</span><span class="p">,</span> <span class="n">two_tailed</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Processed 1000 iterations out of 1000.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">infer_RCE_per</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/inference_wrappers_example_39_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The conclusion is that the hispanic group is negatively significantly (as the point estimation is in the left side of the distribution) in terms of centralization. This behavior can be, somehow, inspected in the map as the composition tends to be more concentraded outside of the center of the overall region.</p>
+<hr>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Comparative-Inference">Comparative Inference<a class="anchor-link" href="#Comparative-Inference"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To compare two different values, the user can rely on the <strong>TwoValueTest</strong> function. Similar to the previous function, the user needs to pass two segregation SM classes to be compared, establish the number of iterations under null hypothesis with <em>iterations_under_null</em>, specify which type of null hypothesis the inference will iterate with <em>null_approach</em> argument and, also, can pass additional parameters for each segregation estimation.</p>
+<p>Obs.: in this case, each measure has to be the same class as it would not make much sense to compare, for example, a Gini index with a Delta index</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This example uses all census data that the user must provide your own copy of the external database.
+A step-by-step procedure for downloading the data can be found here: <a href="https://github.com/spatialucr/geosnap/blob/master/examples/01_getting_started.ipynb">https://github.com/spatialucr/geosnap/blob/master/examples/01_getting_started.ipynb</a>.
+After the user download the zip files, you must provide the path to these files.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="c1">#os.chdir(&#39;path_to_zipfiles&#39;)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">geosnap</span>
+<span class="kn">from</span> <span class="nn">geosnap.data.data</span> <span class="kn">import</span> <span class="n">read_ltdb</span>
+
+<span class="n">sample</span> <span class="o">=</span> <span class="s2">&quot;LTDB_Std_All_Sample.zip&quot;</span>
+<span class="n">full</span> <span class="o">=</span> <span class="s2">&quot;LTDB_Std_All_fullcount.zip&quot;</span>
+
+<span class="n">read_ltdb</span><span class="p">(</span><span class="n">sample</span> <span class="o">=</span> <span class="n">sample</span><span class="p">,</span> <span class="n">fullcount</span> <span class="o">=</span> <span class="n">full</span><span class="p">)</span>
+
+<span class="n">df_pre</span> <span class="o">=</span> <span class="n">geosnap</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">ltdb</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\Users\renan\AppData\Local\Continuum\anaconda3\lib\site-packages\pysal\__init__.py:65: VisibleDeprecationWarning: PySAL&#39;s API will be changed on 2018-12-31. The last release made with this API is version 1.14.4. A preview of the next API version is provided in the `pysal` 2.0 prelease candidate. The API changes and a guide on how to change imports is provided at https://pysal.org/about
+  ), VisibleDeprecationWarning)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_pre</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>n_asian_under_15</th>
+      <th>n_black_under_15</th>
+      <th>n_hispanic_under_15</th>
+      <th>n_native_under_15</th>
+      <th>n_white_under_15</th>
+      <th>n_persons_under_18</th>
+      <th>n_asian_over_60</th>
+      <th>n_black_over_60</th>
+      <th>n_hispanic_over_60</th>
+      <th>n_native_over_60</th>
+      <th>...</th>
+      <th>n_white_persons</th>
+      <th>year</th>
+      <th>n_total_housing_units_sample</th>
+      <th>p_nonhisp_white_persons</th>
+      <th>p_white_over_60</th>
+      <th>p_black_over_60</th>
+      <th>p_hispanic_over_60</th>
+      <th>p_native_over_60</th>
+      <th>p_asian_over_60</th>
+      <th>p_disabled</th>
+    </tr>
+    <tr>
+      <th>geoid</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>01001020500</th>
+      <td>NaN</td>
+      <td>1.121662</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.802740</td>
+      <td>3.284181</td>
+      <td>NaN</td>
+      <td>0.301098</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>5.794934</td>
+      <td>1970</td>
+      <td>2.166366</td>
+      <td>NaN</td>
+      <td>6.433142</td>
+      <td>3.514090</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.737847</td>
+    </tr>
+    <tr>
+      <th>01003010100</th>
+      <td>NaN</td>
+      <td>609.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>639.000000</td>
+      <td>1407.000000</td>
+      <td>NaN</td>
+      <td>221.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>2003.999981</td>
+      <td>1970</td>
+      <td>1106.000000</td>
+      <td>NaN</td>
+      <td>8.299712</td>
+      <td>6.368876</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.821326</td>
+    </tr>
+    <tr>
+      <th>01003010200</th>
+      <td>NaN</td>
+      <td>37.567365</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>564.014945</td>
+      <td>686.748041</td>
+      <td>NaN</td>
+      <td>27.861793</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>1757.910752</td>
+      <td>1970</td>
+      <td>619.433984</td>
+      <td>NaN</td>
+      <td>13.313281</td>
+      <td>1.480888</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>6.248800</td>
+    </tr>
+    <tr>
+      <th>01003010300</th>
+      <td>NaN</td>
+      <td>374.853457</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>981.543199</td>
+      <td>1523.971872</td>
+      <td>NaN</td>
+      <td>103.848314</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>2835.404427</td>
+      <td>1970</td>
+      <td>1025.805309</td>
+      <td>NaN</td>
+      <td>8.023381</td>
+      <td>2.788906</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>7.214156</td>
+    </tr>
+    <tr>
+      <th>01003010400</th>
+      <td>NaN</td>
+      <td>113.203816</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>796.944763</td>
+      <td>1029.919527</td>
+      <td>NaN</td>
+      <td>37.127235</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>2323.133371</td>
+      <td>1970</td>
+      <td>780.370269</td>
+      <td>NaN</td>
+      <td>11.072073</td>
+      <td>1.427952</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>11.205555</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 192 columns</p>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this example, we are interested to assess the comparative segregation of the non-hispanic black people in the census tracts of the Riverside, CA, county between 2000 and 2010. Therefore, we extract the desired columns and add some auxiliary variables:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df_pre</span><span class="p">[[</span><span class="s1">&#39;n_nonhisp_black_persons&#39;</span><span class="p">,</span> <span class="s1">&#39;n_total_pop&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">]]</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;geoid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;geoid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;county&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;geoid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>n_nonhisp_black_persons</th>
+      <th>n_total_pop</th>
+      <th>year</th>
+      <th>geoid</th>
+      <th>state</th>
+      <th>county</th>
+    </tr>
+    <tr>
+      <th>geoid</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>01001020500</th>
+      <td>NaN</td>
+      <td>8.568306</td>
+      <td>1970</td>
+      <td>01001020500</td>
+      <td>01</td>
+      <td>001</td>
+    </tr>
+    <tr>
+      <th>01003010100</th>
+      <td>NaN</td>
+      <td>3469.999968</td>
+      <td>1970</td>
+      <td>01003010100</td>
+      <td>01</td>
+      <td>003</td>
+    </tr>
+    <tr>
+      <th>01003010200</th>
+      <td>NaN</td>
+      <td>1881.424759</td>
+      <td>1970</td>
+      <td>01003010200</td>
+      <td>01</td>
+      <td>003</td>
+    </tr>
+    <tr>
+      <th>01003010300</th>
+      <td>NaN</td>
+      <td>3723.622031</td>
+      <td>1970</td>
+      <td>01003010300</td>
+      <td>01</td>
+      <td>003</td>
+    </tr>
+    <tr>
+      <th>01003010400</th>
+      <td>NaN</td>
+      <td>2600.033045</td>
+      <td>1970</td>
+      <td>01003010400</td>
+      <td>01</td>
+      <td>003</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Filtering Riverside County and desired years of the analysis:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_riv</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;06&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;county&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;065&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;2000&#39;</span><span class="p">,</span> <span class="s1">&#39;2010&#39;</span><span class="p">]))]</span>
+<span class="n">df_riv</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>n_nonhisp_black_persons</th>
+      <th>n_total_pop</th>
+      <th>year</th>
+      <th>geoid</th>
+      <th>state</th>
+      <th>county</th>
+    </tr>
+    <tr>
+      <th>geoid</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>06065030101</th>
+      <td>58.832932</td>
+      <td>851.999976</td>
+      <td>2000</td>
+      <td>06065030101</td>
+      <td>06</td>
+      <td>065</td>
+    </tr>
+    <tr>
+      <th>06065030103</th>
+      <td>120.151764</td>
+      <td>1739.999973</td>
+      <td>2000</td>
+      <td>06065030103</td>
+      <td>06</td>
+      <td>065</td>
+    </tr>
+    <tr>
+      <th>06065030104</th>
+      <td>367.015289</td>
+      <td>5314.999815</td>
+      <td>2000</td>
+      <td>06065030104</td>
+      <td>06</td>
+      <td>065</td>
+    </tr>
+    <tr>
+      <th>06065030200</th>
+      <td>348.001105</td>
+      <td>4682.007896</td>
+      <td>2000</td>
+      <td>06065030200</td>
+      <td>06</td>
+      <td>065</td>
+    </tr>
+    <tr>
+      <th>06065030300</th>
+      <td>677.998901</td>
+      <td>4844.992203</td>
+      <td>2000</td>
+      <td>06065030300</td>
+      <td>06</td>
+      <td>065</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Merging it with desired map.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">map_url</span> <span class="o">=</span> <span class="s1">&#39;https://raw.githubusercontent.com/renanxcortes/inequality-segregation-supplementary-files/master/Tracts_grouped_by_County/06065.json&#39;</span>
+<span class="n">map_gpd</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">map_url</span><span class="p">)</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">map_gpd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_riv</span><span class="p">,</span> 
+                    <span class="n">left_on</span> <span class="o">=</span> <span class="s1">&#39;GEOID10&#39;</span><span class="p">,</span> 
+                    <span class="n">right_on</span> <span class="o">=</span> <span class="s1">&#39;geoid&#39;</span><span class="p">)[[</span><span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="s1">&#39;n_nonhisp_black_persons&#39;</span><span class="p">,</span> <span class="s1">&#39;n_total_pop&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">]]</span>
+
+<span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;composition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;n_total_pop&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;n_nonhisp_black_persons&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;n_total_pop&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>geometry</th>
+      <th>n_nonhisp_black_persons</th>
+      <th>n_total_pop</th>
+      <th>year</th>
+      <th>composition</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>POLYGON ((-117.319414 33.902109, -117.322528 3...</td>
+      <td>233.824879</td>
+      <td>2537.096784</td>
+      <td>2000</td>
+      <td>0.092162</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>POLYGON ((-117.319414 33.902109, -117.322528 3...</td>
+      <td>568.000000</td>
+      <td>6556.000000</td>
+      <td>2010</td>
+      <td>0.086638</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>POLYGON ((-117.504056 33.800257, -117.502758 3...</td>
+      <td>283.439545</td>
+      <td>3510.681010</td>
+      <td>2000</td>
+      <td>0.080736</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>POLYGON ((-117.504056 33.800257, -117.502758 3...</td>
+      <td>754.000000</td>
+      <td>10921.000000</td>
+      <td>2010</td>
+      <td>0.069041</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>POLYGON ((-117.472451 33.762031, -117.475661 3...</td>
+      <td>273.560455</td>
+      <td>3388.318990</td>
+      <td>2000</td>
+      <td>0.080736</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gdf_2000</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">gdf</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="mi">2000</span><span class="p">]</span>
+<span class="n">gdf_2010</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">gdf</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="mi">2010</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Map of 2000:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gdf_2000</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span> <span class="o">=</span> <span class="s1">&#39;composition&#39;</span><span class="p">,</span>
+              <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;OrRd&#39;</span><span class="p">,</span>
+              <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span>
+              <span class="n">legend</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x2b4c0812358&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/inference_wrappers_example_56_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Map of 2010:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gdf_2010</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span> <span class="o">=</span> <span class="s1">&#39;composition&#39;</span><span class="p">,</span>
+              <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;OrRd&#39;</span><span class="p">,</span>
+              <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span>
+              <span class="n">legend</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x2b48c35f550&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/inference_wrappers_example_58_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A question that may rise is "Was it more or less segregated than 2000?". To answer this, we rely on simulations to test the following hypothesis:</p>
+$$H_0: Segregation\ Measure_{2000} - Segregation\ Measure_{2010} = 0$$
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Comparative-Dissimilarity">Comparative Dissimilarity<a class="anchor-link" href="#Comparative-Dissimilarity"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">D_2000</span> <span class="o">=</span> <span class="n">Dissim</span><span class="p">(</span><span class="n">gdf_2000</span><span class="p">,</span> <span class="s1">&#39;n_nonhisp_black_persons&#39;</span><span class="p">,</span> <span class="s1">&#39;n_total_pop&#39;</span><span class="p">)</span>
+<span class="n">D_2010</span> <span class="o">=</span> <span class="n">Dissim</span><span class="p">(</span><span class="n">gdf_2010</span><span class="p">,</span> <span class="s1">&#39;n_nonhisp_black_persons&#39;</span><span class="p">,</span> <span class="s1">&#39;n_total_pop&#39;</span><span class="p">)</span>
+<span class="n">D_2000</span><span class="o">.</span><span class="n">statistic</span> <span class="o">-</span> <span class="n">D_2010</span><span class="o">.</span><span class="n">statistic</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.023696202305264924</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can see that Riverside was more segregated in 2000 than in 2010. But, was this point difference statistically significant? We use the <em>random_label</em> approach which consists in random labelling the data between the two periods and recalculating the Dissimilarity statistic (D) in each iteration and comparing it to the original value.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">compare_D_fit</span> <span class="o">=</span> <span class="n">TwoValueTest</span><span class="p">(</span><span class="n">D_2000</span><span class="p">,</span> <span class="n">D_2010</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s2">&quot;random_label&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Processed 1000 iterations out of 1000.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <strong>TwoValueTest</strong> class also has a plotting method:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">compare_D_fit</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/inference_wrappers_example_65_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To access the two-tailed p-value of the test:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">compare_D_fit</span><span class="o">.</span><span class="n">p_value</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.26</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The conclusion is that, for the Dissimilarity index and 5% of significance, segregation in Riverside was not different between 2000 and 2010 (since p-value &gt; 5%).</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Comparative-Gini">Comparative Gini<a class="anchor-link" href="#Comparative-Gini"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Analogously, the same steps can be made for the Gini segregation index.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.aspatial</span> <span class="kn">import</span> <span class="n">GiniSeg</span>
+<span class="n">G_2000</span> <span class="o">=</span> <span class="n">GiniSeg</span><span class="p">(</span><span class="n">gdf_2000</span><span class="p">,</span> <span class="s1">&#39;n_nonhisp_black_persons&#39;</span><span class="p">,</span> <span class="s1">&#39;n_total_pop&#39;</span><span class="p">)</span>
+<span class="n">G_2010</span> <span class="o">=</span> <span class="n">GiniSeg</span><span class="p">(</span><span class="n">gdf_2010</span><span class="p">,</span> <span class="s1">&#39;n_nonhisp_black_persons&#39;</span><span class="p">,</span> <span class="s1">&#39;n_total_pop&#39;</span><span class="p">)</span>
+<span class="n">compare_G_fit</span> <span class="o">=</span> <span class="n">TwoValueTest</span><span class="p">(</span><span class="n">G_2000</span><span class="p">,</span> <span class="n">G_2010</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s2">&quot;random_label&quot;</span><span class="p">)</span>
+<span class="n">compare_G_fit</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Processed 1000 iterations out of 1000.
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/inference_wrappers_example_71_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The absence of significance is also present as the point estimation of the difference (vertical red line) is located in the middle of the distribution of the null hypothesis simulated.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Comparative-Spatial-Dissimilarity">Comparative Spatial Dissimilarity<a class="anchor-link" href="#Comparative-Spatial-Dissimilarity"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As an example of a spatial index, comparative inference can be performed for the Spatial Dissimilarity Index (SD). For this, we use the <em>counterfactual_composition</em> approach as an example.</p>
+<p>In this framework, the population of the group of interest in each unit is randomized with a constraint that depends on both cumulative density functions (cdf) of the group of interest composition to the group of interest frequency of each unit. In each unit of each iteration, there is a probability of 50\% of keeping its original value or swapping to its corresponding value according of the other composition distribution cdf that it is been compared against.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">segregation.spatial</span> <span class="kn">import</span> <span class="n">SpatialDissim</span>
+<span class="n">SD_2000</span> <span class="o">=</span> <span class="n">SpatialDissim</span><span class="p">(</span><span class="n">gdf_2000</span><span class="p">,</span> <span class="s1">&#39;n_nonhisp_black_persons&#39;</span><span class="p">,</span> <span class="s1">&#39;n_total_pop&#39;</span><span class="p">)</span>
+<span class="n">SD_2010</span> <span class="o">=</span> <span class="n">SpatialDissim</span><span class="p">(</span><span class="n">gdf_2010</span><span class="p">,</span> <span class="s1">&#39;n_nonhisp_black_persons&#39;</span><span class="p">,</span> <span class="s1">&#39;n_total_pop&#39;</span><span class="p">)</span>
+<span class="n">compare_SD_fit</span> <span class="o">=</span> <span class="n">TwoValueTest</span><span class="p">(</span><span class="n">SD_2000</span><span class="p">,</span> <span class="n">SD_2010</span><span class="p">,</span> <span class="n">iterations_under_null</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">null_approach</span> <span class="o">=</span> <span class="s2">&quot;counterfactual_composition&quot;</span><span class="p">)</span>
+<span class="n">compare_SD_fit</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Processed 500 iterations out of 500.
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/explore/segregation/inference_wrappers_example_75_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The conclusion is that for the Spatial Dissimilarity index under this null approach, the year of 2000 was more segregated than 2010 for the non-hispanic black people in the region under study.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

@@ -1,0 +1,781 @@
+---
+redirect_from:
+  - "/model/spint/nyc-bike-example"
+interact_link: content/model/spint/NYC_Bike_Example.ipynb
+kernel_name: Python [Root]
+kernel_path: content/model/spint
+has_widgets: false
+title: |-
+  NYC_Bike_Example
+pagenum: 59
+prev_page:
+  url: /model/spint/Example_NYCBikes_AllFeatures.html
+next_page:
+  url: /model/spint/New_DistanceBand.html
+suffix: .ipynb
+search: 
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">NYC_Bike_Example</div>
+</div>
+    <div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">gravity</span> <span class="kn">import</span> <span class="n">Gravity</span><span class="p">,</span> <span class="n">Production</span><span class="p">,</span> <span class="n">Attraction</span><span class="p">,</span> <span class="n">Doubly</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;/Users/toshan/dev/pysal/pysal/contrib/spint&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">entropy</span> <span class="k">as</span> <span class="nn">grav</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gp</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;/Users/toshan/Dropbox/Data/NYC_BIKES&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">pylab</span> inline
+<span class="kn">from</span> <span class="nn">descartes</span> <span class="kn">import</span> <span class="n">PolygonPatch</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.basemap</span> <span class="kn">import</span> <span class="n">Basemap</span>
+<span class="kn">import</span> <span class="nn">pyproj</span> <span class="k">as</span> <span class="nn">pj</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Polygon</span><span class="p">,</span> <span class="n">Point</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Populating the interactive namespace from numpy and matplotlib
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>WARNING: pylab import has clobbered these variables: [&#39;plt&#39;, &#39;Polygon&#39;]
+`%matplotlib` prevents importing * from pylab and numpy
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">ct</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;CT_BIKE_DATA.csv&#39;</span><span class="p">)</span>
+<span class="n">ct</span> <span class="o">=</span> <span class="n">ct</span><span class="p">[</span><span class="n">ct</span><span class="p">[</span><span class="s1">&#39;o_tract&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">ct</span><span class="p">[</span><span class="s1">&#39;d_tract&#39;</span><span class="p">]]</span>
+
+<span class="n">ct</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">ct</span><span class="o">.</span><span class="n">o_sq_foot</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;o_sq_foot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">ct</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">ct</span><span class="o">.</span><span class="n">d_sq_foot</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;d_sq_foot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">ct</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">ct</span><span class="o">.</span><span class="n">o_cap</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;o_cap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">ct</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">ct</span><span class="o">.</span><span class="n">d_cap</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;d_cap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">ct</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">ct</span><span class="o">.</span><span class="n">o_housing</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;o_housing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">ct</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">ct</span><span class="o">.</span><span class="n">d_housing</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;d_housing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">flows</span> <span class="o">=</span> <span class="n">ct</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">o_vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">ct</span><span class="p">[</span><span class="s1">&#39;o_sq_foot&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">ct</span><span class="p">[</span><span class="s1">&#39;o_housing&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">ct</span><span class="p">[</span><span class="s1">&#39;o_cap&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))])</span>
+<span class="n">d_vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">ct</span><span class="p">[</span><span class="s1">&#39;d_sq_foot&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">ct</span><span class="p">[</span><span class="s1">&#39;d_housing&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">ct</span><span class="p">[</span><span class="s1">&#39;d_cap&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))])</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="n">ct</span><span class="p">[</span><span class="s1">&#39;tripduration&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">o</span> <span class="o">=</span> <span class="n">ct</span><span class="p">[</span><span class="s1">&#39;o_tract&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">ct</span><span class="p">[</span><span class="s1">&#39;d_tract&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">ct</span><span class="p">),</span> <span class="s1">&#39; OD pairs between census tracts after filtering out intrazonal flows&#39;</span>
+<span class="n">ct</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>14042  OD pairs between census tracts after filtering out intrazonal flows
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>count</th>
+      <th>d_cap</th>
+      <th>d_tract</th>
+      <th>distance</th>
+      <th>end station latitude</th>
+      <th>end station longitude</th>
+      <th>o_cap</th>
+      <th>o_tract</th>
+      <th>tripduration</th>
+      <th>...</th>
+      <th>d_sq_foot</th>
+      <th>diffs_out</th>
+      <th>start</th>
+      <th>end</th>
+      <th>weighted</th>
+      <th>total_out</th>
+      <th>total_in</th>
+      <th>o_hub</th>
+      <th>d_hub</th>
+      <th>od_hub</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td> 0</td>
+      <td> 5709</td>
+      <td> 255</td>
+      <td> 600</td>
+      <td>NaN</td>
+      <td> 40.712899</td>
+      <td>-73.989865</td>
+      <td> 162</td>
+      <td>  202</td>
+      <td> 474.173605</td>
+      <td>...</td>
+      <td> 59149181.752643</td>
+      <td> 28553756</td>
+      <td>  202</td>
+      <td> 600</td>
+      <td> 0</td>
+      <td>  56352</td>
+      <td> 69165</td>
+      <td> hub</td>
+      <td> hub</td>
+      <td>     hub</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td> 1</td>
+      <td> 4010</td>
+      <td> 595</td>
+      <td> 600</td>
+      <td>NaN</td>
+      <td> 40.712899</td>
+      <td>-73.989865</td>
+      <td> 774</td>
+      <td>  700</td>
+      <td> 765.920864</td>
+      <td>...</td>
+      <td> 59149181.752643</td>
+      <td> 28553756</td>
+      <td>  700</td>
+      <td> 600</td>
+      <td> 0</td>
+      <td> 160040</td>
+      <td> 69165</td>
+      <td> hub</td>
+      <td> hub</td>
+      <td>     hub</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td> 2</td>
+      <td> 1906</td>
+      <td> 170</td>
+      <td> 600</td>
+      <td>NaN</td>
+      <td> 40.712899</td>
+      <td>-73.989865</td>
+      <td> 141</td>
+      <td>  800</td>
+      <td> 395.842085</td>
+      <td>...</td>
+      <td> 59149181.752643</td>
+      <td> 28553756</td>
+      <td>  800</td>
+      <td> 600</td>
+      <td> 0</td>
+      <td>  34254</td>
+      <td> 69165</td>
+      <td> hub</td>
+      <td> hub</td>
+      <td> non_hub</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td> 3</td>
+      <td> 1192</td>
+      <td> 255</td>
+      <td> 600</td>
+      <td>NaN</td>
+      <td> 40.712899</td>
+      <td>-73.989865</td>
+      <td> 291</td>
+      <td>  900</td>
+      <td> 882.062412</td>
+      <td>...</td>
+      <td> 59149181.752643</td>
+      <td> 28553756</td>
+      <td>  900</td>
+      <td> 600</td>
+      <td> 0</td>
+      <td>  46446</td>
+      <td> 69165</td>
+      <td> hub</td>
+      <td> hub</td>
+      <td> non_hub</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td> 4</td>
+      <td>  484</td>
+      <td>  85</td>
+      <td> 600</td>
+      <td>NaN</td>
+      <td> 40.712899</td>
+      <td>-73.989865</td>
+      <td>  57</td>
+      <td> 1002</td>
+      <td> 767.284951</td>
+      <td>...</td>
+      <td> 59149181.752643</td>
+      <td> 28553756</td>
+      <td> 1002</td>
+      <td> 600</td>
+      <td> 0</td>
+      <td>  15916</td>
+      <td> 69165</td>
+      <td> hub</td>
+      <td> hub</td>
+      <td> non_hub</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 27 columns</p>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;/Users/toshan/dev/pysal/pysal/contrib/spint&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">gravity</span> <span class="kn">import</span> <span class="n">Gravity</span><span class="p">,</span> <span class="n">Production</span><span class="p">,</span> <span class="n">Attraction</span><span class="p">,</span> <span class="n">Doubly</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Gravity</span><span class="p">(</span><span class="n">flows</span><span class="p">,</span> <span class="n">o_vars</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span>
+<span class="nb">print</span> <span class="n">model</span><span class="o">.</span><span class="n">deviance</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[ 0.09898099  0.05748786  0.50319944  0.06920194  0.06408526  0.39371417
+ -0.00226671]
+3289243.68953
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Production</span><span class="p">(</span><span class="n">flows</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
+<span class="nb">print</span> <span class="n">model</span><span class="o">.</span><span class="n">deviance</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[ 0.00437122  0.06794379  0.85720958 -0.00227555]
+2383227.55076
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Doubly</span><span class="p">(</span><span class="n">flows</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span> <span class="n">model</span><span class="o">.</span><span class="n">deviance</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>-0.00232112445583
+1444734.46276
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Production</span><span class="p">(</span><span class="n">flows</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">d_vars</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s1">&#39;exp&#39;</span><span class="p">)</span>
+<span class="n">local</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">local</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">local</span><span class="p">[</span><span class="s1">&#39;param4&#39;</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[-0.0017795992298777902,
+ -0.0026156676327248746,
+ -0.0022363993586345388,
+ -0.00194947666943137,
+ -0.0017071540350527339,
+ -0.0019515685319320963,
+ -0.0016810426792857047,
+ -0.0017657944972518311,
+ -0.0020341925723913884,
+ -0.0015759200833807205]</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">local</span><span class="p">[</span><span class="s1">&#39;param4&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ -4.95948156e-04,   3.40120247e-04,  -3.91480275e-05,
+        -3.26070717e-04,  -5.68393351e-04,  -3.23978854e-04,
+        -5.94504707e-04,  -5.09752889e-04,  -2.41354814e-04,
+        -6.99627303e-04,  -6.06703481e-04,  -2.87165103e-04,
+        -2.06833527e-04,  -7.12588916e-04,   5.04928141e-06,
+         5.34234751e-04,  -1.23411275e-04,  -1.59568001e-04,
+        -2.96358867e-04,  -8.13853592e-04,  -5.58786311e-04,
+        -1.53686724e-04,   1.52269287e-04,  -5.62449153e-04,
+        -4.99537030e-04,  -1.98040148e-04,   9.82797486e-04,
+        -8.67929860e-04,  -5.27493938e-04,  -9.24817442e-04,
+        -2.45312465e-04,  -1.16812380e-04,  -1.02053526e-03,
+         1.67786401e-04,   3.41493881e-04,   4.59007938e-04,
+         8.02955033e-04,   2.43489411e-04,   1.10776816e-03,
+         8.55636181e-04,  -1.29914342e-04,   5.03848977e-04,
+         8.70868120e-04,   5.28052058e-04,   1.09964551e-03,
+         2.88481182e-04,   3.95290078e-04,   7.13678425e-04,
+         6.20446122e-05,  -1.46495796e-04,  -2.73198728e-04,
+         9.14219582e-04,   3.19989141e-04,   3.02280808e-04,
+         4.41425231e-04,   4.36411583e-04,   3.47806100e-05,
+         3.49817242e-04,   2.02926954e-04,   1.61125584e-04,
+        -1.37626107e-04,   3.14375309e-04,   2.71524960e-04,
+         2.57004947e-04,   5.06773514e-05,   1.41876242e-04,
+        -9.54660826e-05,   7.85559253e-05,   1.04857127e-04,
+        -1.22876232e-04,  -3.72755027e-05,   2.21322945e-04,
+         5.30628729e-04,   2.60089456e-05,   3.44939369e-04,
+        -2.03039191e-04,   8.70161481e-04,   5.93617124e-04,
+         2.20113262e-05,   2.28752154e-04,   1.70450009e-05,
+         4.31890011e-04,  -1.63104457e-04,   5.46943635e-04,
+        -1.79543169e-04,   4.17203373e-04,  -8.31555539e-05,
+         4.56660548e-04,  -4.73247746e-04,   1.91977621e-04,
+         6.35081811e-04,   1.23280773e-04,   4.13098476e-04,
+         6.17848610e-05,   5.71604649e-05,   4.84527935e-04,
+        -3.04029156e-04,   2.82207361e-04,   4.09784527e-04,
+        -4.02865802e-04,   3.82267728e-04,  -5.74829501e-04,
+         4.00848442e-04,  -5.56075560e-05,  -8.41775681e-04,
+         3.21238255e-04,  -3.94157736e-04,   5.70250598e-04,
+        -6.58632949e-04,  -3.50101571e-04,   3.52107030e-04,
+        -3.79342620e-04,   4.12304788e-04,  -8.41623629e-04,
+         2.55518204e-04,  -2.47800511e-04,   4.01094216e-04,
+        -3.52907394e-04,   4.74670899e-05])</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">crs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;datum&#39;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s1">&#39;proj&#39;</span><span class="p">:</span><span class="s1">&#39;longlat&#39;</span><span class="p">}</span>
+<span class="n">tracts</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s1">&#39;/Users/toshan/Dropbox/Data/NYC_BIKES/nyct2010_15a/nyct2010.shp&#39;</span><span class="p">)</span>
+<span class="n">tracts</span> <span class="o">=</span> <span class="n">tracts</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">)</span>
+<span class="n">man_tracts</span> <span class="o">=</span> <span class="n">tracts</span><span class="p">[</span><span class="n">tracts</span><span class="p">[</span><span class="s1">&#39;BoroCode&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">man_tracts</span><span class="p">[</span><span class="s1">&#39;CT2010S&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">man_tracts</span><span class="p">[</span><span class="s1">&#39;CT2010&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">mt</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">man_tracts</span><span class="o">.</span><span class="n">CT2010S</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">lt</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mt</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">lt</span><span class="p">))</span>
+<span class="n">no_tracts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;no_tract&#39;</span><span class="p">:</span><span class="n">nt</span><span class="p">})</span>
+<span class="n">no_tracts</span> <span class="o">=</span> <span class="n">man_tracts</span><span class="p">[</span><span class="n">man_tracts</span><span class="o">.</span><span class="n">CT2010S</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">nt</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">local_vals</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;betas&#39;</span><span class="p">:</span> <span class="n">local</span><span class="p">[</span><span class="s1">&#39;param4&#39;</span><span class="p">],</span> <span class="s1">&#39;tract&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">o</span><span class="p">)})</span>
+<span class="n">local_vals</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">local_vals</span><span class="p">,</span> <span class="n">man_tracts</span><span class="p">[[</span><span class="s1">&#39;CT2010S&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">]],</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;tract&#39;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;CT2010S&#39;</span><span class="p">)</span>
+<span class="n">local_vals</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">local_vals</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">local_vals</span><span class="p">[</span><span class="s1">&#39;inv_betas&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">local_vals</span><span class="p">[</span><span class="s1">&#39;betas&#39;</span><span class="p">]</span><span class="o">*-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">no_tracts</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">no_tracts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;copper&#39;</span><span class="p">)</span>
+<span class="n">local_vals</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;inv_betas&#39;</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">74.02</span><span class="p">,</span> <span class="o">-</span><span class="mf">73.95</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">40.7</span><span class="p">,</span> <span class="mf">40.78</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(40.7, 40.78)</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/model/spint/NYC_Bike_Example_9_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">local_vals</span><span class="p">[</span><span class="s1">&#39;cap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">local</span><span class="p">[</span><span class="s1">&#39;param3&#39;</span><span class="p">]</span>
+<span class="n">no_tracts</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">no_tracts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;copper&#39;</span><span class="p">)</span>
+<span class="n">local_vals</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;cap&#39;</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;Reds&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">74.02</span><span class="p">,</span> <span class="o">-</span><span class="mf">73.95</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">40.7</span><span class="p">,</span> <span class="mf">40.78</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(40.7, 40.78)</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/model/spint/NYC_Bike_Example_10_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">local_vals</span><span class="p">[</span><span class="s1">&#39;house&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">local</span><span class="p">[</span><span class="s1">&#39;param2&#39;</span><span class="p">]</span>
+<span class="n">no_tracts</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">no_tracts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;copper&#39;</span><span class="p">)</span>
+<span class="n">local_vals</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;house&#39;</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;Reds&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">74.02</span><span class="p">,</span> <span class="o">-</span><span class="mf">73.95</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">40.7</span><span class="p">,</span> <span class="mf">40.78</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(40.7, 40.78)</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/model/spint/NYC_Bike_Example_11_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">local_vals</span><span class="p">[</span><span class="s1">&#39;foot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">local</span><span class="p">[</span><span class="s1">&#39;param1&#39;</span><span class="p">]</span>
+<span class="n">no_tracts</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">no_tracts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;copper&#39;</span><span class="p">)</span>
+<span class="n">local_vals</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;foot&#39;</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;Reds&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">74.02</span><span class="p">,</span> <span class="o">-</span><span class="mf">73.95</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">40.7</span><span class="p">,</span> <span class="mf">40.78</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(40.7, 40.78)</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../images/model/spint/NYC_Bike_Example_12_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+    </main>
+    
