@@ -177,7 +177,7 @@ def setup_book(bk_folder=BOOK_FOLDER, nbs_folder=NBS_FOLDER):
         _ = write_pkg_intro(pkg, intro_paths[pkg])
     # Config, logo, favicon
     pr(f'cp {TEMPLATE_FOLDER}/_config.yml {bk_folder}/_config.yml')
-    pr(f'cp {TEMPLATE_FOLDER}/logo.png {bk_folder}/assets/images/logo.png')
+    pr(f'cp {TEMPLATE_FOLDER}/pysal_logo.svg {bk_folder}/assets/images/pysal_logo.svg')
     pr(f'cp {TEMPLATE_FOLDER}/pysal_favicon.ico {bk_folder}/assets/images/pysal_favicon.ico'
        )
     # Build book
